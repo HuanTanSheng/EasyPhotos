@@ -128,7 +128,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
             }
             if (mTempImageFile != null && mTempImageFile.exists()) {
                 Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);
-                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);
             } else {
@@ -146,7 +146,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
             if (null != mTempImageFile)
                 onCameraResult(mTempImageFile);
         } else {
-            // delete tmp file
+            // 删除临时文件
             while (mTempImageFile != null && mTempImageFile.exists()) {
                 boolean success = mTempImageFile.delete();
                 if (success) {
@@ -158,7 +158,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
 
     private void onCameraResult(File imageFile) {
         if (imageFile != null) {
-            // notify system the image has change
+            // 更新媒体库
             MediaScannerConnectionUtils.refresh(this, imageFile);
             Intent data = new Intent();
             resultList.add(imageFile.getAbsolutePath());
