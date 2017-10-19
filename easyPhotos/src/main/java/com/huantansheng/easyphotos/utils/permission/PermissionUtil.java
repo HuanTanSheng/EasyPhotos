@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 
-import com.huantansheng.easyphotos.constant.Constant;
+import com.huantansheng.easyphotos.constant.Code;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class PermissionUtil {
         }
         if (!isHas) {
             String[] p = permissions.toArray(new String[permissions.size()]);
-            requestPermissionsInActicity(cxt, Constant.REQUEST_PERMISSION_CODE, p);
+            requestPermissionsInActicity(cxt, Code.REQUEST_PERMISSION_CODE, p);
         }
         return isHas;
     }

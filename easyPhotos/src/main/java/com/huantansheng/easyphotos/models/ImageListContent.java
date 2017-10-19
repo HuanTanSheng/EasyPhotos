@@ -1,13 +1,13 @@
 package com.huantansheng.easyphotos.models;
 
-import com.huantansheng.easyphotos.constant.Constant;
+import com.huantansheng.easyphotos.constant.Path;
 
 import java.util.ArrayList;
 
 public class ImageListContent {
     public static final ArrayList<ImageItem> IMAGES = new ArrayList<ImageItem>();
     public static final ArrayList<String> SELECTED_IMAGES = new ArrayList<>();
-    public static final ImageItem cameraItem = new ImageItem("", Constant.CAMERA_ITEM_PATH, 0, 0, 0, "");
+    public static final ImageItem cameraItem = new ImageItem("", Path.CAMERA_ITEM_PATH, 0, 0, 0, "");
     // ImageRecyclerViewAdapter.OnClick will set it to true
     // Activity.OnImageInteraction will show the alert, and set it to false
     public static boolean bReachMaxNumber = false;

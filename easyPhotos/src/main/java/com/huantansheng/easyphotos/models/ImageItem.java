@@ -2,7 +2,7 @@ package com.huantansheng.easyphotos.models;
 
 import android.util.Log;
 
-import com.huantansheng.easyphotos.constant.Constant;
+import com.huantansheng.easyphotos.constant.Path;
 
 public class ImageItem {
     public static final String CAMERA_PATH = "Camera";
@@ -25,7 +25,7 @@ public class ImageItem {
 
 
     public boolean isCamera() {
-        return this.path.equals(Constant.CAMERA_ITEM_PATH);
+        return this.path.equals(Path.CAMERA_ITEM_PATH);
     }
 
     @Override

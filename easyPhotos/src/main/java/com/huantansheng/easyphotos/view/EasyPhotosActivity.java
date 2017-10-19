@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.constant.Constant;
+import com.huantansheng.easyphotos.constant.Code;
+import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -39,10 +40,10 @@ public class EasyPhotosActivity extends AppCompatActivity {
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, int count, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
-        intent.putExtra(Constant.IS_SHOW_CAMERA, isShowCamera);
-        intent.putExtra(Constant.COUNT, count);
-        intent.putExtra(Constant.FILE_PROVIDER_TEXT, fileProviderText);
-        intent.putExtra(Constant.ONLY_START_CAMERA, onlyStartCamera);
+        intent.putExtra(Key.IS_SHOW_CAMERA, isShowCamera);
+        intent.putExtra(Key.COUNT, count);
+        intent.putExtra(Key.FILE_PROVIDER_TEXT, fileProviderText);
+        intent.putExtra(Key.ONLY_START_CAMERA, onlyStartCamera);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -59,7 +60,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
 
     private void hasPermissions() {
         if (onlyStartCamera) {
-            launchCamera(Constant.CODE_REQUEST_CAMERA);
+            launchCamera(Code.CODE_REQUEST_CAMERA);
             return;
         }
     }
@@ -95,10 +96,10 @@ public class EasyPhotosActivity extends AppCompatActivity {
 
     private void initConfig() {
         Intent intent = getIntent();
-        isShowCamera = intent.getBooleanExtra(Constant.IS_SHOW_CAMERA, false);
-        onlyStartCamera = intent.getBooleanExtra(Constant.ONLY_START_CAMERA, false);
-        count = intent.getIntExtra(Constant.COUNT, 1);
-        fileProviderText = intent.getStringExtra(Constant.FILE_PROVIDER_TEXT);
+        isShowCamera = intent.getBooleanExtra(Key.IS_SHOW_CAMERA, false);
+        onlyStartCamera = intent.getBooleanExtra(Key.ONLY_START_CAMERA, false);
+        count = intent.getIntExtra(Key.COUNT, 1);
+        fileProviderText = intent.getStringExtra(Key.FILE_PROVIDER_TEXT);
     }
 
     /**
