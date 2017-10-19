@@ -1,0 +1,18 @@
+<resources>
+    <string name="selector_folder_all">Toda la imagen</string>
+    <string name="selector_caption">Seleccionar imagen</string>
+    <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
+    <string name="selector_action_done">Termina(%1$d/%2$d)</string>
+    <string name="selector_preview">Avance</string>
+
+    <string name="selector_reach_max_image_hint">¡Has seleccionado%dimágenes!</string>
+    <string name="msg_no_camera">¡No se pudo iniciar la cámara!</string>
+    <string name="camera_temp_file_error">Error de imagen</string>
+
+    <string name="selector_permission_error">Error de permiso, no funciona!</string>
+
+    <string name="selector_image_size_error">Foto de ancho debe ser mayor que %1$d, la altura debe ser mayor que %2$d</string>
+
+    <string name="selector_image_type_error">Este formato de imagen no es apoyado</string>
+
+</resources>

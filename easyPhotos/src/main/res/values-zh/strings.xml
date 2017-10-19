@@ -1,0 +1,18 @@
+<resources>
+    <string name="selector_folder_all">所有图片</string>
+    <string name="selector_caption">选择图片</string>
+    <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
+    <string name="selector_action_done">完成(%1$d/%2$d)</string>
+    <string name="selector_preview">预览</string>
+
+    <string name="selector_reach_max_image_hint">您已经选择%d张图片了！</string>
+    <string name="msg_no_camera">无法启动相机！</string>
+    <string name="camera_temp_file_error">图片错误</string>
+
+    <string name="selector_permission_error">权限错误，无法正常工作！</string>
+
+    <string name="selector_image_size_error">图片的宽度必须大于%1$d,高度必须大于%2$d</string>
+
+    <string name="selector_image_type_error">不支持此图片格式</string>
+
+</resources>
