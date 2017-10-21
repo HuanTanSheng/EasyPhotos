@@ -11,7 +11,6 @@ import java.lang.ref.WeakReference;
  * EasyPhotos的启动管理器
  * Created by huan on 2017/10/18.
  */
-
 public class EasyPhotos {
     //easyPhotos的返回数据
     public static final String RESULT = "keyOfEasyPhotosResult";
@@ -28,7 +27,7 @@ public class EasyPhotos {
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
     private int count = 1;
-    private String fileProviderText;
+    private String fileProviderAuthoritiesText;
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
 
@@ -72,11 +71,11 @@ public class EasyPhotos {
     /**
      * 设置fileProvider字段
      *
-     * @param fileProviderText fileProvider字段
+     * @param fileProviderAuthoritiesText fileProvider字段
      * @return EasyPhotos
      */
-    public EasyPhotos setFileProviderText(String fileProviderText) {
-        this.fileProviderText = fileProviderText;
+    public EasyPhotos setFileProviderAuthoritiesText(String fileProviderAuthoritiesText) {
+        this.fileProviderAuthoritiesText = fileProviderAuthoritiesText;
         return EasyPhotos.this;
     }
 
@@ -106,7 +105,7 @@ public class EasyPhotos {
      * @param requestCode startActivityForResult的请求码
      */
     private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, count, fileProviderText, requestCode);
+        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, count, fileProviderAuthoritiesText, requestCode);
     }
 
 

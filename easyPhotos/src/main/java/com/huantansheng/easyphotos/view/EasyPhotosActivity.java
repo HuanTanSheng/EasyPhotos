@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class EasyPhotosActivity extends AppCompatActivity {
 
-    private final String TAG = "EasyPhotosActivity";
+    private static final String TAG = "EasyPhotosActivity";
 
     private boolean isShowCamera, onlyStartCamera;
     private int count = 1;
@@ -109,7 +109,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
      */
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(fileProviderText))
-            throw new RuntimeException(TAG + " : please set fileProvider");
+            throw new RuntimeException(TAG + " : please set fileProviderText");
         toAndroidCamera(requestCode);
     }
 
@@ -127,7 +127,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
                 Log.e(TAG, "toAndroidCamera: ", e);
             }
             if (mTempImageFile != null && mTempImageFile.exists()) {
-                Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);
+                Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);

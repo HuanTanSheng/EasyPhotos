@@ -1,31 +1,30 @@
-package com.huantansheng.easyphotos.models;
+package com.huantansheng.easyphotos.models.Album.entity;
 
 import android.util.Log;
 
-import com.huantansheng.easyphotos.constant.Path;
+/**
+ * 图片item实体类
+ * Created by huan on 2017/10/20.
+ */
 
 public class ImageItem {
-    public static final String CAMERA_PATH = "Camera";
     private static final String TAG = "ImageItem";
-    public String path;
     public String name;
-    public long time;
+    public String path;
+    public String type;
     public int width;
     public int height;
-    public String type;
+    public long time;
+    public boolean isCamera;
 
-    public ImageItem(String name, String path, long time, int width, int height, String type) {
+    public ImageItem(boolean isCamera, String name, String path, long time, int width, int height, String type) {
+        this.isCamera = isCamera;
         this.name = name;
         this.path = path;
         this.time = time;
         this.width = width;
         this.height = height;
         this.type = type;
-    }
-
-
-    public boolean isCamera() {
-        return this.path.equals(Path.CAMERA_ITEM_PATH);
     }
 
     @Override
@@ -49,4 +48,5 @@ public class ImageItem {
                 ", height=" + height +
                 '}';
     }
+
 }

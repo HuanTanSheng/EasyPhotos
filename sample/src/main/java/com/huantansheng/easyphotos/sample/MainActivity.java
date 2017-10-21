@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonC:
                 EasyPhotos.from(this, EasyPhotos.StartupType.CAMERA)
                         .count(1)
-                        .setFileProviderText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
                 break;
             case R.id.buttonA:
