@@ -48,8 +48,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .start(101);
                 break;
             case R.id.buttonA:
+                EasyPhotos.from(this, EasyPhotos.StartupType.ALBUM)
+                        .count(1)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
+                        .start(101);
                 break;
             case R.id.buttonAll:
+                EasyPhotos.from(this, EasyPhotos.StartupType.ALL)
+                        .count(1)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
+                        .start(101);
                 break;
             case R.id.iv_image:
                 break;

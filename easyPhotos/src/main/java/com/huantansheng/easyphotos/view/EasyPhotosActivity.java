@@ -18,6 +18,7 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
+import com.huantansheng.easyphotos.models.Album.AlbumModel;
 import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -26,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EasyPhotosActivity extends AppCompatActivity {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack {
 
     private static final String TAG = "EasyPhotosActivity";
 
@@ -34,8 +35,10 @@ public class EasyPhotosActivity extends AppCompatActivity {
     private int count = 1;
 
     private String fileProviderText;//fileProvider的authorities字符串
-
     private File mTempImageFile;
+
+    private AlbumModel albumModel;
+
     private ArrayList<String> resultList = new ArrayList<>();
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, int count, String fileProviderText, int requestCode) {
@@ -63,6 +66,7 @@ public class EasyPhotosActivity extends AppCompatActivity {
             launchCamera(Code.CODE_REQUEST_CAMERA);
             return;
         }
+        albumModel = new AlbumModel(this, isShowCamera, this);
     }
 
 
@@ -168,4 +172,17 @@ public class EasyPhotosActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onAlbumWorkedCallBack() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onAlbumWorkedDo();
+            }
+        });
+    }
+
+    private void onAlbumWorkedDo() {
+        Toast.makeText(this, albumModel.album.getAlbumItem(2).name, Toast.LENGTH_LONG).show();
+    }
 }
