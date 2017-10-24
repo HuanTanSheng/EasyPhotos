@@ -7,17 +7,14 @@ import android.util.Log;
  * Created by huan on 2017/10/20.
  */
 
-public class ImageItem {
-    private static final String TAG = "ImageItem";
-    public String name;
-    public String path;
-    public String type;
-    public int width;
-    public int height;
+public class PhotoItem {
+    private static final String TAG = "PhotoItem";
+    public String name, path, type;
+    public int width, height;
     public long time;
-    public boolean isCamera;
+    public boolean isCamera, selected;
 
-    public ImageItem(boolean isCamera, String name, String path, long time, int width, int height, String type) {
+    public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height, String type) {
         this.isCamera = isCamera;
         this.name = name;
         this.path = path;
@@ -25,12 +22,13 @@ public class ImageItem {
         this.width = width;
         this.height = height;
         this.type = type;
+        this.selected = false;
     }
 
     @Override
     public boolean equals(Object o) {
         try {
-            ImageItem other = (ImageItem) o;
+            PhotoItem other = (PhotoItem) o;
             return this.path.equalsIgnoreCase(other.path);
         } catch (ClassCastException e) {
             Log.e(TAG, "equals: " + Log.getStackTraceString(e));
@@ -40,12 +38,12 @@ public class ImageItem {
 
     @Override
     public String toString() {
-        return "ImageItem{" +
+        return "PhotoItem{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
                 ", time=" + time + '\'' +
-                ", width=" + width + '\'' +
-                ", height=" + height +
+                ", minWidth=" + width + '\'' +
+                ", minHeight=" + height +
                 '}';
     }
 

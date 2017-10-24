@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="light_green">#00AA00</color>
+    <color name="white_easy_photos">#FFFFFF</color>
+    <color name="black_easy_photos">#000000</color>
+    <color name="transparent_black_easy_photos">#d8000000</color>
+    <color name="transparent_easy_photos">#00000000</color>
+    <color name="light_easy_photos">#3F51B5</color>
+
+    <color name="bottom_bar_easy_photos">#3F51B5</color>
+    <color name="text_easy_photos">#FFFFFF</color>
+    <color name="text_unable_easy_photos">#9b9b9b</color>
+    <color name="menu_easy_photos">#00AA00</color>
+    <color name="menu_unable_easy_photos">#277327</color>
 </resources>

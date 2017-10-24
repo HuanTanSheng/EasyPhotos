@@ -3,9 +3,12 @@ package com.huantansheng.easyphotos;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
-import com.huantansheng.easyphotos.view.EasyPhotosActivity;
+import com.huantansheng.easyphotos.result.Result;
+import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * EasyPhotos的启动管理器
@@ -14,6 +17,7 @@ import java.lang.ref.WeakReference;
 public class EasyPhotos {
     //easyPhotos的返回数据
     public static final String RESULT = "keyOfEasyPhotosResult";
+
     /**
      * 启动模式
      * CAMERA-相机
@@ -26,7 +30,6 @@ public class EasyPhotos {
 
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
-    private int count = 1;
     private String fileProviderAuthoritiesText;
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
@@ -64,7 +67,7 @@ public class EasyPhotos {
      * @return EasyPhotos
      */
     public EasyPhotos count(int selectorCount) {
-        this.count = selectorCount;
+        Setting.count = selectorCount;
         return EasyPhotos.this;
     }
 
@@ -76,6 +79,29 @@ public class EasyPhotos {
      */
     public EasyPhotos setFileProviderAuthoritiesText(String fileProviderAuthoritiesText) {
         this.fileProviderAuthoritiesText = fileProviderAuthoritiesText;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置显示照片的最小宽高
+     *
+     * @param minWidth  最小宽度
+     * @param minHeight 最小高度
+     * @return EasyPhotos
+     */
+    public EasyPhotos setMinSize(int minWidth, int minHeight) {
+        Setting.minWidth = minWidth;
+        Setting.minHeight = minHeight;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置默认选择图片集合
+     * @param selectedPhotos 默认选择图片集合
+     * @return EasyPhotos
+     */
+    public EasyPhotos setSelectedPhotos(ArrayList<String> selectedPhotos) {
+        Result.photos.addAll(selectedPhotos);
         return EasyPhotos.this;
     }
 
@@ -105,7 +131,7 @@ public class EasyPhotos {
      * @param requestCode startActivityForResult的请求码
      */
     private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, count, fileProviderAuthoritiesText, requestCode);
+        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
     }
 
 

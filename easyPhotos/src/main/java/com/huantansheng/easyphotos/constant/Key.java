@@ -6,8 +6,6 @@ package com.huantansheng.easyphotos.constant;
  */
 
 public class Key {
-    //相册选择数
-    public static final String COUNT = "keyOfCount";
     //fileProviderText字段
     public static final String FILE_PROVIDER_TEXT = "keyOfFileProviderText";
     //相册页面是否显示相机

@@ -1,6 +1,10 @@
-package com.huantansheng.easyphotos.view;
+package com.huantansheng.easyphotos.ui;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,16 +13,28 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.adapter.AlbumItemsAdapter;
+import com.huantansheng.easyphotos.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.Album.AlbumModel;
+import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -27,12 +43,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener {
 
     private static final String TAG = "EasyPhotosActivity";
 
     private boolean isShowCamera, onlyStartCamera;
-    private int count = 1;
 
     private String fileProviderText;//fileProvider的authorities字符串
     private File mTempImageFile;
@@ -41,10 +56,20 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private ArrayList<String> resultList = new ArrayList<>();
 
-    public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, int count, String fileProviderText, int requestCode) {
+    private RecyclerView rvPhotos;
+    private PhotosAdapter adapter;
+    private GridLayoutManager gridLayoutManager;
+
+    private RecyclerView rvAlbumItems;
+    private RelativeLayout rootViewAlbumItems;
+    private View mBottomBar;
+
+    private AnimatorSet setHide;
+    private AnimatorSet setShow;
+
+    public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
         intent.putExtra(Key.IS_SHOW_CAMERA, isShowCamera);
-        intent.putExtra(Key.COUNT, count);
         intent.putExtra(Key.FILE_PROVIDER_TEXT, fileProviderText);
         intent.putExtra(Key.ONLY_START_CAMERA, onlyStartCamera);
         activity.startActivityForResult(intent, requestCode);
@@ -54,6 +79,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
+        hideActionBar();
+
         initConfig();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
@@ -102,7 +129,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         Intent intent = getIntent();
         isShowCamera = intent.getBooleanExtra(Key.IS_SHOW_CAMERA, false);
         onlyStartCamera = intent.getBooleanExtra(Key.ONLY_START_CAMERA, false);
-        count = intent.getIntExtra(Key.COUNT, 1);
         fileProviderText = intent.getStringExtra(Key.FILE_PROVIDER_TEXT);
     }
 
@@ -146,17 +172,34 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (RESULT_OK == resultCode) {
-            if (null != mTempImageFile)
-                onCameraResult(mTempImageFile);
-        } else {
-            // 删除临时文件
-            while (mTempImageFile != null && mTempImageFile.exists()) {
-                boolean success = mTempImageFile.delete();
-                if (success) {
-                    mTempImageFile = null;
+
+        switch (resultCode) {
+            case RESULT_OK:
+                if (Code.CODE_REQUEST_CAMERA == requestCode) {
+                    if (null != mTempImageFile) onCameraResult(mTempImageFile);
+                    return;
                 }
-            }
+
+
+                break;
+            case RESULT_FIRST_USER:
+                break;
+            case RESULT_CANCELED:
+                if (Code.CODE_REQUEST_CAMERA == requestCode) {
+                    // 删除临时文件
+                    while (mTempImageFile != null && mTempImageFile.exists()) {
+                        boolean success = mTempImageFile.delete();
+                        if (success) {
+                            mTempImageFile = null;
+                        }
+                    }
+                    return;
+                }
+
+
+                break;
+            default:
+                break;
         }
     }
 
@@ -183,6 +226,111 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void onAlbumWorkedDo() {
-        Toast.makeText(this, albumModel.album.getAlbumItem(2).name, Toast.LENGTH_LONG).show();
+        initView();
+    }
+
+    private void initView() {
+        rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
+        ((SimpleItemAnimator)rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
+        adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0),this);
+        gridLayoutManager = new GridLayoutManager(this, 3);
+        rvPhotos.setLayoutManager(gridLayoutManager);
+        rvPhotos.setAdapter(adapter);
+        initAlbumItems();
+        mBottomBar = findViewById(R.id.m_bottom_bar);
+        mBottomBar.setOnClickListener(this);
+    }
+
+    private void hideActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+    }
+
+    private void initAlbumItems() {
+        rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+        rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
+        AlbumItemsAdapter albumItemsAdapter = new AlbumItemsAdapter(this, albumModel.getAlbumItems(), 0,this);
+        rvAlbumItems.setLayoutManager(new LinearLayoutManager(this));
+        rvAlbumItems.setAdapter(albumItemsAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (R.id.m_bottom_bar == id) {
+            showAlbumItems(View.GONE == rootViewAlbumItems.getVisibility());
+        }
+
+    }
+
+    private void showAlbumItems(boolean isShow) {
+        if (null == setShow) {
+            newAnimators();
+        }
+        if (isShow) {
+            rootViewAlbumItems.setVisibility(View.VISIBLE);
+            setShow.start();
+        } else {
+            setHide.start();
+        }
+
+    }
+
+    private void newAnimators() {
+        newHideAnim();
+        newShowAnim();
+    }
+
+    private void newShowAnim() {
+        ObjectAnimator translationShow = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", mBottomBar.getTop() - rvAlbumItems.getY(), rvAlbumItems.getY());
+        ObjectAnimator alphaShow = ObjectAnimator.ofFloat(rootViewAlbumItems, "alpha", 0.0f, 1.0f);
+        translationShow.setDuration(300);
+        setShow = new AnimatorSet();
+        setShow.setInterpolator(new AccelerateDecelerateInterpolator());
+        setShow.play(translationShow).with(alphaShow);
+    }
+
+    private void newHideAnim() {
+        ObjectAnimator translationHide = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", rvAlbumItems.getY(), mBottomBar.getTop() - rvAlbumItems.getY());
+        ObjectAnimator alphaHide = ObjectAnimator.ofFloat(rootViewAlbumItems, "alpha", 1.0f, 0.0f);
+        translationHide.setDuration(200);
+        setHide = new AnimatorSet();
+        setHide.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                rootViewAlbumItems.setVisibility(View.GONE);
+            }
+        });
+        setHide.setInterpolator(new AccelerateInterpolator());
+        setHide.play(translationHide).with(alphaHide);
+    }
+
+    @Override
+    public void onAlbumItemClick(int position) {
+        updatePhotos(position);
+        showAlbumItems(false);
+    }
+
+    private void updatePhotos(int currAlbumItemIndex) {
+        adapter.setData(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
+    }
+
+    @Override
+    public void onPhotoClick() {
+
+    }
+
+    @Override
+    public void onSelectorOutOfMax() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        Result.clear();
+        super.onDestroy();
     }
 }

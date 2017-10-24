@@ -1,8 +1,6 @@
 package com.huantansheng.easyphotos.sample;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.sample.thisAppGlideModule.GlideApp;
 
 import java.util.ArrayList;
 
@@ -70,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (RESULT_OK == resultCode) {
             images.clear();
             images.addAll(data.getStringArrayListExtra(EasyPhotos.RESULT));
-            Bitmap b = BitmapFactory.decodeFile(images.get(position));
-            ivImage.setImageBitmap(b);
+            GlideApp.with(this).load(images.get(position)).into(ivImage);
         }
     }
 }

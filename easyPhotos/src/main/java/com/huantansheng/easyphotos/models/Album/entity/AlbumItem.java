@@ -11,16 +11,16 @@ public class AlbumItem {
     public String name;
     public String folderPath;
     public String coverImagePath;
-    public ArrayList<ImageItem> images;
+    public ArrayList<PhotoItem> photos;
 
     public AlbumItem(String name, String folderPath, String coverImagePath) {
         this.name = name;
         this.folderPath = folderPath;
         this.coverImagePath = coverImagePath;
-        this.images = new ArrayList<>();
+        this.photos = new ArrayList<>();
     }
 
-    public void addImageItem(ImageItem imageItem) {
-        this.images.add(imageItem);
+    public void addImageItem(PhotoItem imageItem) {
+        this.photos.add(imageItem);
     }
 }

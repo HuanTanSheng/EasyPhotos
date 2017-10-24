@@ -7,7 +7,7 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
-        <activity android:name=".view.EasyPhotosActivity"></activity>
+        <activity android:name=".ui.EasyPhotosActivity"></activity>
     </application>
 
 </manifest>
