@@ -29,12 +29,16 @@ import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.ad.AdEntity;
+import com.huantansheng.easyphotos.ad.AdListener;
 import com.huantansheng.easyphotos.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.Album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
+import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.view.PressedTextView;
 import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -43,7 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
 
     private static final String TAG = "EasyPhotosActivity";
 
@@ -63,6 +67,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private RecyclerView rvAlbumItems;
     private RelativeLayout rootViewAlbumItems;
     private View mBottomBar;
+    private PressedTextView tvAlbumItems;
 
     private AnimatorSet setHide;
     private AnimatorSet setShow;
@@ -80,7 +85,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
-
+        EasyPhotos.from(this, EasyPhotos.StartupType.ALBUM).setAdListener(this);
         initConfig();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
@@ -231,14 +236,16 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void initView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
-        ((SimpleItemAnimator)rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
-        adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0),this);
+        ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
+        adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0), this);
         gridLayoutManager = new GridLayoutManager(this, 3);
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(adapter);
         initAlbumItems();
         mBottomBar = findViewById(R.id.m_bottom_bar);
         mBottomBar.setOnClickListener(this);
+        tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
+        tvAlbumItems.setOnClickListener(this);
     }
 
     private void hideActionBar() {
@@ -250,8 +257,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void initAlbumItems() {
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+        rootViewAlbumItems.setOnClickListener(this);
         rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
-        AlbumItemsAdapter albumItemsAdapter = new AlbumItemsAdapter(this, albumModel.getAlbumItems(), 0,this);
+        AlbumItemsAdapter albumItemsAdapter = new AlbumItemsAdapter(this, albumModel.getAlbumItems(), 0, this);
         rvAlbumItems.setLayoutManager(new LinearLayoutManager(this));
         rvAlbumItems.setAdapter(albumItemsAdapter);
     }
@@ -259,8 +267,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (R.id.m_bottom_bar == id) {
+        if (R.id.tv_album_items == id) {
             showAlbumItems(View.GONE == rootViewAlbumItems.getVisibility());
+        } else if (R.id.root_view_album_items == id) {
+            showAlbumItems(false);
         }
 
     }
@@ -325,12 +335,18 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onSelectorOutOfMax() {
-
+        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint, Setting.count), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         Result.clear();
+        EasyPhotos.clear();
         super.onDestroy();
+    }
+
+    @Override
+    public void onLoaded(AdEntity adEntity) {
+        Toast.makeText(this, adEntity.imageUrl + adEntity.content + adEntity.title, Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,7 +5,7 @@
     <string name="selector_action_done">完成(%1$d/%2$d)</string>
     <string name="selector_preview">预览</string>
 
-    <string name="selector_reach_max_image_hint">您已经选择%d张图片了！</string>
+    <string name="selector_reach_max_image_hint">最多只能选择%d张图片</string>
     <string name="msg_no_camera">无法启动相机！</string>
     <string name="camera_temp_file_error">图片错误</string>
 

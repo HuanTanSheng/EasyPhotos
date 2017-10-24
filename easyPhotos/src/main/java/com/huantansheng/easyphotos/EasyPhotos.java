@@ -1,8 +1,8 @@
 package com.huantansheng.easyphotos;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 
+import com.huantansheng.easyphotos.ad.AdListener;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * Created by huan on 2017/10/18.
  */
 public class EasyPhotos {
+
     //easyPhotos的返回数据
     public static final String RESULT = "keyOfEasyPhotosResult";
 
@@ -28,11 +29,13 @@ public class EasyPhotos {
         CAMERA, ALBUM, ALL
     }
 
+    private static EasyPhotos instance;
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
     private String fileProviderAuthoritiesText;
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
+    private WeakReference<AdListener> adListener;
 
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private EasyPhotos(Activity activity, StartupType startupType) {
@@ -47,17 +50,14 @@ public class EasyPhotos {
      * @return EasyPhotos EasyPhotos的实例
      */
     public static EasyPhotos from(Activity activity, StartupType startupType) {
-        return new EasyPhotos(activity, startupType);
-    }
-
-    /**
-     * 从Fragment启动
-     *
-     * @param fragment Fragment的实例
-     * @return EasyPhotos EasyPhotos的实例
-     */
-    public static EasyPhotos from(Fragment fragment, StartupType startupType) {
-        return new EasyPhotos(fragment.getActivity(), startupType);
+        if (instance == null) {
+            synchronized (EasyPhotos.class) {
+                if (instance == null) {
+                    instance = new EasyPhotos(activity, startupType);
+                }
+            }
+        }
+        return instance;
     }
 
     /**
@@ -97,6 +97,7 @@ public class EasyPhotos {
 
     /**
      * 设置默认选择图片集合
+     *
      * @param selectedPhotos 默认选择图片集合
      * @return EasyPhotos
      */
@@ -134,5 +135,15 @@ public class EasyPhotos {
         EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
     }
 
+    public static void clear() {
+        instance = null;
+    }
 
+    public void setAdListener(AdListener adListener) {
+        this.adListener = new WeakReference<AdListener>(adListener);
+    }
+
+    public AdListener getAdListener() {
+        return this.adListener.get();
+    }
 }

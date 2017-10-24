@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/transparent_black_easy_photos"
-        android:paddingTop="50dp"
+        android:paddingTop="70dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,11 +29,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="@color/white_easy_photos"
             android:id="@+id/rv_album_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
+            android:background="@color/white_easy_photos"
             android:scrollbars="vertical" />
     </RelativeLayout>
 
@@ -45,5 +45,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <com.huantansheng.easyphotos.ui.view.PressedTextView
+        android:id="@+id/tv_album_items"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:drawableEnd="@drawable/folder_select_indicator"
+        android:drawableRight="@drawable/folder_select_indicator"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:text="全部相册"
+        android:textColor="@color/text_easy_photos"
+        app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
+        app:layout_constraintLeft_toLeftOf="@id/m_bottom_bar"
+        app:layout_constraintTop_toTopOf="@id/m_bottom_bar" />
 
 </android.support.constraint.ConstraintLayout>

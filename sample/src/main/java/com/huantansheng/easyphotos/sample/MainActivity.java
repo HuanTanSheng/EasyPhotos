@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.ad.AdEntity;
+import com.huantansheng.easyphotos.ad.AdListener;
 import com.huantansheng.easyphotos.sample.thisAppGlideModule.GlideApp;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ivImage;
     private int position = 0;
     private ArrayList<String> images = new ArrayList<>();
+    private AdListener adListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.buttonA:
                 EasyPhotos.from(this, EasyPhotos.StartupType.ALBUM)
-                        .count(1)
+                        .count(2)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
+                buttonA.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adListener = EasyPhotos.from(MainActivity.this, EasyPhotos.StartupType.ALBUM)
+                                        .getAdListener();
+                                adListener.onLoaded(new AdEntity("2","s","d"));
+                            }
+                        });
+                    }
+                }, 2000);
+
                 break;
             case R.id.buttonAll:
                 EasyPhotos.from(this, EasyPhotos.StartupType.ALL)

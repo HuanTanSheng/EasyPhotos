@@ -76,6 +76,14 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                         return;
                     }
                     if (unable) {
+                        if (item.selected) {
+                            Result.removePhoto(item);
+                            if (unable) {
+                                unable = false;
+                            }
+                            notifyDataSetChanged();
+                            return;
+                        }
                         listener.onSelectorOutOfMax();
                         return;
                     }
