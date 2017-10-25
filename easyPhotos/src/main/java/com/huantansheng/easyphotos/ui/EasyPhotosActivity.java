@@ -7,6 +7,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -38,6 +41,7 @@ import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.Album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.view.PressedImageView;
 import com.huantansheng.easyphotos.ui.view.PressedTextView;
 import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
@@ -68,6 +72,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private RelativeLayout rootViewAlbumItems;
     private View mBottomBar;
     private PressedTextView tvAlbumItems;
+    private PressedTextView tvDone;
 
     private AnimatorSet setHide;
     private AnimatorSet setShow;
@@ -84,8 +89,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
+        if (Setting.needResetOrientation()) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(Setting.orientation);
+                if (Setting.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                    if (Setting.shouldDestroy) {
+                        Setting.shouldDestroy = false;
+                        return;
+                    }
+                }
+
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(Setting.orientation);
+                if (Setting.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                    if (Setting.shouldDestroy) {
+                        Setting.shouldDestroy = false;
+                        return;
+                    }
+                }
+            }
+        }
         hideActionBar();
-        EasyPhotos.from(this, EasyPhotos.StartupType.ALBUM).setAdListener(this);
+        EasyPhotos.setAdListener(this);
         initConfig();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
@@ -100,7 +125,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         albumModel = new AlbumModel(this, isShowCamera, this);
     }
-
 
     protected String[] getNeedPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -200,8 +224,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                     }
                     return;
                 }
-
-
                 break;
             default:
                 break;
@@ -216,7 +238,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             resultList.add(imageFile.getAbsolutePath());
             data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
             setResult(RESULT_OK, data);
-            finish();
+            done();
         }
     }
 
@@ -235,17 +257,24 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initView() {
+        tvDone = (PressedTextView) findViewById(R.id.tv_done);
+        tvDone.setOnClickListener(this);
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0), this);
-        gridLayoutManager = new GridLayoutManager(this, 3);
+        int columns = getResources().getInteger(R.integer.photos_columns);
+        gridLayoutManager = new GridLayoutManager(this, columns);
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(adapter);
-        initAlbumItems();
+        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
+        ivBack.setOnClickListener(this);
         mBottomBar = findViewById(R.id.m_bottom_bar);
         mBottomBar.setOnClickListener(this);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
+        tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         tvAlbumItems.setOnClickListener(this);
+        initAlbumItems();
+        shouldShowMenuDone();
     }
 
     private void hideActionBar() {
@@ -271,6 +300,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             showAlbumItems(View.GONE == rootViewAlbumItems.getVisibility());
         } else if (R.id.root_view_album_items == id) {
             showAlbumItems(false);
+        } else if (R.id.iv_back == id) {
+            setResult(RESULT_CANCELED);
+            done();
+        } else if (R.id.tv_done == id) {
+            Intent intent = new Intent();
+            resultList.addAll(Result.photos);
+            intent.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
+            setResult(RESULT_OK, intent);
+            done();
         }
 
     }
@@ -322,15 +360,36 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     public void onAlbumItemClick(int position) {
         updatePhotos(position);
         showAlbumItems(false);
+        tvAlbumItems.setText(albumModel.getAlbumItems().get(position).name);
     }
 
     private void updatePhotos(int currAlbumItemIndex) {
         adapter.setData(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
     }
 
-    @Override
-    public void onPhotoClick() {
+    private void shouldShowMenuDone() {
+        if (Result.photos.size() == 0) {
+            if (View.VISIBLE == tvDone.getVisibility()) {
+                ScaleAnimation scaleHide = new ScaleAnimation(1f, 0f, 1f, 0f);
+                scaleHide.setDuration(200);
+                tvDone.startAnimation(scaleHide);
+            }
+            tvDone.setVisibility(View.GONE);
+        } else {
+            if (View.GONE == tvDone.getVisibility()) {
+                ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
+                scaleShow.setDuration(200);
+                tvDone.startAnimation(scaleShow);
+            }
+            tvDone.setVisibility(View.VISIBLE);
+        }
+        tvDone.setText(getString(R.string.selector_action_done, Result.photos.size(), Setting.count));
+    }
 
+    @Override
+    public void onPhotoClick(int position) {
+        int realPosition = isShowCamera ? position - 1 : position;
+        Toast.makeText(this, "" + realPosition, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -339,14 +398,39 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     @Override
-    protected void onDestroy() {
-        Result.clear();
+    public void onSelectorChanged() {
+        shouldShowMenuDone();
+    }
+
+    @Override
+    public void onCameraClicked() {
+        launchCamera(Code.CODE_REQUEST_CAMERA);
+    }
+
+    private void done() {
         EasyPhotos.clear();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        done();
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    public void onLoaded(AdEntity adEntity) {
-        Toast.makeText(this, adEntity.imageUrl + adEntity.content + adEntity.title, Toast.LENGTH_SHORT).show();
+    public void onAdLoaded(final AdEntity adEntity) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(EasyPhotosActivity.this, adEntity.imageUrl + adEntity.content + adEntity.title, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

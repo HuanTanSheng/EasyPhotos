@@ -3,6 +3,6 @@
     <corners android:radius="100dp" />
     <stroke
         android:width="2dp"
-        android:color="@color/white_easy_photos" />
-    <solid android:color="@color/light_easy_photos"/>
+        android:color="@color/selector_stroke_easy_photos" />
+    <solid android:color="@color/selector_selected_color"/>
 </shape>

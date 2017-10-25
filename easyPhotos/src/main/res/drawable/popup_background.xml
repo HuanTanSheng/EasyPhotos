@@ -2,6 +2,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/white_easy_photos" />
+    <solid android:color="@color/album_items_background" />
     <corners android:radius="5dp" />
 </shape>

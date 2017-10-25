@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.huantansheng.easyphotos.ui.view.PressedImageView
         android:id="@+id/iv_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1dp"
+        android:padding="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,12 +18,11 @@
 
     <TextView
         android:id="@+id/tv_selector"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_margin="8dp"
         android:background="@drawable/bg_select_true"
         android:gravity="center"
-        android:text="18"
         android:textColor="@color/text_easy_photos"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -31,8 +31,8 @@
 
     <View
         android:id="@+id/v_selector"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:background="@color/transparent_easy_photos"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

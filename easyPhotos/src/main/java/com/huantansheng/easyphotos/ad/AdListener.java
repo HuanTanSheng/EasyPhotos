@@ -6,5 +6,5 @@ package com.huantansheng.easyphotos.ad;
  */
 
 public interface AdListener {
-    void onLoaded(AdEntity adEntity);
+    void onAdLoaded(AdEntity adEntity);
 }

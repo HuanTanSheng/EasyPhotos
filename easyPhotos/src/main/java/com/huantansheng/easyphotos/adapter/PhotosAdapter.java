@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +14,7 @@ import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.Album.entity.PhotoItem;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.view.PressedImageView;
 
 import java.util.ArrayList;
 
@@ -31,11 +31,16 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     OnClickListener listener;
     boolean unable, isSingle;
     int singlePosition;
+    private int padding = 0;
 
     public interface OnClickListener {
-        void onPhotoClick();
+        void onPhotoClick(int position);
 
         void onSelectorOutOfMax();
+
+        void onSelectorChanged();
+
+        void onCameraClicked();
     }
 
 
@@ -66,8 +71,34 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PhotoViewHolder) {
             final PhotoItem item = dataList.get(position);
-            mGlide.load(item.path).into(((PhotoViewHolder) holder).ivPhoto);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item.path, position);
+            if (item.isCamera) {
+                if (padding == 0) {
+                    padding = ((PhotoViewHolder) holder).ivPhoto.getPaddingBottom();
+                }
+                ((PhotoViewHolder) holder).ivPhoto.setPadding(padding, padding, padding, padding);
+                ((PhotoViewHolder) holder).ivPhoto.setImageResource(R.drawable.ic_camera);
+                ((PhotoViewHolder) holder).vSelector.setVisibility(View.GONE);
+                ((PhotoViewHolder) holder).tvSelector.setVisibility(View.GONE);
+                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onCameraClicked();
+                    }
+                });
+            } else {
+                ((PhotoViewHolder) holder).ivPhoto.setPadding(0, 0, 0, 0);
+                mGlide.load(item.path).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
+                ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
+                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onPhotoClick(position);
+                    }
+                });
+            }
+
             ((PhotoViewHolder) holder).vSelector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -81,6 +112,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                             if (unable) {
                                 unable = false;
                             }
+                            listener.onSelectorChanged();
                             notifyDataSetChanged();
                             return;
                         }
@@ -103,6 +135,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                         }
                         notifyDataSetChanged();
                     }
+                    listener.onSelectorChanged();
                 }
             });
         }
@@ -123,6 +156,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             Result.addPhoto(photoItem);
             notifyItemChanged(position);
         }
+        listener.onSelectorChanged();
     }
 
     private void updateSelector(TextView tvSelector, boolean selected, String photoPath, int position) {
@@ -150,13 +184,13 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivPhoto;
+        PressedImageView ivPhoto;
         TextView tvSelector;
         View vSelector;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
-            this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
+            this.ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
             this.tvSelector = (TextView) itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
         }

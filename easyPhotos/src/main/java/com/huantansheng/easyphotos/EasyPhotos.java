@@ -1,7 +1,9 @@
 package com.huantansheng.easyphotos;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 
+import com.huantansheng.easyphotos.ad.AdEntity;
 import com.huantansheng.easyphotos.ad.AdListener;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -58,6 +60,16 @@ public class EasyPhotos {
             }
         }
         return instance;
+    }
+
+    public EasyPhotos setOrientationLandscape() {
+        Setting.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        return EasyPhotos.this;
+    }
+
+    public EasyPhotos setOrientationPortrait() {
+        Setting.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        return EasyPhotos.this;
     }
 
     /**
@@ -135,15 +147,41 @@ public class EasyPhotos {
         EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
     }
 
+    /**
+     * 清除所有数据
+     */
     public static void clear() {
+        Result.clear();
+        Setting.clear();
         instance = null;
     }
 
-    public void setAdListener(AdListener adListener) {
-        this.adListener = new WeakReference<AdListener>(adListener);
+    public static void setAdListener(AdListener adListener) {
+        if (null == instance) return;
+        instance.adListener = new WeakReference<AdListener>(adListener);
     }
 
-    public AdListener getAdListener() {
-        return this.adListener.get();
+    public static void setAd(final AdEntity adEntity) {
+        if (null == instance) {
+            return;
+        }
+        if (null == instance.adListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != instance && null != instance.adListener) {
+                        instance.adListener.get().onAdLoaded(adEntity);
+                    }
+                }
+            }).start();
+            return;
+        }
+        instance.adListener.get().onAdLoaded(adEntity);
     }
+
 }
