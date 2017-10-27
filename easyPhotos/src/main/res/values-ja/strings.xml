@@ -1,18 +1,20 @@
 <resources>
-    <string name="selector_folder_all">すべての画像</string>
-    <string name="selector_caption">選択画像</string>
+    <string name="selector_folder_all_easy_photos">すべての画像</string>
+    <string name="selector_easy_photos">選択</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
-    <string name="selector_action_done">仕上げ(%1$d/%2$d)</string>
-    <string name="selector_preview">プレビュー</string>
+    <string name="selector_action_done_easy_photos">仕上げ(%1$d/%2$d)</string>
+    <string name="selector_preview_easy_photos">プレビュー</string>
 
-    <string name="selector_reach_max_image_hint">あなたは%dの画像を選択しました！</string>
-    <string name="msg_no_camera">カメラを開始できませんでした！</string>
-    <string name="camera_temp_file_error">画像誤差</string>
+    <string name="selector_reach_max_image_hint_easy_photos">あなたは%dの画像を選択しました！</string>
+    <string name="msg_no_camera_easy_photos">カメラを開始できませんでした！</string>
+    <string name="camera_temp_file_error_easy_photos">画像誤差</string>
 
-    <string name="selector_permission_error">アクセス権エラーは、動作しません！</string>
+    <string name="selector_permission_error_easy_photos">アクセス権エラーは、動作しません！</string>
 
-    <string name="selector_image_size_error">画像の幅が%1$dより大きくなければならない、高さ%2$dよりも大きくなければならない</string>
+    <string name="selector_image_size_error_easy_photos">画像の幅が%1$dより大きくなければならない、高さ%2$dよりも大きくなければならない</string>
 
-    <string name="selector_image_type_error">この写真のフォーマットをサポートしていません</string>
+    <string name="selector_image_type_error_easy_photos">この写真のフォーマットをサポートしていません</string>
+
+    <string name="edit_easy_photos">編集</string>
 
 </resources>

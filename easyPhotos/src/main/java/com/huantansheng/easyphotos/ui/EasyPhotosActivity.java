@@ -7,8 +7,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,26 +87,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
-        if (Setting.needResetOrientation()) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(Setting.orientation);
-                if (Setting.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                    if (Setting.shouldDestroy) {
-                        Setting.shouldDestroy = false;
-                        return;
-                    }
-                }
-
-            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                setRequestedOrientation(Setting.orientation);
-                if (Setting.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    if (Setting.shouldDestroy) {
-                        Setting.shouldDestroy = false;
-                        return;
-                    }
-                }
-            }
-        }
         hideActionBar();
         EasyPhotos.setAdListener(this);
         initConfig();
@@ -191,10 +169,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);
             } else {
-                Toast.makeText(this, R.string.camera_temp_file_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.camera_temp_file_error_easy_photos, Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.msg_no_camera_easy_photos, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,7 +216,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             resultList.add(imageFile.getAbsolutePath());
             data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
             setResult(RESULT_OK, data);
-            done();
+            finish();
         }
     }
 
@@ -257,8 +235,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initView() {
+        tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
+        tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
+        PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);
+        mBottomBar = findViewById(R.id.m_bottom_bar);
+        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
-        tvDone.setOnClickListener(this);
+
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0), this);
@@ -266,12 +249,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         gridLayoutManager = new GridLayoutManager(this, columns);
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(adapter);
-        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
+
+        tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
-        mBottomBar = findViewById(R.id.m_bottom_bar);
         mBottomBar.setOnClickListener(this);
-        tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
-        tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
+        ivAlbumItems.setOnClickListener(this);
         tvAlbumItems.setOnClickListener(this);
         initAlbumItems();
         shouldShowMenuDone();
@@ -296,19 +278,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (R.id.tv_album_items == id) {
+        if (R.id.tv_album_items == id || R.id.iv_album_items == id) {
             showAlbumItems(View.GONE == rootViewAlbumItems.getVisibility());
         } else if (R.id.root_view_album_items == id) {
             showAlbumItems(false);
         } else if (R.id.iv_back == id) {
             setResult(RESULT_CANCELED);
-            done();
+            finish();
         } else if (R.id.tv_done == id) {
             Intent intent = new Intent();
             resultList.addAll(Result.photos);
             intent.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
             setResult(RESULT_OK, intent);
-            done();
+            finish();
         }
 
     }
@@ -383,18 +365,18 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
             tvDone.setVisibility(View.VISIBLE);
         }
-        tvDone.setText(getString(R.string.selector_action_done, Result.photos.size(), Setting.count));
+        tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.photos.size(), Setting.count));
     }
 
     @Override
     public void onPhotoClick(int position) {
         int realPosition = isShowCamera ? position - 1 : position;
-        Toast.makeText(this, "" + realPosition, Toast.LENGTH_SHORT).show();
+        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this,Result.photos);
     }
 
     @Override
     public void onSelectorOutOfMax() {
-        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint, Setting.count), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -407,20 +389,18 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         launchCamera(Code.CODE_REQUEST_CAMERA);
     }
 
-    private void done() {
-        EasyPhotos.clear();
-        finish();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        done();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        if (rootViewAlbumItems.getVisibility() == View.VISIBLE) {
+            showAlbumItems(false);
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

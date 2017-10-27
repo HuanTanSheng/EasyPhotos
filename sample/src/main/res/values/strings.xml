@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">EasyPhotos-master</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen2">s</string>
 </resources>

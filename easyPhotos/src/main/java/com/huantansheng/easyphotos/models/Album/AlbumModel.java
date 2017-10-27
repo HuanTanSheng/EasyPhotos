@@ -88,7 +88,7 @@ public class AlbumModel {
         if (cursor == null) {
             Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
-            String albumItem_all_name = act.getString(R.string.selector_folder_all);
+            String albumItem_all_name = act.getString(R.string.selector_folder_all_easy_photos);
             int pathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
             int DateCol = cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED);

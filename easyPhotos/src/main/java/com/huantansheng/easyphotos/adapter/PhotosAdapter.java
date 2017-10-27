@@ -52,7 +52,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.unable = false;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo).error(R.drawable.ic_photo);
+        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo_easy_photos).error(R.drawable.ic_photo_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -64,7 +64,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos, parent, false));
+        return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     padding = ((PhotoViewHolder) holder).ivPhoto.getPaddingBottom();
                 }
                 ((PhotoViewHolder) holder).ivPhoto.setPadding(padding, padding, padding, padding);
-                ((PhotoViewHolder) holder).ivPhoto.setImageResource(R.drawable.ic_camera);
+                ((PhotoViewHolder) holder).ivPhoto.setImageResource(R.drawable.ic_camera_easy_photos);
                 ((PhotoViewHolder) holder).vSelector.setVisibility(View.GONE);
                 ((PhotoViewHolder) holder).tvSelector.setVisibility(View.GONE);
                 ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
@@ -91,12 +91,12 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 mGlide.load(item.path).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
-                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onPhotoClick(position);
-                    }
-                });
+//                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        listener.onPhotoClick(position);
+//                    }
+//                });
             }
 
             ((PhotoViewHolder) holder).vSelector.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +122,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     item.selected = !item.selected;
                     if (item.selected) {
                         Result.addPhoto(item);
-                        ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true);
+                        ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
                         ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.photos.size()));
                         if (Result.photos.size() == Setting.count) {
                             unable = true;
@@ -162,16 +162,16 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     private void updateSelector(TextView tvSelector, boolean selected, String photoPath, int position) {
         if (selected) {
             tvSelector.setText(String.valueOf(Result.photos.indexOf(photoPath) + 1));
-            tvSelector.setBackgroundResource(R.drawable.bg_select_true);
+            tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
             if (isSingle) {
                 singlePosition = position;
                 tvSelector.setText("√");
             }
         } else {
             if (unable) {
-                tvSelector.setBackgroundResource(R.drawable.bg_select_false_unable);
+                tvSelector.setBackgroundResource(R.drawable.bg_select_false_unable_easy_photos);
             } else {
-                tvSelector.setBackgroundResource(R.drawable.bg_select_false);
+                tvSelector.setBackgroundResource(R.drawable.bg_select_false_easy_photos);
             }
             tvSelector.setText(null);
         }

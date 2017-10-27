@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EasyPhotos.from(this, EasyPhotos.StartupType.ALL)
                         .count(1)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
-                        .setOrientationLandscape()
                         .start(101);
                 break;
             case R.id.iv_image:

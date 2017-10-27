@@ -39,13 +39,13 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
         this.selectedPosition = selectedPosition;
-        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo).error(R.drawable.ic_photo);
+        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo_easy_photos).error(R.drawable.ic_photo_easy_photos);
         mGlide.applyDefaultRequestOptions(options);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new AlbumItemsViewHolder(mInflater.inflate(R.layout.item_dialog_album_items, parent, false));
+        return new AlbumItemsViewHolder(mInflater.inflate(R.layout.item_dialog_album_items_easy_photos, parent, false));
     }
 
     @Override

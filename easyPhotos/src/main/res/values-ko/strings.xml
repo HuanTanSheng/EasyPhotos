@@ -1,18 +1,20 @@
 <resources>
-    <string name="selector_folder_all">모든 이미지</string>
-    <string name="selector_caption">선택 이미지</string>
+    <string name="selector_folder_all_easy_photos">모든 이미지</string>
+    <string name="selector_easy_photos">선택</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
-    <string name="selector_action_done">끝 (%1$d/%2$d)</string>
-    <string name="selector_preview">시사</string>
+    <string name="selector_action_done_easy_photos">끝 (%1$d/%2$d)</string>
+    <string name="selector_preview_easy_photos">시사</string>
 
-    <string name="selector_reach_max_image_hint">당신은 %d 이미지를 선택했습니다!</string>
-    <string name="msg_no_camera">카메라를 시작할 수 없습니다!</string>
-    <string name="camera_temp_file_error">이미지 오류</string>
+    <string name="selector_reach_max_image_hint_easy_photos">당신은 %d 이미지를 선택했습니다!</string>
+    <string name="msg_no_camera_easy_photos">카메라를 시작할 수 없습니다!</string>
+    <string name="camera_temp_file_error_easy_photos">이미지 오류</string>
 
-    <string name="selector_permission_error">권한 오류가 작동하지 않습니다!</string>
+    <string name="selector_permission_error_easy_photos">권한 오류가 작동하지 않습니다!</string>
 
-    <string name="selector_image_size_error">이미지 너비 반드시 크다 키 %1$d, 반드시 크다 %2$d</string>
+    <string name="selector_image_size_error_easy_photos">이미지 너비 반드시 크다 키 %1$d, 반드시 크다 %2$d</string>
 
-    <string name="selector_image_type_error">이 그림 형식을 지원하지 않습니다</string>
+    <string name="selector_image_type_error_easy_photos">이 그림 형식을 지원하지 않습니다</string>
+
+    <string name="edit_easy_photos">편집</string>
 
 </resources>

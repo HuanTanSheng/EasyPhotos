@@ -1,18 +1,20 @@
 <resources>
-    <string name="selector_folder_all">所有圖片</string>
-    <string name="selector_caption">選擇圖片</string>
+    <string name="selector_folder_all_easy_photos">所有圖片</string>
+    <string name="selector_easy_photos">選擇</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
-    <string name="selector_action_done">完成(%1$d/%2$d)</string>
-    <string name="selector_preview">預覽</string>
+    <string name="selector_action_done_easy_photos">完成(%1$d/%2$d)</string>
+    <string name="selector_preview_easy_photos">預覽</string>
 
-    <string name="selector_reach_max_image_hint">最多只能選擇%d張圖片</string>
-    <string name="msg_no_camera">無法啟動相機！</string>
-    <string name="camera_temp_file_error">圖片錯誤</string>
+    <string name="selector_reach_max_image_hint_easy_photos">最多只能選擇%d張圖片</string>
+    <string name="msg_no_camera_easy_photos">無法啟動相機！</string>
+    <string name="camera_temp_file_error_easy_photos">圖片錯誤</string>
 
-    <string name="selector_permission_error">權限錯誤，無法正常工作！</string>
+    <string name="selector_permission_error_easy_photos">權限錯誤，無法正常工作！</string>
 
-    <string name="selector_image_size_error">圖片的寬度必須大於%1$d,高度必須大於%2$d</string>
+    <string name="selector_image_size_error_easy_photos">圖片的寬度必須大於%1$d,高度必須大於%2$d</string>
 
-    <string name="selector_image_type_error">不支持此圖片格式</string>
+    <string name="selector_image_type_error_easy_photos">不支持此圖片格式</string>
+
+    <string name="edit_easy_photos">編輯</string>
 
 </resources>

@@ -21,7 +21,7 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_margin="8dp"
-        android:background="@drawable/bg_select_true"
+        android:background="@drawable/bg_select_true_easy_photos"
         android:gravity="center"
         android:textColor="@color/text_easy_photos"
         android:textSize="12sp"

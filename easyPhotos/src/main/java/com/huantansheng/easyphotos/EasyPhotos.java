@@ -52,24 +52,9 @@ public class EasyPhotos {
      * @return EasyPhotos EasyPhotos的实例
      */
     public static EasyPhotos from(Activity activity, StartupType startupType) {
-        if (instance == null) {
-            synchronized (EasyPhotos.class) {
-                if (instance == null) {
-                    instance = new EasyPhotos(activity, startupType);
-                }
-            }
-        }
+        clear();
+        instance = new EasyPhotos(activity, startupType);
         return instance;
-    }
-
-    public EasyPhotos setOrientationLandscape() {
-        Setting.orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        return EasyPhotos.this;
-    }
-
-    public EasyPhotos setOrientationPortrait() {
-        Setting.orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        return EasyPhotos.this;
     }
 
     /**
@@ -150,7 +135,7 @@ public class EasyPhotos {
     /**
      * 清除所有数据
      */
-    public static void clear() {
+    private static void clear() {
         Result.clear();
         Setting.clear();
         instance = null;
