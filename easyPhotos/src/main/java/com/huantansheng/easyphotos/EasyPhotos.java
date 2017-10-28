@@ -51,7 +51,7 @@ public class EasyPhotos {
      * @param activity Activity的实例
      * @return EasyPhotos EasyPhotos的实例
      */
-    public static EasyPhotos from(Activity activity, StartupType startupType) {
+    public static EasyPhotos with(Activity activity, StartupType startupType) {
         clear();
         instance = new EasyPhotos(activity, startupType);
         return instance;

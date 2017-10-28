@@ -1,7 +1,6 @@
 package com.huantansheng.easyphotos.sample;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,13 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonC:
-                EasyPhotos.from(this, EasyPhotos.StartupType.CAMERA)
+                EasyPhotos.with(this, EasyPhotos.StartupType.CAMERA)
                         .count(1)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
                 break;
             case R.id.buttonA:
-                EasyPhotos.from(this, EasyPhotos.StartupType.ALBUM)
+                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM)
                         .count(16)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.buttonAll:
-                EasyPhotos.from(this, EasyPhotos.StartupType.ALL)
+                EasyPhotos.with(this, EasyPhotos.StartupType.ALL)
                         .count(1)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);

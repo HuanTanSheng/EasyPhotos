@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
@@ -20,7 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
@@ -41,13 +41,14 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.view.PressedImageView;
 import com.huantansheng.easyphotos.ui.view.PressedTextView;
-import com.huantansheng.easyphotos.utils.file.FileUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
 import java.io.File;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
 
@@ -158,14 +159,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private void toAndroidCamera(int requestCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            try {
-                mTempImageFile = FileUtils.createTmpFile(this);
-            } catch (IOException e) {
-                Log.e(TAG, "toAndroidCamera: ", e);
-            }
-            if (mTempImageFile != null && mTempImageFile.exists()) {
-                Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
-                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
+            createCameraTempImageFile();
+            if (mTempImageFile != null) {
+                Uri imageUri = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
+                    cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
+                } else {
+                    imageUri = Uri.fromFile(mTempImageFile);
+                }
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);
             } else {
@@ -174,6 +176,38 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else {
             Toast.makeText(this, R.string.msg_no_camera_easy_photos, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void createCameraTempImageFile() {
+        File dir = new File(Environment.getExternalStorageDirectory(), File.separator + "DCIM" + File.separator + "Camera" + File.separator);
+        if (!dir.exists() || !dir.isDirectory()) {
+            if (!dir.mkdirs()) {
+                dir = getExternalFilesDir(null);
+                if (null == dir || !dir.exists()) {
+                    dir = getFilesDir();
+                    if (null == dir || !dir.exists()) {
+                        String cacheDirPath = File.separator + "data" + File.separator + "data" + File.separator + getPackageName() + File.separator + "cache" + File.separator;
+                        dir = new File(cacheDirPath);
+                        if (!dir.exists()) {
+                            dir.mkdirs();
+                        }
+                    }
+                }
+            }
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.getDefault());
+        String imageName = "IMG_%s.jpg";
+        String filename = String.format(imageName, dateFormat.format(new Date()));
+        mTempImageFile = new File(dir, filename);
+//        if (!mTempImageFile.exists()) {
+//            try {
+//                if (mTempImageFile.createNewFile()) {
+//                    mTempImageFile = null;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -371,7 +405,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onPhotoClick(int position) {
         int realPosition = isShowCamera ? position - 1 : position;
-        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this,Result.photos);
+        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, Result.photos);
     }
 
     @Override
