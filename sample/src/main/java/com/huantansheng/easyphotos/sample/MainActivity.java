@@ -6,11 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.ad.AdEntity;
-import com.huantansheng.easyphotos.ad.AdListener;
+import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.sample.thisAppGlideModule.GlideApp;
 
 import java.util.ArrayList;
@@ -55,14 +55,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .count(16)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
-                EasyPhotos.setAd(new AdEntity("s", "d", "3"));
-
                 break;
             case R.id.buttonAll:
                 EasyPhotos.with(this, EasyPhotos.StartupType.ALL)
                         .count(1)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")//fileProvider的authorities字符串
                         .start(101);
+//                                        .useAd(true,true)
+//                TextView textView = new TextView(this);
+//                textView.setText("122222222222222222222222222222222222222");
+//                EasyPhotos.addAlbumItemsAdView(textView);
+//                TextView t = new TextView(this);
+//                t.setText("111111111111111111111111111111111111111");
+//                EasyPhotos.addPhotosAdView(t);
+
                 break;
             case R.id.iv_image:
                 break;

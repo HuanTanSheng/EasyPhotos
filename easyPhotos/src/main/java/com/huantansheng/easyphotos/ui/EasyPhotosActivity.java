@@ -30,17 +30,16 @@ import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.ad.AdEntity;
-import com.huantansheng.easyphotos.ad.AdListener;
-import com.huantansheng.easyphotos.adapter.AlbumItemsAdapter;
-import com.huantansheng.easyphotos.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
-import com.huantansheng.easyphotos.models.Album.AlbumModel;
+import com.huantansheng.easyphotos.models.ad.AdListener;
+import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.ui.view.PressedImageView;
-import com.huantansheng.easyphotos.ui.view.PressedTextView;
+import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
+import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
+import com.huantansheng.easyphotos.ui.widget.PressedImageView;
+import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
@@ -60,14 +59,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private File mTempImageFile;
 
     private AlbumModel albumModel;
+    private ArrayList<Object> photoList = new ArrayList<>();
+    private ArrayList<Object> albumItemList = new ArrayList<>();
 
     private ArrayList<String> resultList = new ArrayList<>();
 
     private RecyclerView rvPhotos;
-    private PhotosAdapter adapter;
+    private PhotosAdapter photosAdapter;
     private GridLayoutManager gridLayoutManager;
 
     private RecyclerView rvAlbumItems;
+    private AlbumItemsAdapter albumItemsAdapter;
     private RelativeLayout rootViewAlbumItems;
     private View mBottomBar;
     private PressedTextView tvAlbumItems;
@@ -75,6 +77,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private AnimatorSet setHide;
     private AnimatorSet setShow;
+
+    private int columns = 3;
+    private View photosAdView = null;
+    private View albumItemsAdView = null;
+    private int albumItemsAdIndex = 0;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -217,7 +224,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         switch (resultCode) {
             case RESULT_OK:
                 if (Code.CODE_REQUEST_CAMERA == requestCode) {
-                    if (null != mTempImageFile) onCameraResult(mTempImageFile);
+                    if (mTempImageFile == null || !mTempImageFile.exists()) {
+                        throw new RuntimeException("EasyPhotos拍照保存的图片不存在");
+                    }
+                    onCameraResult(mTempImageFile);
                     return;
                 }
 
@@ -243,15 +253,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void onCameraResult(File imageFile) {
-        if (imageFile != null) {
-            // 更新媒体库
-            MediaScannerConnectionUtils.refresh(this, imageFile);
-            Intent data = new Intent();
-            resultList.add(imageFile.getAbsolutePath());
-            data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
-            setResult(RESULT_OK, data);
-            finish();
-        }
+        MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
+        Intent data = new Intent();
+        resultList.add(imageFile.getAbsolutePath());
+        data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
+        setResult(RESULT_OK, data);
+        finish();
+
     }
 
     @Override
@@ -269,6 +277,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initView() {
+        columns = getResources().getInteger(R.integer.photos_columns);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);
@@ -278,11 +287,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
-        adapter = new PhotosAdapter(this, albumModel.getCurrAlbumItemPhotos(0), this);
-        int columns = getResources().getInteger(R.integer.photos_columns);
+        photoList.clear();
+        photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
+        if (Setting.usePhotosAd) {
+            photoList.add(0, photosAdView);
+        }
+        photosAdapter = new PhotosAdapter(this, photoList, this);
+
         gridLayoutManager = new GridLayoutManager(this, columns);
+        if (Setting.usePhotosAd) {
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position == 0) {
+                        return gridLayoutManager.getSpanCount();//独占一行
+                    } else {
+                        return 1;//只占一行中的一列
+                    }
+                }
+            });
+        }
         rvPhotos.setLayoutManager(gridLayoutManager);
-        rvPhotos.setAdapter(adapter);
+        rvPhotos.setAdapter(photosAdapter);
 
         tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
@@ -304,7 +330,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
         rootViewAlbumItems.setOnClickListener(this);
         rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
-        AlbumItemsAdapter albumItemsAdapter = new AlbumItemsAdapter(this, albumModel.getAlbumItems(), 0, this);
+        albumItemList.clear();
+        albumItemList.addAll(albumModel.getAlbumItems());
+
+        if (Setting.useAlbumItemsAd) {
+            albumItemsAdIndex = 2;
+            if (albumItemList.size() < albumItemsAdIndex + 1) {
+                albumItemsAdIndex = albumItemList.size() - 1;
+            }
+            albumItemList.add(albumItemsAdIndex, albumItemsAdView);
+        }
+        albumItemsAdapter = new AlbumItemsAdapter(this, albumItemList, 0, this);
         rvAlbumItems.setLayoutManager(new LinearLayoutManager(this));
         rvAlbumItems.setAdapter(albumItemsAdapter);
     }
@@ -380,11 +416,16 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void updatePhotos(int currAlbumItemIndex) {
-        adapter.setData(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
+        photoList.clear();
+        photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
+        if (Setting.usePhotosAd) {
+            photoList.add(0, photosAdView);
+        }
+        photosAdapter.notifyDataSetChanged();
     }
 
     private void shouldShowMenuDone() {
-        if (Result.photos.size() == 0) {
+        if (Result.isEmpty()) {
             if (View.VISIBLE == tvDone.getVisibility()) {
                 ScaleAnimation scaleHide = new ScaleAnimation(1f, 0f, 1f, 0f);
                 scaleHide.setDuration(200);
@@ -399,13 +440,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
             tvDone.setVisibility(View.VISIBLE);
         }
-        tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.photos.size(), Setting.count));
+        tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
     }
 
     @Override
-    public void onPhotoClick(int position) {
-        int realPosition = isShowCamera ? position - 1 : position;
-        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, Result.photos);
+    public void onPhotoClick(int position, int realPosition) {
+        Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
+//        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, Result.photos);
     }
 
     @Override
@@ -438,13 +479,51 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     @Override
-    public void onAdLoaded(final AdEntity adEntity) {
+    public void onPhotosAdLoaded(final View adView) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(EasyPhotosActivity.this, adEntity.imageUrl + adEntity.content + adEntity.title, Toast.LENGTH_SHORT).show();
+                updatePhotosAd(adView);
+            }
+        });
+    }
+
+    private void updatePhotosAd(View adView) {
+        if (!Setting.usePhotosAd) {
+            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
+        }
+        photosAdView = adView;
+        resetPhotoListAdView();
+    }
+
+    private void resetPhotoListAdView() {
+        photoList.remove(0);
+        photoList.add(0, photosAdView);
+        photosAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAlbumItemsAdLoaded(final View adView) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateAlbumItemsAdView(adView);
             }
         });
 
+    }
+
+    private void updateAlbumItemsAdView(View adView) {
+        if (!Setting.useAlbumItemsAd) {
+            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
+        }
+        albumItemsAdView = adView;
+        resetAlbumItemListAdView();
+    }
+
+    private void resetAlbumItemListAdView() {
+        albumItemList.remove(albumItemsAdIndex);
+        albumItemList.add(albumItemsAdIndex, albumItemsAdView);
+        albumItemsAdapter.notifyDataSetChanged();
     }
 }

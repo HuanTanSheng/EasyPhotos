@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.huantansheng.easyphotos.ui.view.PressedImageView
+    <com.huantansheng.easyphotos.ui.widget.PressedImageView
         android:id="@+id/iv_back"
         android:layout_width="46dp"
         android:layout_height="46dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="@id/m_tool_bar"
         app:srcCompat="@drawable/ic_back_easy_photos" />
 
-    <com.huantansheng.easyphotos.ui.view.PressedTextView
+    <com.huantansheng.easyphotos.ui.widget.PressedTextView
         android:id="@+id/tv_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <com.huantansheng.easyphotos.ui.view.PressedTextView
+    <com.huantansheng.easyphotos.ui.widget.PressedTextView
         android:id="@+id/tv_album_items"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -118,7 +118,7 @@
         app:layout_constraintLeft_toLeftOf="@id/m_bottom_bar"
         app:layout_constraintTop_toTopOf="@id/m_bottom_bar" />
 
-    <com.huantansheng.easyphotos.ui.view.PressedImageView
+    <com.huantansheng.easyphotos.ui.widget.PressedImageView
         android:id="@+id/iv_album_items"
         android:paddingTop="8dp"
         app:srcCompat="@drawable/ic_album_items_name_easy_photos"

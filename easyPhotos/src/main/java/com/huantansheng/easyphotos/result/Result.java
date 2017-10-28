@@ -1,6 +1,6 @@
 package com.huantansheng.easyphotos.result;
 
-import com.huantansheng.easyphotos.models.Album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,5 +35,31 @@ public class Result {
     public static void clear() {
         photos.clear();
         map.clear();
+    }
+
+    public static boolean isEmpty() {
+        return photos.isEmpty();
+    }
+
+    public static void addSelectedPhotos(ArrayList<String> selectedPhotos) {
+        clear();
+        photos.addAll(selectedPhotos);
+    }
+
+    public static int count() {
+        return photos.size();
+    }
+
+    /**
+     * 获取选择器应该显示的数字
+     * @param photoPath 当前图片的地址
+     * @return 选择器应该显示的数字
+     */
+    public static String getSelectorNumber(String photoPath){
+        return String.valueOf(photos.indexOf(photoPath) + 1);
+    }
+
+    public static String getPhotoPath(int position) {
+        return photos.get(position);
     }
 }

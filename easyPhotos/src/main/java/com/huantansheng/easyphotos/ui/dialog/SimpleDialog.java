@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.dialog;
+package com.huantansheng.easyphotos.ui.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

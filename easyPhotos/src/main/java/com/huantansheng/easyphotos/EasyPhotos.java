@@ -1,10 +1,9 @@
 package com.huantansheng.easyphotos;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
+import android.view.View;
 
-import com.huantansheng.easyphotos.ad.AdEntity;
-import com.huantansheng.easyphotos.ad.AdListener;
+import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -99,7 +98,19 @@ public class EasyPhotos {
      * @return EasyPhotos
      */
     public EasyPhotos setSelectedPhotos(ArrayList<String> selectedPhotos) {
-        Result.photos.addAll(selectedPhotos);
+        Result.addSelectedPhotos(selectedPhotos);
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 是否使用广告
+     * @param photosAd 是否使用图片列表广告
+     * @param albumItemsAd 是否使用专辑项目列表广告
+     * @return
+     */
+    public EasyPhotos useAd(boolean photosAd,boolean albumItemsAd) {
+        Setting.usePhotosAd = photosAd;
+        Setting.useAlbumItemsAd = albumItemsAd;
         return EasyPhotos.this;
     }
 
@@ -146,7 +157,11 @@ public class EasyPhotos {
         instance.adListener = new WeakReference<AdListener>(adListener);
     }
 
-    public static void setAd(final AdEntity adEntity) {
+    /**
+     * 添加图片列表里面的广告
+     * @param adView 广告View
+     */
+    public static void addPhotosAdView(final View adView) {
         if (null == instance) {
             return;
         }
@@ -160,13 +175,41 @@ public class EasyPhotos {
                         e.printStackTrace();
                     }
                     if (null != instance && null != instance.adListener) {
-                        instance.adListener.get().onAdLoaded(adEntity);
+                        instance.adListener.get().onPhotosAdLoaded(adView);
                     }
                 }
             }).start();
             return;
         }
-        instance.adListener.get().onAdLoaded(adEntity);
+        instance.adListener.get().onPhotosAdLoaded(adView);
+    }
+
+    /**
+     * 向专辑项目列表添加广告
+     * @param adView 广告View
+     *
+     */
+    public static void addAlbumItemsAdView(final View adView) {
+        if (null == instance) {
+            return;
+        }
+        if (null == instance.adListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != instance && null != instance.adListener) {
+                        instance.adListener.get().onAlbumItemsAdLoaded(adView);
+                    }
+                }
+            }).start();
+            return;
+        }
+        instance.adListener.get().onAlbumItemsAdLoaded(adView);
     }
 
 }

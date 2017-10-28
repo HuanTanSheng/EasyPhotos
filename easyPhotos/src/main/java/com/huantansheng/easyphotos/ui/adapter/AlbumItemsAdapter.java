@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.adapter;
+package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.models.Album.entity.AlbumItem;
+import com.huantansheng.easyphotos.models.ad.AdViewHolder;
+import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,10 @@ import java.util.ArrayList;
  */
 
 public class AlbumItemsAdapter extends RecyclerView.Adapter {
-    ArrayList<AlbumItem> albumItems;
+    private static final int TYPE_AD = 0;
+    private static final int TYPE_ALBUM_ITEMS = 1;
+
+    ArrayList<Object> dataList;
     RequestManager mGlide;
     LayoutInflater mInflater;
     int selectedPosition;
@@ -33,8 +37,8 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     }
 
 
-    public AlbumItemsAdapter(Context cxt, ArrayList<AlbumItem> list, int selectedPosition, OnClickListener listener) {
-        this.albumItems = list;
+    public AlbumItemsAdapter(Context cxt, ArrayList<Object> list, int selectedPosition, OnClickListener listener) {
+        this.dataList = list;
         this.mInflater = LayoutInflater.from(cxt);
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
@@ -45,13 +49,18 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new AlbumItemsViewHolder(mInflater.inflate(R.layout.item_dialog_album_items_easy_photos, parent, false));
+        switch (viewType) {
+            case TYPE_AD:
+                return new AdViewHolder(mInflater.inflate(R.layout.item_ad, parent, false));
+            default:
+                return new AlbumItemsViewHolder(mInflater.inflate(R.layout.item_dialog_album_items_easy_photos, parent, false));
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof AlbumItemsViewHolder) {
-            AlbumItem item = albumItems.get(position);
+            AlbumItem item = (AlbumItem) dataList.get(position);
             mGlide.load(item.coverImagePath).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
             ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(item.photos.size() + "张");
@@ -71,12 +80,31 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
                     listener.onAlbumItemClick(position);
                 }
             });
+            return;
+        }
+
+        if (holder instanceof AdViewHolder) {
+            View ad = (View) dataList.get(position);
+            ((AdViewHolder) holder).adFrame.removeAllViews();
+            if (null != ad) {
+                ((AdViewHolder) holder).adFrame.addView(ad);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return albumItems.size();
+        return dataList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Object item = dataList.get(position);
+        if (null == item || item instanceof View) {
+            return TYPE_AD;
+        } else {
+            return TYPE_ALBUM_ITEMS;
+        }
     }
 
     public class AlbumItemsViewHolder extends RecyclerView.ViewHolder {
@@ -92,6 +120,5 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
             this.tvAlbumPhotosCount = (TextView) itemView.findViewById(R.id.tv_album_photos_count);
             this.ivSelected = (ImageView) itemView.findViewById(R.id.iv_selected);
         }
-
     }
 }

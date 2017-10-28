@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.models.Album.entity;
+package com.huantansheng.easyphotos.models.album.entity;
 
 import android.util.Log;
 

@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.adapter.PreviewPhotosAdapter;
+import com.huantansheng.easyphotos.ui.adapter.PreviewPhotosAdapter;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 

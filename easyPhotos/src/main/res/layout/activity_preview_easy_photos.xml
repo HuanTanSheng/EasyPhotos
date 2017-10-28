@@ -24,7 +24,7 @@
             android:background="@color/bottom_bar_easy_photos"
             android:fitsSystemWindows="true">
 
-            <com.huantansheng.easyphotos.ui.view.PressedImageView
+            <com.huantansheng.easyphotos.ui.widget.PressedImageView
                 android:id="@+id/iv_back"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
@@ -41,7 +41,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@color/back_line_easy_photos" />
 
-            <com.huantansheng.easyphotos.ui.view.PressedTextView
+            <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"

@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.ui.view;
+package com.huantansheng.easyphotos.ui.widget;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.huantansheng.easyphotos.ui.view.PressedImageView
+    <com.huantansheng.easyphotos.ui.widget.PressedImageView
         android:id="@+id/iv_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"

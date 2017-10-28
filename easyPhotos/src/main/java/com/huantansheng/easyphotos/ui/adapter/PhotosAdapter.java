@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.adapter;
+package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +11,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.models.Album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.ad.AdViewHolder;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.ui.view.PressedImageView;
+import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
 import java.util.ArrayList;
 
@@ -24,8 +25,10 @@ import java.util.ArrayList;
  */
 
 public class PhotosAdapter extends RecyclerView.Adapter {
+    private static final int TYPE_AD = 0;
+    private static final int TYPE_ALBUM_ITEMS = 1;
 
-    ArrayList<PhotoItem> dataList;
+    ArrayList<Object> dataList;
     RequestManager mGlide;
     LayoutInflater mInflater;
     OnClickListener listener;
@@ -34,7 +37,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     private int padding = 0;
 
     public interface OnClickListener {
-        void onPhotoClick(int position);
+        void onPhotoClick(int position, int realPosition);
 
         void onSelectorOutOfMax();
 
@@ -44,9 +47,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     }
 
 
-    public PhotosAdapter(Context cxt, ArrayList<PhotoItem> dataList, OnClickListener listener) {
-        this.dataList = new ArrayList<>();
-        this.dataList.addAll(dataList);
+    public PhotosAdapter(Context cxt, ArrayList<Object> dataList, OnClickListener listener) {
+        this.dataList = dataList;
         this.listener = listener;
         this.mInflater = LayoutInflater.from(cxt);
         this.unable = false;
@@ -56,21 +58,20 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
-    public void setData(ArrayList<PhotoItem> dataList) {
-        this.dataList.clear();
-        this.dataList.addAll(dataList);
-        notifyDataSetChanged();
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
+        switch (viewType) {
+            case TYPE_AD:
+                return new AdViewHolder(mInflater.inflate(R.layout.item_ad, parent, false));
+            default:
+                return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
+        }
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PhotoViewHolder) {
-            final PhotoItem item = dataList.get(position);
+            final PhotoItem item = (PhotoItem) dataList.get(position);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item.path, position);
             if (item.isCamera) {
                 if (padding == 0) {
@@ -91,12 +92,16 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 mGlide.load(item.path).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
-//                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        listener.onPhotoClick(position);
-//                    }
-//                });
+                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int realPosition = position;
+                        if (Setting.usePhotosAd) {
+                            realPosition--;
+                        }
+                        listener.onPhotoClick(position, realPosition);
+                    }
+                });
             }
 
             ((PhotoViewHolder) holder).vSelector.setOnClickListener(new View.OnClickListener() {
@@ -123,8 +128,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     if (item.selected) {
                         Result.addPhoto(item);
                         ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
-                        ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.photos.size()));
-                        if (Result.photos.size() == Setting.count) {
+                        ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.count()));
+                        if (Result.count() == Setting.count) {
                             unable = true;
                             notifyDataSetChanged();
                         }
@@ -138,12 +143,21 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     listener.onSelectorChanged();
                 }
             });
+            return;
+        }
+
+        if (holder instanceof AdViewHolder) {
+            View adView = (View) dataList.get(position);
+            ((AdViewHolder) holder).adFrame.removeAllViews();
+            if (null != adView) {
+                ((AdViewHolder) holder).adFrame.addView(adView);
+            }
         }
     }
 
     private void singleSelector(PhotoItem photoItem, int position) {
-        if (Result.photos.size() > 0) {
-            if (Result.photos.get(0).equals(photoItem.path)) {
+        if (!Result.isEmpty()) {
+            if (Result.getPhotoPath(0).equals(photoItem.path)) {
                 Result.removePhoto(photoItem);
                 notifyItemChanged(position);
             } else {
@@ -161,7 +175,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     private void updateSelector(TextView tvSelector, boolean selected, String photoPath, int position) {
         if (selected) {
-            tvSelector.setText(String.valueOf(Result.photos.indexOf(photoPath) + 1));
+            tvSelector.setText(Result.getSelectorNumber(photoPath));
             tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
             if (isSingle) {
                 singlePosition = position;
@@ -182,6 +196,13 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         return dataList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (0 == position && Setting.usePhotosAd) {
+            return TYPE_AD;
+        }
+        return TYPE_ALBUM_ITEMS;
+    }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
         PressedImageView ivPhoto;

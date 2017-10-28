@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.models.Album;
+package com.huantansheng.easyphotos.models.album;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -10,9 +10,9 @@ import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Path;
-import com.huantansheng.easyphotos.models.Album.entity.Album;
-import com.huantansheng.easyphotos.models.Album.entity.AlbumItem;
-import com.huantansheng.easyphotos.models.Album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Album;
+import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
@@ -116,7 +116,7 @@ public class AlbumModel {
                 }
 
                 PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height, type);
-                if (Result.photos.size() > 0) {
+                if (!Result.isEmpty()) {
                     for (String photoPath : Result.photos) {
                         if (path.equals(photoPath)) {
                             imageItem.selected = true;
