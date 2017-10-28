@@ -32,6 +32,13 @@ public class Result {
         removePhoto(item);
     }
 
+    public static void removeAll() {
+        int size = photos.size();
+        for (int i = 0; i < size; i++) {
+            removePhoto(0);
+        }
+    }
+
     public static void clear() {
         photos.clear();
         map.clear();

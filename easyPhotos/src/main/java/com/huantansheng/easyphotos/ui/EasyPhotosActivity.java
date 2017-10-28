@@ -82,6 +82,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private View photosAdView = null;
     private View albumItemsAdView = null;
     private int albumItemsAdIndex = 0;
+    private PressedTextView tvClear;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -284,7 +285,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         mBottomBar = findViewById(R.id.m_bottom_bar);
         PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
-
+        tvClear = (PressedTextView) findViewById(R.id.tv_clear);
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         photoList.clear();
@@ -310,6 +311,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
 
+        tvClear.setOnClickListener(this);
         tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         mBottomBar.setOnClickListener(this);
@@ -361,6 +363,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             intent.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
             setResult(RESULT_OK, intent);
             finish();
+        } else if (R.id.tv_clear == id) {
+            Result.removeAll();
+            photosAdapter.notifyDataSetChanged();
+            shouldShowMenuDone();
         }
 
     }
@@ -422,6 +428,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             photoList.add(0, photosAdView);
         }
         photosAdapter.notifyDataSetChanged();
+        rvPhotos.scrollToPosition(0);
     }
 
     private void shouldShowMenuDone() {
@@ -432,6 +439,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 tvDone.startAnimation(scaleHide);
             }
             tvDone.setVisibility(View.GONE);
+            tvClear.setVisibility(View.GONE);
         } else {
             if (View.GONE == tvDone.getVisibility()) {
                 ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
@@ -439,6 +447,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 tvDone.startAnimation(scaleShow);
             }
             tvDone.setVisibility(View.VISIBLE);
+            if (Setting.count > 1)
+                tvClear.setVisibility(View.VISIBLE);
         }
         tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
     }
