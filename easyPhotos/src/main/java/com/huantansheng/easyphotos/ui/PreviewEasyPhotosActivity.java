@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,7 +76,12 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         }
     };
     private boolean mVisible;
-
+    private final Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hide();
+        }
+    };
     private PressedImageView ivBack;
     private PressedTextView tvEdit;
     private TextView tvSelector;
@@ -94,6 +100,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_preview_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -102,6 +109,17 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
         initData();
         initView();
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // 启动800毫秒后全屏显示
+        delayedHide(1000);
+    }
+    private void delayedHide(int delayMillis) {
+        mHideHandler.removeCallbacks(mHideRunnable);
+        mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
     private void initData() {

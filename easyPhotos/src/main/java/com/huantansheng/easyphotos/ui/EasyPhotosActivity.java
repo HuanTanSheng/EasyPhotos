@@ -464,6 +464,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     public void onPhotoClick(int position, int realPosition) {
         Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
         PreviewEasyPhotosActivity.start(EasyPhotosActivity.this,currAlbumItemIndex, realPosition);
+
     }
 
     @Override
