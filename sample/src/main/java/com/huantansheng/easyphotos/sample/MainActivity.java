@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
-                        .setMinSize(6600,6600)
+                        .setMinSize(500,500)
                         .start(101);
                 break;
         }
