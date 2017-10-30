@@ -21,5 +21,6 @@
 
     <string name="no_photos">No cumplen los requisitos de la imagen, una fotografía.</string>
 
-
+    <string name="permissions_again">Por favor, dar los permisos</string>
+    <string name="permissions_die">Por favor, en la configuracion de las competencias permite</string>
 </resources>

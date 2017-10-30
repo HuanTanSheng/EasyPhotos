@@ -21,4 +21,7 @@
 
     <string name="no_photos">没有符合要求的图片，拍一张吧</string>
 
+    <string name="permissions_again">请允许相关权限</string>
+    <string name="permissions_die">请在设置中允许相关权限</string>
+
 </resources>

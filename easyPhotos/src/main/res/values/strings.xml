@@ -21,5 +21,6 @@
 
     <string name="no_photos">Do not meet the requirements of the picture, take one</string>
 
-
+    <string name="permissions_again">Please grant relevant permissions</string>
+    <string name="permissions_die">Please allow related permissions in the settings</string>
 </resources>

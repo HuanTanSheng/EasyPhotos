@@ -12,4 +12,6 @@ public class Code {
     public static final int REQUEST_PERMISSION_CODE = 12;
     //预览activity请求码
     public static final int REQUEST_PREVIEW_ACTIVITY = 13;
+    //请求应用详情
+    public static final int REQUEST_SETTING_APP_DETAILS = 14;
 }

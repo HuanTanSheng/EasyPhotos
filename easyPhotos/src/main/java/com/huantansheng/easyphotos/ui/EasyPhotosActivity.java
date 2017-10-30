@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
+import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -97,6 +99,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         hideActionBar();
 //        EasyPhotos.setAdListener(this);
         initConfig();
+        mBottomBar = findViewById(R.id.m_bottom_bar);
+        rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
         }
@@ -129,12 +133,29 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
             @Override
             public void onShouldShow() {
-
+                Snackbar.make(mBottomBar, R.string.permissions_again, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("go", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (PermissionUtil.checkAndRequestPermissionsInActivity(EasyPhotosActivity.this, getNeedPermissions())) {
+                                    hasPermissions();
+                                }
+                            }
+                        })
+                        .show();
             }
 
             @Override
             public void onFailed() {
-
+                Snackbar.make(mBottomBar, R.string.permissions_die, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("go", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this, getPackageName());
+                                EasyPhotosActivity.this.finish();
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -233,8 +254,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 if (Code.REQUEST_PREVIEW_ACTIVITY == requestCode) {
                     photosAdapter.notifyDataSetChanged();
                     shouldShowMenuDone();
+                    return;
                 }
-
 
                 break;
             case RESULT_FIRST_USER:
@@ -291,7 +312,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);
-        mBottomBar = findViewById(R.id.m_bottom_bar);
         PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
         tvClear = (PressedTextView) findViewById(R.id.tv_clear);
@@ -338,7 +358,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initAlbumItems() {
-        rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+
         rootViewAlbumItems.setOnClickListener(this);
         rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
         albumItemList.clear();

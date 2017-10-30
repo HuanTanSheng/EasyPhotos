@@ -135,6 +135,7 @@
         android:text="@string/empty_easy_photos"
         android:gravity="center"
         android:minWidth="60dp"
+        android:visibility="gone"
         android:textColor="@color/text_easy_photos"
         app:layout_constraintTop_toTopOf="@id/m_bottom_bar"
         app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
