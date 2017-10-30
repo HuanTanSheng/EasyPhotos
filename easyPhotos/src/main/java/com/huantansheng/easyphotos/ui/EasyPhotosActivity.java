@@ -83,6 +83,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private View albumItemsAdView = null;
     private int albumItemsAdIndex = 0;
     private PressedTextView tvClear;
+    private int currAlbumItemIndex = 0;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -110,7 +111,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             launchCamera(Code.CODE_REQUEST_CAMERA);
             return;
         }
-        albumModel = new AlbumModel(this, isShowCamera, this);
+        albumModel = AlbumModel.getInstance(this, isShowCamera, this);
     }
 
     protected String[] getNeedPermissions() {
@@ -230,6 +231,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                     }
                     onCameraResult(mTempImageFile);
                     return;
+                }
+
+                if (Code.REQUEST_PREVIEW_ACTIVITY == requestCode) {
+                    photosAdapter.notifyDataSetChanged();
+                    shouldShowMenuDone();
                 }
 
 
@@ -422,6 +428,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void updatePhotos(int currAlbumItemIndex) {
+        this.currAlbumItemIndex = currAlbumItemIndex;
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
         if (Setting.usePhotosAd) {
@@ -456,7 +463,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onPhotoClick(int position, int realPosition) {
         Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
-//        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, Result.photos);
+        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this,currAlbumItemIndex, realPosition);
     }
 
     @Override

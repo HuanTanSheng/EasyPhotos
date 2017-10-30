@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 import com.huantansheng.easyphotos.models.ad.AdListener;
+import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -153,6 +154,7 @@ public class EasyPhotos {
     private static void clear() {
         Result.clear();
         Setting.clear();
+        AlbumModel.clear();
         instance = null;
     }
 

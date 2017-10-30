@@ -7,8 +7,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_photos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="true" />
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -29,6 +28,7 @@
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 app:srcCompat="@drawable/ic_back_easy_photos" />
 
             <View
@@ -42,12 +42,14 @@
                 android:background="@color/back_line_easy_photos" />
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
+                android:id="@+id/tv_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:visibility="gone"
                 android:text="@string/edit_easy_photos"
                 android:textColor="@color/text_easy_photos" />
 

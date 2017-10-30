@@ -11,6 +11,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  */
 
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
-    ArrayList<String> photos;
+    ArrayList<PhotoItem> photos;
     RequestManager mGlide;
     LayoutInflater inflater;
     OnClickListener listener;
@@ -29,13 +30,12 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         void onPhotoClick();
     }
 
-    public PreviewPhotosAdapter(Context cxt, ArrayList<String> photos, OnClickListener listener) {
-        this.photos = new ArrayList<>();
-        this.photos.addAll(photos);
+    public PreviewPhotosAdapter(Context cxt, ArrayList<PhotoItem> photos, OnClickListener listener) {
+        this.photos = photos;
         this.inflater = LayoutInflater.from(cxt);
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerInside().placeholder(R.drawable.ic_photo_easy_photos).error(R.drawable.ic_photo_easy_photos);
+        RequestOptions options = new RequestOptions().centerInside().error(R.drawable.ic_photo_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -46,7 +46,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     @Override
     public void onBindViewHolder(final PreviewPhotosViewHolder holder, int position) {
-        mGlide.load(photos.get(position)).into(holder.ivPhoto);
+        mGlide.load(photos.get(position).path).into(holder.ivPhoto);
         holder.ivPhoto.setScale(1f);
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

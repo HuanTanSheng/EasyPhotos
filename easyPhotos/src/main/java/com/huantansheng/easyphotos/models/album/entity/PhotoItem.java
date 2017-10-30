@@ -1,5 +1,7 @@
 package com.huantansheng.easyphotos.models.album.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
@@ -7,7 +9,7 @@ import android.util.Log;
  * Created by huan on 2017/10/20.
  */
 
-public class PhotoItem {
+public class PhotoItem implements Parcelable {
     private static final String TAG = "PhotoItem";
     public String name, path, type;
     public int width, height;
@@ -47,4 +49,43 @@ public class PhotoItem {
                 '}';
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.path);
+        dest.writeString(this.type);
+        dest.writeInt(this.width);
+        dest.writeInt(this.height);
+        dest.writeLong(this.time);
+        dest.writeByte(this.isCamera ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
+    }
+
+    protected PhotoItem(Parcel in) {
+        this.name = in.readString();
+        this.path = in.readString();
+        this.type = in.readString();
+        this.width = in.readInt();
+        this.height = in.readInt();
+        this.time = in.readLong();
+        this.isCamera = in.readByte() != 0;
+        this.selected = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<PhotoItem> CREATOR = new Parcelable.Creator<PhotoItem>() {
+        @Override
+        public PhotoItem createFromParcel(Parcel source) {
+            return new PhotoItem(source);
+        }
+
+        @Override
+        public PhotoItem[] newArray(int size) {
+            return new PhotoItem[size];
+        }
+    };
 }

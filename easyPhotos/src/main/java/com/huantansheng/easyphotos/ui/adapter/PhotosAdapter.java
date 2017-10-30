@@ -54,7 +54,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.unable = false;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo_easy_photos).error(R.drawable.ic_photo_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -175,7 +175,13 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     private void updateSelector(TextView tvSelector, boolean selected, String photoPath, int position) {
         if (selected) {
-            tvSelector.setText(Result.getSelectorNumber(photoPath));
+            String number = Result.getSelectorNumber(photoPath);
+            if (number.equals("0")) {
+                tvSelector.setBackgroundResource(R.drawable.bg_select_false_easy_photos);
+                tvSelector.setText(null);
+                return;
+            }
+            tvSelector.setText(number);
             tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
             if (isSingle) {
                 singlePosition = position;

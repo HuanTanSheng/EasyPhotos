@@ -26,9 +26,12 @@ import java.util.ArrayList;
  */
 
 public class AlbumModel {
+    private static AlbumModel instance;
+
     private static final String TAG = "AlbumModel";
     private Album album;
     private CallBack callBack;
+
 
     private final String[] projections = {
             MediaStore.Images.Media.DATA,
@@ -56,10 +59,25 @@ public class AlbumModel {
      * @param isShowCamera 是否显示相机按钮
      * @param callBack     初始化全部专辑后的回调
      */
-    public AlbumModel(final Activity act, final boolean isShowCamera, AlbumModel.CallBack callBack) {
+    private AlbumModel(final Activity act, final boolean isShowCamera, AlbumModel.CallBack callBack) {
         album = new Album();
         this.callBack = callBack;
         init(act, isShowCamera);
+    }
+
+    public static AlbumModel getInstance(final Activity act, final boolean isShowCamera, AlbumModel.CallBack callBack) {
+        if (null == instance) {
+            synchronized (AlbumModel.class) {
+                if (null == instance) {
+                    instance = new AlbumModel(act, isShowCamera, callBack);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public static void clear() {
+        instance = null;
     }
 
     private void init(final Activity act, final boolean isShowCamera) {
