@@ -17,4 +17,9 @@
 
     <string name="edit_easy_photos">편집</string>
 
+    <string name="empty_easy_photos">비우기</string>
+
+    <string name="no_photos">안 인력이야말로 그림, 사진 한 장</string>
+
+
 </resources>

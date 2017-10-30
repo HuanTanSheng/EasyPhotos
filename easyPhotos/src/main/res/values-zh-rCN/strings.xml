@@ -17,4 +17,8 @@
 
     <string name="edit_easy_photos">编辑</string>
 
+    <string name="empty_easy_photos">清空</string>
+
+    <string name="no_photos">没有符合要求的图片，拍一张吧</string>
+
 </resources>

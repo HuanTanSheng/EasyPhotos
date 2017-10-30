@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.huantansheng.easyphotos.sample.MainActivity">
 
-    <ImageView
-        android:id="@+id/iv_image"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,31 +16,84 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonC"
+        android:id="@+id/bt_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="相机"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonA"
+        android:id="@+id/bt_album_single"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="相册"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="相册(无相机单选）"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/bt_camera" />
+
 
     <Button
-        android:id="@+id/buttonAll"
+        android:id="@+id/bt_album_multi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="all"
+        android:layout_marginTop="10dp"
+        android:text="相册(无相机多选）"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonA" />
+        app:layout_constraintTop_toBottomOf="@id/bt_album_single" />
+
+    <Button
+        android:id="@+id/bt_all_single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相册（有相机单选）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_album_multi" />
+
+    <Button
+        android:id="@+id/bt_all_multi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相册（有相机多选）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_all_single" />
+
+    <Button
+        android:id="@+id/bt_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相册（带广告）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_all_multi" />
+
+    <Button
+        android:id="@+id/bt_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相册（带默认勾选）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_ad" />
+
+    <Button
+        android:id="@+id/bt_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="相册（尺寸限制）"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_selected" />
 
 </android.support.constraint.ConstraintLayout>

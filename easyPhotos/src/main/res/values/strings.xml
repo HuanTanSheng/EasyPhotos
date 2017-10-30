@@ -17,4 +17,9 @@
 
     <string name="edit_easy_photos">Edit</string>
 
+    <string name="empty_easy_photos">Empty</string>
+
+    <string name="no_photos">Do not meet the requirements of the picture, take one</string>
+
+
 </resources>

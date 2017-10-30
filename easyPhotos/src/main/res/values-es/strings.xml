@@ -17,4 +17,9 @@
 
     <string name="edit_easy_photos">Editar</string>
 
+    <string name="empty_easy_photos">Vaciar</string>
+
+    <string name="no_photos">No cumplen los requisitos de la imagen, una fotografía.</string>
+
+
 </resources>

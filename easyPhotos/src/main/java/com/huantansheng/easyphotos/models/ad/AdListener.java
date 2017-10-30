@@ -8,6 +8,6 @@ import android.view.View;
  */
 
 public interface AdListener {
-    void onPhotosAdLoaded(View adView);
-    void onAlbumItemsAdLoaded(View adView);
+//    void onPhotosAdLoaded(View adView);
+//    void onAlbumItemsAdLoaded(View adView);
 }

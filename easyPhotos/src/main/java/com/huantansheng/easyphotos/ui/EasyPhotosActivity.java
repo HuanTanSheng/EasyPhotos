@@ -32,7 +32,6 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
-import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -49,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener {
 
     private static final String TAG = "EasyPhotosActivity";
 
@@ -79,8 +78,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private AnimatorSet setShow;
 
     private int columns = 3;
-    private View photosAdView = null;
-    private View albumItemsAdView = null;
     private int albumItemsAdIndex = 0;
     private PressedTextView tvClear;
     private int currAlbumItemIndex = 0;
@@ -98,7 +95,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
-        EasyPhotos.setAdListener(this);
+//        EasyPhotos.setAdListener(this);
         initConfig();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
@@ -284,6 +281,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initView() {
+        if (albumModel.getAlbumItems().isEmpty()) {
+            Toast.makeText(this, R.string.no_photos, Toast.LENGTH_SHORT).show();
+            if (isShowCamera) launchCamera(Code.CODE_REQUEST_CAMERA);
+            else finish();
+            return;
+        }
         columns = getResources().getInteger(R.integer.photos_columns);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
@@ -296,13 +299,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
-        if (Setting.usePhotosAd) {
-            photoList.add(0, photosAdView);
+        if (Setting.photosAdView != null) {
+            photoList.add(0, Setting.photosAdView);
         }
         photosAdapter = new PhotosAdapter(this, photoList, this);
 
         gridLayoutManager = new GridLayoutManager(this, columns);
-        if (Setting.usePhotosAd) {
+        if (Setting.photosAdView != null) {
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
@@ -341,12 +344,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         albumItemList.clear();
         albumItemList.addAll(albumModel.getAlbumItems());
 
-        if (Setting.useAlbumItemsAd) {
+        if (Setting.albumItemsAdView != null) {
             albumItemsAdIndex = 2;
             if (albumItemList.size() < albumItemsAdIndex + 1) {
                 albumItemsAdIndex = albumItemList.size() - 1;
             }
-            albumItemList.add(albumItemsAdIndex, albumItemsAdView);
+            albumItemList.add(albumItemsAdIndex, Setting.albumItemsAdView);
         }
         albumItemsAdapter = new AlbumItemsAdapter(this, albumItemList, 0, this);
         rvAlbumItems.setLayoutManager(new LinearLayoutManager(this));
@@ -431,8 +434,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         this.currAlbumItemIndex = currAlbumItemIndex;
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
-        if (Setting.usePhotosAd) {
-            photoList.add(0, photosAdView);
+        if (Setting.photosAdView != null) {
+            photoList.add(0, Setting.photosAdView);
         }
         photosAdapter.notifyDataSetChanged();
         rvPhotos.scrollToPosition(0);
@@ -462,8 +465,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onPhotoClick(int position, int realPosition) {
-        Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
-        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this,currAlbumItemIndex, realPosition);
+//        Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
+        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
 
     }
 
@@ -496,52 +499,52 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onBackPressed();
     }
 
-    @Override
-    public void onPhotosAdLoaded(final View adView) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updatePhotosAd(adView);
-            }
-        });
-    }
+//    @Override
+//    public void onPhotosAdLoaded(final View adView) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                updatePhotosAd(adView);
+//            }
+//        });
+//    }
 
-    private void updatePhotosAd(View adView) {
-        if (!Setting.usePhotosAd) {
-            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
-        }
-        photosAdView = adView;
-        resetPhotoListAdView();
-    }
+//    private void updatePhotosAd(View adView) {
+//        if (!Setting.photosAdView) {
+//            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
+//        }
+//        photosAdView = adView;
+//        resetPhotoListAdView();
+//    }
 
-    private void resetPhotoListAdView() {
-        photoList.remove(0);
-        photoList.add(0, photosAdView);
-        photosAdapter.notifyDataSetChanged();
-    }
+//    private void resetPhotoListAdView() {
+//        photoList.remove(0);
+//        photoList.add(0, photosAdView);
+//        photosAdapter.notifyDataSetChanged();
+//    }
 
-    @Override
-    public void onAlbumItemsAdLoaded(final View adView) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateAlbumItemsAdView(adView);
-            }
-        });
+//    @Override
+//    public void onAlbumItemsAdLoaded(final View adView) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                updateAlbumItemsAdView(adView);
+//            }
+//        });
+//
+//    }
 
-    }
+//    private void updateAlbumItemsAdView(View adView) {
+//        if (!Setting.albumItemsAdView) {
+//            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
+//        }
+//        albumItemsAdView = adView;
+//        resetAlbumItemListAdView();
+//    }
 
-    private void updateAlbumItemsAdView(View adView) {
-        if (!Setting.useAlbumItemsAd) {
-            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
-        }
-        albumItemsAdView = adView;
-        resetAlbumItemListAdView();
-    }
-
-    private void resetAlbumItemListAdView() {
-        albumItemList.remove(albumItemsAdIndex);
-        albumItemList.add(albumItemsAdIndex, albumItemsAdView);
-        albumItemsAdapter.notifyDataSetChanged();
-    }
+//    private void resetAlbumItemListAdView() {
+//        albumItemList.remove(albumItemsAdIndex);
+//        albumItemList.add(albumItemsAdIndex, albumItemsAdView);
+//        albumItemsAdapter.notifyDataSetChanged();
+//    }
 }

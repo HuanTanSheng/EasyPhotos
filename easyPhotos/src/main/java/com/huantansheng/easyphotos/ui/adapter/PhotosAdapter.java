@@ -96,7 +96,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         int realPosition = position;
-                        if (Setting.usePhotosAd) {
+                        if (Setting.photosAdView!=null) {
                             realPosition--;
                         }
                         listener.onPhotoClick(position, realPosition);
@@ -204,7 +204,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (0 == position && Setting.usePhotosAd) {
+        if (0 == position && Setting.photosAdView!=null) {
             return TYPE_AD;
         }
         return TYPE_ALBUM_ITEMS;

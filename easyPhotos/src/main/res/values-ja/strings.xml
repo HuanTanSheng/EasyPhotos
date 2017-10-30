@@ -17,4 +17,8 @@
 
     <string name="edit_easy_photos">編集</string>
 
+    <string name="empty_easy_photos">クリア</string>
+
+    <string name="no_photos">要求されている画像と、一枚撮りましょう</string>
+
 </resources>
