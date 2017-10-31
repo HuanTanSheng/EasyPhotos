@@ -33,6 +33,7 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
+import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
 
     private static final String TAG = "EasyPhotosActivity";
 
@@ -97,7 +98,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
-//        EasyPhotos.setAdListener(this);
+        EasyPhotos.setAdListener(this);
         initConfig();
         mBottomBar = findViewById(R.id.m_bottom_bar);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
@@ -447,7 +448,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     public void onAlbumItemClick(int position,int realPosition) {
         updatePhotos(realPosition);
         showAlbumItems(false);
-        tvAlbumItems.setText(albumModel.getAlbumItems().get(position).name);
+        tvAlbumItems.setText(albumModel.getAlbumItems().get(realPosition).name);
     }
 
     private void updatePhotos(int currAlbumItemIndex) {
@@ -519,52 +520,23 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onBackPressed();
     }
 
-//    @Override
-//    public void onPhotosAdLoaded(final View adView) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                updatePhotosAd(adView);
-//            }
-//        });
-//    }
+    @Override
+    public void onPhotosAdLoaded() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                photosAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-//    private void updatePhotosAd(View adView) {
-//        if (!Setting.photosAdView) {
-//            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
-//        }
-//        photosAdView = adView;
-//        resetPhotoListAdView();
-//    }
-
-//    private void resetPhotoListAdView() {
-//        photoList.remove(0);
-//        photoList.add(0, photosAdView);
-//        photosAdapter.notifyDataSetChanged();
-//    }
-
-//    @Override
-//    public void onAlbumItemsAdLoaded(final View adView) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                updateAlbumItemsAdView(adView);
-//            }
-//        });
-//
-//    }
-
-//    private void updateAlbumItemsAdView(View adView) {
-//        if (!Setting.albumItemsAdView) {
-//            throw new RuntimeException("EasyPhotos:使用广告必须执行useAd方法");
-//        }
-//        albumItemsAdView = adView;
-//        resetAlbumItemListAdView();
-//    }
-
-//    private void resetAlbumItemListAdView() {
-//        albumItemList.remove(albumItemsAdIndex);
-//        albumItemList.add(albumItemsAdIndex, albumItemsAdView);
-//        albumItemsAdapter.notifyDataSetChanged();
-//    }
+    @Override
+    public void onAlbumItemsAdLoaded() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                albumItemsAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 }

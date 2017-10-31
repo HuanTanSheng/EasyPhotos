@@ -7,7 +7,7 @@
     tools:context="com.huantansheng.easyphotos.sample.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_image"
+        android:id="@+id/iv_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

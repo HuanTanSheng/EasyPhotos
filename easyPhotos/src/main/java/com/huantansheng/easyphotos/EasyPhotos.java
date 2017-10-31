@@ -3,6 +3,7 @@ package com.huantansheng.easyphotos;
 import android.app.Activity;
 import android.view.View;
 
+import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -36,7 +37,7 @@ public class EasyPhotos {
     private String fileProviderAuthoritiesText;
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
-//    private WeakReference<AdListener> adListener;
+    private WeakReference<AdListener> adListener;
 
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private EasyPhotos(Activity activity, StartupType startupType) {
@@ -106,15 +107,19 @@ public class EasyPhotos {
     }
 
     /**
-     * 是否使用广告
+     * 设置广告(不设置该选项则表示不使用广告)
      *
-     * @param photosAdView 是否使用图片列表广告
-     * @param albumItemsAdView 是否使用专辑项目列表广告
+     * @param photosAdView 使用图片列表的广告View
+     * @param photosAdIsLoaded 图片列表广告是否加载完毕
+     * @param albumItemsAdView 使用专辑项目列表的广告View
+     * @param albumItemsAdView 专辑项目列表广告是否加载完毕
      * @return EasyPhotos
      */
-    public EasyPhotos setAdView(View photosAdView, View albumItemsAdView) {
+    public EasyPhotos setAdView(View photosAdView ,boolean photosAdIsLoaded, View albumItemsAdView ,boolean albumItemsAdIsLoaded) {
         Setting.photosAdView = new WeakReference<View>(photosAdView);
         Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
+        Setting.photoAdIsOk = photosAdIsLoaded;
+        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
         return EasyPhotos.this;
     }
 
@@ -157,65 +162,64 @@ public class EasyPhotos {
         instance = null;
     }
 
-//    public static void setAdListener(AdListener adListener) {
-//        if (null == instance) return;
-//        instance.adListener = new WeakReference<AdListener>(adListener);
-//    }
+    public static void setAdListener(AdListener adListener) {
+        if (null == instance) return;
+        instance.adListener = new WeakReference<AdListener>(adListener);
+    }
 
     /**
-     * 添加图片列表里面的广告
-     *
-     * @param adView 广告View
+     * 刷新图片列表广告数据
      */
-//    public static void addPhotosAdView(final View adView) {
-//        if (null == instance) {
-//            return;
-//        }
-//        if (null == instance.adListener) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    if (null != instance && null != instance.adListener) {
-//                        instance.adListener.get().onPhotosAdLoaded(adView);
-//                    }
-//                }
-//            }).start();
-//            return;
-//        }
-//        instance.adListener.get().onPhotosAdLoaded(adView);
-//    }
+    public static void notifyPhotosAdLoaded() {
+        if (null == instance) {
+            return;
+        }
+        if (null == instance.adListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != instance && null != instance.adListener) {
+                        Setting.photoAdIsOk = true;
+                        instance.adListener.get().onPhotosAdLoaded();
+                    }
+                }
+            }).start();
+            return;
+        }
+        Setting.photoAdIsOk = true;
+        instance.adListener.get().onPhotosAdLoaded();
+    }
 
     /**
-     * 向专辑项目列表添加广告
-     *
-     * @param adView 广告View
+     * 刷新专辑项目列表广告
      */
-//    public static void addAlbumItemsAdView(final View adView) {
-//        if (null == instance) {
-//            return;
-//        }
-//        if (null == instance.adListener) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    if (null != instance && null != instance.adListener) {
-//                        instance.adListener.get().onAlbumItemsAdLoaded(adView);
-//                    }
-//                }
-//            }).start();
-//            return;
-//        }
-//        instance.adListener.get().onAlbumItemsAdLoaded(adView);
-//    }
-
+    public static void notifyAlbumItemsAdLoaded() {
+        if (null == instance) {
+            return;
+        }
+        if (null == instance.adListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != instance && null != instance.adListener) {
+                        Setting.albumItemsAdIsOk = true;
+                        instance.adListener.get().onAlbumItemsAdLoaded();
+                    }
+                }
+            }).start();
+            return;
+        }
+        Setting.albumItemsAdIsOk = true;
+        instance.adListener.get().onAlbumItemsAdLoaded();
+    }
 }

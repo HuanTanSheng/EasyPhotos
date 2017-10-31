@@ -15,6 +15,8 @@ public class Setting {
     public static int count = 1;
     public static WeakReference<View> photosAdView = null;
     public static WeakReference<View> albumItemsAdView = null;
+    public static boolean photoAdIsOk = false;
+    public static boolean albumItemsAdIsOk = false;
 
 
     public static void clear() {
@@ -23,6 +25,8 @@ public class Setting {
         count = 1;
         photosAdView = null;
         albumItemsAdView = null;
+        photoAdIsOk = false;
+        albumItemsAdIsOk = false;
     }
 
     public static boolean hasPhotosAd() {

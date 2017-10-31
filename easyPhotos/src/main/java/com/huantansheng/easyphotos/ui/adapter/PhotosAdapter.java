@@ -150,6 +150,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
+            if(!Setting.photoAdIsOk){
+                ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
+                return;
+            }
+            ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
             WeakReference weakReference = (WeakReference) dataList.get(position);
             ((AdViewHolder) holder).adFrame.removeAllViews();
             if (null != weakReference) {

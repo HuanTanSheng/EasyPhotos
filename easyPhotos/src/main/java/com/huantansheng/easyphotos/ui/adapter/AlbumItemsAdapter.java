@@ -96,6 +96,11 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
 
         if (holder instanceof AdViewHolder) {
             adPosition = position;
+            if(!Setting.albumItemsAdIsOk){
+                ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
+                return;
+            }
+            ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
             WeakReference weakReference = (WeakReference) dataList.get(position);
             ((AdViewHolder) holder).adFrame.removeAllViews();
             if (weakReference != null) {
