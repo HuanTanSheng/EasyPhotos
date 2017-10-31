@@ -5,7 +5,7 @@
     <color name="black_overlay_easy_photos">#66000000</color>
 
     <!--顶部栏-->
-    <color name="tool_bar_easy_photos">#393a3f</color>顶部栏的背景颜色
+    <color name="tool_bar_easy_photos">#393a3f</color>顶部栏的背景颜色303135
     <color name="tool_bar_bottom_line_easy_photos">#303135</color>顶部栏的底端线颜色，主要用于Z轴的视觉效果
     <color name="back_line_easy_photos">#303135</color>顶部栏返回按钮右侧的分割线颜色
     <!--底部栏-->

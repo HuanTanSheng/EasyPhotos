@@ -309,6 +309,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             else finish();
             return;
         }
+        if (Setting.hasPhotosAd()) {
+            findViewById(R.id.m_back_line).setVisibility(View.GONE);
+        }
         columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
@@ -445,7 +448,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     @Override
-    public void onAlbumItemClick(int position,int realPosition) {
+    public void onAlbumItemClick(int position, int realPosition) {
         updatePhotos(realPosition);
         showAlbumItems(false);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(realPosition).name);

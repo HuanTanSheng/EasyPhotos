@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/bottom_bar_easy_photos"
+    android:background="@color/tool_bar_easy_photos"
     android:padding="8dp">
 
 
