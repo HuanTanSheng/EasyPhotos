@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.sample;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 广告view可以包含子布局
                 // 为了确保广告view地址不变，设置final会更安全
                 final TextView photosAdView = new TextView(this);//图片集合中的广告view
+                photosAdView.setTextColor(Color.WHITE);
                 final TextView albumItemsAdView = new TextView(this);//专辑项目列表中的广告view
 
                 //启动方法，装在广告view
