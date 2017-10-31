@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
+import com.huantansheng.easyphotos.setting.Setting;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -34,9 +35,10 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     LayoutInflater mInflater;
     int selectedPosition;
     OnClickListener listener;
+    int adPosition = 0;
 
     public interface OnClickListener {
-        void onAlbumItemClick(int position);
+        void onAlbumItemClick(int position,int realPosition);
     }
 
 
@@ -76,17 +78,24 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int realPosition = position;
+                    if (Setting.hasAlbumItemsAd()) {
+                        if (position > adPosition) {
+                            realPosition--;
+                        }
+                    }
                     int tempSelected = selectedPosition;
                     selectedPosition = position;
                     notifyItemChanged(tempSelected);
                     notifyItemChanged(position);
-                    listener.onAlbumItemClick(position);
+                    listener.onAlbumItemClick(position,realPosition);
                 }
             });
             return;
         }
 
         if (holder instanceof AdViewHolder) {
+            adPosition = position;
             WeakReference weakReference = (WeakReference) dataList.get(position);
             ((AdViewHolder) holder).adFrame.removeAllViews();
             if (weakReference != null) {

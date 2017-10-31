@@ -444,8 +444,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     @Override
-    public void onAlbumItemClick(int position) {
-        updatePhotos(position);
+    public void onAlbumItemClick(int position,int realPosition) {
+        updatePhotos(realPosition);
         showAlbumItems(false);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(position).name);
     }
