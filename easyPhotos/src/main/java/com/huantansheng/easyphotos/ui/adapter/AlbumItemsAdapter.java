@@ -17,6 +17,8 @@ import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
 
 import java.util.ArrayList;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * 媒体列表适配器
  * Created by huan on 2017/10/23.
@@ -43,7 +45,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
         this.selectedPosition = selectedPosition;
-        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.ic_photo_easy_photos).error(R.drawable.ic_photo_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
         mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -61,7 +63,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof AlbumItemsViewHolder) {
             AlbumItem item = (AlbumItem) dataList.get(position);
-            mGlide.load(item.coverImagePath).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
+            mGlide.load(item.coverImagePath).transition(withCrossFade()).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
             ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(item.photos.size() + "张");
             if (selectedPosition == position) {

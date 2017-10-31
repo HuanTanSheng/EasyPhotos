@@ -15,6 +15,8 @@ import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 
 import java.util.ArrayList;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * 预览界面图片集合的适配器
  * Created by huan on 2017/10/26.
@@ -35,7 +37,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         this.inflater = LayoutInflater.from(cxt);
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerInside().error(R.drawable.ic_photo_easy_photos);
+        RequestOptions options = new RequestOptions().centerInside().error(R.drawable.ic_photo_error_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -46,7 +48,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     @Override
     public void onBindViewHolder(final PreviewPhotosViewHolder holder, int position) {
-        mGlide.load(photos.get(position).path).into(holder.ivPhoto);
+        mGlide.load(photos.get(position).path).transition(withCrossFade()).into(holder.ivPhoto);
         holder.ivPhoto.setScale(1f);
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

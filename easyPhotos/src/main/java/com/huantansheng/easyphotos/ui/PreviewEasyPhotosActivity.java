@@ -91,7 +91,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private PagerSnapHelper snapHelper;
     private LinearLayoutManager lm;
     private int index;
-    private ArrayList<PhotoItem> photos;
+    private ArrayList<PhotoItem> photos = new ArrayList<>();
     private int resultCode = RESULT_CANCELED;
     private int lastPosition = 0;//记录recyclerView最后一次角标位置，用于判断是否转换了item
     private boolean isSingle = Setting.count == 1;
@@ -117,6 +117,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         // 启动800毫秒后全屏显示
         delayedHide(1000);
     }
+
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
@@ -125,7 +126,8 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private void initData() {
         Intent intent = getIntent();
         int albumItemIndex = intent.getIntExtra(Key.PREVIEW_ALBUM_ITEM_INDEX, 0);
-        photos = AlbumModel.getInstance(this, false, null).getCurrAlbumItemPhotos(albumItemIndex);
+        photos.clear();
+        photos.addAll(AlbumModel.instance.getCurrAlbumItemPhotos(albumItemIndex));
         index = intent.getIntExtra(Key.PREVIEW_PHOTO_INDEX, 0);
         if (photos.get(0).isCamera) {
             photos.remove(0);

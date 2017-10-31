@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 
 public class AlbumModel {
-    private static AlbumModel instance;
+    public static AlbumModel instance;
 
     private static final String TAG = "AlbumModel";
     private Album album;

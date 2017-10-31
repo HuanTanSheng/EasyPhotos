@@ -19,6 +19,8 @@ import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
 import java.util.ArrayList;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * 专辑相册适配器
  * Created by huan on 2017/10/23.
@@ -54,7 +56,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.unable = false;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -89,7 +91,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 });
             } else {
                 ((PhotoViewHolder) holder).ivPhoto.setPadding(0, 0, 0, 0);
-                mGlide.load(item.path).into(((PhotoViewHolder) holder).ivPhoto);
+                mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
