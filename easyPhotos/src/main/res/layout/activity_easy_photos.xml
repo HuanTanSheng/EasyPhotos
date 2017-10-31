@@ -9,7 +9,7 @@
     <View
         android:id="@+id/m_tool_bar"
         android:layout_width="0dp"
-        android:layout_height="46dp"
+        android:layout_height="42dp"
         android:background="@color/tool_bar_easy_photos"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -17,8 +17,8 @@
 
     <com.huantansheng.easyphotos.ui.widget.PressedImageView
         android:id="@+id/iv_back"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         app:layout_constraintLeft_toLeftOf="@id/m_tool_bar"
         app:layout_constraintTop_toTopOf="@id/m_tool_bar"
         app:srcCompat="@drawable/ic_back_easy_photos" />
@@ -43,7 +43,7 @@
     <View
         android:id="@+id/m_back_line"
         android:layout_width="1dp"
-        android:layout_height="22dp"
+        android:layout_height="18dp"
         android:background="@color/back_line_easy_photos"
         app:layout_constraintBottom_toBottomOf="@id/m_tool_bar"
         app:layout_constraintLeft_toRightOf="@id/iv_back"

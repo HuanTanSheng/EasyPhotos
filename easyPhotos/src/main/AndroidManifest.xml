@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.PreviewEasyPhotosActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/EasyPhotosFullscreenTheme"/>
     </application>
 
 </manifest>

@@ -308,7 +308,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             else finish();
             return;
         }
-        columns = getResources().getInteger(R.integer.photos_columns);
+        columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);

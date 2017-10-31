@@ -5,11 +5,11 @@
     <color name="black_overlay_easy_photos">#66000000</color>
 
     <!--顶部栏-->
-    <color name="tool_bar_easy_photos">#3F51B5</color>顶部栏的背景颜色
-    <color name="tool_bar_bottom_line_easy_photos">#303F9F</color>顶部栏的底端线颜色，主要用于Z轴的视觉效果
-    <color name="back_line_easy_photos">#303F9F</color>顶部栏返回按钮右侧的分割线颜色
+    <color name="tool_bar_easy_photos">#393a3f</color>顶部栏的背景颜色
+    <color name="tool_bar_bottom_line_easy_photos">#303135</color>顶部栏的底端线颜色，主要用于Z轴的视觉效果
+    <color name="back_line_easy_photos">#303135</color>顶部栏返回按钮右侧的分割线颜色
     <!--底部栏-->
-    <color name="bottom_bar_easy_photos">#3F51B5</color>//底部栏的背景颜色
+    <color name="bottom_bar_easy_photos">#393a3f</color>//底部栏的背景颜色
     <!--顶部栏和底部栏文字-->    <!--返回按钮-->
     <color name="text_easy_photos">#FFFFFF</color>//文字颜色——默认，返回图标也是该颜色
     <color name="text_unable_easy_photos">#9b9b9b</color>文字颜色——不可用状态
@@ -21,14 +21,14 @@
     <color name="camera_easy_photos">#00AA00</color>
     <!--photo选择器-->
     <color name="selector_stroke_easy_photos">#FFFFFF</color>//图片选择器的边框颜色
-    <color name="selector_selected_color_easy_photos">#3F51B5</color>//图片选择器选中状态的填充颜色
+    <color name="selector_selected_color_easy_photos">#00AA00</color>//图片选择器选中状态的填充颜色
     <color name="selector_unable_easy_photos">#9b9b9b</color>//图片选择器不可用状态颜色
     <!--专辑项目列表-->
     <color name="album_items_background_easy_photos">#FFFFFF</color>//专辑项目列表的背景颜色
     <color name="album_items_line_easy_photos">#dee6e6e6</color>//专辑项目的分割线颜色
     <color name="album_item_choose_icon_easy_photos">#00AA00</color>//专辑项目选中状态icon的颜色
-    <color name="album_item_name_easy_photos">#d0000000</color>//专辑项目选中状态icon的颜色
-    <color name="album_item_count_easy_photos">#ababab</color>//专辑项目选中状态icon的颜色
+    <color name="album_item_name_easy_photos">#d0000000</color>//专辑项目列表中专辑名称的字体颜色
+    <color name="album_item_count_easy_photos">#ababab</color>//专辑项目列表中包含图片张书的字体颜色
     <!--图片列表-->
-    <color name="photos_line_easy_photos">#FFFFFF</color>//图片列表的分割线颜色
+    <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色
 </resources>
