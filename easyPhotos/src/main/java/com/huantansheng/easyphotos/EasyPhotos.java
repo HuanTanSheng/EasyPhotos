@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class EasyPhotos {
 
-    //easyPhotos的返回数据
+    //easyPhotos的返回数据Key
     public static final String RESULT = "keyOfEasyPhotosResult";
 
     /**
