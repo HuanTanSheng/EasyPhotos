@@ -144,7 +144,7 @@ public class AlbumModel {
                 }
 
                 // 初始化“全部”专辑
-                if (album.albumItems.size() == 0) {
+                if (album.isEmpty()) {
                     // 用第一个图片作为专辑的封面
                     album.addAlbumItem(albumItem_all_name, "", path);
                     // 是否显示相机按钮

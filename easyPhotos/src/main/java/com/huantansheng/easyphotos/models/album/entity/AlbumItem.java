@@ -13,7 +13,7 @@ public class AlbumItem {
     public String coverImagePath;
     public ArrayList<PhotoItem> photos;
 
-    public AlbumItem(String name, String folderPath, String coverImagePath) {
+    AlbumItem(String name, String folderPath, String coverImagePath) {
         this.name = name;
         this.folderPath = folderPath;
         this.coverImagePath = coverImagePath;

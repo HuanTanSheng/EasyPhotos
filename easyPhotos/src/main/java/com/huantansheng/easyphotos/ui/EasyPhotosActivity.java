@@ -319,13 +319,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
-        if (Setting.photosAdView != null) {
+        if (Setting.hasPhotosAd()) {
             photoList.add(0, Setting.photosAdView);
         }
         photosAdapter = new PhotosAdapter(this, photoList, this);
 
         gridLayoutManager = new GridLayoutManager(this, columns);
-        if (Setting.photosAdView != null) {
+        if (Setting.hasPhotosAd()) {
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
@@ -364,7 +364,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         albumItemList.clear();
         albumItemList.addAll(albumModel.getAlbumItems());
 
-        if (Setting.albumItemsAdView != null) {
+        if (Setting.hasAlbumItemsAd()) {
             albumItemsAdIndex = 2;
             if (albumItemList.size() < albumItemsAdIndex + 1) {
                 albumItemsAdIndex = albumItemList.size() - 1;
@@ -454,7 +454,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         this.currAlbumItemIndex = currAlbumItemIndex;
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
-        if (Setting.photosAdView != null) {
+        if (Setting.hasPhotosAd()) {
             photoList.add(0, Setting.photosAdView);
         }
         photosAdapter.notifyDataSetChanged();

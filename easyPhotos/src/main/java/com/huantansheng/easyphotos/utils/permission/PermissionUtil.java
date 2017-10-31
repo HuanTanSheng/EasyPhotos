@@ -38,12 +38,12 @@ public class PermissionUtil {
         }
         if (!isHas) {
             String[] p = permissions.toArray(new String[permissions.size()]);
-            requestPermissionsInActicity(cxt, Code.REQUEST_PERMISSION_CODE, p);
+            requestPermissionsInActivity(cxt, Code.REQUEST_PERMISSION_CODE, p);
         }
         return isHas;
     }
 
-    private static void requestPermissionsInActicity(Activity cxt, int requestCode, String... permissions) {
+    private static void requestPermissionsInActivity(Activity cxt, int requestCode, String... permissions) {
         ActivityCompat.requestPermissions(cxt, permissions, requestCode);
     }
 

@@ -15,6 +15,7 @@ import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -65,7 +66,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
             AlbumItem item = (AlbumItem) dataList.get(position);
             mGlide.load(item.coverImagePath).transition(withCrossFade()).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
-            ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(item.photos.size() + "张");
+            ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(String.valueOf(item.photos.size()));
             if (selectedPosition == position) {
                 ((AlbumItemsViewHolder) holder).ivSelected.setVisibility(View.VISIBLE);
             } else {
@@ -86,10 +87,13 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
-            View ad = (View) dataList.get(position);
+            WeakReference weakReference = (WeakReference) dataList.get(position);
             ((AdViewHolder) holder).adFrame.removeAllViews();
-            if (null != ad) {
-                ((AdViewHolder) holder).adFrame.addView(ad);
+            if (weakReference != null) {
+                View ad = (View) weakReference.get();
+                if (null != ad) {
+                    ((AdViewHolder) holder).adFrame.addView(ad);
+                }
             }
         }
     }
@@ -102,7 +106,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Object item = dataList.get(position);
-        if (null == item || item instanceof View) {
+        if (null == item || item instanceof WeakReference) {
             return TYPE_AD;
         } else {
             return TYPE_ALBUM_ITEMS;

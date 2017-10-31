@@ -17,6 +17,7 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -98,7 +99,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         int realPosition = position;
-                        if (Setting.photosAdView!=null) {
+                        if (Setting.hasPhotosAd()) {
                             realPosition--;
                         }
                         listener.onPhotoClick(position, realPosition);
@@ -149,10 +150,13 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
-            View adView = (View) dataList.get(position);
+            WeakReference weakReference = (WeakReference) dataList.get(position);
             ((AdViewHolder) holder).adFrame.removeAllViews();
-            if (null != adView) {
-                ((AdViewHolder) holder).adFrame.addView(adView);
+            if (null != weakReference) {
+                View adView = (View) weakReference.get();
+                if (null != adView) {
+                    ((AdViewHolder) holder).adFrame.addView(adView);
+                }
             }
         }
     }
@@ -206,7 +210,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (0 == position && Setting.photosAdView!=null) {
+        if (0 == position && Setting.hasPhotosAd()) {
             return TYPE_AD;
         }
         return TYPE_ALBUM_ITEMS;

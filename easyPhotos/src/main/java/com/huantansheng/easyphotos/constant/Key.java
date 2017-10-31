@@ -12,8 +12,6 @@ public class Key {
     public static final String IS_SHOW_CAMERA = "keyOfIsShowCamera";
     //是否只启动相机
     public static final String ONLY_START_CAMERA = "keyOfOnlyStartCamera";
-    //临时拍照文件
-    public static final String KEY_TEMP_FILE = "key_temp_file";
     //预览图片的当前角标
     public static final String PREVIEW_PHOTO_INDEX = "keyOfPreviewPhotoIndex";
     //当前预览界面的专辑index

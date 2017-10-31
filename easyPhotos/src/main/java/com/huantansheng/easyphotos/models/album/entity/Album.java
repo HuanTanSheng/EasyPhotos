@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 
 public class Album {
     public ArrayList<AlbumItem> albumItems;
-    public LinkedHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
+    private LinkedHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
 
     public Album() {
         albumItems = new ArrayList<>();
@@ -34,5 +34,9 @@ public class Album {
 
     public AlbumItem getAlbumItem(int currIndex) {
         return albumItems.get(currIndex);
+    }
+
+    public boolean isEmpty() {
+        return albumItems.isEmpty();
     }
 }

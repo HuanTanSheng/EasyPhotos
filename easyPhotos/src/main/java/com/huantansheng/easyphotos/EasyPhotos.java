@@ -3,7 +3,6 @@ package com.huantansheng.easyphotos;
 import android.app.Activity;
 import android.view.View;
 
-import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -109,13 +108,13 @@ public class EasyPhotos {
     /**
      * 是否使用广告
      *
-     * @param albumItemsAdView 是否使用图片列表广告
+     * @param photosAdView 是否使用图片列表广告
      * @param albumItemsAdView 是否使用专辑项目列表广告
-     * @return
+     * @return EasyPhotos
      */
     public EasyPhotos setAdView(View photosAdView, View albumItemsAdView) {
-        Setting.photosAdView = photosAdView;
-        Setting.albumItemsAdView = albumItemsAdView;
+        Setting.photosAdView = new WeakReference<View>(photosAdView);
+        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
         return EasyPhotos.this;
     }
 
