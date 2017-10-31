@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="100dp" />
     <stroke
-        android:width="2dp"
+        android:width="1dp"
         android:color="@color/selector_stroke_easy_photos" />
     <solid android:color="@color/selector_selected_color_easy_photos"/>
 </shape>

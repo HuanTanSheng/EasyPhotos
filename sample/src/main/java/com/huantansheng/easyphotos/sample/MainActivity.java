@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_all_multi://相册多选，有相机功能
                 EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                        .setCount(9)
+                        .setCount(22)
                         .start(101);
                 break;
             case R.id.bt_ad://相册中包含广告

@@ -65,7 +65,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_AD:
-                return new AdViewHolder(mInflater.inflate(R.layout.item_ad, parent, false));
+                return new AdViewHolder(mInflater.inflate(R.layout.item_ad_easy_photos, parent, false));
             default:
                 return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
         }

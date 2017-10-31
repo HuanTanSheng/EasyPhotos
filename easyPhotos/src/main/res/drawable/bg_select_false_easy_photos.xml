@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="100dp" />
+    <corners android:radius="50dp" />
     <stroke
-        android:width="3dp"
-        android:color="@color/text_easy_photos" />
+        android:width="0.5dp"
+        android:color="@color/bottom_bar_easy_photos" />
 
 </shape>
