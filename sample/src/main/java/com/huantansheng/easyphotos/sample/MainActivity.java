@@ -199,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initPhotosAd() {
         photosAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_photos, null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
         ((ImageView) photosAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ic_launcher);
-        ((TextView) photosAdView.findViewById(R.id.tv_title)).setText("我是广告标题");
-        ((TextView) photosAdView.findViewById(R.id.tv_content)).setText("喜欢的话在github上给个star可好？");
+        ((TextView) photosAdView.findViewById(R.id.tv_title)).setText("photosAd广告");
+        ((TextView) photosAdView.findViewById(R.id.tv_content)).setText("github上star一下了解EasyPhotos的最新动态,这个布局和数据都是由你定制的");
         photosAdLoaded = true;
     }
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 ((ImageView) albumItemsAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ic_launcher);
-                ((TextView) albumItemsAdView.findViewById(R.id.tv_title)).setText("广告标题");
+                ((TextView) albumItemsAdView.findViewById(R.id.tv_title)).setText("albumItemsAd广告");
                 photosAdLoaded = true;//正常情况可能不知道是先启动EasyPhotos还是数据先回来，所以这里加个标识，如果是后启动EasyPhotos那么EasyPhotos会直接加载广告
                 EasyPhotos.notifyAlbumItemsAdLoaded();//通知EasyPhotos刷新广告，如果你能确定在启动EasyPhotos前已经装载好广告，那么请忽略EasyPhotos.notifyAlbumItemsAdLoaded()这个方法。
             }

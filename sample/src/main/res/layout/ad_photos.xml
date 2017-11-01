@@ -41,7 +41,6 @@
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/iv_image"
         android:layout_toRightOf="@id/iv_image"
-        android:maxLines="1"
         android:minWidth="100dp"
         android:textColor="@color/text_easy_photos"
         android:textSize="12sp" />
