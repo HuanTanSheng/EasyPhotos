@@ -32,12 +32,23 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="23dp"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/iv_image"
         android:layout_toRightOf="@id/iv_image"
-        android:paddingBottom="8dp"
-        android:text=""
         android:textColor="@color/album_item_name_easy_photos"
         android:textSize="16sp" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="1"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/album_item_count_easy_photos"
+        android:textSize="12sp"
+        android:layout_below="@id/tv_title"
+        android:layout_toRightOf="@id/iv_image"
+        android:layout_toEndOf="@id/iv_image"/>
 </RelativeLayout>
