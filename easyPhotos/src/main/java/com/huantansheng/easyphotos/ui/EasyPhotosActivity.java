@@ -310,7 +310,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             return;
         }
         if (Setting.hasPhotosAd()) {
-            findViewById(R.id.m_back_line).setVisibility(View.GONE);
+            findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
         columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
