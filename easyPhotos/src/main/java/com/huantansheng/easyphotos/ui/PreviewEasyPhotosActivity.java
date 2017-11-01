@@ -264,7 +264,6 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 //        } else if (R.id.tv_edit == id) {
 //
 //        }
-
     }
 
     private void toggleSelector() {
