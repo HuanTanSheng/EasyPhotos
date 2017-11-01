@@ -69,19 +69,11 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         @Override
         public void run() {
             // 延迟显示UI元素
-            AlphaAnimation showAnimation = new AlphaAnimation(0.0f, 1.0f);
-            showAnimation.setDuration(UI_ANIMATION_DELAY);
             mBottomBar.setVisibility(View.VISIBLE);
-            mBottomBar.startAnimation(showAnimation);
         }
     };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
+
     private PressedImageView ivBack;
     private PressedTextView tvEdit;
     private TextView tvSelector;
@@ -109,18 +101,6 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
         initData();
         initView();
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // 启动800毫秒后全屏显示
-        delayedHide(1000);
-    }
-
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
     private void initData() {
