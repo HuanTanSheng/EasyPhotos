@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/photos_line_easy_photos"
     tools:context="com.huantansheng.easyphotos.ui.EasyPhotosActivity">
 
     <View
@@ -63,7 +64,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:background="@color/photos_line_easy_photos"
         app:layout_constraintBottom_toTopOf="@+id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -120,26 +120,26 @@
 
     <com.huantansheng.easyphotos.ui.widget.PressedImageView
         android:id="@+id/iv_album_items"
-        android:paddingTop="8dp"
-        app:srcCompat="@drawable/ic_album_items_name_easy_photos"
-        app:layout_constraintLeft_toRightOf="@id/tv_album_items"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_album_items"
-        app:layout_constraintTop_toTopOf="@id/tv_album_items"
         android:layout_width="wrap_content"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_album_items"
+        app:layout_constraintLeft_toRightOf="@id/tv_album_items"
+        app:layout_constraintTop_toTopOf="@id/tv_album_items"
+        app:srcCompat="@drawable/ic_album_items_name_easy_photos" />
 
     <com.huantansheng.easyphotos.ui.widget.PressedTextView
         android:id="@+id/tv_clear"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="@string/empty_easy_photos"
         android:gravity="center"
         android:minWidth="60dp"
-        android:visibility="gone"
+        android:text="@string/empty_easy_photos"
         android:textColor="@color/text_easy_photos"
-        app:layout_constraintTop_toTopOf="@id/m_bottom_bar"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="@id/m_bottom_bar"
-        app:layout_constraintRight_toRightOf="@id/m_bottom_bar"/>
+        app:layout_constraintRight_toRightOf="@id/m_bottom_bar"
+        app:layout_constraintTop_toTopOf="@id/m_bottom_bar" />
 
 </android.support.constraint.ConstraintLayout>
