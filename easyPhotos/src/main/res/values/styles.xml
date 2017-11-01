@@ -1,15 +1,12 @@
 <resources>
 
     <style name="EasyPhotosFullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:actionBarStyle">@style/EasyPhotosFullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="EasyPhotosFullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay_easy_photos</item>
-    </style>
+
 
 </resources>

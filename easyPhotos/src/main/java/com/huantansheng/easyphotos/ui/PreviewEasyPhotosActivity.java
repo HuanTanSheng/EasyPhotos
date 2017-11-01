@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -103,6 +104,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         initView();
     }
 
+
     private void initData() {
         Intent intent = getIntent();
         int albumItemIndex = intent.getIntExtra(Key.PREVIEW_ALBUM_ITEM_INDEX, 0);
@@ -171,6 +173,12 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     }
 
     @Override
+    public void onPhotoScaleChanged() {
+        if (mVisible)
+            hide();
+    }
+
+    @Override
     public void onBackPressed() {
         doBack();
     }
@@ -196,6 +204,13 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void initRecyclerView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
+        rvPhotos.post(new Runnable() {
+            @SuppressLint("InlinedApi")
+            @Override
+            public void run() {
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            }
+        });
         adapter = new PreviewPhotosAdapter(this, photos, this);
         lm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvPhotos.setLayoutManager(lm);

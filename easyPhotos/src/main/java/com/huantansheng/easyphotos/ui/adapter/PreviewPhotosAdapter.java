@@ -2,6 +2,7 @@ package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.chrisbanes.photoview.OnScaleChangedListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
@@ -30,6 +32,8 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     public interface OnClickListener {
         void onPhotoClick();
+
+        void onPhotoScaleChanged();
     }
 
     public PreviewPhotosAdapter(Context cxt, ArrayList<PhotoItem> photos, OnClickListener listener) {
@@ -54,6 +58,12 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
             @Override
             public void onClick(View v) {
                 listener.onPhotoClick();
+            }
+        });
+        holder.ivPhoto.setOnScaleChangeListener(new OnScaleChangedListener() {
+            @Override
+            public void onScaleChange(float scaleFactor, float focusX, float focusY) {
+                listener.onPhotoScaleChanged();
             }
         });
     }
