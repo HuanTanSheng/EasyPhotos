@@ -98,7 +98,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
-        EasyPhotos.setAdListener(this);
         initConfig();
         mBottomBar = findViewById(R.id.m_bottom_bar);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
@@ -309,6 +308,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             else finish();
             return;
         }
+        EasyPhotos.setAdListener(this);
         if (Setting.hasPhotosAd()) {
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
