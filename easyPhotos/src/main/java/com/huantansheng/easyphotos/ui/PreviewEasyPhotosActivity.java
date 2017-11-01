@@ -258,11 +258,12 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
             updateSelector();
         } else if (R.id.iv_selector == id) {
             updateSelector();
-        } else if (R.id.m_bottom_bar == id) {
-
-        } else if (R.id.tv_edit == id) {
-
         }
+//        else if (R.id.m_bottom_bar == id) {
+//
+//        } else if (R.id.tv_edit == id) {
+//
+//        }
 
     }
 
