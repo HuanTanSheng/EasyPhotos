@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.huantansheng.easyphotos.sample">
 
     <application
@@ -27,11 +28,16 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <!-- <activity -->
-        <!-- android:name="com.huantansheng.easyphotos.ui.EasyPhotosActivity" -->
-        <!-- android:screenOrientation="unspecified" -->
-        <!-- xmlns:tools="http://schemas.android.com/tools" -->
-        <!-- tools:replace="android:screenOrientation"/> -->
+
+         <!--<activity-->
+         <!--android:name="com.huantansheng.easyphotos.ui.EasyPhotosActivity"-->
+         <!--android:screenOrientation="unspecified"-->
+         <!--tools:replace="android:screenOrientation"/>-->
+
+        <!--<activity-->
+            <!--android:name="com.huantansheng.easyphotos.ui.PreviewEasyPhotosActivity"-->
+            <!--android:screenOrientation="unspecified" -->
+            <!--tools:replace="android:screenOrientation"/>-->
     </application>
 
 </manifest>
