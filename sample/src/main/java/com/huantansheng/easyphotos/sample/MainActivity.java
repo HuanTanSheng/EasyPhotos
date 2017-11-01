@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initPhotosAd() {
         photosAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_photos, null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
-        ((ImageView) photosAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ic_launcher);
+//        ((ImageView) photosAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ic_launcher);
         ((TextView) photosAdView.findViewById(R.id.tv_title)).setText("photosAd广告");
         ((TextView) photosAdView.findViewById(R.id.tv_content)).setText("github上star一下了解EasyPhotos的最新动态,这个布局和数据都是由你定制的");
         photosAdLoaded = true;

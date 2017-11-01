@@ -4,7 +4,6 @@
     android:id="@+id/root_view_ad"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:background="@color/tool_bar_easy_photos"
     android:padding="8dp">
 
@@ -13,6 +12,7 @@
         android:id="@+id/iv_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:visibility="gone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
