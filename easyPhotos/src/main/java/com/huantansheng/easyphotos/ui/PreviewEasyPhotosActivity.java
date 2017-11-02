@@ -3,6 +3,7 @@ package com.huantansheng.easyphotos.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -54,15 +55,25 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            if (Build.VERSION.SDK_INT >= 19) {
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            } else if (Build.VERSION.SDK_INT >= 16) {
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            } else {
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            }
         }
     };
     private RelativeLayout mBottomBar;
@@ -155,11 +166,13 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
-    @SuppressLint("InlinedApi")
+
     private void show() {
         // Show the system bar
-        rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        if(Build.VERSION.SDK_INT >=16) {
+            rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay
@@ -204,13 +217,15 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void initRecyclerView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
-        rvPhotos.post(new Runnable() {
-            @SuppressLint("InlinedApi")
-            @Override
-            public void run() {
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-            }
-        });
+        if (Build.VERSION.SDK_INT >= 16) {
+            rvPhotos.post(new Runnable() {
+                @SuppressLint("InlinedApi")
+                @Override
+                public void run() {
+                    rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+                }
+            });
+        }
         adapter = new PreviewPhotosAdapter(this, photos, this);
         lm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvPhotos.setLayoutManager(lm);
