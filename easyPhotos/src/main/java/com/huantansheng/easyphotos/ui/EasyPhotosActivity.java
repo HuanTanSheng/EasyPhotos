@@ -269,6 +269,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                             mTempImageFile = null;
                         }
                     }
+                    if (onlyStartCamera) {
+                        finish();
+                    }
                     return;
                 }
                 break;
