@@ -53,8 +53,6 @@ import java.util.Locale;
 
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
 
-    private static final String TAG = "EasyPhotosActivity";
-
     private boolean isShowCamera, onlyStartCamera;
 
     private String fileProviderText;//fileProvider的authorities字符串
@@ -174,7 +172,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
      */
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(fileProviderText))
-            throw new RuntimeException(TAG + " : please set fileProviderText");
+            throw new RuntimeException("EasyPhotos" + " : 请执行 setFileProviderAuthoritiesText()方法");
         toAndroidCamera(requestCode);
     }
 
