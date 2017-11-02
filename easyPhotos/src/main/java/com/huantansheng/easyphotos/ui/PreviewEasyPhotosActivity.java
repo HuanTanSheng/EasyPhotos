@@ -169,7 +169,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void show() {
         // Show the system bar
-        if(Build.VERSION.SDK_INT >=16) {
+        if (Build.VERSION.SDK_INT >= 16) {
             rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
@@ -217,15 +217,14 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void initRecyclerView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
-        if (Build.VERSION.SDK_INT >= 16) {
-            rvPhotos.post(new Runnable() {
-                @SuppressLint("InlinedApi")
-                @Override
-                public void run() {
+        rvPhotos.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= 16) {
                     rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
                 }
-            });
-        }
+            }
+        });
         adapter = new PreviewPhotosAdapter(this, photos, this);
         lm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvPhotos.setLayoutManager(lm);
