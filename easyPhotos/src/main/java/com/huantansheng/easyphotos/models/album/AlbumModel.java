@@ -32,21 +32,6 @@ public class AlbumModel {
     private Album album;
     private CallBack callBack;
 
-
-    private final String[] projections = {
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.DATE_ADDED,
-            MediaStore.Images.Media.MIME_TYPE,
-            MediaStore.Images.Media.WIDTH,
-            MediaStore.Images.Media.HEIGHT};
-
-    private final String[] projectionsForMinApi = {
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.DATE_ADDED,
-            MediaStore.Images.Media.MIME_TYPE};
-
     public interface CallBack {
         void onAlbumWorkedCallBack();
 
@@ -97,12 +82,24 @@ public class AlbumModel {
         String sortOrder = MediaStore.Images.Media.DATE_ADDED + " DESC";
 
         ContentResolver contentResolver = act.getContentResolver();
-        Cursor cursor = null;
+        String[] projections = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            cursor = contentResolver.query(contentUri, projections, null, null, sortOrder);
+            projections = new String[]{
+                    MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.MIME_TYPE,
+                    MediaStore.Images.Media.WIDTH,
+                    MediaStore.Images.Media.HEIGHT};
+
         } else {
-            cursor = contentResolver.query(contentUri, projectionsForMinApi, null, null, sortOrder);
+            projections = new String[]{
+                    MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.MIME_TYPE};
         }
+        Cursor cursor  = contentResolver.query(contentUri, projections, null, null, sortOrder);
         if (cursor == null) {
             Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
