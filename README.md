@@ -172,7 +172,8 @@ EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
    
 #### 回调，获取选中图片路径地址集合
 ------
-在 `onActivityResult()` 方法中获取EasyPhotos的回调图片集合:
+在 `onActivityResult()` 方法中获取EasyPhotos的回调图片集合:  
+ - data.getStringArrayListExtra(EasyPhotos.RESULT)
   
   
 ```java  
@@ -189,7 +190,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }  
 
 ```    
-主要是这句，她将返回所有选中图片的地址集合 <font color=#3F51B5>data.getStringArrayListExtra(EasyPhotos.RESULT)</font>
+
   
 #### 关于EasyPhotos的横竖屏  
 EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在`manifests`文件里添加:  
