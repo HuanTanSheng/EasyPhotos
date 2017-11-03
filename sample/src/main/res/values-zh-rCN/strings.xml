@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">EasyPhotos</string>
     <string name="selector_folder_all_easy_photos">所有图片</string>
     <string name="selector_easy_photos">选择</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
@@ -23,5 +24,4 @@
 
     <string name="permissions_again">请允许相关权限</string>
     <string name="permissions_die">请在设置中允许相关权限</string>
-
 </resources>

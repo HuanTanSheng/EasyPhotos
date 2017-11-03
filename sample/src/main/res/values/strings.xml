@@ -1,9 +1,27 @@
 <resources>
-    <string name="app_name">EasyPhotos-master</string>
+    <string name="app_name">EasyPhotos</string>
+    <string name="selector_folder_all_easy_photos">All Images</string>
+    <string name="selector_easy_photos">Select</string>
+    <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
+    <string name="selector_action_done_easy_photos">Done (%1$d/%2$d)</string>
+    <string name="selector_preview_easy_photos">Preview</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="selector_reach_max_image_hint_easy_photos">You have selected %d images already!</string>
+    <string name="msg_no_camera_easy_photos">Can\'t Launch Camera!</string>
+    <string name="camera_temp_file_error_easy_photos">Temp File Error!</string>
 
-    <string name="title_activity_fullscreen2">s</string>
+    <string name="selector_permission_error_easy_photos">Permission rejected,failed to work properly！</string>
+
+    <string name="selector_image_size_error_easy_photos">Picture width must be greater than %1$d,the height must be greater than %2$d</string>
+
+    <string name="selector_image_type_error_easy_photos">This picture format is not supported</string>
+
+    <string name="edit_easy_photos">Edit</string>
+
+    <string name="empty_easy_photos">Empty</string>
+
+    <string name="no_photos">Do not meet the requirements of the picture, take one</string>
+
+    <string name="permissions_again">Please grant relevant permissions</string>
+    <string name="permissions_die">Please allow related permissions in the settings</string>
 </resources>

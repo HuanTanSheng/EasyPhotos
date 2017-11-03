@@ -1,26 +1,26 @@
 <resources>
-    <string name="selector_folder_all_easy_photos">All Images</string>
-    <string name="selector_easy_photos">Select</string>
+    <string name="selector_folder_all_easy_photos">所有图片</string>
+    <string name="selector_easy_photos">选择</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
-    <string name="selector_action_done_easy_photos">Done (%1$d/%2$d)</string>
-    <string name="selector_preview_easy_photos">Preview</string>
+    <string name="selector_action_done_easy_photos">完成(%1$d/%2$d)</string>
+    <string name="selector_preview_easy_photos">预览</string>
 
-    <string name="selector_reach_max_image_hint_easy_photos">You have selected %d images already!</string>
-    <string name="msg_no_camera_easy_photos">Can\'t Launch Camera!</string>
-    <string name="camera_temp_file_error_easy_photos">Temp File Error!</string>
+    <string name="selector_reach_max_image_hint_easy_photos">最多只能选择%d张图片</string>
+    <string name="msg_no_camera_easy_photos">无法启动相机！</string>
+    <string name="camera_temp_file_error_easy_photos">图片错误</string>
 
-    <string name="selector_permission_error_easy_photos">Permission rejected,failed to work properly！</string>
+    <string name="selector_permission_error_easy_photos">权限错误，无法正常工作！</string>
 
-    <string name="selector_image_size_error_easy_photos">Picture width must be greater than %1$d,the height must be greater than %2$d</string>
+    <string name="selector_image_size_error_easy_photos">图片的宽度必须大于%1$d,高度必须大于%2$d</string>
 
-    <string name="selector_image_type_error_easy_photos">This picture format is not supported</string>
+    <string name="selector_image_type_error_easy_photos">不支持此图片格式</string>
 
-    <string name="edit_easy_photos">Edit</string>
+    <string name="edit_easy_photos">编辑</string>
 
-    <string name="empty_easy_photos">Empty</string>
+    <string name="empty_easy_photos">清空</string>
 
-    <string name="no_photos">Do not meet the requirements of the picture, take one</string>
+    <string name="no_photos">没有符合要求的图片，拍一张吧</string>
 
-    <string name="permissions_again">Please grant relevant permissions</string>
-    <string name="permissions_die">Please allow related permissions in the settings</string>
+    <string name="permissions_again">请允许相关权限</string>
+    <string name="permissions_die">请在设置中允许相关权限</string>
 </resources>

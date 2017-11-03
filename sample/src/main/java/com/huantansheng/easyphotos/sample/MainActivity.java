@@ -149,13 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .start(101);
                 break;
             case R.id.bt_ad://相册中包含广告
-                //需要在启动前创建广告view
+                // 需要在启动前创建广告view
                 // 广告view不能有父布局
                 // 广告view可以包含子布局
-                // 为了确保广告view地址不变，设置final会更安全
+                // 广告View的数据可以在任何时候绑定
                 initAdViews();
 
-                //启动方法，装在广告view
+                //启动方法，装载广告view
                 EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)

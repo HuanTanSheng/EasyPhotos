@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">EasyPhotos</string>
     <string name="selector_folder_all_easy_photos">Toda la imagen</string>
     <string name="selector_easy_photos">Seleccionar</string>
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->

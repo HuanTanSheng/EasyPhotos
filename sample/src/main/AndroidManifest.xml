@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.huantansheng.easyphotos.sample">
 
     <application
@@ -36,7 +35,7 @@
 
         <!--<activity-->
             <!--android:name="com.huantansheng.easyphotos.ui.PreviewEasyPhotosActivity"-->
-            <!--android:screenOrientation="unspecified" -->
+        <!--android:screenOrientation="landscape"-->
             <!--tools:replace="android:screenOrientation"/>-->
     </application>
 
