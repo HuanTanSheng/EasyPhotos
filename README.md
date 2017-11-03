@@ -119,14 +119,14 @@ configurations.all {
 #### 关于权限
 ------
 你不需要进行任何权限配置，也不用考虑运行时权限的问题，EasyPhotos内部都已经处理好了:
-- `android.permission.CAMERA
+- `android.permission.CAMERA`
 - `android.permission.READ_EXTERNAL_STORAGE`
 - `android.permission.WRITE_EXTERNAL_STORAGE`
 
 
 #### 启动EasyPhotos
 ------
-单独使用相机
+单独使用相机  
 ```java
 EasyPhotos.with(this, EasyPhotos.StartupType.CAMERA)
           .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
@@ -297,7 +297,8 @@ EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样�
     <string name="permissions_die">请在设置中允许相关权限</string>    
     
 ```  
-
+  
+- 示例中的主页并没有做多语言，所以无论你如何切换语言她都将是中文简体，但是跳转EasyPhotos的相册后将会呈现多语言
 
 
 ## 感谢 
