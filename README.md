@@ -301,7 +301,7 @@ EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样�
 
 
 ## 感谢 
-[Glide](https://github.com/bumptech/glide) :  我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech 团队编写    
+[Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
 
 [PhotoView](https://github.com/chrisbanes/PhotoView)：一个强大的图片缩放库，由[chrisbanes](https://github.com/chrisbanes) 大神编写    
 
