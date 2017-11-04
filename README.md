@@ -78,8 +78,10 @@ dependencies {
     
       
 - 如果在引用的时候发生如下错误：  
-Error:Failed to resolve: annotationProcessor
-Error:Failed to resolve: com.android.support:support-annotations:26.0.2
+Error:Failed to resolve: annotationProcessor  
+
+Error:Failed to resolve: com.android.support:support-annotations:26.0.2  
+
   
 这个应该是引用Glide时发生的，你需要在`build.gradle（module）` 文件里面添加：  
 ```gradle  
