@@ -114,7 +114,7 @@ configurations.all {
 **[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理
 
 
-## 你需要知道的一些事情
+## 简要说明与用法介绍
 #### 关于权限
 ------
 你不需要进行任何权限配置，也不用考虑运行时权限的问题，EasyPhotos内部都已经处理好了，但是我还是要告诉你EasyPhotos都用了哪些权限，她们是:
