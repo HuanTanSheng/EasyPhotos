@@ -78,11 +78,8 @@ dependencies {
     
       
 - 如果在引用的时候发生如下错误：  
-Error:Failed to resolve: annotationProcessor  
-
-Error:Failed to resolve: com.android.support:support-annotations:26.0.2  
-
-  
+Error:Failed to resolve: annotationProcessor     
+Error:Failed to resolve: com.android.support:support-annotations:26.0.2     
 这个应该是引用Glide时发生的，你需要在`build.gradle（module）` 文件里面添加：  
 ```gradle  
 
@@ -208,7 +205,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
   
 #### 关于EasyPhotos的横竖屏  
-EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在`manifests`文件里添加:  
+EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你的`manifests`文件里添加:  
 ```java  
 
          <activity
