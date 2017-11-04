@@ -183,7 +183,7 @@ EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
    
    
 #### 回调，获取选中图片路径地址集合
-------
+------  
 在 `onActivityResult()` 方法中获取EasyPhotos的回调图片集合:  
  - data.getStringArrayListExtra(EasyPhotos.RESULT)
   
@@ -204,7 +204,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```    
 
   
-#### 关于EasyPhotos的横竖屏  
+#### 关于EasyPhotos的横竖屏  
+------
 EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你的`manifests`文件里添加:  
 ```java  
 
@@ -220,9 +221,9 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
             
 ```
   
-#### 自定义样式  
-
-如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  
+#### 自定义样式  
+------ 
+如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  -
 
 ```java  
 
@@ -259,8 +260,9 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
 ```
     
   
-#### 多语言  
-
+#### 多语言  
+------ 
+ 
 EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样是一名多语言程序开发者，那么你可以在我的示例程序中找到简体/繁体/英文/西班牙语/日语/韩语的string文件（英文在默认文件夹内），如果还不能满足你，可以在你的多语言`string`文件中添加：    
 
 ```java    
