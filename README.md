@@ -228,20 +228,20 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
 ```java  
 
     <!--顶部栏-->
-    <color name="tool_bar_easy_photos">#393a3f</color>顶部栏的背景颜色303135
-    <color name="tool_bar_bottom_line_easy_photos">#303135</color>顶部栏的底端线颜色，主要用于Z轴的视觉效果
-    <color name="back_line_easy_photos">#303135</color>顶部栏返回按钮右侧的分割线颜色
+    <color name="tool_bar_easy_photos">#393a3f</color>//顶部栏的背景颜色303135
+    <color name="tool_bar_bottom_line_easy_photos">#303135</color>//顶部栏的底端线颜色，主要用于Z轴的视觉效果
+    <color name="back_line_easy_photos">#303135</color>//顶部栏返回按钮右侧的分割线颜色
     <!--底部栏-->
     <color name="bottom_bar_easy_photos">#393a3f</color>//底部栏的背景颜色
     <!--顶部栏和底部栏文字-->    <!--返回按钮-->
     <color name="text_easy_photos">#FFFFFF</color>//文字颜色——默认，返回图标也是该颜色
-    <color name="text_unable_easy_photos">#9b9b9b</color>文字颜色——不可用状态
+    <color name="text_unable_easy_photos">#9b9b9b</color>//文字颜色——不可用状态
     <!--完成按钮-->
     <color name="menu_easy_photos">#00AA00</color>//完成按钮的背景色——可用状态
-    <color name="menu_unable_easy_photos">#277327</color>完成按钮的背景色——不可用状态
-    <color name="menu_easy_stroke_photos">#6800aa00</color>完成按钮的边框颜色，主要用于Z轴的视觉效果
+    <color name="menu_unable_easy_photos">#277327</color>//完成按钮的背景色——不可用状态
+    <color name="menu_easy_stroke_photos">#6800aa00</color>//完成按钮的边框颜色，主要用于Z轴的视觉效果
     <!--相机-->
-    <color name="camera_easy_photos">#00AA00</color>
+    <color name="camera_easy_photos">#00AA00</color>//相册界面相机图标的颜色  
     <!--photo选择器-->
     <color name="selector_stroke_easy_photos">#FFFFFF</color>//图片选择器的边框颜色
     <color name="selector_selected_color_easy_photos">#00AA00</color>//图片选择器选中状态的填充颜色
