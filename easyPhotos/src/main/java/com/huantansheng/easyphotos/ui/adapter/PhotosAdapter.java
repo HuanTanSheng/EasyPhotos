@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,17 +39,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     boolean unable, isSingle;
     int singlePosition;
     private int padding = 0;
-
-    public interface OnClickListener {
-        void onPhotoClick(int position, int realPosition);
-
-        void onSelectorOutOfMax();
-
-        void onSelectorChanged();
-
-        void onCameraClicked();
-    }
-
 
     public PhotosAdapter(Context cxt, ArrayList<Object> dataList, OnClickListener listener) {
         this.dataList = dataList;
@@ -160,6 +150,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             if (null != weakReference) {
                 View adView = (View) weakReference.get();
                 if (null != adView) {
+                    if (null != adView.getParent()) {
+                        if (adView.getParent() instanceof FrameLayout) {
+                            ((FrameLayout) adView.getParent()).removeAllViews();
+                        }
+                    }
                     ((AdViewHolder) holder).adFrame.addView(adView);
                 }
             }
@@ -219,6 +214,16 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             return TYPE_AD;
         }
         return TYPE_ALBUM_ITEMS;
+    }
+
+    public interface OnClickListener {
+        void onPhotoClick(int position, int realPosition);
+
+        void onSelectorOutOfMax();
+
+        void onSelectorChanged();
+
+        void onCameraClicked();
     }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {

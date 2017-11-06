@@ -110,6 +110,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             launchCamera(Code.CODE_REQUEST_CAMERA);
             return;
         }
+        AlbumModel.clear();
         albumModel = AlbumModel.getInstance(this, isShowCamera, this);
     }
 
@@ -279,7 +280,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void onCameraResult(File imageFile) {
-        MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
+        MediaScannerConnectionUtils.refresh(getApplicationContext(), imageFile);// 更新媒体库
         Intent data = new Intent();
         resultList.add(imageFile.getAbsolutePath());
         data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
