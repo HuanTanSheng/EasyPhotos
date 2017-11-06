@@ -313,11 +313,11 @@ EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样�
 
     <string name="empty_easy_photos">清空</string>
 
-    <string name="no_photos">没有符合要求的图片，拍一张吧</string>
+    <string name="no_photos_easy_photos">没有符合要求的图片，拍一张吧</string>
 
-    <string name="permissions_again">请允许相关权限</string>
+    <string name="permissions_again_easy_photos">请允许相关权限</string>
     
-    <string name="permissions_die">请在设置中允许相关权限</string>    
+    <string name="permissions_die_easy_photos">请在设置中允许相关权限</string>    
     
 ``` 
 - 示例中的主页并没有做多语言，所以无论你如何切换语言她都将是中文简体，但是跳转EasyPhotos的相册后将会呈现多语言
