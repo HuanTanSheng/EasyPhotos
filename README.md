@@ -203,12 +203,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ```    
 #### FileProvider的配置    
- ------  
+------  
 在android7.0之后必须加入FileProvider的配置才能获取拍照的照片，在你App的`manifests`文件里添加:    
 ```java
 	<provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.huantansheng.easyphotos.sample.fileprovider"//别忘了换成你自己的包名~
+            android:authorities="com.huantansheng.easyphotos.sample.fileprovider"//别忘了换成你自己的包名,另外这个字符串就是EasyPhotos.setFileProviderAuthoritiesText()的参数
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
