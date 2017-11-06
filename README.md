@@ -63,7 +63,7 @@ allprojects {
 ```gradle
 dependencies {
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:最新版本号'
+    compile 'com.github.HuanTanSheng:easyPhotos:1.0.5'
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
@@ -71,15 +71,10 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }
 ```    
-[查看 EasyPhotos 的最新版本号](https://github.com/HuanTanSheng/EasyPhotos/releases) .    
-[查看 EasyPhotos 的最新版本号](https://github.com/HuanTanSheng/EasyPhotos/releases) .    
-[查看 EasyPhotos 的最新版本号](https://github.com/HuanTanSheng/EasyPhotos/releases) .    
-
 
 为什么要添加Glide和PhotoView的引用呢？  
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，所以你在实际项目中需要对他进行依赖。  
-    
       
 - 如果在引用的时候发生如下错误：  
 Error:Failed to resolve: annotationProcessor     
