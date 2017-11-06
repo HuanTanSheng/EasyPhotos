@@ -75,10 +75,22 @@ dependencies {
 为什么要添加Glide和PhotoView的引用呢？  
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，所以你在实际项目中需要对他进行依赖。  
-  
-  
-  
-  
+    
+      
+- 如果在引用的时候发生如下错误：  
+Error:Failed to resolve: annotationProcessor     
+Error:Failed to resolve: com.android.support:support-annotations:26.0.2     
+这个应该是引用Glide时发生的，你需要在`build.gradle（module）` 文件里面添加：  
+```gradle  
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:23.1.1'
+}  
+
+```    
+    
+如果不知道在文件的什么地方添加可以看我的示例中是如何添加的
+  
 ## 混淆    
   
 **EasyPhotos的混淆：**  
@@ -102,18 +114,18 @@ dependencies {
 **[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理
 
 
-## 你需要知道的一些事情
+## 简要说明与用法介绍
 #### 关于权限
 ------
-你不需要进行任何权限配置，也不用考虑运行时权限的问题，EasyPhotos内部都已经处理好了:
-- `android.permission.CAMERA
+你不需要进行任何权限配置，也不用考虑运行时权限的问题，EasyPhotos内部都已经处理好了，但是我还是要告诉你EasyPhotos都用了哪些权限，她们是:
+- `android.permission.CAMERA`
 - `android.permission.READ_EXTERNAL_STORAGE`
 - `android.permission.WRITE_EXTERNAL_STORAGE`
 
 
 #### 启动EasyPhotos
 ------
-单独使用相机
+单独使用相机  
 ```java
 EasyPhotos.with(this, EasyPhotos.StartupType.CAMERA)
           .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
@@ -171,7 +183,7 @@ EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
    
    
 #### 回调，获取选中图片路径地址集合
-------
+------  
 在 `onActivityResult()` 方法中获取EasyPhotos的回调图片集合:  
  - data.getStringArrayListExtra(EasyPhotos.RESULT)
   
@@ -190,12 +202,35 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }  
 
 ```    
-
-  
-#### 关于EasyPhotos的横竖屏  
-EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在`manifests`文件里添加:  
-```java  
-
+#### FileProvider的配置    
+------  
+在android7.0之后必须加入FileProvider的配置才能获取拍照的照片，在你App的`manifests`文件里添加:    
+```java
+	<provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.huantansheng.easyphotos.sample.fileprovider"//别忘了换成你自己的包名,另外这个字符串就是EasyPhotos.setFileProviderAuthoritiesText()的参数
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>     
+```  
+- `file_paths_public`文件需要你在App的`res`文件夹下的`xml`文件夹里自己创建，，内容如下：    
+```java
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <root-path
+            name="camera_photos"
+            path="" />
+    </paths>
+</resources>        
+```
+#### 关于EasyPhotos的横竖屏  
+------
+EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你App的`manifests`文件里添加:  
+```java
          <activity
          android:name="com.huantansheng.easyphotos.ui.EasyPhotosActivity"
          android:screenOrientation="你需要的方式"
@@ -204,31 +239,29 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
         <activity
             android:name="com.huantansheng.easyphotos.ui.PreviewEasyPhotosActivity"
             android:screenOrientation="你需要的方式"
-            tools:replace="android:screenOrientation"/>    
-            
+            tools:replace="android:screenOrientation"/>
 ```
-  
-#### 自定义样式  
-
-如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  
+#### 自定义样式    
+------    
+如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  -
 
 ```java  
 
     <!--顶部栏-->
-    <color name="tool_bar_easy_photos">#393a3f</color>顶部栏的背景颜色303135
-    <color name="tool_bar_bottom_line_easy_photos">#303135</color>顶部栏的底端线颜色，主要用于Z轴的视觉效果
-    <color name="back_line_easy_photos">#303135</color>顶部栏返回按钮右侧的分割线颜色
+    <color name="tool_bar_easy_photos">#393a3f</color>//顶部栏的背景颜色303135
+    <color name="tool_bar_bottom_line_easy_photos">#303135</color>//顶部栏的底端线颜色，主要用于Z轴的视觉效果
+    <color name="back_line_easy_photos">#303135</color>//顶部栏返回按钮右侧的分割线颜色
     <!--底部栏-->
     <color name="bottom_bar_easy_photos">#393a3f</color>//底部栏的背景颜色
     <!--顶部栏和底部栏文字-->    <!--返回按钮-->
     <color name="text_easy_photos">#FFFFFF</color>//文字颜色——默认，返回图标也是该颜色
-    <color name="text_unable_easy_photos">#9b9b9b</color>文字颜色——不可用状态
+    <color name="text_unable_easy_photos">#9b9b9b</color>//文字颜色——不可用状态
     <!--完成按钮-->
     <color name="menu_easy_photos">#00AA00</color>//完成按钮的背景色——可用状态
-    <color name="menu_unable_easy_photos">#277327</color>完成按钮的背景色——不可用状态
-    <color name="menu_easy_stroke_photos">#6800aa00</color>完成按钮的边框颜色，主要用于Z轴的视觉效果
+    <color name="menu_unable_easy_photos">#277327</color>//完成按钮的背景色——不可用状态
+    <color name="menu_easy_stroke_photos">#6800aa00</color>//完成按钮的边框颜色，主要用于Z轴的视觉效果
     <!--相机-->
-    <color name="camera_easy_photos">#00AA00</color>
+    <color name="camera_easy_photos">#00AA00</color>//相册界面相机图标的颜色  
     <!--photo选择器-->
     <color name="selector_stroke_easy_photos">#FFFFFF</color>//图片选择器的边框颜色
     <color name="selector_selected_color_easy_photos">#00AA00</color>//图片选择器选中状态的填充颜色
@@ -247,7 +280,8 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
 ```
     
   
-#### 多语言  
+#### 多语言    
+------    
 
 EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样是一名多语言程序开发者，那么你可以在我的示例程序中找到简体/繁体/英文/西班牙语/日语/韩语的string文件（英文在默认文件夹内），如果还不能满足你，可以在你的多语言`string`文件中添加：    
 
@@ -283,12 +317,12 @@ EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样�
     
     <string name="permissions_die">请在设置中允许相关权限</string>    
     
-```  
-
+``` 
+- 示例中的主页并没有做多语言，所以无论你如何切换语言她都将是中文简体，但是跳转EasyPhotos的相册后将会呈现多语言
 
 
 ## 感谢 
-[Glide](https://github.com/bumptech/glide): 我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech 团队编写    
+[Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
 
 [PhotoView](https://github.com/chrisbanes/PhotoView)：一个强大的图片缩放库，由[chrisbanes](https://github.com/chrisbanes) 大神编写    
 
