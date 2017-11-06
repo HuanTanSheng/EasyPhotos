@@ -77,9 +77,9 @@ dependencies {
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，所以你在实际项目中需要对他进行依赖。  
       
 - 如果在引用的时候发生如下错误：  
-Error:Failed to resolve: annotationProcessor     
+Error:Failed to resolve: annotationProcessor   
 Error:Failed to resolve: com.android.support:support-annotations:26.0.2     
-这个应该是引用Glide时发生的，你需要在`build.gradle（module）` 文件里面添加：  
+这个应该是引用Glide时发生的，如果你不知道如何解决，可以在你的`build.gradle（module）` 文件里面添加：  
 ```gradle  
 
 configurations.all {
@@ -87,10 +87,9 @@ configurations.all {
 }  
 
 ```    
-    
-如果不知道在文件的什么地方添加可以看我的示例中是如何添加的
+- 如果你有更好的解决方法，希望你能告诉我，谢谢~
   
-## 混淆    
+## 关于混淆    
   
 **EasyPhotos的混淆：**  
 ```pro  
@@ -103,9 +102,10 @@ configurations.all {
 ```pro  
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
+    **[] $VALUES;
+    public *;
 }
 
 ```
@@ -120,7 +120,7 @@ configurations.all {
 - `android.permission.CAMERA`
 - `android.permission.READ_EXTERNAL_STORAGE`
 - `android.permission.WRITE_EXTERNAL_STORAGE`
-
+- `android.permission.MOUNT_UNMOUNT_FILESYSTEMS`
 
 #### 启动EasyPhotos
 ------
