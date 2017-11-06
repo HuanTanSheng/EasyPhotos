@@ -116,9 +116,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     protected String[] getNeedPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
         }
-        return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
     }
 
     @Override
@@ -280,7 +280,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void onCameraResult(File imageFile) {
-        MediaScannerConnectionUtils.refresh(getApplicationContext(), imageFile);// 更新媒体库
+        MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
         Intent data = new Intent();
         resultList.add(imageFile.getAbsolutePath());
         data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);

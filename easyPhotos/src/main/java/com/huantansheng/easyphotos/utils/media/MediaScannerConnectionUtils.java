@@ -13,7 +13,7 @@ import java.io.File;
 public class MediaScannerConnectionUtils {
 
     private static void refresh(Context cxt, String... filePath) {
-        MediaScannerConnection.scanFile(cxt,
+        MediaScannerConnection.scanFile(cxt.getApplicationContext(),
                 filePath, null,
                 null);
     }
