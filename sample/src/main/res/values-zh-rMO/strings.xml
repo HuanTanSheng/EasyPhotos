@@ -20,8 +20,8 @@
 
     <string name="empty_easy_photos">清空</string>
 
-    <string name="no_photos">沒有符合要求的圖片，拍一張吧</string>
+    <string name="no_photos_easy_photos">沒有符合要求的圖片，拍一張吧</string>
 
-    <string name="permissions_again">請賦予相關許可權</string>
-    <string name="permissions_die">請在設定中允許相關許可權</string>
+    <string name="permissions_again_easy_photos">請賦予相關許可權</string>
+    <string name="permissions_die_easy_photos">請在設定中允許相關許可權</string>
 </resources>

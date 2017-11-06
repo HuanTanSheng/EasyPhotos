@@ -20,8 +20,8 @@
 
     <string name="empty_easy_photos">クリア</string>
 
-    <string name="no_photos">要求されている画像と、一枚撮りましょう</string>
+    <string name="no_photos_easy_photos">要求されている画像と、一枚撮りましょう</string>
 
-    <string name="permissions_again">関連権限を与えてください</string>
-    <string name="permissions_die">設置中に関連する権限を許可して下さい</string>
+    <string name="permissions_again_easy_photos">関連権限を与えてください</string>
+    <string name="permissions_die_easy_photos">設置中に関連する権限を許可して下さい</string>
 </resources>

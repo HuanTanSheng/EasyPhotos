@@ -132,7 +132,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
             @Override
             public void onShouldShow() {
-                Snackbar.make(mBottomBar, R.string.permissions_again, Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(mBottomBar, R.string.permissions_again_easy_photos, Snackbar.LENGTH_INDEFINITE)
                         .setAction("go", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -146,7 +146,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
             @Override
             public void onFailed() {
-                Snackbar.make(mBottomBar, R.string.permissions_die, Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(mBottomBar, R.string.permissions_die_easy_photos, Snackbar.LENGTH_INDEFINITE)
                         .setAction("go", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -305,7 +305,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void initView() {
         if (albumModel.getAlbumItems().isEmpty()) {
-            Toast.makeText(this, R.string.no_photos, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_SHORT).show();
             if (isShowCamera) launchCamera(Code.CODE_REQUEST_CAMERA);
             else finish();
             return;

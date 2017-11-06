@@ -20,8 +20,8 @@
 
     <string name="empty_easy_photos">Vaciar</string>
 
-    <string name="no_photos">No cumplen los requisitos de la imagen, una fotografía.</string>
+    <string name="no_photos_easy_photos">No cumplen los requisitos de la imagen, una fotografía.</string>
 
-    <string name="permissions_again">Por favor, dar los permisos</string>
-    <string name="permissions_die">Por favor, en la configuracion de las competencias permite</string>
+    <string name="permissions_again_easy_photos">Por favor, dar los permisos</string>
+    <string name="permissions_die_easy_photos">Por favor, en la configuracion de las competencias permite</string>
 </resources>
