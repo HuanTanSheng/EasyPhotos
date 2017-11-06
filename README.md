@@ -202,12 +202,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }  
 
 ```    
-    
 #### FileProvider的配置    
-------    
+ ------  
 在android7.0之后必须加入FileProvider的配置才能获取拍照的照片，在你App的`manifests`文件里添加:    
-```java  
-
+```java
 	<provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.huantansheng.easyphotos.sample.fileprovider"//别忘了换成你自己的包名~
@@ -216,11 +214,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
-        </provider>   
-            
-```    
+        </provider>     
+```  
 - `file_paths_public`文件需要你在App的`res`文件夹下的`xml`文件夹里自己创建，，内容如下：    
-```java  
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <paths>
@@ -228,16 +225,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             name="camera_photos"
             path="" />
     </paths>
-</resources>
-            
-```    
-
-
+</resources>        
+```
 #### 关于EasyPhotos的横竖屏  
 ------
 EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你App的`manifests`文件里添加:  
-```java  
-
+```java
          <activity
          android:name="com.huantansheng.easyphotos.ui.EasyPhotosActivity"
          android:screenOrientation="你需要的方式"
@@ -246,10 +239,8 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
         <activity
             android:name="com.huantansheng.easyphotos.ui.PreviewEasyPhotosActivity"
             android:screenOrientation="你需要的方式"
-            tools:replace="android:screenOrientation"/>    
-            
+            tools:replace="android:screenOrientation"/>
 ```
-  
 #### 自定义样式    
 ------    
 如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  -
