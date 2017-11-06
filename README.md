@@ -2,7 +2,10 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志   
+### 更新日志  
+**1.0.7：**   
+- 性能优化
+
 **1.0.6：**   
 - 修复华为VNS-L31机型拍照无返回问题
 
@@ -66,7 +69,7 @@ allprojects {
 ```gradle
 dependencies {
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.0.6'
+    compile 'com.github.HuanTanSheng:easyPhotos:1.0.7'
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
