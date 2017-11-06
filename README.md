@@ -3,6 +3,9 @@
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
 ### 更新日志  
+**1.0.9：**   
+- 优化因图片更新到媒体库时没有更新宽高信息时EasyPhotos相册不显示该图片问题
+
 **1.0.8：**   
 - 优化自定义UI和多语言
 
@@ -72,7 +75,7 @@ allprojects {
 ```gradle
 dependencies {
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.0.8'
+    compile 'com.github.HuanTanSheng:easyPhotos:1.0.9'
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
