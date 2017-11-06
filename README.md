@@ -61,8 +61,8 @@ dependencies {
     //这个是EasyPhotos
     compile 'com.github.HuanTanSheng:easyPhotos:最新版本号'
     //以下是Glide
-    compile 'com.github.bumptech.glide:glide:4.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+    compile 'com.github.bumptech.glide:glide:4.3.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
     //以下是PhotoView
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }
