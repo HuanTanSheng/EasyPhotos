@@ -26,16 +26,10 @@ import java.util.ArrayList;
  */
 
 public class AlbumModel {
-    public static AlbumModel instance;
-
     private static final String TAG = "AlbumModel";
+    public static AlbumModel instance;
     private Album album;
     private CallBack callBack;
-
-    public interface CallBack {
-        void onAlbumWorkedCallBack();
-
-    }
 
     /**
      * AlbumModel构造方法
@@ -99,7 +93,7 @@ public class AlbumModel {
                     MediaStore.Images.Media.DATE_ADDED,
                     MediaStore.Images.Media.MIME_TYPE};
         }
-        Cursor cursor  = contentResolver.query(contentUri, projections, null, null, sortOrder);
+        Cursor cursor = contentResolver.query(contentUri, projections, null, null, sortOrder);
         if (cursor == null) {
             Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
@@ -125,7 +119,7 @@ public class AlbumModel {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
-                    if (width < Setting.minWidth && height < Setting.minHeight) {
+                    if (width < Setting.minWidth && height < Setting.minHeight && width != 0 && height != 0) {
                         continue;
                     }
                 }
@@ -180,6 +174,11 @@ public class AlbumModel {
      */
     public ArrayList<AlbumItem> getAlbumItems() {
         return album.albumItems;
+    }
+
+    public interface CallBack {
+        void onAlbumWorkedCallBack();
+
     }
 
 }
