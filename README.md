@@ -120,7 +120,7 @@ configurations.all {
 - `android.permission.CAMERA`
 - `android.permission.READ_EXTERNAL_STORAGE`
 - `android.permission.WRITE_EXTERNAL_STORAGE`
-
+- `android.permission.MOUNT_UNMOUNT_FILESYSTEMS`
 
 #### 启动EasyPhotos
 ------
