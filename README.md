@@ -202,11 +202,40 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }  
 
 ```    
+    
+#### FileProvider的配置    
+------    
+在android7.0之后必须加入FileProvider的配置才能获取拍照的照片，在你App的`manifests`文件里添加:    
+```java  
 
-  
+	<provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.huantansheng.easyphotos.sample.fileprovider"//别忘了换成你自己的包名~
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>   
+            
+```    
+- `file_paths_public`文件需要你在App的`res`文件夹下的`xml`文件夹里自己创建，，内容如下：    
+```java  
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <root-path
+            name="camera_photos"
+            path="" />
+    </paths>
+</resources>
+            
+```    
+
+
 #### 关于EasyPhotos的横竖屏  
 ------
-EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你的`manifests`文件里添加:  
+EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你App的`manifests`文件里添加:  
 ```java  
 
          <activity
@@ -221,10 +250,8 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
             
 ```
   
-#### 自定义样式   
-
-------    
-
+#### 自定义样式    
+------    
 如果EasyPhotos的默认样式与你的app风格不符，可以在你的app的`colors`文件里进行修改  -
 
 ```java  
@@ -262,11 +289,9 @@ EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖�
 ```
     
   
-#### 多语言    
+#### 多语言    
+------    
 
-------   
-
- 
 EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样是一名多语言程序开发者，那么你可以在我的示例程序中找到简体/繁体/英文/西班牙语/日语/韩语的string文件（英文在默认文件夹内），如果还不能满足你，可以在你的多语言`string`文件中添加：    
 
 ```java    
