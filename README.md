@@ -55,10 +55,12 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 |![](images/10.png) | ![](images/11.png) | ![](images/01.png)|    
   
     
-## 关于EasyPhotos的SDK版本   
+## 关于EasyPhotos的SDK及相关版本 
 compileSdkVersion 26  
 minSdkVersion 15  
-targetSdkVersion 26
+targetSdkVersion 26  
+buildToolsVersion '26.0.2'  
+- 建议大家将 `android studio` 升级到3.0正式版，很快很智能
 
 ## 获取EasyPhotos（通过Gradle方式）
 首先，在项目的 `build.gradle（project）` 文件里面添加:
@@ -99,7 +101,17 @@ configurations.all {
 }  
 
 ```    
-- 如果你有更好的解决方法，希望你能告诉我，谢谢~
+- 如果用android3.0正式版，将不会出现这个问题~  
+  
+- 如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改 `build.gradle（project）` 中的：  
+```gradle  
+
+dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
+	//把3.0.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+	}
+
+```  
   
 ## 关于混淆    
   
