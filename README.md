@@ -59,8 +59,8 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 compileSdkVersion 26  
 minSdkVersion 15  
 targetSdkVersion 26  
-buildToolsVersion '26.0.2'  
-- 建议大家将 `android studio` 升级到3.0正式版，很快很智能
+buildToolsVersion '26.0.2'  
+ps：建议大家将 `android studio` 升级到3.0正式版，很快很智能。
 
 ## 获取EasyPhotos（通过Gradle方式）
 首先，在项目的 `build.gradle（project）` 文件里面添加:
@@ -90,10 +90,11 @@ dependencies {
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，所以你在实际项目中需要对他进行依赖。  
       
-- 如果在引用的时候发生如下错误：  
+- 如果在引用的时候发生如下错误（如果用android3.0正式版，将不会出现这个问题）：  
 Error:Failed to resolve: annotationProcessor   
-Error:Failed to resolve: com.android.support:support-annotations:26.0.2     
-这个应该是引用Glide时发生的，如果你不知道如何解决，可以在你的`build.gradle（module）` 文件里面添加：  
+Error:Failed to resolve: com.android.support:support-annotations:26.0.2    
+这个应该是引用Glide时发生的，如果你不知道如何解决，可以在你的`build.gradle（module）` 文件里面添加：  
+
 ```gradle  
 
 configurations.all {
@@ -101,9 +102,8 @@ configurations.all {
 }  
 
 ```    
-- 如果用android3.0正式版，将不会出现这个问题~  
   
-- 如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改 `build.gradle（project）` 中的：  
+如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
 ```gradle  
 
 dependencies {
