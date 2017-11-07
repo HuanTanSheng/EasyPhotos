@@ -2,7 +2,11 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志  
+### 更新日志   
+**1.1.0：**   
+- 增加图片添加水印功能  
+- 增加媒体文件更新到媒体库功能
+
 **1.0.9：**   
 - 优化三星部分机型因图片更新到媒体库时没有更新宽高信息时EasyPhotos相册不显示该图片问题
 
@@ -250,6 +254,50 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     </paths>
 </resources>        
 ```
+#### 给图片添加水印
+------    
+
+```java  
+     /**
+     * 给图片添加水印，水印会根据图片宽高自动缩放处理
+     *
+     * @param watermark     水印
+     * @param image         添加水印的图片
+     * @param srcImageWidth 水印对应的原图片宽度,即ui制作水印时参考的要添加水印的图片的宽度
+     * @param offsetX       添加水印的X轴偏移量
+     * @param offsetY       添加水印的Y轴偏移量
+     * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
+     * @return 是否成功
+     */
+    EasyPhotos.addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth, int offsetX, int offsetY, boolean addInLeft);
+
+
+    /**
+     * 给图片添加带文字和图片的水印，水印会根据图片宽高自动缩放处理
+     *
+     * @param watermark     水印图片
+     * @param image         要加水印的图片
+     * @param srcImageWidth 水印对应的原图片宽度,即ui制作水印时参考的要添加水印的图片的宽度
+     * @param text          要添加的文字
+     * @param offsetX       添加水印的X轴偏移量
+     * @param offsetY       添加水印的Y轴偏移量
+     * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
+     * @return 是否成功
+     */
+   EasyPhotos.addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft);   
+   
+```   
+#### 更新媒体文件到媒体库    
+------    
+```java    
+    
+         EasyPhotos.notifyMedia(Context cxt , String... filePaths);    
+	 EasyPhotos.notifyMedia(Context cxt , File... files);
+	 EasyPhotos.notifyMedia(Context cxt , List<String> filePathList);
+	//以上三种任选一种适合你的    
+	
+```    
+
 #### 关于EasyPhotos的横竖屏  
 ------
 EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你App的`manifests`文件里添加:  
