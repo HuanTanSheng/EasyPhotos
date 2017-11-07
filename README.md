@@ -290,8 +290,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 #### 更新媒体文件到媒体库    
 ------    
 ```java    
-    
-        //以下三种任选一种适合你的 
+         //以下三种任选一种适合你的 
+	
          EasyPhotos.notifyMedia(Context cxt , String... filePaths);
 	 
 	 EasyPhotos.notifyMedia(Context cxt , File... files);
