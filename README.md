@@ -2,7 +2,14 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志  
+### 更新日志   
+**1.1.0：**   
+- 增加图片添加水印功能  
+- 增加媒体文件更新到媒体库功能
+
+**1.0.9：**   
+- 优化三星部分机型因图片更新到媒体库时没有更新宽高信息时EasyPhotos相册不显示该图片问题
+
 **1.0.8：**   
 - 优化自定义UI和多语言
 
@@ -33,7 +40,7 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 
    
 # EasyPhotos
-EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
+EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
 
 | 无选中状态   | 相册单选  | 相册多选 |
 |:-----------:|:--------:|:---------:|
@@ -52,10 +59,12 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 |![](images/10.png) | ![](images/11.png) | ![](images/01.png)|    
   
     
-## 关于EasyPhotos的SDK版本   
+## 关于EasyPhotos的SDK及相关版本 
 compileSdkVersion 26  
 minSdkVersion 15  
-targetSdkVersion 26
+targetSdkVersion 26  
+buildToolsVersion '26.0.2'  
+ps：建议大家将 `android studio` 升级到3.0正式版，很快很智能。
 
 ## 获取EasyPhotos（通过Gradle方式）
 首先，在项目的 `build.gradle（project）` 文件里面添加:
@@ -72,7 +81,7 @@ allprojects {
 ```gradle
 dependencies {
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.0.8'
+    compile 'com.github.HuanTanSheng:easyPhotos:1.0.9'
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
@@ -85,10 +94,11 @@ dependencies {
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，所以你在实际项目中需要对他进行依赖。  
       
-- 如果在引用的时候发生如下错误：  
+- 如果在引用的时候发生如下错误（如果用android3.0正式版，将不会出现这个问题）：  
 Error:Failed to resolve: annotationProcessor   
-Error:Failed to resolve: com.android.support:support-annotations:26.0.2     
-这个应该是引用Glide时发生的，如果你不知道如何解决，可以在你的`build.gradle（module）` 文件里面添加：  
+Error:Failed to resolve: com.android.support:support-annotations:26.0.2    
+这个应该是引用Glide时发生的，推荐你将 `android studio` 升级到3.0正式版，或者在你的`build.gradle（module）` 文件里面添加（我并不推荐这样做，还是建议你将 `android studio` 升级到3.0正式版）：  
+
 ```gradle  
 
 configurations.all {
@@ -96,7 +106,16 @@ configurations.all {
 }  
 
 ```    
-- 如果你有更好的解决方法，希望你能告诉我，谢谢~
+  
+- 如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
+```gradle  
+
+dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
+	//把3.0.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+	}
+
+```  
   
 ## 关于混淆    
   
@@ -235,6 +254,52 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     </paths>
 </resources>        
 ```
+#### 给图片添加水印
+------    
+
+```java  
+     /**
+     * 给图片添加水印，水印会根据图片宽高自动缩放处理
+     *
+     * @param watermark     水印
+     * @param image         添加水印的图片
+     * @param srcImageWidth 水印对应的原图片宽度,即ui制作水印时参考的要添加水印的图片的宽度
+     * @param offsetX       添加水印的X轴偏移量
+     * @param offsetY       添加水印的Y轴偏移量
+     * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
+     * @return 是否成功
+     */
+    EasyPhotos.addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth, int offsetX, int offsetY, boolean addInLeft);
+
+
+    /**
+     * 给图片添加带文字和图片的水印，水印会根据图片宽高自动缩放处理
+     *
+     * @param watermark     水印图片
+     * @param image         要加水印的图片
+     * @param srcImageWidth 水印对应的原图片宽度,即ui制作水印时参考的要添加水印的图片的宽度
+     * @param text          要添加的文字
+     * @param offsetX       添加水印的X轴偏移量
+     * @param offsetY       添加水印的Y轴偏移量
+     * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
+     * @return 是否成功
+     */
+   EasyPhotos.addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft);   
+   
+```   
+#### 更新媒体文件到媒体库    
+------    
+```java    
+         //以下三种任选一种适合你的 
+	
+         EasyPhotos.notifyMedia(Context cxt , String... filePaths);
+	 
+	 EasyPhotos.notifyMedia(Context cxt , File... files);
+	 
+	 EasyPhotos.notifyMedia(Context cxt , List<String> filePathList);
+	
+```    
+
 #### 关于EasyPhotos的横竖屏  
 ------
 EasyPhotos默认强制竖屏，如果你需要强制横屏或允许用户横竖屏切换，请按照你的需求在你App的`manifests`文件里添加:  
