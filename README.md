@@ -103,7 +103,7 @@ configurations.all {
 
 ```    
   
-如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
+- 如果你的 `studio` 版本低于3.0，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
 ```gradle  
 
 dependencies {
