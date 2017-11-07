@@ -27,6 +27,17 @@ public class EasyPhotos {
 
     //easyPhotos的返回数据Key
     public static final String RESULT = "keyOfEasyPhotosResult";
+
+    /**
+     * 启动模式
+     * CAMERA-相机
+     * ALBUM-相册专辑
+     * ALBUM_CAMERA-带有相机按钮的相册专辑
+     */
+    public enum StartupType {
+        CAMERA, ALBUM, ALBUM_CAMERA
+    }
+
     private static EasyPhotos instance;
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
@@ -34,6 +45,7 @@ public class EasyPhotos {
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
     private WeakReference<AdListener> adListener;
+
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private EasyPhotos(Activity activity, StartupType startupType) {
         mActivity = new WeakReference<>(activity);
@@ -50,6 +62,101 @@ public class EasyPhotos {
         clear();
         instance = new EasyPhotos(activity, startupType);
         return instance;
+    }
+
+    /**
+     * 设置fileProvider字段
+     *
+     * @param fileProviderAuthoritiesText fileProvider字段
+     * @return EasyPhotos
+     */
+    public EasyPhotos setFileProviderAuthoritiesText(String fileProviderAuthoritiesText) {
+        this.fileProviderAuthoritiesText = fileProviderAuthoritiesText;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置选择数
+     *
+     * @param selectorMaxCount 最大选择数
+     * @return EasyPhotos
+     */
+    public EasyPhotos setCount(int selectorMaxCount) {
+        if (Setting.count != 1 && Result.count() > selectorMaxCount) {
+            Result.clear();
+        }
+        Setting.count = selectorMaxCount;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置显示照片的最小宽高
+     *
+     * @param minWidth  最小宽度
+     * @param minHeight 最小高度
+     * @return EasyPhotos
+     */
+    public EasyPhotos setMinSize(int minWidth, int minHeight) {
+        Setting.minWidth = minWidth;
+        Setting.minHeight = minHeight;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置默认选择图片集合
+     *
+     * @param selectedPhotos 默认选择图片集合
+     * @return EasyPhotos
+     */
+    public EasyPhotos setSelectedPhotos(ArrayList<String> selectedPhotos) {
+        Result.addSelectedPhotos(selectedPhotos);
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置广告(不设置该选项则表示不使用广告)
+     *
+     * @param photosAdView 使用图片列表的广告View
+     * @param photosAdIsLoaded 图片列表广告是否加载完毕
+     * @param albumItemsAdView 使用专辑项目列表的广告View
+     * @param albumItemsAdIsLoaded 专辑项目列表广告是否加载完毕
+     * @return EasyPhotos
+     */
+    public EasyPhotos setAdView(View photosAdView ,boolean photosAdIsLoaded, View albumItemsAdView ,boolean albumItemsAdIsLoaded) {
+        Setting.photosAdView = new WeakReference<View>(photosAdView);
+        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
+        Setting.photoAdIsOk = photosAdIsLoaded;
+        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 正式启动
+     *
+     * @param requestCode startActivityForResult的请求码
+     */
+    public void start(int requestCode) {
+        switch (startupType) {
+            case CAMERA:
+                onlyStartCamera = true;
+                break;
+            case ALBUM:
+                isShowCamera = false;
+                break;
+            case ALBUM_CAMERA:
+                isShowCamera = true;
+                break;
+        }
+        launchEasyPhotosActivity(requestCode);
+    }
+
+    /**
+     * 正式启动
+     *
+     * @param requestCode startActivityForResult的请求码
+     */
+    private void launchEasyPhotosActivity(int requestCode) {
+        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
     }
 
     /**
@@ -123,6 +230,9 @@ public class EasyPhotos {
         instance.adListener.get().onAlbumItemsAdLoaded();
     }
 
+
+//*************************bitmap功能***********************************/
+
     /**
      * 回收bitmap
      *
@@ -181,6 +291,7 @@ public class EasyPhotos {
         return BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
     }
 
+    //**************更新媒体库***********************
     /**
      * 更新媒体文件到媒体库
      *
@@ -209,114 +320,5 @@ public class EasyPhotos {
      */
     public static void notifyMedia(Context cxt, List<String> fileList) {
         MediaScannerConnectionUtils.refresh(cxt, fileList);
-    }
-
-    //************bitmap功能***********************************
-
-    /**
-     * 设置fileProvider字段
-     *
-     * @param fileProviderAuthoritiesText fileProvider字段
-     * @return EasyPhotos
-     */
-    public EasyPhotos setFileProviderAuthoritiesText(String fileProviderAuthoritiesText) {
-        this.fileProviderAuthoritiesText = fileProviderAuthoritiesText;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置选择数
-     *
-     * @param selectorMaxCount 最大选择数
-     * @return EasyPhotos
-     */
-    public EasyPhotos setCount(int selectorMaxCount) {
-        if (Setting.count != 1 && Result.count() > selectorMaxCount) {
-            Result.clear();
-        }
-        Setting.count = selectorMaxCount;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置显示照片的最小宽高
-     *
-     * @param minWidth  最小宽度
-     * @param minHeight 最小高度
-     * @return EasyPhotos
-     */
-    public EasyPhotos setMinSize(int minWidth, int minHeight) {
-        Setting.minWidth = minWidth;
-        Setting.minHeight = minHeight;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置默认选择图片集合
-     *
-     * @param selectedPhotos 默认选择图片集合
-     * @return EasyPhotos
-     */
-    public EasyPhotos setSelectedPhotos(ArrayList<String> selectedPhotos) {
-        Result.addSelectedPhotos(selectedPhotos);
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置广告(不设置该选项则表示不使用广告)
-     *
-     * @param photosAdView     使用图片列表的广告View
-     * @param photosAdIsLoaded 图片列表广告是否加载完毕
-     * @param albumItemsAdView 使用专辑项目列表的广告View
-     * @param albumItemsAdView 专辑项目列表广告是否加载完毕
-     * @return EasyPhotos
-     */
-    public EasyPhotos setAdView(View photosAdView, boolean photosAdIsLoaded, View albumItemsAdView, boolean albumItemsAdIsLoaded) {
-        Setting.photosAdView = new WeakReference<View>(photosAdView);
-        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
-        Setting.photoAdIsOk = photosAdIsLoaded;
-        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
-        return EasyPhotos.this;
-    }
-
-    //**************更新媒体库***********************
-
-    /**
-     * 正式启动
-     *
-     * @param requestCode startActivityForResult的请求码
-     */
-    public void start(int requestCode) {
-        switch (startupType) {
-            case CAMERA:
-                onlyStartCamera = true;
-                break;
-            case ALBUM:
-                isShowCamera = false;
-                break;
-            case ALBUM_CAMERA:
-                isShowCamera = true;
-                break;
-        }
-        launchEasyPhotosActivity(requestCode);
-    }
-
-    /**
-     * 正式启动
-     *
-     * @param requestCode startActivityForResult的请求码
-     */
-    private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
-    }
-
-    /**
-     * 启动模式
-     * CAMERA-相机
-     * ALBUM-相册专辑
-     * ALBUM_CAMERA-带有相机按钮的相册专辑
-     */
-    public enum StartupType {
-        CAMERA, ALBUM, ALBUM_CAMERA
     }
 }
