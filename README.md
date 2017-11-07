@@ -291,10 +291,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ------    
 ```java    
     
-         EasyPhotos.notifyMedia(Context cxt , String... filePaths);    
+        //以下三种任选一种适合你的 
+         EasyPhotos.notifyMedia(Context cxt , String... filePaths);
+	 
 	 EasyPhotos.notifyMedia(Context cxt , File... files);
+	 
 	 EasyPhotos.notifyMedia(Context cxt , List<String> filePathList);
-	//以上三种任选一种适合你的    
 	
 ```    
 
