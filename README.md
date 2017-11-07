@@ -141,7 +141,8 @@ dependencies {
 **[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理
 
 
-## 简要说明与用法介绍
+## 简要说明与用法介绍    
+[1.1.0以后的功能用法将不在这里展示，请移步wiki查看更加全面的使用文档](https://github.com/HuanTanSheng/EasyPhotos/wiki)
 #### 关于权限
 ------
 你不需要进行任何权限配置，也不用考虑运行时权限的问题，EasyPhotos内部都已经处理好了，但是我还是要告诉你EasyPhotos都用了哪些权限，她们是:
@@ -393,6 +394,7 @@ EasyPhotos默认中文简体，并且没有做多语言。如果你和我一样�
 ``` 
 - 示例中的主页并没有做多语言，所以无论你如何切换语言她都将是中文简体，但是跳转EasyPhotos的相册后将会呈现多语言
 
+[1.1.0以后的功能用法将不在这里展示，请移步wiki查看更加全面的使用文档](https://github.com/HuanTanSheng/EasyPhotos/wiki)   
 
 ## 感谢 
 [Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
