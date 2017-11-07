@@ -93,7 +93,7 @@ dependencies {
 - 如果在引用的时候发生如下错误（如果用android3.0正式版，将不会出现这个问题）：  
 Error:Failed to resolve: annotationProcessor   
 Error:Failed to resolve: com.android.support:support-annotations:26.0.2    
-这个应该是引用Glide时发生的，如果你不知道如何解决，可以在你的`build.gradle（module）` 文件里面添加：  
+这个应该是引用Glide时发生的，建议你将 `android studio` 升级到3.0正式版，或者在你的`build.gradle（module）` 文件里面添加：  
 
 ```gradle  
 
