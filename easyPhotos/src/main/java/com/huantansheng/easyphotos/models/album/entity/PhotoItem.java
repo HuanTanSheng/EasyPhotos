@@ -10,11 +10,11 @@ import android.util.Log;
 public class PhotoItem {
     private static final String TAG = "PhotoItem";
     public String name, path, type;
-    public int width, height;
+    public int width, height, size;
     public long time;
-    public boolean isCamera, selected;
+    public boolean isCamera, selected, selectOriginal;
 
-    public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height, String type) {
+    public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height,int size, String type) {
         this.isCamera = isCamera;
         this.name = name;
         this.path = path;
@@ -22,7 +22,9 @@ public class PhotoItem {
         this.width = width;
         this.height = height;
         this.type = type;
+        this.size = size;
         this.selected = false;
+        this.selectOriginal = false;
     }
 
     @Override

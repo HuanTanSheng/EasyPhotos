@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.constant.Path;
 import com.huantansheng.easyphotos.models.album.entity.Album;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
 import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
@@ -84,14 +83,16 @@ public class AlbumModel {
                     MediaStore.Images.Media.DATE_ADDED,
                     MediaStore.Images.Media.MIME_TYPE,
                     MediaStore.Images.Media.WIDTH,
-                    MediaStore.Images.Media.HEIGHT};
+                    MediaStore.Images.Media.HEIGHT,
+                    MediaStore.Images.Media.SIZE};
 
         } else {
             projections = new String[]{
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
                     MediaStore.Images.Media.DATE_ADDED,
-                    MediaStore.Images.Media.MIME_TYPE};
+                    MediaStore.Images.Media.MIME_TYPE,
+                    MediaStore.Images.Media.SIZE};
         }
         Cursor cursor = contentResolver.query(contentUri, projections, null, null, sortOrder);
         if (cursor == null) {
@@ -102,6 +103,7 @@ public class AlbumModel {
             int nameCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
             int DateCol = cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED);
             int mimeType = cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE);
+            int sizeCol = cursor.getColumnIndex(MediaStore.Images.Media.SIZE);
             int WidthCol = 0;
             int HeightCol = 0;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -114,6 +116,7 @@ public class AlbumModel {
                 String name = cursor.getString(nameCol);
                 long dateTime = cursor.getLong(DateCol);
                 String type = cursor.getString(mimeType);
+                int size = cursor.getInt(sizeCol);
                 int width = 0;
                 int height = 0;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -124,7 +127,7 @@ public class AlbumModel {
                     }
                 }
 
-                PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height, type);
+                PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height,size, type);
                 if (!Result.isEmpty()) {
                     for (String photoPath : Result.photos) {
                         if (path.equals(photoPath)) {
@@ -140,7 +143,7 @@ public class AlbumModel {
                     album.addAlbumItem(albumItem_all_name, "", path);
                     // 是否显示相机按钮
                     if (isShowCamera) {
-                        PhotoItem cameraItem = new PhotoItem(true, "", Path.CAMERA_ITEM_PATH, 0, 0, 0, "");
+                        PhotoItem cameraItem = new PhotoItem(true, "", "", 0, 0, 0,0, "");
                         album.getAlbumItem(albumItem_all_name).addImageItem(cameraItem);
                     }
                 }
