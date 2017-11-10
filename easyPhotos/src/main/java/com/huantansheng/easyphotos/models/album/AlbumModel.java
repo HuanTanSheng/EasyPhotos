@@ -119,7 +119,7 @@ public class AlbumModel {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
-                    if (width < Setting.minWidth && height < Setting.minHeight && width != 0 && height != 0) {
+                    if (width < Setting.minWidth && height < Setting.minHeight) {
                         continue;
                     }
                 }
