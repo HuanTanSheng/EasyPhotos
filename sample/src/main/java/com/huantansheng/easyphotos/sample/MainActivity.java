@@ -124,26 +124,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_camera://单独使用相机
-                EasyPhotos.with(this, EasyPhotos.StartupType.CAMERA)
+                EasyPhotos.createCamera(this)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
                 break;
             case R.id.bt_album_single://相册单选，无相机功能
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM)
+                EasyPhotos.createAlbum(this, false)
                         .start(101);
                 break;
             case R.id.bt_album_multi://相册多选，无相机功能
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM)
+                EasyPhotos.createAlbum(this, false)
                         .setCount(9)
                         .start(101);
                 break;
             case R.id.bt_all_single://相册单选，有相机功能
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
+                EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
                 break;
             case R.id.bt_all_multi://相册多选，有相机功能
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
+                EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(22)
                         .start(101);
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 initAdViews();
 
                 //启动方法，装载广告view
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
+                EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
@@ -164,14 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.bt_selected://相册中包含默认勾选图片
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
+                EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setSelectedPhotos(images)
                         .start(101);
                 break;
             case R.id.bt_size://只显示限制尺寸以上的图片
-                EasyPhotos.with(this, EasyPhotos.StartupType.ALBUM_CAMERA)
+                EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setMinSize(500, 500)

@@ -34,7 +34,7 @@ public class EasyPhotos {
      * ALBUM-相册专辑
      * ALBUM_CAMERA-带有相机按钮的相册专辑
      */
-    public enum StartupType {
+    private enum StartupType {
         CAMERA, ALBUM, ALBUM_CAMERA
     }
 
@@ -53,15 +53,40 @@ public class EasyPhotos {
     }
 
     /**
-     * 从activity启动
+     * 内部处理相机和相册的实例
      *
      * @param activity Activity的实例
      * @return EasyPhotos EasyPhotos的实例
      */
-    public static EasyPhotos with(Activity activity, StartupType startupType) {
+    private static EasyPhotos with(Activity activity, StartupType startupType) {
         clear();
         instance = new EasyPhotos(activity, startupType);
         return instance;
+    }
+
+
+    /**
+     * 创建相机
+     *
+     * @param activity   上下文
+     * @return
+     */
+    public static EasyPhotos createCamera(Activity activity) {
+        return EasyPhotos.with(activity, StartupType.CAMERA);
+    }
+
+    /**
+     * 创建相册
+     * @param activity      上下文
+     * @param isShowCamera 是否显示相机按钮
+     * @return
+     */
+    public static EasyPhotos createAlbum(Activity activity, boolean isShowCamera) {
+        if (isShowCamera) {
+            return EasyPhotos.with(activity, StartupType.ALBUM_CAMERA);
+        } else {
+            return EasyPhotos.with(activity, StartupType.ALBUM);
+        }
     }
 
     /**
@@ -113,25 +138,9 @@ public class EasyPhotos {
         return EasyPhotos.this;
     }
 
-    /**
-     * 设置广告(不设置该选项则表示不使用广告)
-     *
-     * @param photosAdView 使用图片列表的广告View
-     * @param photosAdIsLoaded 图片列表广告是否加载完毕
-     * @param albumItemsAdView 使用专辑项目列表的广告View
-     * @param albumItemsAdIsLoaded 专辑项目列表广告是否加载完毕
-     * @return EasyPhotos
-     */
-    public EasyPhotos setAdView(View photosAdView ,boolean photosAdIsLoaded, View albumItemsAdView ,boolean albumItemsAdIsLoaded) {
-        Setting.photosAdView = new WeakReference<View>(photosAdView);
-        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
-        Setting.photoAdIsOk = photosAdIsLoaded;
-        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
-        return EasyPhotos.this;
-    }
 
     /**
-     * 正式启动
+     * 设置启动属性
      *
      * @param requestCode startActivityForResult的请求码
      */
@@ -169,8 +178,33 @@ public class EasyPhotos {
         instance = null;
     }
 
+//*********************AD************************************
+
+    /**
+     * 设置广告(不设置该选项则表示不使用广告)
+     *
+     * @param photosAdView         使用图片列表的广告View
+     * @param photosAdIsLoaded     图片列表广告是否加载完毕
+     * @param albumItemsAdView     使用专辑项目列表的广告View
+     * @param albumItemsAdIsLoaded 专辑项目列表广告是否加载完毕
+     * @return EasyPhotos
+     */
+    public EasyPhotos setAdView(View photosAdView, boolean photosAdIsLoaded, View albumItemsAdView, boolean albumItemsAdIsLoaded) {
+        Setting.photosAdView = new WeakReference<View>(photosAdView);
+        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
+        Setting.photoAdIsOk = photosAdIsLoaded;
+        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置广告监听
+     *
+     * @param adListener 广告监听
+     */
     public static void setAdListener(AdListener adListener) {
         if (null == instance) return;
+        if (instance.startupType == StartupType.CAMERA) return;
         instance.adListener = new WeakReference<AdListener>(adListener);
     }
 
@@ -179,6 +213,9 @@ public class EasyPhotos {
      */
     public static void notifyPhotosAdLoaded() {
         if (null == instance) {
+            return;
+        }
+        if (instance.startupType == StartupType.CAMERA) {
             return;
         }
         if (null == instance.adListener) {
@@ -207,6 +244,9 @@ public class EasyPhotos {
      */
     public static void notifyAlbumItemsAdLoaded() {
         if (null == instance) {
+            return;
+        }
+        if (instance.startupType == StartupType.CAMERA) {
             return;
         }
         if (null == instance.adListener) {
@@ -292,6 +332,7 @@ public class EasyPhotos {
     }
 
     //**************更新媒体库***********************
+
     /**
      * 更新媒体文件到媒体库
      *
