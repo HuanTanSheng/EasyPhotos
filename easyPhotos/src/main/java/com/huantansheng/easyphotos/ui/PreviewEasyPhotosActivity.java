@@ -1,18 +1,15 @@
 package com.huantansheng.easyphotos.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -31,6 +28,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PreviewPhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
+import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
 import java.util.ArrayList;
 
@@ -64,12 +62,13 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                processNavigation();
             } else if (Build.VERSION.SDK_INT >= 16) {
                 rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                processNavigation();
             } else {
                 rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -100,6 +99,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private int lastPosition = 0;//记录recyclerView最后一次角标位置，用于判断是否转换了item
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
+    private boolean hasNavigationBar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +128,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         }
         lastPosition = index;
         mVisible = true;
+        hasNavigationBar = SystemUtils.hasNavigationBar(this);
     }
 
     private void toggle() {
@@ -170,8 +171,8 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private void show() {
         // Show the system bar
         if (Build.VERSION.SDK_INT >= 16) {
-            rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                processNavigation();
         }
         mVisible = true;
 
@@ -220,9 +221,9 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         rvPhotos.post(new Runnable() {
             @Override
             public void run() {
-                if (Build.VERSION.SDK_INT >= 16) {
-                    rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-                }
+                if(Build.VERSION.SDK_INT >= 16)
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                processNavigation();
             }
         });
         adapter = new PreviewPhotosAdapter(this, photos, this);
@@ -334,6 +335,13 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         } else {
             Result.addPhoto(photoItem);
             toggleSelector();
+        }
+    }
+
+    private void processNavigation() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            if (hasNavigationBar)
+                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
     }
 }
