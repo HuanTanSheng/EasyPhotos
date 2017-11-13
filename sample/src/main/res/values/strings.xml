@@ -24,4 +24,6 @@
 
     <string name="permissions_again_easy_photos">Please grant relevant permissions</string>
     <string name="permissions_die_easy_photos">Please allow related permissions in the settings</string>
+
+    <string name="original_easy_photos">Original</string>
 </resources>

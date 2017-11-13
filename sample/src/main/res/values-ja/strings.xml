@@ -24,4 +24,7 @@
 
     <string name="permissions_again_easy_photos">関連権限を与えてください</string>
     <string name="permissions_die_easy_photos">設置中に関連する権限を許可して下さい</string>
+
+    <string name="original_easy_photos">原図</string>
+
 </resources>

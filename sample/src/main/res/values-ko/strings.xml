@@ -24,4 +24,7 @@
 
     <string name="permissions_again_easy_photos">좀 관련 권한 부여</string>
     <string name="permissions_die_easy_photos">허락해 주십시오 중 관련 권한 설정</string>
+
+    <string name="original_easy_photos">그림</string>
+
 </resources>

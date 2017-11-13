@@ -24,4 +24,7 @@
 
     <string name="permissions_again_easy_photos">Por favor, dar los permisos</string>
     <string name="permissions_die_easy_photos">Por favor, en la configuracion de las competencias permite</string>
+
+    <string name="original_easy_photos">Original</string>
+
 </resources>

@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode) {
-            images.clear();
             ArrayList<PhotoItem> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT);
+            images.clear();
             images.addAll(result);
             adapter.notifyDataSetChanged();
             rvImage.smoothScrollToPosition(0);

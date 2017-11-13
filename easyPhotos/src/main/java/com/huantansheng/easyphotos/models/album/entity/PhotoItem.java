@@ -11,10 +11,16 @@ import android.util.Log;
 
 public class PhotoItem implements Parcelable {
     private static final String TAG = "PhotoItem";
-    public String name, path, type;
-    public int width, height;
-    public long size, time;
-    public boolean isCamera, selected, selectOriginal;
+    public String name;//图片名称
+    public String path;//图片全路径
+    public String type;//图片类型
+    public int width;//图片宽度
+    public int height;//图片高度
+    public long size;//图片文件大小，单位Bytes
+    public long time;//图片最后修改时间戳
+    public boolean isCamera;//是否是相机按钮，内部使用，无需关心
+    public boolean selected;//是否被选中
+    public boolean selectOriginal;//用户选择时是否选择了原图选项
 
     public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height,long size, String type) {
         this.isCamera = isCamera;

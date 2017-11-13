@@ -24,4 +24,7 @@
 
     <string name="permissions_again_easy_photos">請賦予相關許可權</string>
     <string name="permissions_die_easy_photos">請在設定中允許相關許可權</string>
+
+    <string name="original_easy_photos">原圖</string>
+
 </resources>
