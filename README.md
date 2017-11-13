@@ -72,19 +72,26 @@ buildToolsVersion '26.0.2'
 ```gradle
 allprojects {
 	repositories {
-        maven { url "https://jitpack.io" }
+        maven { url "https://jitpack.io" }//EasyPhotos的
+	
+	//以下是Glide的
+	mavenCentral()
+  	maven { url 'https://maven.google.com' }
     }
 }
 ```
 
 最后，在你需要用到EasyPhotos的module中的 `build.gradle（module）` 文件里面添加：
 ```gradle
-dependencies {
+dependencies {  
+
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.0.9'
+    compile 'com.github.HuanTanSheng:easyPhotos:1.0.9'  
+    
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'  
+    
     //以下是PhotoView
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }
