@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -68,7 +69,7 @@ public class EasyPhotos {
     /**
      * 创建相机
      *
-     * @param activity   上下文
+     * @param activity 上下文
      * @return
      */
     public static EasyPhotos createCamera(Activity activity) {
@@ -77,7 +78,8 @@ public class EasyPhotos {
 
     /**
      * 创建相册
-     * @param activity      上下文
+     *
+     * @param activity     上下文
      * @param isShowCamera 是否显示相机按钮
      * @return
      */
@@ -107,9 +109,6 @@ public class EasyPhotos {
      * @return EasyPhotos
      */
     public EasyPhotos setCount(int selectorMaxCount) {
-        if (Setting.count != 1 && Result.count() > selectorMaxCount) {
-            Result.clear();
-        }
         Setting.count = selectorMaxCount;
         return EasyPhotos.this;
     }
@@ -133,8 +132,9 @@ public class EasyPhotos {
      * @param selectedPhotos 默认选择图片集合
      * @return EasyPhotos
      */
-    public EasyPhotos setSelectedPhotos(ArrayList<String> selectedPhotos) {
-        Result.addSelectedPhotos(selectedPhotos);
+    public EasyPhotos setSelectedPhotos(ArrayList<PhotoItem> selectedPhotos) {
+        Setting.selectedPhotos.clear();
+        Setting.selectedPhotos.addAll(selectedPhotos);
         return EasyPhotos.this;
     }
 

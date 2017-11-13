@@ -127,12 +127,12 @@ public class AlbumModel {
                     }
                 }
 
-                PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height,size, type);
-                if (!Result.isEmpty()) {
-                    for (String photoPath : Result.photos) {
-                        if (path.equals(photoPath)) {
-                            imageItem.selected = true;
-                            Result.map.put(path, imageItem);
+                PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height, size, type);
+                if (!Setting.selectedPhotos.isEmpty()) {
+                    for (PhotoItem selectedPhoto : Setting.selectedPhotos) {
+                        if (path.equals(selectedPhoto.path)) {
+                            imageItem.selectOriginal = selectedPhoto.selectOriginal;
+                            Result.addPhoto(imageItem);
                         }
                     }
                 }
@@ -143,7 +143,7 @@ public class AlbumModel {
                     album.addAlbumItem(albumItem_all_name, "", path);
                     // 是否显示相机按钮
                     if (isShowCamera) {
-                        PhotoItem cameraItem = new PhotoItem(true, "", "", 0, 0, 0,0, "");
+                        PhotoItem cameraItem = new PhotoItem(true, "", "", 0, 0, 0, 0, "");
                         album.getAlbumItem(albumItem_all_name).addImageItem(cameraItem);
                     }
                 }

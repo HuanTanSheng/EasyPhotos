@@ -2,7 +2,10 @@ package com.huantansheng.easyphotos.setting;
 
 import android.view.View;
 
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * EasyPhotos的设置值
@@ -17,6 +20,7 @@ public class Setting {
     public static WeakReference<View> albumItemsAdView = null;
     public static boolean photoAdIsOk = false;
     public static boolean albumItemsAdIsOk = false;
+    public static ArrayList<PhotoItem> selectedPhotos = new ArrayList<>();
 
 
     public static void clear() {
@@ -27,6 +31,7 @@ public class Setting {
         albumItemsAdView = null;
         photoAdIsOk = false;
         albumItemsAdIsOk = false;
+        selectedPhotos.clear();
     }
 
     public static boolean hasPhotosAd() {

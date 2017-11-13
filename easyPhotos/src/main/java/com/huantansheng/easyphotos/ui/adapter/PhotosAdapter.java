@@ -65,7 +65,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PhotoViewHolder) {
             final PhotoItem item = (PhotoItem) dataList.get(position);
-            updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item.path, position);
+            updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, position);
             if (item.isCamera) {
                 if (padding == 0) {
                     padding = ((PhotoViewHolder) holder).ivPhoto.getPaddingBottom();
@@ -179,9 +179,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         listener.onSelectorChanged();
     }
 
-    private void updateSelector(TextView tvSelector, boolean selected, String photoPath, int position) {
+    private void updateSelector(TextView tvSelector, boolean selected, PhotoItem photo, int position) {
         if (selected) {
-            String number = Result.getSelectorNumber(photoPath);
+            String number = Result.getSelectorNumber(photo);
             if (number.equals("0")) {
                 tvSelector.setBackgroundResource(R.drawable.bg_select_false_easy_photos);
                 tvSelector.setText(null);

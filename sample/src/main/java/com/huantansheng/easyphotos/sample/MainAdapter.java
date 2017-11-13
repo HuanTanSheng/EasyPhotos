@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.RequestManager;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 import com.huantansheng.easyphotos.sample.thisAppGlideModule.GlideApp;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
  */
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
-    ArrayList<String> list;
+    ArrayList<PhotoItem> list;
     LayoutInflater mInflater;
     RequestManager mGlide;
 
-    public MainAdapter(Context cxt, ArrayList<String> list) {
+    public MainAdapter(Context cxt, ArrayList<PhotoItem> list) {
         this.list = list;
         mInflater = LayoutInflater.from(cxt);
         mGlide = GlideApp.with(cxt);
@@ -34,7 +35,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
 
     @Override
     public void onBindViewHolder(MainVH holder, int position) {
-        mGlide.load(list.get(position)).into(holder.ivPhoto);
+        mGlide.load(list.get(position).path).into(holder.ivPhoto);
     }
 
     @Override

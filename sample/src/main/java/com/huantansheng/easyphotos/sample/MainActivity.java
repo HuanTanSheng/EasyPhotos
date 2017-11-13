@@ -15,8 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 选择的图片集
      */
-    private ArrayList<String> images = new ArrayList<>();
+    private ArrayList<PhotoItem> images = new ArrayList<>();
     private MainAdapter adapter;
     private RecyclerView rvImage;
 
@@ -84,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode) {
             images.clear();
-            images.addAll(data.getStringArrayListExtra(EasyPhotos.RESULT));
+            ArrayList<PhotoItem> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT);
+            images.addAll(result);
             adapter.notifyDataSetChanged();
             rvImage.smoothScrollToPosition(0);
         } else if (RESULT_CANCELED == resultCode) {

@@ -7,6 +7,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
+import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
@@ -62,7 +65,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private ArrayList<Object> photoList = new ArrayList<>();
     private ArrayList<Object> albumItemList = new ArrayList<>();
 
-    private ArrayList<String> resultList = new ArrayList<>();
+    private ArrayList<PhotoItem> resultList = new ArrayList<>();
 
     private RecyclerView rvPhotos;
     private PhotosAdapter photosAdapter;
@@ -282,8 +285,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private void onCameraResult(File imageFile) {
         MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
         Intent data = new Intent();
-        resultList.add(imageFile.getAbsolutePath());
-        data.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
+        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        PhotoItem photoItem = new PhotoItem(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), imageFile.getName().substring(imageFile.getName().lastIndexOf(".")));
+        resultList.add(photoItem);
+        EasyPhotos.recycle(bitmap);
+        data.putParcelableArrayListExtra(EasyPhotos.RESULT, resultList);
         setResult(RESULT_OK, data);
         finish();
 
@@ -395,7 +401,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else if (R.id.tv_done == id) {
             Intent intent = new Intent();
             resultList.addAll(Result.photos);
-            intent.putStringArrayListExtra(EasyPhotos.RESULT, resultList);
+            intent.putParcelableArrayListExtra(EasyPhotos.RESULT, resultList);
             setResult(RESULT_OK, intent);
             finish();
         } else if (R.id.tv_clear == id) {
@@ -491,7 +497,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onPhotoClick(int position, int realPosition) {
-//        Toast.makeText(this, "position+" + position + "------realPosition+" + realPosition, Toast.LENGTH_LONG).show();
         PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
 
     }
