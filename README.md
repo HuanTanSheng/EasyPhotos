@@ -59,7 +59,7 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 
 |预览页缩放图片 | 预览页单击缩放图片显示操作栏| 持续更新 |
 |:-------:|:---------:|:---------:|
-|![](images/10.png) | ![](images/11.png) | ![](images/01.png)|    
+|![](images/10.png) | ![](images/11.png) | ![](images/12.png)|    
   
     
 ## 关于EasyPhotos的SDK及相关版本公示 
