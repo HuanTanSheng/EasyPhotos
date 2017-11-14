@@ -27,4 +27,6 @@
 
     <string name="original_easy_photos">그림</string>
 
+    <string name="preview_current_number">%1$d/%2$d</string>
+
 </resources>

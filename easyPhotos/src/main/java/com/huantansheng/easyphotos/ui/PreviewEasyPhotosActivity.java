@@ -60,7 +60,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
             SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(rvPhotos);
         }
     };
-    private RelativeLayout mBottomBar,mToolBar;
+    private RelativeLayout mBottomBar, mToolBar;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -142,6 +142,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         });
         hideAnimation.setDuration(UI_ANIMATION_DELAY);
         mBottomBar.startAnimation(hideAnimation);
+        mToolBar.startAnimation(hideAnimation);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -164,7 +165,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+        mHideHandler.post(mShowPart2Runnable);
     }
 
     @Override

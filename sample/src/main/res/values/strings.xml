@@ -26,4 +26,6 @@
     <string name="permissions_die_easy_photos">Please allow related permissions in the settings</string>
 
     <string name="original_easy_photos">Original</string>
+
+    <string name="preview_current_number">%1$d/%2$d</string>
 </resources>
