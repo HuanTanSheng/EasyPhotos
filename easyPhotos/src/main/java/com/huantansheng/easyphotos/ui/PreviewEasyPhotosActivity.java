@@ -55,24 +55,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private final Runnable mHidePart2Runnable = new Runnable() {
         @Override
         public void run() {
-            if (Build.VERSION.SDK_INT >= 19) {
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-                processNavigation();
-            } else if (Build.VERSION.SDK_INT >= 16) {
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-                processNavigation();
-            } else {
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-            }
+            SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(rvPhotos);
         }
     };
     private RelativeLayout mBottomBar;
@@ -85,9 +68,8 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     };
     private boolean mVisible;
 
-    private PressedImageView ivBack;
-    private PressedTextView tvEdit;
-    private TextView tvSelector;
+    private TextView tvOriginal,tvNumber;
+    private PressedTextView tvDone;
     private ImageView ivSelector;
     private RecyclerView rvPhotos;
     private PreviewPhotosAdapter adapter;
@@ -99,18 +81,15 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private int lastPosition = 0;//记录recyclerView最后一次角标位置，用于判断是否转换了item
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
-    private boolean hasNavigationBar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_preview_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
-
         initData();
         initView();
     }
@@ -128,7 +107,6 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         }
         lastPosition = index;
         mVisible = true;
-        hasNavigationBar = SystemUtils.hasNavigationBar(this);
     }
 
     private void toggle() {
@@ -164,16 +142,20 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
         // Schedule a runnable to remove the status and navigation bar after a delay
         mHideHandler.removeCallbacks(mShowPart2Runnable);
+
         mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
+
     }
 
 
     private void show() {
         // Show the system bar
+
         if (Build.VERSION.SDK_INT >= 16) {
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                processNavigation();
+            SystemUtils.getInstance(this).systemUiShow(rvPhotos);
+
         }
+
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay
@@ -203,12 +185,16 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     }
 
     private void initView() {
-        tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
+        PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
-        ivBack = (PressedImageView) findViewById(R.id.iv_back);
-        tvSelector = (TextView) findViewById(R.id.tv_selector);
+        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
+        TextView tvSelector = (TextView) findViewById(R.id.tv_selector);
         ivSelector = (ImageView) findViewById(R.id.iv_selector);
-        mBottomBar.setOnClickListener(this);
+        tvNumber = (TextView) findViewById(R.id.tv_number);
+        tvDone = (PressedTextView) findViewById(R.id.tv_done);
+        tvOriginal = (TextView) findViewById(R.id.tv_original);
+        tvOriginal.setOnClickListener(this);
+        tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         tvSelector.setOnClickListener(this);
         ivSelector.setOnClickListener(this);
@@ -218,14 +204,14 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void initRecyclerView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
+
         rvPhotos.post(new Runnable() {
             @Override
             public void run() {
-                if(Build.VERSION.SDK_INT >= 16)
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                processNavigation();
+                SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiInit(rvPhotos);
             }
         });
+
         adapter = new PreviewPhotosAdapter(this, photos, this);
         lm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvPhotos.setLayoutManager(lm);
@@ -335,13 +321,6 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         } else {
             Result.addPhoto(photoItem);
             toggleSelector();
-        }
-    }
-
-    private void processNavigation() {
-        if (Build.VERSION.SDK_INT >= 16) {
-            if (hasNavigationBar)
-                rvPhotos.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
     }
 }

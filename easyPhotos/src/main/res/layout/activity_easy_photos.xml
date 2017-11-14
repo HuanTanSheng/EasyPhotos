@@ -142,13 +142,14 @@
         app:layout_constraintRight_toRightOf="@id/m_tool_bar"
         app:layout_constraintTop_toTopOf="@id/m_tool_bar" />
 
-    <CheckBox
+    <TextView
         android:id="@+id/tv_original"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:minWidth="60dp"
         android:text="@string/original_easy_photos"
+        android:clickable="true"
+        android:focusable="true"
         android:textColor="@color/text_easy_photos"
         app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="@id/m_bottom_bar"

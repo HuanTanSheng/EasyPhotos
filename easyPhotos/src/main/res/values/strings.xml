@@ -31,4 +31,6 @@
     <string name="permissions_die_easy_photos">请在设置中允许相关权限</string>
 
     <string name="original_easy_photos">原图</string>
+
+    <string name="preview_current_number">%1$d/%2$d</string>
 </resources>

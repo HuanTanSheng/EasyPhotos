@@ -33,4 +33,6 @@
     <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色
     <!--加载图片错误icon-->
     <color name="photo_error_easy_photos">#ff0000</color>//图片发生错误时显示icon的颜色
+    <!--图片预览页-->
+    <color name="preview_background_easy_photos">#000000</color>//预览页背景颜色
 </resources>

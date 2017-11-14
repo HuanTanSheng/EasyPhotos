@@ -29,6 +29,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
@@ -75,9 +76,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private AlbumItemsAdapter albumItemsAdapter;
     private RelativeLayout rootViewAlbumItems;
     private View mBottomBar;
-    private PressedTextView tvAlbumItems;
-    private PressedTextView tvDone;
-
+    private PressedTextView tvAlbumItems, tvDone;
+    private TextView tvOriginal;
     private AnimatorSet setHide;
     private AnimatorSet setShow;
 
@@ -351,7 +351,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
-
+        tvOriginal = (TextView) findViewById(R.id.tv_original);
+        tvOriginal.setOnClickListener(this);
         tvClear.setOnClickListener(this);
         tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
