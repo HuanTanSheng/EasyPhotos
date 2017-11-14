@@ -69,6 +69,9 @@ public class AlbumModel {
     }
 
     private void initAlbum(Activity act, boolean isShowCamera) {
+        if (Setting.selectedPhotos.size() > Setting.count) {
+            throw new RuntimeException("EasyPhotos: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
+        }
 
         Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
@@ -129,9 +132,10 @@ public class AlbumModel {
 
                 PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
+                    Setting.selectedOriginal = Setting.selectedPhotos.get(0).selectedOriginal;
                     for (PhotoItem selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
-                            imageItem.selectOriginal = selectedPhoto.selectOriginal;
+                            imageItem.selectedOriginal = selectedPhoto.selectedOriginal;
                             Result.addPhoto(imageItem);
                         }
                     }

@@ -2,6 +2,7 @@ package com.huantansheng.easyphotos.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -22,38 +23,6 @@ import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /**
-     * 相机
-     */
-    private Button btCamera;
-    /**
-     * 相册(无相机单选）
-     */
-    private Button btAlbumSingle;
-    /**
-     * 相册(无相机多选）
-     */
-    private Button btAlbumMulti;
-    /**
-     * 相册（有相机单选）
-     */
-    private Button btAllSingle;
-    /**
-     * 相册（有相机多选）
-     */
-    private Button btAllMulti;
-    /**
-     * 相册（带广告）
-     */
-    private Button btAd;
-    /**
-     * 相册（带默认勾选）
-     */
-    private Button btSelected;
-    /**
-     * 相册（尺寸限制）
-     */
-    private Button btSize;
     /**
      * 选择的图片集
      */
@@ -104,23 +73,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(rvImage);
 
-        //**************
-        btCamera = (Button) findViewById(R.id.bt_camera);
-        btCamera.setOnClickListener(this);
-        btAlbumSingle = (Button) findViewById(R.id.bt_album_single);
-        btAlbumSingle.setOnClickListener(this);
-        btAlbumMulti = (Button) findViewById(R.id.bt_album_multi);
-        btAlbumMulti.setOnClickListener(this);
-        btAllSingle = (Button) findViewById(R.id.bt_all_single);
-        btAllSingle.setOnClickListener(this);
-        btAllMulti = (Button) findViewById(R.id.bt_all_multi);
-        btAllMulti.setOnClickListener(this);
-        btAd = (Button) findViewById(R.id.bt_ad);
-        btAd.setOnClickListener(this);
-        btSelected = (Button) findViewById(R.id.bt_selected);
-        btSelected.setOnClickListener(this);
-        btSize = (Button) findViewById(R.id.bt_size);
-        btSize.setOnClickListener(this);
+        l(R.id.bt_album_single
+                , R.id.bt_album_multi
+                , R.id.bt_all_single
+                , R.id.bt_all_multi
+                , R.id.bt_ad
+                , R.id.bt_selected
+                , R.id.bt_size
+                , R.id.bt_original_unusable
+                , R.id.bt_original_usable
+        );
+    }
+
+    /**
+     * 在此推荐我的另一个开源库：L
+     * L是一个android开发便捷库，适用于任何android项目
+     * 它的唯一目的就是减轻你的代码量，避免写一堆重复的大家都在写的代码
+     * 除此之外，L包含了我们经常使用的各种工具类
+     *
+     * @param viewIds 资源id
+     */
+    private void l(@IdRes int... viewIds) {
+        for (int viewId : viewIds) {
+            findViewById(viewId).setOnClickListener(this);
+        }
     }
 
     @Override
@@ -162,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
-                        .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
+                        .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)//参数说明：相册中的广告view，相册中的广告View数据是否绑定完毕，专辑列表广告View，专辑列表广告View数据是否绑定完毕
                         .start(101);
 
                 break;
@@ -170,16 +146,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
-                        .setSelectedPhotos(images)
+                        .setSelectedPhotos(images)//参数说明：用户上一次勾选过的图片集合
                         .start(101);
                 break;
             case R.id.bt_size://只显示限制尺寸以上的图片
                 EasyPhotos.createAlbum(this, true)
                         .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
-                        .setMinSize(500, 500)
+                        .setMinSize(500, 500)//参数说明：最小宽度，最小高度
                         .start(101);
                 break;
+            case R.id.bt_original_usable://显示原图按钮，并且按钮可用
+                EasyPhotos.createAlbum(this, false)
+                        .setCount(9)
+                        .setOriginalMenu(true, true, null)//参数说明：是否显示，是否可用，不可用将toast信息
+                        .start(101);
+                break;
+            case R.id.bt_original_unusable://显示原图按钮，按钮不可用。举例使用场景：仅VIP可以上传原图
+                boolean isVip = false;//假设获取用户信息发现该用户不是vip
+                EasyPhotos.createAlbum(this, true)
+                        .setCount(9)
+                        .setOriginalMenu(true, isVip, "该功能为VIP会员特权功能")//参数说明：是否显示，是否可用，不可用将toast信息
+                        .start(101);
         }
     }
 
@@ -215,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         albumItemsAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_album_items, null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
 
         //模拟5秒后网络回调
-        btCamera.postDelayed(new Runnable() {
+        rvImage.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ((ImageView) albumItemsAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ad);

@@ -138,6 +138,20 @@ public class EasyPhotos {
         return EasyPhotos.this;
     }
 
+    /**
+     * 原图按钮设置
+     * @param shouldShow        是否显示原图按钮
+     * @param usable            原图按钮是否可使用
+     * @param unusableHint      原图按钮不可使用时给用户的文字提示
+     * @return                  EasyPhotos
+     */
+    public EasyPhotos setOriginalMenu(boolean shouldShow, boolean usable, String unusableHint) {
+        Setting.showOriginalMenu = shouldShow;
+        Setting.originalMenuUsable = usable;
+        Setting.originalMenuUnusableHint = unusableHint;
+        return EasyPhotos.this;
+    }
+
 
     /**
      * 设置启动属性

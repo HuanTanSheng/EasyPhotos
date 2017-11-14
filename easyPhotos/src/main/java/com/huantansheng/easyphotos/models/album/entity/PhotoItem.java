@@ -16,11 +16,11 @@ public class PhotoItem implements Parcelable {
     public String type;//图片类型
     public int width;//图片宽度
     public int height;//图片高度
-    public long size;//图片文件大小，单位Bytes
-    public long time;//图片最后修改时间戳
+    public long size;//图片文件大小，单位：Bytes
+    public long time;//图片最后修改时间戳,单位：毫秒
     public boolean isCamera;//是否是相机按钮，内部使用，无需关心
     public boolean selected;//是否被选中
-    public boolean selectOriginal;//用户选择时是否选择了原图选项
+    public boolean selectedOriginal;//用户选择时是否选择了原图选项
 
     public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height,long size, String type) {
         this.isCamera = isCamera;
@@ -32,7 +32,7 @@ public class PhotoItem implements Parcelable {
         this.type = type;
         this.size = size;
         this.selected = false;
-        this.selectOriginal = false;
+        this.selectedOriginal = false;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class PhotoItem implements Parcelable {
         dest.writeLong(this.time);
         dest.writeByte(this.isCamera ? (byte) 1 : (byte) 0);
         dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.selectOriginal ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.selectedOriginal ? (byte) 1 : (byte) 0);
     }
 
     protected PhotoItem(Parcel in) {
@@ -86,7 +86,7 @@ public class PhotoItem implements Parcelable {
         this.time = in.readLong();
         this.isCamera = in.readByte() != 0;
         this.selected = in.readByte() != 0;
-        this.selectOriginal = in.readByte() != 0;
+        this.selectedOriginal = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<PhotoItem> CREATOR = new Parcelable.Creator<PhotoItem>() {

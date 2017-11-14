@@ -16,4 +16,6 @@ public class Key {
     public static final String PREVIEW_PHOTO_INDEX = "keyOfPreviewPhotoIndex";
     //当前预览界面的专辑index
     public static final String PREVIEW_ALBUM_ITEM_INDEX = "keyOfPreviewAlbumItemIndex";
+    //预览界面是否点击完成
+    public static final String PREVIEW_CLICK_DONE = "keyOfPreviewClickDone";
 }

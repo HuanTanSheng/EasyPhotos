@@ -38,7 +38,7 @@ public class PermissionUtil {
         }
         if (!isHas) {
             String[] p = permissions.toArray(new String[permissions.size()]);
-            requestPermissionsInActivity(cxt, Code.REQUEST_PERMISSION_CODE, p);
+            requestPermissionsInActivity(cxt, Code.REQUEST_PERMISSION, p);
         }
         return isHas;
     }

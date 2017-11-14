@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,17 +60,18 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
             SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(rvPhotos);
         }
     };
-    private RelativeLayout mBottomBar;
+    private RelativeLayout mBottomBar,mToolBar;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
             // 延迟显示UI元素
             mBottomBar.setVisibility(View.VISIBLE);
+            mToolBar.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
 
-    private TextView tvOriginal,tvNumber;
+    private TextView tvOriginal, tvNumber;
     private PressedTextView tvDone;
     private ImageView ivSelector;
     private RecyclerView rvPhotos;
@@ -129,6 +132,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
             @Override
             public void onAnimationEnd(Animation animation) {
                 mBottomBar.setVisibility(View.GONE);
+                mToolBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -180,19 +184,27 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     }
 
     private void doBack() {
-        setResult(resultCode);
+        Intent intent = new Intent();
+        intent.putExtra(Key.PREVIEW_CLICK_DONE, false);
+        setResult(resultCode, intent);
         finish();
     }
 
     private void initView() {
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
+        mToolBar = (RelativeLayout) findViewById(R.id.m_top_bar);
         PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         TextView tvSelector = (TextView) findViewById(R.id.tv_selector);
         ivSelector = (ImageView) findViewById(R.id.iv_selector);
         tvNumber = (TextView) findViewById(R.id.tv_number);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
         tvOriginal = (TextView) findViewById(R.id.tv_original);
+        if (Setting.showOriginalMenu) {
+            processOriginalMenu();
+        } else {
+            tvOriginal.setVisibility(View.GONE);
+        }
         tvOriginal.setOnClickListener(this);
         tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
@@ -200,6 +212,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         ivSelector.setOnClickListener(this);
         tvEdit.setOnClickListener(this);
         initRecyclerView();
+        shouldShowMenuDone();
     }
 
     private void initRecyclerView() {
@@ -233,6 +246,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
                     if (lastPosition == leftViewPosition - 1) {
                         return;
                     }
+                    tvNumber.setText(getString(R.string.preview_current_number, leftViewPosition, photos.size()));
                     lastPosition = leftViewPosition - 1;
                     View view = snapHelper.findSnapView(lm);
                     toggleSelector();
@@ -248,6 +262,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
                 }
             }
         });
+        tvNumber.setText(getString(R.string.preview_current_number, index + 1, photos.size()));
     }
 
     @Override
@@ -259,6 +274,18 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
             updateSelector();
         } else if (R.id.iv_selector == id) {
             updateSelector();
+        } else if (R.id.tv_original == id) {
+            if (!Setting.originalMenuUsable) {
+                Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Setting.selectedOriginal = !Setting.selectedOriginal;
+            processOriginalMenu();
+        } else if (R.id.tv_done == id) {
+            Intent intent = new Intent();
+            intent.putExtra(Key.PREVIEW_CLICK_DONE, true);
+            setResult(RESULT_OK, intent);
+            finish();
         }
 //        else if (R.id.m_bottom_bar == id) {
 //
@@ -267,12 +294,21 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 //        }
     }
 
+    private void processOriginalMenu() {
+        if (Setting.selectedOriginal) {
+            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.menu_easy_photos));
+        } else {
+            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+        }
+    }
+
     private void toggleSelector() {
         if (photos.get(lastPosition).selected) {
             ivSelector.setImageResource(R.drawable.ic_selector_true);
         } else {
             ivSelector.setImageResource(R.drawable.ic_selector);
         }
+        shouldShowMenuDone();
     }
 
     private void updateSelector() {
@@ -321,6 +357,25 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         } else {
             Result.addPhoto(photoItem);
             toggleSelector();
+        }
+    }
+
+    private void shouldShowMenuDone() {
+        if (Result.isEmpty()) {
+            if (View.VISIBLE == tvDone.getVisibility()) {
+                ScaleAnimation scaleHide = new ScaleAnimation(1f, 0f, 1f, 0f);
+                scaleHide.setDuration(200);
+                tvDone.startAnimation(scaleHide);
+            }
+            tvDone.setVisibility(View.GONE);
+        } else {
+            if (View.GONE == tvDone.getVisibility()) {
+                ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
+                scaleShow.setDuration(200);
+                tvDone.startAnimation(scaleShow);
+            }
+            tvDone.setVisibility(View.VISIBLE);
+            tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
         }
     }
 }

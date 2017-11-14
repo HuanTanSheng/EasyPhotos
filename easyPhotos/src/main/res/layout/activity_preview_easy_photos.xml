@@ -15,13 +15,13 @@
         android:fitsSystemWindows="true">
 
         <RelativeLayout
-            android:clickable="true"
-            android:id="@+id/m_tool_bar"
+            android:id="@+id/m_top_bar"
             style="?metaButtonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_gravity="top"
             android:background="@color/tool_bar_easy_photos"
+            android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true">
 
@@ -52,37 +52,37 @@
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@string/preview_current_number"
                 android:textColor="@color/text_easy_photos" />
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:id="@+id/tv_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/bg_menu_done_easy_photos"
                 android:gravity="center"
+                android:maxWidth="200dp"
                 android:padding="6dp"
                 android:textColor="@color/text_easy_photos"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_alignParentEnd="true" />
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/m_bottom_bar"
             style="?metaButtonBarStyle"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_gravity="bottom"
             android:background="@color/bottom_bar_easy_photos"
-            android:fitsSystemWindows="true">
+            android:clickable="true"
+            android:fitsSystemWindows="true"
+            android:focusable="true">
 
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
@@ -90,11 +90,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/edit_easy_photos"
-                android:textColor="@color/text_easy_photos" />
+                android:textColor="@color/text_easy_photos"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_original"

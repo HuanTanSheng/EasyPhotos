@@ -21,6 +21,10 @@ public class Setting {
     public static boolean photoAdIsOk = false;
     public static boolean albumItemsAdIsOk = false;
     public static ArrayList<PhotoItem> selectedPhotos = new ArrayList<>();
+    public static boolean showOriginalMenu = false;
+    public static boolean originalMenuUsable = false;
+    public static String originalMenuUnusableHint = "";
+    public static boolean selectedOriginal = false;
 
 
     public static void clear() {
@@ -32,6 +36,10 @@ public class Setting {
         photoAdIsOk = false;
         albumItemsAdIsOk = false;
         selectedPhotos.clear();
+        showOriginalMenu = false;
+        originalMenuUsable = false;
+        originalMenuUnusableHint = "";
+        selectedOriginal = false;
     }
 
     public static boolean hasPhotosAd() {

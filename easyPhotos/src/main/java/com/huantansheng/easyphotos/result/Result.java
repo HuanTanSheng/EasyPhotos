@@ -1,6 +1,11 @@
 package com.huantansheng.easyphotos.result;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+
 import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.setting.Setting;
 
 import java.util.ArrayList;
 
@@ -30,6 +35,22 @@ public class Result {
         int size = photos.size();
         for (int i = 0; i < size; i++) {
             removePhoto(0);
+        }
+    }
+
+    public static void processOriginal() {
+        boolean isIceApi = Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
+        if (Setting.showOriginalMenu) {
+            if (Setting.originalMenuUsable) {
+                for (PhotoItem photo : photos) {
+                    photo.selectedOriginal = Setting.selectedOriginal;
+                    if (isIceApi && photo.width == 0) {
+                        Bitmap b = BitmapFactory.decodeFile(photo.path);
+                        photo.width = b.getWidth();
+                        photo.height = b.getHeight();
+                    }
+                }
+            }
         }
     }
 

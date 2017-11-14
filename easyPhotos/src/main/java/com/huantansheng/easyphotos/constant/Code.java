@@ -7,9 +7,9 @@ package com.huantansheng.easyphotos.constant;
 
 public class Code {
     //相机请求码
-    public static final int CODE_REQUEST_CAMERA = 11;
+    public static final int REQUEST_CAMERA = 11;
     //权限请求码
-    public static final int REQUEST_PERMISSION_CODE = 12;
+    public static final int REQUEST_PERMISSION = 12;
     //预览activity请求码
     public static final int REQUEST_PREVIEW_ACTIVITY = 13;
     //请求应用详情

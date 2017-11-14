@@ -44,11 +44,16 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.dataList = dataList;
         this.listener = listener;
         this.mInflater = LayoutInflater.from(cxt);
-        this.unable = false;
+        this.unable = Result.count() == Setting.count;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
         RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
+    }
+
+    public void change() {
+        unable = Result.count() == Setting.count;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -140,7 +145,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
-            if(!Setting.photoAdIsOk){
+            if (!Setting.photoAdIsOk) {
                 ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
                 return;
             }

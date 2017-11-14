@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
@@ -35,7 +36,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
 
     @Override
     public void onBindViewHolder(MainVH holder, int position) {
-        mGlide.load(list.get(position).path).into(holder.ivPhoto);
+        PhotoItem photo = list.get(position);
+        mGlide.load(photo.path).into(holder.ivPhoto);
+        holder.tvMessage.setText("[图片名称]： "+photo.name+"\n[宽]："+photo.width+"\n[高]："+photo.height+"\n[文件大小]："+photo.size+"bytes"+"\n[日期]："+photo.time+"\n[图片地址]："+photo.path+"\n[图片类型]："+photo.type+"\n[是否选择原图]："+photo.selectedOriginal);
     }
 
     @Override
@@ -45,10 +48,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
 
     public class MainVH extends RecyclerView.ViewHolder {
         public ImageView ivPhoto;
-
+        public TextView tvMessage;
         public MainVH(View itemView) {
             super(itemView);
             ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
+            tvMessage = (TextView) itemView.findViewById(R.id.tv_message);
         }
     }
 }
