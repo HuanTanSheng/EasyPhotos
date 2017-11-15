@@ -2,7 +2,11 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志   
+### 更新日志  
+**1.2.1：**   
+- 优化预览界面全屏动效
+- 优化Photo实体对象  
+
 **1.2.0：**   
 - 升级图片选取返回信息（图片地址/宽高/文件大小/文件修改时间/文件类型/用户是否点击原图选项/文件名）
 - 图片选择新增原图选项
@@ -99,7 +103,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.2.0'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.2.1'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
