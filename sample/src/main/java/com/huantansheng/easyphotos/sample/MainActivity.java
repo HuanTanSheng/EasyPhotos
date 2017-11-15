@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        rvImage = (RecyclerView) findViewById(R.id.iv_image);
+        rvImage = (RecyclerView) findViewById(R.id.rv_image);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         adapter = new MainAdapter(this, images);
         rvImage.setLayoutManager(linearLayoutManager);

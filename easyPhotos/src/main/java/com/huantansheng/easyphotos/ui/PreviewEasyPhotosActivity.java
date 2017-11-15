@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -243,7 +242,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
                     if (lastPosition == leftViewPosition - 1) {
                         return;
                     }
-                    tvNumber.setText(getString(R.string.preview_current_number, leftViewPosition, photos.size()));
+                    tvNumber.setText(getString(R.string.preview_current_number_easy_photos, leftViewPosition, photos.size()));
                     lastPosition = leftViewPosition - 1;
                     View view = snapHelper.findSnapView(lm);
                     toggleSelector();
@@ -259,7 +258,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
                 }
             }
         });
-        tvNumber.setText(getString(R.string.preview_current_number, index + 1, photos.size()));
+        tvNumber.setText(getString(R.string.preview_current_number_easy_photos, index + 1, photos.size()));
     }
 
     @Override
