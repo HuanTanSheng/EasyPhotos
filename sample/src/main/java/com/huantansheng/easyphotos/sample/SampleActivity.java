@@ -148,7 +148,7 @@ public class SampleActivity extends AppCompatActivity
                     .setCount(9)
                     .setMinWidth(500)//参数说明：最小宽度500px
                     .setMinHeight(500)//参数说明：最小高度500px
-                    .setMinFileSize(1024*10)//参数说明：最小文件大小10K
+                    .setMinFileSize(1024 * 10)//参数说明：最小文件大小10K
                     .start(101);
         } else if (id == R.id.album_original_usable) {
             //显示原图按钮，并且按钮可用
