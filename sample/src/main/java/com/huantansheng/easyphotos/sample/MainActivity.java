@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode) {
-            ArrayList<Photo> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT);
+            ArrayList<Photo> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
             images.clear();
             images.addAll(result);
             adapter.notifyDataSetChanged();

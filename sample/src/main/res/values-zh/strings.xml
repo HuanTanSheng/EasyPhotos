@@ -13,7 +13,7 @@
     <string name="album_single">相册(无相机单选）</string>
     <string name="album_multi">相册(无相机多选）</string>
     <string name="album_ad">相册（带广告）</string>
-
+    <string name="camera">相机</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -54,6 +54,7 @@
     <string name="original_easy_photos">原图</string>
 
     <string name="preview_current_number_easy_photos">%1$d/%2$d</string>
+
 
 
 </resources>

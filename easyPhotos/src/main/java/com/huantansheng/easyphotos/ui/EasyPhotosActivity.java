@@ -289,7 +289,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         Photo photo = new Photo(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), "image/jpeg");
         resultList.add(photo);
         EasyPhotos.recycle(bitmap);
-        data.putParcelableArrayListExtra(EasyPhotos.RESULT, resultList);
+        data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
         setResult(RESULT_OK, data);
         finish();
 
@@ -424,7 +424,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         Intent intent = new Intent();
         Result.processOriginal();
         resultList.addAll(Result.photos);
-        intent.putParcelableArrayListExtra(EasyPhotos.RESULT, resultList);
+        intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
+        ArrayList<String> resultPaths = new ArrayList<>();
+        for (Photo photo : resultList) {
+            resultPaths.add(photo.path);
+        }
+        intent.putStringArrayListExtra(EasyPhotos.RRESULT_PATHS, resultPaths);
+        intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
         setResult(RESULT_OK, intent);
         finish();
     }

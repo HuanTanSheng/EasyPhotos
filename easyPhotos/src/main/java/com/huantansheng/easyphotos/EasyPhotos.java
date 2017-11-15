@@ -27,7 +27,9 @@ import java.util.List;
 public class EasyPhotos {
 
     //easyPhotos的返回数据Key
-    public static final String RESULT = "keyOfEasyPhotosResult";
+    public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
+    public static final String RRESULT_PATHS = "keyOfEasyPhotosResultPaths";
+    public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
 
     /**
      * 启动模式
@@ -139,11 +141,31 @@ public class EasyPhotos {
     }
 
     /**
+     * 设置设置默认选择图片地址集合
+     *
+     * @param selectedPhotoPaths 默认选择图片地址集合
+     * @param selectedOriginal   是否选中了原图选项
+     * @return
+     */
+    public EasyPhotos setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths, boolean selectedOriginal) {
+        Setting.selectedPhotos.clear();
+        ArrayList<Photo> selectedPhotos = new ArrayList<>();
+        for (String path : selectedPhotoPaths) {
+            Photo photo = new Photo(false, null, path, 0, 0, 0, 0, null);
+            photo.selectedOriginal = selectedOriginal;
+            selectedPhotos.add(photo);
+        }
+        Setting.selectedPhotos.addAll(selectedPhotos);
+        return EasyPhotos.this;
+    }
+
+    /**
      * 原图按钮设置
-     * @param shouldShow        是否显示原图按钮
-     * @param usable            原图按钮是否可使用
-     * @param unusableHint      原图按钮不可使用时给用户的文字提示
-     * @return                  EasyPhotos
+     *
+     * @param shouldShow   是否显示原图按钮
+     * @param usable       原图按钮是否可使用
+     * @param unusableHint 原图按钮不可使用时给用户的文字提示
+     * @return EasyPhotos
      */
     public EasyPhotos setOriginalMenu(boolean shouldShow, boolean usable, String unusableHint) {
         Setting.showOriginalMenu = shouldShow;
