@@ -118,7 +118,7 @@ public class EasyPhotos {
     /**
      * 设置显示照片的最小文件大小
      *
-     * @param minFileSize  最小文件大小
+     * @param minFileSize  最小文件大小，单位Bytes
      * @return EasyPhotos
      */
     public EasyPhotos setMinFileSize(long minFileSize) {
@@ -128,7 +128,7 @@ public class EasyPhotos {
 
     /**
      * 设置显示照片的最小宽度
-     * @param minWidth 照片的最小宽度
+     * @param minWidth 照片的最小宽度，单位Px
      * @return EasyPhotos
      */
     public EasyPhotos setMinWidth(int minWidth) {
@@ -138,7 +138,7 @@ public class EasyPhotos {
 
     /**
      * 设置显示照片的最小高度
-     * @param minHeight 显示照片的最小高度
+     * @param minHeight 显示照片的最小高度，单位Px
      * @return EasyPhotos
      */
     public EasyPhotos setMinHeight(int minHeight) {
