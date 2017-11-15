@@ -2,7 +2,7 @@ package com.huantansheng.easyphotos.setting;
 
 import android.view.View;
 
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Setting {
     public static WeakReference<View> albumItemsAdView = null;
     public static boolean photoAdIsOk = false;
     public static boolean albumItemsAdIsOk = false;
-    public static ArrayList<PhotoItem> selectedPhotos = new ArrayList<>();
+    public static ArrayList<Photo> selectedPhotos = new ArrayList<>();
     public static boolean showOriginalMenu = false;
     public static boolean originalMenuUsable = false;
     public static String originalMenuUnusableHint = "";

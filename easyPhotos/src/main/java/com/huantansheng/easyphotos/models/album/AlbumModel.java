@@ -11,7 +11,7 @@ import android.util.Log;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.album.entity.Album;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
@@ -130,10 +130,10 @@ public class AlbumModel {
                     }
                 }
 
-                PhotoItem imageItem = new PhotoItem(false, name, path, dateTime, width, height, size, type);
+                Photo imageItem = new Photo(false, name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     Setting.selectedOriginal = Setting.selectedPhotos.get(0).selectedOriginal;
-                    for (PhotoItem selectedPhoto : Setting.selectedPhotos) {
+                    for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
                             imageItem.selectedOriginal = selectedPhoto.selectedOriginal;
                             Result.addPhoto(imageItem);
@@ -147,7 +147,7 @@ public class AlbumModel {
                     album.addAlbumItem(albumItem_all_name, "", path);
                     // 是否显示相机按钮
                     if (isShowCamera) {
-                        PhotoItem cameraItem = new PhotoItem(true, "", "", 0, 0, 0, 0, "");
+                        Photo cameraItem = new Photo(true, "", "", 0, 0, 0, 0, "");
                         album.getAlbumItem(albumItem_all_name).addImageItem(cameraItem);
                     }
                 }
@@ -170,7 +170,7 @@ public class AlbumModel {
      *
      * @return 当前专辑项目的图片集
      */
-    public ArrayList<PhotoItem> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
+    public ArrayList<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
         return album.getAlbumItem(currAlbumItemIndex).photos;
     }
 

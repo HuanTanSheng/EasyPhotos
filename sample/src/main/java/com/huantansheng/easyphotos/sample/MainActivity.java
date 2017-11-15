@@ -9,24 +9,22 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * 选择的图片集
      */
-    private ArrayList<PhotoItem> images = new ArrayList<>();
+    private ArrayList<Photo> images = new ArrayList<>();
     private MainAdapter adapter;
     private RecyclerView rvImage;
 
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode) {
-            ArrayList<PhotoItem> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT);
+            ArrayList<Photo> result = data.getParcelableArrayListExtra(EasyPhotos.RESULT);
             images.clear();
             images.addAll(result);
             adapter.notifyDataSetChanged();
@@ -159,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_original_usable://显示原图按钮，并且按钮可用
                 EasyPhotos.createAlbum(this, false)
                         .setCount(9)
-                        .setOriginalMenu(true, true, null)//参数说明：是否显示，是否可用，不可用将toast信息
+                        .setOriginalMenu(true, true, null)//参数说明：是否显示，是否可用，不可用时用户点击将toast信息
                         .start(101);
                 break;
             case R.id.bt_original_unusable://显示原图按钮，按钮不可用。举例使用场景：仅VIP可以上传原图
                 boolean isVip = false;//假设获取用户信息发现该用户不是vip
                 EasyPhotos.createAlbum(this, true)
                         .setCount(9)
-                        .setOriginalMenu(true, isVip, "该功能为VIP会员特权功能")//参数说明：是否显示，是否可用，不可用将toast信息
+                        .setOriginalMenu(true, isVip, "该功能为VIP会员特权功能")//参数说明：是否显示，是否可用，不可用时用户点击将toast信息
                         .start(101);
         }
     }

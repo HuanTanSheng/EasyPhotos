@@ -13,7 +13,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
@@ -69,7 +69,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PhotoViewHolder) {
-            final PhotoItem item = (PhotoItem) dataList.get(position);
+            final Photo item = (Photo) dataList.get(position);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, position);
             if (item.isCamera) {
                 if (padding == 0) {
@@ -166,25 +166,25 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void singleSelector(PhotoItem photoItem, int position) {
+    private void singleSelector(Photo photo, int position) {
         if (!Result.isEmpty()) {
-            if (Result.getPhotoPath(0).equals(photoItem.path)) {
-                Result.removePhoto(photoItem);
+            if (Result.getPhotoPath(0).equals(photo.path)) {
+                Result.removePhoto(photo);
                 notifyItemChanged(position);
             } else {
                 Result.removePhoto(0);
-                Result.addPhoto(photoItem);
+                Result.addPhoto(photo);
                 notifyItemChanged(singlePosition);
                 notifyItemChanged(position);
             }
         } else {
-            Result.addPhoto(photoItem);
+            Result.addPhoto(photo);
             notifyItemChanged(position);
         }
         listener.onSelectorChanged();
     }
 
-    private void updateSelector(TextView tvSelector, boolean selected, PhotoItem photo, int position) {
+    private void updateSelector(TextView tvSelector, boolean selected, Photo photo, int position) {
         if (selected) {
             String number = Result.getSelectorNumber(photo);
             if (number.equals("0")) {

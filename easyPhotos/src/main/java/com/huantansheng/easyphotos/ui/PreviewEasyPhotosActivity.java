@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -24,7 +25,7 @@ import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PreviewPhotosAdapter;
@@ -57,7 +58,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private final Runnable mHidePart2Runnable = new Runnable() {
         @Override
         public void run() {
-            SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(rvPhotos);
+            SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(PreviewEasyPhotosActivity.this, decorView);
         }
     };
     private RelativeLayout mBottomBar, mToolBar;
@@ -70,7 +71,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         }
     };
     private boolean mVisible;
-
+    View decorView;
     private TextView tvOriginal, tvNumber;
     private PressedTextView tvDone;
     private ImageView ivSelector;
@@ -79,7 +80,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private PagerSnapHelper snapHelper;
     private LinearLayoutManager lm;
     private int index;
-    private ArrayList<PhotoItem> photos = new ArrayList<>();
+    private ArrayList<Photo> photos = new ArrayList<>();
     private int resultCode = RESULT_CANCELED;
     private int lastPosition = 0;//记录recyclerView最后一次角标位置，用于判断是否转换了item
     private boolean isSingle = Setting.count == 1;
@@ -88,6 +89,8 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        decorView = getWindow().getDecorView();
+        SystemUtils.getInstance(this).systemUiInit(this, decorView);
         setContentView(R.layout.activity_preview_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -155,10 +158,8 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void show() {
         // Show the system bar
-
         if (Build.VERSION.SDK_INT >= 16) {
-            SystemUtils.getInstance(this).systemUiShow(rvPhotos);
-
+            SystemUtils.getInstance(this).systemUiShow(this, decorView);
         }
 
         mVisible = true;
@@ -192,6 +193,9 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     }
 
     private void initView() {
+        if (!SystemUtils.getInstance(this).hasNavigationBar()) {
+            findViewById(R.id.m_bar_root_view).setPadding(0, SystemUtils.getInstance(this).getStatusBarHeight(this), 0, 0);
+        }
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
         mToolBar = (RelativeLayout) findViewById(R.id.m_top_bar);
@@ -218,14 +222,6 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void initRecyclerView() {
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
-
-        rvPhotos.post(new Runnable() {
-            @Override
-            public void run() {
-                SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiInit(rvPhotos);
-            }
-        });
-
         adapter = new PreviewPhotosAdapter(this, photos, this);
         lm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvPhotos.setLayoutManager(lm);
@@ -314,7 +310,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
 
     private void updateSelector() {
         resultCode = RESULT_OK;
-        PhotoItem item = photos.get(lastPosition);
+        Photo item = photos.get(lastPosition);
         if (isSingle) {
             singleSelector(item);
             return;
@@ -345,18 +341,18 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         toggleSelector();
     }
 
-    private void singleSelector(PhotoItem photoItem) {
+    private void singleSelector(Photo photo) {
         if (!Result.isEmpty()) {
-            if (Result.getPhotoPath(0).equals(photoItem.path)) {
-                Result.removePhoto(photoItem);
+            if (Result.getPhotoPath(0).equals(photo.path)) {
+                Result.removePhoto(photo);
                 toggleSelector();
             } else {
                 Result.removePhoto(0);
-                Result.addPhoto(photoItem);
+                Result.addPhoto(photo);
                 toggleSelector();
             }
         } else {
-            Result.addPhoto(photoItem);
+            Result.addPhoto(photo);
             toggleSelector();
         }
     }

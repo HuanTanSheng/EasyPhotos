@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -132,7 +132,7 @@ public class EasyPhotos {
      * @param selectedPhotos 默认选择图片集合
      * @return EasyPhotos
      */
-    public EasyPhotos setSelectedPhotos(ArrayList<PhotoItem> selectedPhotos) {
+    public EasyPhotos setSelectedPhotos(ArrayList<Photo> selectedPhotos) {
         Setting.selectedPhotos.clear();
         Setting.selectedPhotos.addAll(selectedPhotos);
         return EasyPhotos.this;

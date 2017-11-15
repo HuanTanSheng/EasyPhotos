@@ -9,8 +9,8 @@ import android.util.Log;
  * Created by huan on 2017/10/20.
  */
 
-public class PhotoItem implements Parcelable {
-    private static final String TAG = "PhotoItem";
+public class Photo implements Parcelable {
+    private static final String TAG = "Photo";
     public String name;//图片名称
     public String path;//图片全路径
     public String type;//图片类型
@@ -19,10 +19,10 @@ public class PhotoItem implements Parcelable {
     public long size;//图片文件大小，单位：Bytes
     public long time;//图片最后修改时间戳,单位：毫秒
     public boolean isCamera;//是否是相机按钮，内部使用，无需关心
-    public boolean selected;//是否被选中
+    public boolean selected;//是否被选中,内部使用,无需关心
     public boolean selectedOriginal;//用户选择时是否选择了原图选项
 
-    public PhotoItem(boolean isCamera, String name, String path, long time, int width, int height,long size, String type) {
+    public Photo(boolean isCamera, String name, String path, long time, int width, int height, long size, String type) {
         this.isCamera = isCamera;
         this.name = name;
         this.path = path;
@@ -38,7 +38,7 @@ public class PhotoItem implements Parcelable {
     @Override
     public boolean equals(Object o) {
         try {
-            PhotoItem other = (PhotoItem) o;
+            Photo other = (Photo) o;
             return this.path.equalsIgnoreCase(other.path);
         } catch (ClassCastException e) {
             Log.e(TAG, "equals: " + Log.getStackTraceString(e));
@@ -48,7 +48,7 @@ public class PhotoItem implements Parcelable {
 
     @Override
     public String toString() {
-        return "PhotoItem{" +
+        return "Photo{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
                 ", time=" + time + '\'' +
@@ -76,7 +76,7 @@ public class PhotoItem implements Parcelable {
         dest.writeByte(this.selectedOriginal ? (byte) 1 : (byte) 0);
     }
 
-    protected PhotoItem(Parcel in) {
+    protected Photo(Parcel in) {
         this.name = in.readString();
         this.path = in.readString();
         this.type = in.readString();
@@ -89,15 +89,15 @@ public class PhotoItem implements Parcelable {
         this.selectedOriginal = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<PhotoItem> CREATOR = new Parcelable.Creator<PhotoItem>() {
+    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
         @Override
-        public PhotoItem createFromParcel(Parcel source) {
-            return new PhotoItem(source);
+        public Photo createFromParcel(Parcel source) {
+            return new Photo(source);
         }
 
         @Override
-        public PhotoItem[] newArray(int size) {
-            return new PhotoItem[size];
+        public Photo[] newArray(int size) {
+            return new Photo[size];
         }
     };
 }

@@ -11,7 +11,7 @@ public class AlbumItem {
     public String name;
     public String folderPath;
     public String coverImagePath;
-    public ArrayList<PhotoItem> photos;
+    public ArrayList<Photo> photos;
 
     AlbumItem(String name, String folderPath, String coverImagePath) {
         this.name = name;
@@ -20,7 +20,7 @@ public class AlbumItem {
         this.photos = new ArrayList<>();
     }
 
-    public void addImageItem(PhotoItem imageItem) {
+    public void addImageItem(Photo imageItem) {
         this.photos.add(imageItem);
     }
 }

@@ -2,7 +2,6 @@ package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.OnScaleChangedListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.huantansheng.easyphotos.R;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
-    ArrayList<PhotoItem> photos;
+    ArrayList<Photo> photos;
     RequestManager mGlide;
     LayoutInflater inflater;
     OnClickListener listener;
@@ -36,7 +35,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         void onPhotoScaleChanged();
     }
 
-    public PreviewPhotosAdapter(Context cxt, ArrayList<PhotoItem> photos, OnClickListener listener) {
+    public PreviewPhotosAdapter(Context cxt, ArrayList<Photo> photos, OnClickListener listener) {
         this.photos = photos;
         this.inflater = LayoutInflater.from(cxt);
         this.listener = listener;

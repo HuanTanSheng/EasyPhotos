@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
 import java.util.ArrayList;
@@ -15,16 +15,16 @@ import java.util.ArrayList;
  */
 
 public class Result {
-    public static ArrayList<PhotoItem> photos = new ArrayList<>();
+    public static ArrayList<Photo> photos = new ArrayList<>();
 
-    public static void addPhoto(PhotoItem photoItem) {
-        photoItem.selected = true;
-        photos.add(photoItem);
+    public static void addPhoto(Photo photo) {
+        photo.selected = true;
+        photos.add(photo);
     }
 
-    public static void removePhoto(PhotoItem photoItem) {
-        photoItem.selected = false;
-        photos.remove(photoItem);
+    public static void removePhoto(Photo photo) {
+        photo.selected = false;
+        photos.remove(photo);
     }
 
     public static void removePhoto(int photoIndex) {
@@ -42,7 +42,7 @@ public class Result {
         boolean isIceApi = Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
         if (Setting.showOriginalMenu) {
             if (Setting.originalMenuUsable) {
-                for (PhotoItem photo : photos) {
+                for (Photo photo : photos) {
                     photo.selectedOriginal = Setting.selectedOriginal;
                     if (isIceApi && photo.width == 0) {
                         Bitmap b = BitmapFactory.decodeFile(photo.path);
@@ -72,7 +72,7 @@ public class Result {
      * @param photo 当前图片
      * @return 选择器应该显示的数字
      */
-    public static String getSelectorNumber(PhotoItem photo) {
+    public static String getSelectorNumber(Photo photo) {
         return String.valueOf(photos.indexOf(photo) + 1);
     }
 

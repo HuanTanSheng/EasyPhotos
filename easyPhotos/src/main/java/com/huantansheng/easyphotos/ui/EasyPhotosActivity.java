@@ -39,7 +39,7 @@ import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
-import com.huantansheng.easyphotos.models.album.entity.PhotoItem;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
@@ -67,7 +67,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private ArrayList<Object> photoList = new ArrayList<>();
     private ArrayList<Object> albumItemList = new ArrayList<>();
 
-    private ArrayList<PhotoItem> resultList = new ArrayList<>();
+    private ArrayList<Photo> resultList = new ArrayList<>();
 
     private RecyclerView rvPhotos;
     private PhotosAdapter photosAdapter;
@@ -286,8 +286,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
         Intent data = new Intent();
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        PhotoItem photoItem = new PhotoItem(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), "image/jpeg");
-        resultList.add(photoItem);
+        Photo photo = new Photo(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), "image/jpeg");
+        resultList.add(photo);
         EasyPhotos.recycle(bitmap);
         data.putParcelableArrayListExtra(EasyPhotos.RESULT, resultList);
         setResult(RESULT_OK, data);
