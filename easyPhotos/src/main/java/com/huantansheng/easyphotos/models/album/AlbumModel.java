@@ -119,13 +119,16 @@ public class AlbumModel {
                 String name = cursor.getString(nameCol);
                 long dateTime = cursor.getLong(DateCol);
                 String type = cursor.getString(mimeType);
-                int size = cursor.getInt(sizeCol);
+                long size = cursor.getInt(sizeCol);
                 int width = 0;
                 int height = 0;
+                if (size < Setting.minSize) {
+                    continue;
+                }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
-                    if (width < Setting.minWidth && height < Setting.minHeight) {
+                    if (width < Setting.minWidth || height < Setting.minHeight) {
                         continue;
                     }
                 }

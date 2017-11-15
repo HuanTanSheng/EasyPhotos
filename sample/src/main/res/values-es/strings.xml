@@ -7,7 +7,7 @@
     <string name="album_camera_single">El álbum de fotos con la Cámara y radio)</string>
     <string name="album_camera_multi">El álbum de fotos con cámaras y selección múltiple)</string>
     <string name="album_selected">álbum (con marcada por defecto)</string>
-    <string name="album_size">Album de fotos (límite de tamaño)</string>
+    <string name="album_size">Album de fotos (Limitar el tamaño de)</string>
     <string name="album_original_usable">(Mostrar imagen del botón y disponible)</string>
     <string name="album_original_unusable">(mostrar el botón del álbum original, no disponible)</string>
     <string name="album_single">El álbum de fotos sin cámara, radio)</string>

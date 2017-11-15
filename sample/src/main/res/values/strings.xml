@@ -7,7 +7,7 @@
     <string name="album_camera_single">Photo album (with camera, single)</string>
     <string name="album_camera_multi">Photo album (with camera, multi)</string>
     <string name="album_selected">Photo album (with default check)</string>
-    <string name="album_size">Photo album (size limit)</string>
+    <string name="album_size">Photo album (Size and size limit)</string>
     <string name="album_original_usable">Photo album (display original button, available)</string>
     <string name="album_original_unusable">Photo album (display original button, not available)</string>
     <string name="album_single">Photo album (no camera, single)</string>

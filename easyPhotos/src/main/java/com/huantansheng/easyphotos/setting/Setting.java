@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Setting {
     public static int minWidth = 1;
     public static int minHeight = 1;
+    public static long minSize = 1;
     public static int count = 1;
     public static WeakReference<View> photosAdView = null;
     public static WeakReference<View> albumItemsAdView = null;
@@ -30,6 +31,7 @@ public class Setting {
     public static void clear() {
         minWidth = 1;
         minHeight = 1;
+        minSize = 1;
         count = 1;
         photosAdView = null;
         albumItemsAdView = null;

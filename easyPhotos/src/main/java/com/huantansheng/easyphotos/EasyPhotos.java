@@ -116,14 +116,32 @@ public class EasyPhotos {
     }
 
     /**
-     * 设置显示照片的最小宽高
+     * 设置显示照片的最小文件大小
      *
-     * @param minWidth  最小宽度
-     * @param minHeight 最小高度
+     * @param minFileSize  最小文件大小
      * @return EasyPhotos
      */
-    public EasyPhotos setMinSize(int minWidth, int minHeight) {
+    public EasyPhotos setMinFileSize(long minFileSize) {
+        Setting.minSize = minFileSize;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置显示照片的最小宽度
+     * @param minWidth 照片的最小宽度
+     * @return EasyPhotos
+     */
+    public EasyPhotos setMinWidth(int minWidth) {
         Setting.minWidth = minWidth;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 设置显示照片的最小高度
+     * @param minHeight 显示照片的最小高度
+     * @return EasyPhotos
+     */
+    public EasyPhotos setMinHeight(int minHeight) {
         Setting.minHeight = minHeight;
         return EasyPhotos.this;
     }

@@ -142,11 +142,13 @@ public class SampleActivity extends AppCompatActivity
                     .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)//参数说明：相册中的广告view，相册中的广告View数据是否绑定完毕，专辑列表广告View，专辑列表广告View数据是否绑定完毕
                     .start(101);
         } else if (id == R.id.album_size) {
-            //只显示限制尺寸以上的图片
+            //只显示限制尺寸或限制文件大小以上的图片
             EasyPhotos.createAlbum(this, true)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                     .setCount(9)
-                    .setMinSize(500, 500)//参数说明：最小宽度，最小高度
+                    .setMinWidth(500)//参数说明：最小宽度500px
+                    .setMinHeight(500)//参数说明：最小高度500px
+                    .setMinFileSize(1024*10)//参数说明：最小文件大小10K
                     .start(101);
         } else if (id == R.id.album_original_usable) {
             //显示原图按钮，并且按钮可用

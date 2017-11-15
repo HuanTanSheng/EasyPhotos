@@ -7,7 +7,7 @@
     <string name="album_camera_single">アルバム（カメラそしてラジオ）</string>
     <string name="album_camera_multi">写真集（カメラがあります</string>
     <string name="album_selected">アルバム（デフォルト勾选）</string>
-    <string name="album_size">アルバム（寸法制限）</string>
+    <string name="album_size">アルバム（サイズと大きさは制限が制限されて）</string>
     <string name="album_original_usable">アルバム（原図のボタン、可用）を表示</string>
     <string name="album_original_unusable">アルバム（原図のボタン、可用）は</string>
     <string name="album_single">アルバム（無カメラ、ラジオ）</string>
