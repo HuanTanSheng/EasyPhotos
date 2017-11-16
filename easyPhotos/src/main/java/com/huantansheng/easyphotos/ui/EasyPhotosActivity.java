@@ -287,9 +287,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         Intent data = new Intent();
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         Photo photo = new Photo(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), "image/jpeg");
+        photo.selectedOriginal = Setting.selectedOriginal;
         resultList.add(photo);
         EasyPhotos.recycle(bitmap);
+
         data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
+
+        data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
+
+        ArrayList<String> pathList = new ArrayList<>();
+        pathList.add(photo.path);
+
+        data.putStringArrayListExtra(EasyPhotos.RRESULT_PATHS, pathList);
+
         setResult(RESULT_OK, data);
         finish();
 
@@ -311,7 +321,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void initView() {
         if (albumModel.getAlbumItems().isEmpty()) {
-            Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
             if (isShowCamera) launchCamera(Code.REQUEST_CAMERA);
             else finish();
             return;
@@ -439,7 +449,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         if (Setting.selectedOriginal) {
             tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.menu_easy_photos));
         } else {
-            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+            if (Setting.originalMenuUsable) {
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+            } else {
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_unable_easy_photos));
+            }
         }
     }
 

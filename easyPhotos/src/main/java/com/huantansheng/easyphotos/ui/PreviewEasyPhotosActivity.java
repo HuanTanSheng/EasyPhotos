@@ -294,7 +294,11 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
         if (Setting.selectedOriginal) {
             tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.menu_easy_photos));
         } else {
-            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+            if (Setting.originalMenuUsable) {
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+            } else {
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_unable_easy_photos));
+            }
         }
     }
 

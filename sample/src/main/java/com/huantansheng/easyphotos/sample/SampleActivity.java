@@ -151,17 +151,17 @@ public class SampleActivity extends AppCompatActivity
                     .setMinFileSize(1024 * 10)//参数说明：最小文件大小10K
                     .start(101);
         } else if (id == R.id.album_original_usable) {
-            //显示原图按钮，并且按钮可用
+            //显示原图按钮，并且默认选中，按钮可用
             EasyPhotos.createAlbum(this, false)
                     .setCount(9)
-                    .setOriginalMenu(true, true, null)//参数说明：是否显示，是否可用，不可用时用户点击将toast信息
+                    .setOriginalMenu(true, true, null)//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
                     .start(101);
         } else if (id == R.id.album_original_unusable) {
-            //显示原图按钮，按钮不可用。举例使用场景：仅VIP可以上传原图
+            //显示原图按钮，并且默认不选中，按钮不可用。使用场景举例：仅VIP可以上传原图
             boolean isVip = false;//假设获取用户信息发现该用户不是vip
             EasyPhotos.createAlbum(this, true)
                     .setCount(9)
-                    .setOriginalMenu(true, isVip, "该功能为VIP会员特权功能")//参数说明：是否显示，是否可用，不可用时用户点击将toast信息
+                    .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
                     .start(101);
         } else if (id == R.id.album_selected) {
             //相册中包含默认勾选图片

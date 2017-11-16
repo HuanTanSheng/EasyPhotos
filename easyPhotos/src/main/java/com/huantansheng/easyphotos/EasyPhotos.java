@@ -118,7 +118,7 @@ public class EasyPhotos {
     /**
      * 设置显示照片的最小文件大小
      *
-     * @param minFileSize  最小文件大小，单位Bytes
+     * @param minFileSize 最小文件大小，单位Bytes
      * @return EasyPhotos
      */
     public EasyPhotos setMinFileSize(long minFileSize) {
@@ -128,6 +128,7 @@ public class EasyPhotos {
 
     /**
      * 设置显示照片的最小宽度
+     *
      * @param minWidth 照片的最小宽度，单位Px
      * @return EasyPhotos
      */
@@ -138,6 +139,7 @@ public class EasyPhotos {
 
     /**
      * 设置显示照片的最小高度
+     *
      * @param minHeight 显示照片的最小高度，单位Px
      * @return EasyPhotos
      */
@@ -154,39 +156,43 @@ public class EasyPhotos {
      */
     public EasyPhotos setSelectedPhotos(ArrayList<Photo> selectedPhotos) {
         Setting.selectedPhotos.clear();
+        if (selectedPhotos.isEmpty()) {
+            return EasyPhotos.this;
+        }
         Setting.selectedPhotos.addAll(selectedPhotos);
+        Setting.selectedOriginal = selectedPhotos.get(0).selectedOriginal;
         return EasyPhotos.this;
     }
 
     /**
-     * 设置设置默认选择图片地址集合
+     * 设置默认选择图片地址集合
      *
      * @param selectedPhotoPaths 默认选择图片地址集合
-     * @param selectedOriginal   是否选中了原图选项
-     * @return
+     * @return EasyPhotos
      */
-    public EasyPhotos setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths, boolean selectedOriginal) {
+    public EasyPhotos setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths) {
         Setting.selectedPhotos.clear();
         ArrayList<Photo> selectedPhotos = new ArrayList<>();
         for (String path : selectedPhotoPaths) {
             Photo photo = new Photo(false, null, path, 0, 0, 0, 0, null);
-            photo.selectedOriginal = selectedOriginal;
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);
         return EasyPhotos.this;
     }
 
+
     /**
-     * 原图按钮设置
+     * 原图按钮设置,不调用该方法不显示原图按钮
      *
-     * @param shouldShow   是否显示原图按钮
+     * @param isChecked   原图选项默认状态是否为选中状态
      * @param usable       原图按钮是否可使用
      * @param unusableHint 原图按钮不可使用时给用户的文字提示
      * @return EasyPhotos
      */
-    public EasyPhotos setOriginalMenu(boolean shouldShow, boolean usable, String unusableHint) {
-        Setting.showOriginalMenu = shouldShow;
+    public EasyPhotos setOriginalMenu(boolean isChecked, boolean usable, String unusableHint) {
+        Setting.showOriginalMenu = true;
+        Setting.selectedOriginal = isChecked;
         Setting.originalMenuUsable = usable;
         Setting.originalMenuUnusableHint = unusableHint;
         return EasyPhotos.this;
@@ -266,6 +272,9 @@ public class EasyPhotos {
      * 刷新图片列表广告数据
      */
     public static void notifyPhotosAdLoaded() {
+        if (Setting.photoAdIsOk) {
+            return;
+        }
         if (null == instance) {
             return;
         }
@@ -297,6 +306,9 @@ public class EasyPhotos {
      * 刷新专辑项目列表广告
      */
     public static void notifyAlbumItemsAdLoaded() {
+        if (Setting.albumItemsAdIsOk) {
+            return;
+        }
         if (null == instance) {
             return;
         }

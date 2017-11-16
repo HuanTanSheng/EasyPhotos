@@ -135,10 +135,9 @@ public class AlbumModel {
 
                 Photo imageItem = new Photo(false, name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
-                    Setting.selectedOriginal = Setting.selectedPhotos.get(0).selectedOriginal;
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
-                            imageItem.selectedOriginal = selectedPhoto.selectedOriginal;
+                            imageItem.selectedOriginal = Setting.selectedOriginal;
                             Result.addPhoto(imageItem);
                         }
                     }
