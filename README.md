@@ -5,7 +5,8 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 ### 更新日志    
     
 **1.2.5：**    
-- 正式开放，投入使用    
+- 正式开放，投入使用   
+- 广告view可以传空，适用于VIP不显示广告场景
 
 **1.2.3：**    
 - 优化图片限制方式：最小宽度、最小高度、最小文件大小    
@@ -119,7 +120,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.2.4'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.2.5'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
