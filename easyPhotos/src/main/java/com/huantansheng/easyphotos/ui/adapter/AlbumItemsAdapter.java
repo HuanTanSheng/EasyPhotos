@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,13 +101,20 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
                 ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
                 return;
             }
-            ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
+
             WeakReference weakReference = (WeakReference) dataList.get(position);
-            ((AdViewHolder) holder).adFrame.removeAllViews();
-            if (weakReference != null) {
-                View ad = (View) weakReference.get();
-                if (null != ad) {
-                    ((AdViewHolder) holder).adFrame.addView(ad);
+
+            if (null != weakReference) {
+                View adView = (View) weakReference.get();
+                if (null != adView) {
+                    if (null != adView.getParent()) {
+                        if (adView.getParent() instanceof FrameLayout) {
+                            ((FrameLayout) adView.getParent()).removeAllViews();
+                        }
+                    }
+                    ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
+                    ((AdViewHolder) holder).adFrame.removeAllViews();
+                    ((AdViewHolder) holder).adFrame.addView(adView);
                 }
             }
         }

@@ -14,6 +14,7 @@
     <string name="album_multi">El álbum de fotos sin cámara, de opción múltiple)</string>
     <string name="album_ad">álbum (con publicidad)</string>
     <string name="camera">La Cámara</string>
+    <string name="addWatermark">Añadir una imagen de marca de agua</string>
 
 
     <!--以下是EasyPhotos的-->

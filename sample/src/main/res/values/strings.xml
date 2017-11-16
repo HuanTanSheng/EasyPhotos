@@ -14,6 +14,7 @@
     <string name="album_multi">Photo album (no camera,multi)</string>
     <string name="album_ad">Photo album (with advertisement)</string>
     <string name="camera">Camera</string>
+    <string name="addWatermark">Add watermark to picture</string>
 
 
     <!--以下是EasyPhotos的-->

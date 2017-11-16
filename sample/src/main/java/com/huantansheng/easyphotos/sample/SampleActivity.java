@@ -27,7 +27,6 @@ import java.util.ArrayList;
 public class SampleActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     /**
      * 选择的图片集
      */
@@ -56,6 +55,7 @@ public class SampleActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -103,31 +103,41 @@ public class SampleActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.camera) {
+
             //单独使用相机
             EasyPhotos.createCamera(this)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                     .start(101);
+
         } else if (id == R.id.album_single) {
+
             //相册单选，无相机功能
             EasyPhotos.createAlbum(this, false)
                     .start(101);
+
         } else if (id == R.id.album_multi) {
+
             //相册多选，无相机功能
             EasyPhotos.createAlbum(this, false)
                     .setCount(9)
                     .start(101);
+
         } else if (id == R.id.album_camera_single) {
+
             //相册单选，有相机功能
             EasyPhotos.createAlbum(this, true)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                     .start(101);
         } else if (id == R.id.album_camera_multi) {
+
             //相册多选，有相机功能
             EasyPhotos.createAlbum(this, true)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                     .setCount(22)
                     .start(101);
+
         } else if (id == R.id.album_ad) {
+
             //相册中包含广告
             // 需要在启动前创建广告view
             // 广告view不能有父布局
@@ -141,7 +151,9 @@ public class SampleActivity extends AppCompatActivity
                     .setCount(9)
                     .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)//参数说明：相册中的广告view，相册中的广告View数据是否绑定完毕，专辑列表广告View，专辑列表广告View数据是否绑定完毕
                     .start(101);
+
         } else if (id == R.id.album_size) {
+
             //只显示限制尺寸或限制文件大小以上的图片
             EasyPhotos.createAlbum(this, true)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
@@ -150,27 +162,33 @@ public class SampleActivity extends AppCompatActivity
                     .setMinHeight(500)//参数说明：最小高度500px
                     .setMinFileSize(1024 * 10)//参数说明：最小文件大小10K
                     .start(101);
+
         } else if (id == R.id.album_original_usable) {
+
             //显示原图按钮，并且默认选中，按钮可用
             EasyPhotos.createAlbum(this, false)
                     .setCount(9)
                     .setOriginalMenu(true, true, null)//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
                     .start(101);
+
         } else if (id == R.id.album_original_unusable) {
+
             //显示原图按钮，并且默认不选中，按钮不可用。使用场景举例：仅VIP可以上传原图
             boolean isVip = false;//假设获取用户信息发现该用户不是vip
+
             EasyPhotos.createAlbum(this, true)
                     .setCount(9)
                     .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
                     .start(101);
+
         } else if (id == R.id.album_selected) {
+
             //相册中包含默认勾选图片
             EasyPhotos.createAlbum(this, true)
                     .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                     .setCount(9)
                     .setSelectedPhotos(selectedPhotoList)//参数说明：用户上一次勾选过的图片集合，ArrayList<Photo>类型
                     .start(101);
-
 
             /**
              * 另一种方式
@@ -179,8 +197,9 @@ public class SampleActivity extends AppCompatActivity
 //            EasyPhotos.createAlbum(this, true)
 //                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
 //                    .setCount(9)
-//                    .setSelectedPhotoPaths(selectedPhotoPathList,false)//参数说明:用户上一次勾选过的图片地址集合，ArrayList<String>类型;上次用户选择图片时是否选中了原图选项，如不用原图选项功能直接传false即可。
+//                    .setSelectedPhotoPaths(selectedPhotoPathList)//参数说明:用户上一次勾选过的图片地址集合，ArrayList<String>类型;上次用户选择图片时是否选中了原图选项，如不用原图选项功能直接传false即可。
 //                    .start(101);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -195,10 +214,13 @@ public class SampleActivity extends AppCompatActivity
      * 为了确保广告view地址不变，设置final会更安全
      */
     private void initAdViews() {
+
         //模拟启动EasyPhotos前广告已经装载完毕
         initPhotosAd();
-        //
+
+        //模拟不确定启动EasyPhotos前广告是否装载完毕
         initAlbumItemsAd();
+
     }
 
     /**

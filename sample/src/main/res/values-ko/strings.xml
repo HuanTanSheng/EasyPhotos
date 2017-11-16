@@ -14,6 +14,7 @@
     <string name="album_multi">앨범 (없음 카메라, 얼마나)</string>
     <string name="album_ad">앨범 (데리고 광고)</string>
     <string name="camera">카메라</string>
+    <string name="addWatermark">사진 추가 워터마크</string>
 
 
     <!--以下是EasyPhotos的-->

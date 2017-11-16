@@ -149,9 +149,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
                 return;
             }
-            ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
+
             WeakReference weakReference = (WeakReference) dataList.get(position);
-            ((AdViewHolder) holder).adFrame.removeAllViews();
+
             if (null != weakReference) {
                 View adView = (View) weakReference.get();
                 if (null != adView) {
@@ -160,6 +160,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                             ((FrameLayout) adView.getParent()).removeAllViews();
                         }
                     }
+                    ((AdViewHolder) holder).adFrame.setVisibility(View.VISIBLE);
+                    ((AdViewHolder) holder).adFrame.removeAllViews();
                     ((AdViewHolder) holder).adFrame.addView(adView);
                 }
             }

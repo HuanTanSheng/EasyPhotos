@@ -14,6 +14,7 @@
     <string name="album_multi">アルバム（無カメラ、複数の写真）を</string>
     <string name="album_ad">写真集（広告）</string>
     <string name="camera">カメラ</string>
+    <string name="addWatermark">の写真が透かしを添えて</string>
 
 
     <!--以下是EasyPhotos的-->
