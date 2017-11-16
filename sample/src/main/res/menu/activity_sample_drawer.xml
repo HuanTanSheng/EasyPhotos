@@ -6,60 +6,63 @@
     <item android:title="Album/Camera">
         <menu>
             <group android:checkableBehavior="single">
-            <item
-                android:id="@+id/camera"
+                <item
+                    android:id="@+id/camera"
 
-                android:title="@string/camera" />
-            <item
-                android:id="@+id/album_single"
+                    android:title="@string/camera" />
+                <item
+                    android:id="@+id/album_single"
 
-                android:title="@string/album_single" />
-            <item
-                android:id="@+id/album_multi"
+                    android:title="@string/album_single" />
+                <item
+                    android:id="@+id/album_multi"
 
-                android:title="@string/album_multi" />
-            <item
-                android:id="@+id/album_camera_single"
+                    android:title="@string/album_multi" />
+                <item
+                    android:id="@+id/album_camera_single"
 
-                android:title="@string/album_camera_single" />
+                    android:title="@string/album_camera_single" />
 
-            <item
-                android:id="@+id/album_camera_multi"
+                <item
+                    android:id="@+id/album_camera_multi"
 
-                android:title="@string/album_camera_multi" />
+                    android:title="@string/album_camera_multi" />
 
-            <item
-                android:id="@+id/album_ad"
+                <item
+                    android:id="@+id/album_ad"
 
-                android:title="@string/album_ad" />
+                    android:title="@string/album_ad" />
 
-            <item
-                android:id="@+id/album_size"
+                <item
+                    android:id="@+id/album_size"
 
-                android:title="@string/album_size" />
+                    android:title="@string/album_size" />
 
-            <item
-                android:id="@+id/album_original_usable"
+                <item
+                    android:id="@+id/album_selected"
 
-                android:title="@string/album_original_usable" />
+                    android:title="@string/album_selected" />
 
-            <item
-                android:id="@+id/album_original_unusable"
+                <item
+                    android:id="@+id/album_original_usable"
 
-                android:title="@string/album_original_unusable" />
+                    android:title="@string/album_original_usable" />
 
-            <item
-                android:id="@+id/album_selected"
+                <item
+                    android:id="@+id/album_original_unusable"
 
-                android:title="@string/album_selected" />
+                    android:title="@string/album_original_unusable" />
+
             </group>
         </menu>
     </item>
 
-    <item android:title="Bitmap" >
+    <item android:title="Bitmap">
         <menu>
             <group android:checkableBehavior="single">
-            <item android:id="@+id/addWatermark" android:title="@string/addWatermark"/>
+                <item
+                    android:id="@+id/addWatermark"
+                    android:title="@string/addWatermark" />
             </group>
         </menu>
     </item>
