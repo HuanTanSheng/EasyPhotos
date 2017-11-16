@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="CameraAndAlbum">
+    <item android:title="Album/Camera">
         <menu>
+            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/camera"
 
@@ -51,12 +52,15 @@
                 android:id="@+id/album_selected"
 
                 android:title="@string/album_selected" />
+            </group>
         </menu>
     </item>
 
     <item android:title="Bitmap" >
         <menu>
-            <item android:id="@+id/addWatermark" android:title="@string/album_selected"/>
+            <group android:checkableBehavior="single">
+            <item android:id="@+id/addWatermark" android:title="@string/addWatermark"/>
+            </group>
         </menu>
     </item>
 

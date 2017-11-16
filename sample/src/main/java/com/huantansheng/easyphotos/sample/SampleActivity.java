@@ -1,7 +1,11 @@
 package com.huantansheng.easyphotos.sample;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +68,13 @@ public class SampleActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        findViewById(R.id.iv_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.iv_image).setVisibility(View.GONE);
+            }
+        });
+
 
         rvImage = (RecyclerView) findViewById(R.id.rv_image);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -97,113 +110,130 @@ public class SampleActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.camera) {
+        switch (id) {
+            case R.id.camera://单独使用相机
 
-            //单独使用相机
-            EasyPhotos.createCamera(this)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .start(101);
+                EasyPhotos.createCamera(this)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .start(101);
 
-        } else if (id == R.id.album_single) {
+                break;
 
-            //相册单选，无相机功能
-            EasyPhotos.createAlbum(this, false)
-                    .start(101);
+            case R.id.album_single://相册单选，无相机功能
 
-        } else if (id == R.id.album_multi) {
+                EasyPhotos.createAlbum(this, false)
+                        .start(101);
 
-            //相册多选，无相机功能
-            EasyPhotos.createAlbum(this, false)
-                    .setCount(9)
-                    .start(101);
+                break;
 
-        } else if (id == R.id.album_camera_single) {
+            case R.id.album_multi://相册多选，无相机功能
 
-            //相册单选，有相机功能
-            EasyPhotos.createAlbum(this, true)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .start(101);
-        } else if (id == R.id.album_camera_multi) {
+                EasyPhotos.createAlbum(this, false)
+                        .setCount(9)
+                        .start(101);
 
-            //相册多选，有相机功能
-            EasyPhotos.createAlbum(this, true)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .setCount(22)
-                    .start(101);
+                break;
 
-        } else if (id == R.id.album_ad) {
+            case R.id.album_camera_single://相册单选，有相机功能
 
-            //相册中包含广告
-            // 需要在启动前创建广告view
-            // 广告view不能有父布局
-            // 广告view可以包含子布局
-            // 广告View的数据可以在任何时候绑定
-            initAdViews();
+                EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .start(101);
+                break;
 
-            //启动方法，装载广告view
-            EasyPhotos.createAlbum(this, true)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .setCount(9)
-                    .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)//参数说明：相册中的广告view，相册中的广告View数据是否绑定完毕，专辑列表广告View，专辑列表广告View数据是否绑定完毕
-                    .start(101);
+            case R.id.album_camera_multi://相册多选，有相机功能
 
-        } else if (id == R.id.album_size) {
+                EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(22)
+                        .start(101);
 
-            //只显示限制尺寸或限制文件大小以上的图片
-            EasyPhotos.createAlbum(this, true)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .setCount(9)
-                    .setMinWidth(500)//参数说明：最小宽度500px
-                    .setMinHeight(500)//参数说明：最小高度500px
-                    .setMinFileSize(1024 * 10)//参数说明：最小文件大小10K
-                    .start(101);
+                break;
 
-        } else if (id == R.id.album_original_usable) {
+            case R.id.album_ad://相册中包含广告
 
-            //显示原图按钮，并且默认选中，按钮可用
-            EasyPhotos.createAlbum(this, false)
-                    .setCount(9)
-                    .setOriginalMenu(true, true, null)//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
-                    .start(101);
+                // 需要在启动前创建广告view
+                // 广告view不能有父布局
+                // 广告view可以包含子布局
+                // 广告View的数据可以在任何时候绑定
+                initAdViews();
 
-        } else if (id == R.id.album_original_unusable) {
+                //启动方法，装载广告view
+                EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(9)
+                        .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
+                        .start(101);
 
-            //显示原图按钮，并且默认不选中，按钮不可用。使用场景举例：仅VIP可以上传原图
-            boolean isVip = false;//假设获取用户信息发现该用户不是vip
+                break;
 
-            EasyPhotos.createAlbum(this, true)
-                    .setCount(9)
-                    .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")//参数说明：是否默认选中，是否可用，不可用时用户点击将toast信息
-                    .start(101);
+            case R.id.album_size://只显示限制尺寸或限制文件大小以上的图片
 
-        } else if (id == R.id.album_selected) {
+                EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(9)
+                        .setMinWidth(500)
+                        .setMinHeight(500)
+                        .setMinFileSize(1024 * 10)
+                        .start(101);
 
-            //相册中包含默认勾选图片
-            EasyPhotos.createAlbum(this, true)
-                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-                    .setCount(9)
-                    .setSelectedPhotos(selectedPhotoList)//参数说明：用户上一次勾选过的图片集合，ArrayList<Photo>类型
-                    .start(101);
+                break;
 
-            /**
-             * 另一种方式
-             *
-             */
-//            EasyPhotos.createAlbum(this, true)
-//                    .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
-//                    .setCount(9)
-//                    .setSelectedPhotoPaths(selectedPhotoPathList)//参数说明:用户上一次勾选过的图片地址集合，ArrayList<String>类型;上次用户选择图片时是否选中了原图选项，如不用原图选项功能直接传false即可。
-//                    .start(101);
+            case R.id.album_original_usable://显示原图按钮，并且默认选中，按钮可用
+
+                EasyPhotos.createAlbum(this, false)
+                        .setCount(9)
+                        .setOriginalMenu(true, true, null)
+                        .start(101);
+
+                break;
+
+            case R.id.album_original_unusable://显示原图按钮，并且默认不选中，按钮不可用。使用场景举例：仅VIP可以上传原图
+
+                boolean isVip = false;//假设获取用户信息发现该用户不是vip
+
+                EasyPhotos.createAlbum(this, true)
+                        .setCount(9)
+                        .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")
+                        .start(101);
+
+                break;
+
+            case R.id.album_selected://相册中包含默认勾选图片
+
+                EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(9)
+                        .setSelectedPhotos(selectedPhotoList)
+//                        .setSelectedPhotoPaths(selectedPhotoPathList)两种方式参数类型不同，根据情况任选
+                        .start(101);
+                
+                break;
+
+            case R.id.addWatermark: //给图片添加水印
+
+                if (selectedPhotoList.isEmpty()) {
+                    Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                Bitmap watermark = BitmapFactory.decodeResource(getResources(), R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
+                Bitmap image = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.ARGB_8888, true);
+
+                //给图片添加水印的api
+                if (EasyPhotos.addWatermark(watermark, image, 1080, 20, 20, true)) {
+                    findViewById(R.id.iv_image).setVisibility(View.VISIBLE);
+                    ((ImageView) findViewById(R.id.iv_image)).setImageBitmap(image);
+                } else {
+                    Toast.makeText(this, "添加水印失败", Toast.LENGTH_SHORT).show();
+                }
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -246,8 +276,8 @@ public class SampleActivity extends AppCompatActivity
             public void run() {
                 ((ImageView) albumItemsAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ad);
                 ((TextView) albumItemsAdView.findViewById(R.id.tv_title)).setText("albumItemsAd广告");
-                photosAdLoaded = true;//正常情况可能不知道是先启动EasyPhotos还是数据先回来，所以这里加个标识，如果是后启动EasyPhotos那么EasyPhotos会直接加载广告
-                EasyPhotos.notifyAlbumItemsAdLoaded();//通知EasyPhotos刷新广告，如果你能确定在启动EasyPhotos前已经装载好广告，那么请忽略EasyPhotos.notifyAlbumItemsAdLoaded()这个方法。
+                photosAdLoaded = true;//正常情况可能不知道是先启动EasyPhotos还是数据先回来，所以这里加个标识，如果是后启动EasyPhotos，那么EasyPhotos会直接加载广告
+                EasyPhotos.notifyAlbumItemsAdLoaded();
             }
         }, 5000);
     }
