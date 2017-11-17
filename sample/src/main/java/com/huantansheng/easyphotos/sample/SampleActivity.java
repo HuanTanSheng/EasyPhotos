@@ -259,7 +259,7 @@ public class SampleActivity extends AppCompatActivity
 
                 break;
 
-            case R.id.face_detection://人脸检测
+            case R.id.face_detection://人脸检测，目前仅支持正脸检测
                 if (selectedPhotoList.isEmpty()) {
                     Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
                     return true;
@@ -271,7 +271,7 @@ public class SampleActivity extends AppCompatActivity
                 bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.RGB_565, true);
 
                 //人脸检测api，无需考虑线程问题，EasyPhotos内部已经处理好了
-                EasyPhotos.getFaceInformation(this, bitmap, 1, new FaceCallBackOnUiThread() {
+                EasyPhotos.getFaceInformation(this, bitmap, 2, new FaceCallBackOnUiThread() {
                     @Override
                     public void onSuccess(final ArrayList<FaceInformation> faces) {
                         Toast.makeText(SampleActivity.this, "检测到" + faces.size() + "张人脸", Toast.LENGTH_SHORT).show();

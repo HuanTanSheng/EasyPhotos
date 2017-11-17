@@ -399,7 +399,7 @@ public class EasyPhotos {
 
 
     /**
-     * 获取脸部信息，无需考虑线程问题，EasyPhotos已经处理好了
+     * 获取脸部信息，无需考虑线程问题，EasyPhotos已经处理好了。目前只支持正脸检测
      *
      * @param activity 上下文
      * @param bitmap   获取脸部信息的图片
