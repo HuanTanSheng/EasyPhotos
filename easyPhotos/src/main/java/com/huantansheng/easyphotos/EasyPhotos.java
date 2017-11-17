@@ -186,7 +186,7 @@ public class EasyPhotos {
     /**
      * 原图按钮设置,不调用该方法不显示原图按钮
      *
-     * @param isChecked   原图选项默认状态是否为选中状态
+     * @param isChecked    原图选项默认状态是否为选中状态
      * @param usable       原图按钮是否可使用
      * @param unusableHint 原图按钮不可使用时给用户的文字提示
      * @return EasyPhotos
@@ -406,8 +406,8 @@ public class EasyPhotos {
      * @param maxFaces 最大可检测到的人脸数
      * @param callBack 回调
      */
-    public static void getFaceInformation(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack){
-        BitmapUtils.getFaces(activity,bitmap,maxFaces,callBack);
+    public static void getFaceInformation(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack) {
+        BitmapUtils.getFaces(activity, bitmap, maxFaces, callBack);
     }
 
     //**************更新媒体库***********************
