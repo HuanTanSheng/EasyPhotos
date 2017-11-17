@@ -246,7 +246,7 @@ public class SampleActivity extends AppCompatActivity
                     return true;
                 }
 
-                //这一步（246行和247行）如果图大的话会耗时，但耗时不长，你可以在异步操作。
+                //这一步（250行和251行）如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。
                 Bitmap watermark = BitmapFactory.decodeResource(getResources(), R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
                 bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.ARGB_8888, true);
 
@@ -267,9 +267,11 @@ public class SampleActivity extends AppCompatActivity
 
                 progressDialog = ProgressDialog.show(this, null, null);
 
-                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.RGB_565, true);//必须是RGB_565，如果图大的话会耗时，但耗时不长，你可以在异步操作。
+                //因为返回脸部信息后要在该bitmap做绘图，所以需要copy出来一个新的bitmap。当然，如果你不需要在bitmap上绘制，可以不用Copy。另外copy耗时，虽然耗时不长，建议开线程操作。最后提醒你copy出来的bitmap在确定不用的时候要回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。。
+                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.RGB_565, true);
 
-                BitmapUtils.getFaces(this, bitmap, 1, new FaceCallBackOnUiThread() {
+                //人脸检测api，无需考虑线程问题，EasyPhotos内部已经处理好了
+                EasyPhotos.getFaceInformation(this, bitmap, 1, new FaceCallBackOnUiThread() {
                     @Override
                     public void onSuccess(final ArrayList<FaceInformation> faces) {
                         Toast.makeText(SampleActivity.this, "检测到" + faces.size() + "张人脸", Toast.LENGTH_SHORT).show();
@@ -301,8 +303,6 @@ public class SampleActivity extends AppCompatActivity
                     }
                 });
 
-//
-//                detectFace();
                 break;
 
         }
@@ -381,85 +381,4 @@ public class SampleActivity extends AppCompatActivity
     }
 
 
-    /**
-     * 检测人脸
-     */
-    private void detectFace() {
-        if (bitmap == null) {
-            Toast.makeText(this, "请先选择图片", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new FindFaceTask().execute();
-
-    }
-
-    private void drawFacesArea(FaceDetector.Face[] faces) {
-
-        float eyesDistance = 0f;//两眼间距
-        Canvas canvas = new Canvas(bitmap);
-        int realFaceCount = 0;
-        for (int i = 0; i < faces.length; i++) {
-            FaceDetector.Face face = faces[i];
-            if (face != null && face.confidence() > 0.3) {
-                realFaceCount++;
-                PointF pointF = new PointF();
-                face.getMidPoint(pointF);//获取人脸中心点
-                eyesDistance = face.eyesDistance();//获取人脸两眼的间距
-                //画出人脸的区域
-                Paint paint = new Paint();
-                paint.setColor(Color.BLUE);
-                paint.setStrokeWidth(2);
-                paint.setStyle(Paint.Style.STROKE);//设置话出的是空心方框而不是实心方块
-                canvas.drawRect(pointF.x - eyesDistance, pointF.y - eyesDistance, pointF.x + eyesDistance, pointF.y + eyesDistance + eyesDistance / 2, paint);
-            }
-        }
-
-        if (realFaceCount > 0) {
-            Toast.makeText(this, "图片中检测到" + realFaceCount + "张人脸", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(SampleActivity.this, "抱歉，图片中未检测到人脸", Toast.LENGTH_SHORT).show();
-        }
-
-        //画出人脸区域后要刷新ImageView
-        findViewById(R.id.iv_image).invalidate();
-    }
-
-    /**
-     * 检测图像中的人脸需要一些时间，所以放到AsyncTask中去执行
-     *
-     * @author yubo
-     */
-    private class FindFaceTask extends AsyncTask<Void, Void, FaceDetector.Face[]> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected FaceDetector.Face[] doInBackground(Void... arg0) {
-            //最关键的就是下面三句代码
-            FaceDetector faceDetector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), 2);
-            FaceDetector.Face[] faces = new FaceDetector.Face[2];
-            realFaceNum = faceDetector.findFaces(bitmap, faces);
-            if (realFaceNum > 0) {
-                return faces;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(FaceDetector.Face[] result) {
-            super.onPostExecute(result);
-            if (result == null) {
-                progressDialog.dismiss();
-                Toast.makeText(SampleActivity.this, "抱歉，图片中未检测到人脸", Toast.LENGTH_SHORT).show();
-            } else {
-                progressDialog.dismiss();
-                drawFacesArea(result);
-            }
-        }
-
-    }
 }

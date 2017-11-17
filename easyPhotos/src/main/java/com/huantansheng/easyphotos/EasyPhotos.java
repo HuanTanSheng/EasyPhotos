@@ -13,6 +13,7 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
+import com.huantansheng.easyphotos.utils.bitmap.face.FaceCallBackOnUiThread;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 
 import java.io.File;
@@ -394,6 +395,19 @@ public class EasyPhotos {
      */
     public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
         BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
+    }
+
+
+    /**
+     * 获取脸部信息，无需考虑线程问题，EasyPhotos已经处理好了
+     *
+     * @param activity 上下文
+     * @param bitmap   获取脸部信息的图片
+     * @param maxFaces 最大可检测到的人脸数
+     * @param callBack 回调
+     */
+    public static void getFaceInformation(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack){
+        BitmapUtils.getFaces(activity,bitmap,maxFaces,callBack);
     }
 
     //**************更新媒体库***********************

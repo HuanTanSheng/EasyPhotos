@@ -135,19 +135,27 @@ public class BitmapUtils {
     }
 
 
+    /**
+     * 获取脸部信息，无需考虑线程问题，EasyPhotos已经处理好了
+     *
+     * @param activity 上下文
+     * @param bitmap   获取脸部信息的图片
+     * @param maxFaces 最大可检测到的人脸数
+     * @param callBack 回调
+     */
     public static void getFaces(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack) {
+
         final WeakReference<Activity> act = new WeakReference<Activity>(activity);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bitmap desBitmap = bitmap;
-                if (bitmap.getConfig() != Bitmap.Config.RGB_565) {
-                    desBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
-                }
 
-                FaceDetector faceDetector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), maxFaces);
+                Bitmap desBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
+
+                FaceDetector faceDetector = new FaceDetector(desBitmap.getWidth(), desBitmap.getHeight(), maxFaces);
                 FaceDetector.Face[] faces = new FaceDetector.Face[maxFaces];
-                int realFaceNum = faceDetector.findFaces(bitmap, faces);
+                int realFaceNum = faceDetector.findFaces(desBitmap, faces);
 
                 if (realFaceNum > 0) {
 
@@ -178,6 +186,7 @@ public class BitmapUtils {
 
                     }
 
+                    recycle(desBitmap);
                     if (list.isEmpty()) {
                         if (null == act.get()) return;
                         act.get().runOnUiThread(new Runnable() {
@@ -198,6 +207,8 @@ public class BitmapUtils {
                     });
                     return;
                 }
+
+                recycle(desBitmap);
                 if (null == act.get()) return;
                 act.get().runOnUiThread(new Runnable() {
                     @Override
