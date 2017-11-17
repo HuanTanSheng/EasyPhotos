@@ -15,6 +15,7 @@
     <string name="album_ad">写真集（広告）</string>
     <string name="camera">カメラ</string>
     <string name="addWatermark">の写真が透かしを添えて</string>
+    <string name="face_detection">人の顔検出</string>
 
 
     <!--以下是EasyPhotos的-->

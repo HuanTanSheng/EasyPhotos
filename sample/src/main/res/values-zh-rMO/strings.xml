@@ -15,6 +15,7 @@
     <string name="album_ad">相册（带广告）</string>
     <string name="camera">相机</string>
     <string name="addWatermark">图片添加水印</string>
+    <string name="face_detection">人脸检测</string>
 
 
     <!--以下是EasyPhotos的-->

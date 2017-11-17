@@ -375,10 +375,9 @@ public class EasyPhotos {
      * @param offsetX       添加水印的X轴偏移量
      * @param offsetY       添加水印的Y轴偏移量
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
-     * @return 是否成功
      */
-    public static boolean addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth, int offsetX, int offsetY, boolean addInLeft) {
-        return BitmapUtils.addWatermark(watermark, image, srcImageWidth, offsetX, offsetY, addInLeft);
+    public static void addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth, int offsetX, int offsetY, boolean addInLeft) {
+        BitmapUtils.addWatermark(watermark, image, srcImageWidth, offsetX, offsetY, addInLeft);
     }
 
     /**
@@ -393,8 +392,8 @@ public class EasyPhotos {
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
      * @return 是否成功
      */
-    public static boolean addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
-        return BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
+    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
+        BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
     }
 
     //**************更新媒体库***********************

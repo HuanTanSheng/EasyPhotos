@@ -1,13 +1,22 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.media.FaceDetector;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
+import com.huantansheng.easyphotos.utils.bitmap.face.FaceCallBackOnUiThread;
+import com.huantansheng.easyphotos.utils.bitmap.face.FaceInformation;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,13 +59,12 @@ public class BitmapUtils {
      * @param offsetY                添加水印的Y轴偏移量
      * @param srcWaterMarkImageWidth 水印对应的原图片宽度,即ui制作水印时候参考的图片画布宽度,应该是已知的图片最大宽度
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
-     * @return 是否成功
      */
-    public static boolean addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, int offsetX, int offsetY, boolean addInLeft) {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
-            return false;
+            throw new RuntimeException("EasyPhotos: 加水印的原图宽或高不能为0！");
         }
         int watermarkWidth = watermark.getWidth();
         int watermarkHeight = watermark.getHeight();
@@ -75,7 +83,6 @@ public class BitmapUtils {
             canvas.drawBitmap(scaleWatermark, imageWidth - offsetX - scaleWatermarkWidth, imageHeight - scaleWatermarkHeight - offsetY, paint);
         }
         recycle(scaleWatermark);
-        return true;
     }
 
     /**
@@ -88,9 +95,8 @@ public class BitmapUtils {
      * @param offsetX                添加水印的X轴偏移量
      * @param offsetY                添加水印的Y轴偏移量
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
-     * @return
      */
-    public static boolean addWatermarkWithText(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
         float imageWidth = image.getWidth();
         float imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
@@ -126,6 +132,83 @@ public class BitmapUtils {
             canvas.drawBitmap(scaleWatermark, imageWidth - textRect.width() - offsetX - scaleWatermarkWidth / 6, imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
         }
         recycle(scaleWatermark);
-        return true;
+    }
+
+
+    public static void getFaces(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack) {
+        final WeakReference<Activity> act = new WeakReference<Activity>(activity);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap desBitmap = bitmap;
+                if (bitmap.getConfig() != Bitmap.Config.RGB_565) {
+                    desBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
+                }
+
+                FaceDetector faceDetector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), maxFaces);
+                FaceDetector.Face[] faces = new FaceDetector.Face[maxFaces];
+                int realFaceNum = faceDetector.findFaces(bitmap, faces);
+
+                if (realFaceNum > 0) {
+
+                    final ArrayList<FaceInformation> list = new ArrayList<>();
+                    for (FaceDetector.Face face : faces) {
+                        if (face.confidence() < 0.3) {
+                            continue;
+                        }
+                        PointF midPoint = new PointF();
+                        face.getMidPoint(midPoint);
+                        float eyesDistance = face.eyesDistance();
+
+                        FaceInformation faceInformation = new FaceInformation();
+                        faceInformation.midEyesPoint = midPoint;
+                        faceInformation.eyesDistance = eyesDistance;
+
+                        faceInformation.faceRect = new RectF(midPoint.x - eyesDistance, midPoint.y - eyesDistance, midPoint.x + eyesDistance, midPoint.y + eyesDistance + eyesDistance / 2);
+
+                        faceInformation.rightEsyRect = new RectF(midPoint.x + eyesDistance / 4, midPoint.y - eyesDistance / 4, midPoint.x + eyesDistance / 2 + eyesDistance / 4, midPoint.y + eyesDistance / 4);
+
+                        faceInformation.leftEsyRect = new RectF(midPoint.x - eyesDistance / 2 - eyesDistance / 4, midPoint.y - eyesDistance / 4, midPoint.x - eyesDistance / 4, midPoint.y + eyesDistance / 4);
+
+                        faceInformation.noseRect = new RectF(midPoint.x - eyesDistance / 3, midPoint.y + eyesDistance / 4, midPoint.x + eyesDistance / 3, midPoint.y + eyesDistance * 0.75f);
+
+                        faceInformation.mouthRect = new RectF(midPoint.x - eyesDistance / 2, midPoint.y + eyesDistance * 0.75f, midPoint.x + eyesDistance / 2, midPoint.y + eyesDistance * 1.5f);
+
+                        list.add(faceInformation);
+
+                    }
+
+                    if (list.isEmpty()) {
+                        if (null == act.get()) return;
+                        act.get().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callBack.onFailed();
+                            }
+                        });
+
+                        return;
+                    }
+                    if (null == act.get()) return;
+                    act.get().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onSuccess(list);
+                        }
+                    });
+                    return;
+                }
+                if (null == act.get()) return;
+                act.get().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onFailed();
+                    }
+                });
+
+            }
+        }).start();
+
+
     }
 }

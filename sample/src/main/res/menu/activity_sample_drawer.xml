@@ -60,9 +60,15 @@
     <item android:title="Bitmap">
         <menu>
             <group android:checkableBehavior="single">
+
                 <item
                     android:id="@+id/addWatermark"
                     android:title="@string/addWatermark" />
+
+                <item
+                    android:id="@+id/face_detection"
+                    android:title="@string/face_detection" />
+
             </group>
         </menu>
     </item>

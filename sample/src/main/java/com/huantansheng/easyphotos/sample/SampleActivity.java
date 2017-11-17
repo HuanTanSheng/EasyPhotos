@@ -4,29 +4,36 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.media.FaceDetector;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
+import com.huantansheng.easyphotos.utils.bitmap.face.FaceCallBackOnUiThread;
+import com.huantansheng.easyphotos.utils.bitmap.face.FaceInformation;
 
 import java.util.ArrayList;
 
@@ -50,6 +57,14 @@ public class SampleActivity extends AppCompatActivity
      */
     private boolean photosAdLoaded = false, albumItemsAdLoaded = false;
 
+    /**
+     * 展示bitmap功能的
+     */
+    private Bitmap bitmap = null;
+    private ImageView bitmapView = null;
+    private int realFaceNum = 0;//实际检测出的人脸数量
+    private ProgressDialog progressDialog = null;//我是图省事事儿才用ProgressDialog的，已经废弃的东西，不建议用了。在此也推荐一下我的另一个开源项目 L ，L是我集成的一个android开发便捷库，里面支持一键生成各种Dialog，而且都是继承DialogFragment的。
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,16 +77,24 @@ public class SampleActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
+        drawer.clearAnimation();
+        drawer.setAnimation(null);
+        drawer.setLayoutAnimation(null);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        findViewById(R.id.iv_image).setOnClickListener(new View.OnClickListener() {
+        navigationView.clearAnimation();
+        navigationView.setAnimation(null);
+        navigationView.setLayoutAnimation(null);
+
+        bitmapView = findViewById(R.id.iv_image);
+        bitmapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                findViewById(R.id.iv_image).setVisibility(View.GONE);
+                bitmapView.setVisibility(View.GONE);
             }
         });
 
@@ -112,8 +135,9 @@ public class SampleActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        bitmapView.setVisibility(View.GONE);
 
+        int id = item.getItemId();
         switch (id) {
             case R.id.camera://单独使用相机
 
@@ -197,6 +221,7 @@ public class SampleActivity extends AppCompatActivity
                 boolean isVip = false;//假设获取用户信息发现该用户不是vip
 
                 EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")
                         .start(101);
@@ -211,7 +236,7 @@ public class SampleActivity extends AppCompatActivity
                         .setSelectedPhotos(selectedPhotoList)
 //                        .setSelectedPhotoPaths(selectedPhotoPathList)两种方式参数类型不同，根据情况任选
                         .start(101);
-                
+
                 break;
 
             case R.id.addWatermark: //给图片添加水印
@@ -220,20 +245,68 @@ public class SampleActivity extends AppCompatActivity
                     Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+
+                //这一步（246行和247行）如果图大的话会耗时，但耗时不长，你可以在异步操作。
                 Bitmap watermark = BitmapFactory.decodeResource(getResources(), R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
-                Bitmap image = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.ARGB_8888, true);
+                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.ARGB_8888, true);
 
                 //给图片添加水印的api
-                if (EasyPhotos.addWatermark(watermark, image, 1080, 20, 20, true)) {
-                    findViewById(R.id.iv_image).setVisibility(View.VISIBLE);
-                    ((ImageView) findViewById(R.id.iv_image)).setImageBitmap(image);
-                } else {
-                    Toast.makeText(this, "添加水印失败", Toast.LENGTH_SHORT).show();
+                EasyPhotos.addWatermark(watermark, bitmap, 1080, 20, 20, true);
+
+                bitmapView.setVisibility(View.VISIBLE);
+                bitmapView.setImageBitmap(bitmap);
+                Toast.makeText(SampleActivity.this, "水印在左下角", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case R.id.face_detection://人脸检测
+                if (selectedPhotoList.isEmpty()) {
+                    Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
+
+                progressDialog = ProgressDialog.show(this, null, null);
+
+                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.RGB_565, true);//必须是RGB_565，如果图大的话会耗时，但耗时不长，你可以在异步操作。
+
+                BitmapUtils.getFaces(this, bitmap, 1, new FaceCallBackOnUiThread() {
+                    @Override
+                    public void onSuccess(final ArrayList<FaceInformation> faces) {
+                        Toast.makeText(SampleActivity.this, "检测到" + faces.size() + "张人脸", Toast.LENGTH_SHORT).show();
+                        for (FaceInformation face : faces) {
+                            Canvas canvas = new Canvas(bitmap);
+                            //画出人脸的区域
+                            Paint paint = new Paint();
+                            paint.setColor(Color.BLUE);
+                            paint.setStrokeWidth(2);
+                            paint.setStyle(Paint.Style.STROKE);//设置话出的是空心方框而不是实心方块
+                            canvas.drawRect(face.faceRect, paint);
+                            canvas.drawRect(face.leftEsyRect, paint);
+                            canvas.drawRect(face.rightEsyRect, paint);
+                            canvas.drawRect(face.mouthRect, paint);
+                            canvas.drawRect(face.noseRect, paint);
+                        }
+
+
+                        bitmapView.setVisibility(View.VISIBLE);
+                        bitmapView.setImageBitmap(bitmap);
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        progressDialog.dismiss();
+                        Toast.makeText(SampleActivity.this, "未检测到", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+//
+//                detectFace();
+                break;
 
         }
 
-        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -243,6 +316,7 @@ public class SampleActivity extends AppCompatActivity
      * 广告view可以包含子布局
      * 为了确保广告view地址不变，设置final会更安全
      */
+
     private void initAdViews() {
 
         //模拟启动EasyPhotos前广告已经装载完毕
@@ -304,5 +378,88 @@ public class SampleActivity extends AppCompatActivity
         } else if (RESULT_CANCELED == resultCode) {
             Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    /**
+     * 检测人脸
+     */
+    private void detectFace() {
+        if (bitmap == null) {
+            Toast.makeText(this, "请先选择图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new FindFaceTask().execute();
+
+    }
+
+    private void drawFacesArea(FaceDetector.Face[] faces) {
+
+        float eyesDistance = 0f;//两眼间距
+        Canvas canvas = new Canvas(bitmap);
+        int realFaceCount = 0;
+        for (int i = 0; i < faces.length; i++) {
+            FaceDetector.Face face = faces[i];
+            if (face != null && face.confidence() > 0.3) {
+                realFaceCount++;
+                PointF pointF = new PointF();
+                face.getMidPoint(pointF);//获取人脸中心点
+                eyesDistance = face.eyesDistance();//获取人脸两眼的间距
+                //画出人脸的区域
+                Paint paint = new Paint();
+                paint.setColor(Color.BLUE);
+                paint.setStrokeWidth(2);
+                paint.setStyle(Paint.Style.STROKE);//设置话出的是空心方框而不是实心方块
+                canvas.drawRect(pointF.x - eyesDistance, pointF.y - eyesDistance, pointF.x + eyesDistance, pointF.y + eyesDistance + eyesDistance / 2, paint);
+            }
+        }
+
+        if (realFaceCount > 0) {
+            Toast.makeText(this, "图片中检测到" + realFaceCount + "张人脸", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(SampleActivity.this, "抱歉，图片中未检测到人脸", Toast.LENGTH_SHORT).show();
+        }
+
+        //画出人脸区域后要刷新ImageView
+        findViewById(R.id.iv_image).invalidate();
+    }
+
+    /**
+     * 检测图像中的人脸需要一些时间，所以放到AsyncTask中去执行
+     *
+     * @author yubo
+     */
+    private class FindFaceTask extends AsyncTask<Void, Void, FaceDetector.Face[]> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected FaceDetector.Face[] doInBackground(Void... arg0) {
+            //最关键的就是下面三句代码
+            FaceDetector faceDetector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), 2);
+            FaceDetector.Face[] faces = new FaceDetector.Face[2];
+            realFaceNum = faceDetector.findFaces(bitmap, faces);
+            if (realFaceNum > 0) {
+                return faces;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(FaceDetector.Face[] result) {
+            super.onPostExecute(result);
+            if (result == null) {
+                progressDialog.dismiss();
+                Toast.makeText(SampleActivity.this, "抱歉，图片中未检测到人脸", Toast.LENGTH_SHORT).show();
+            } else {
+                progressDialog.dismiss();
+                drawFacesArea(result);
+            }
+        }
+
     }
 }

@@ -15,6 +15,7 @@
     <string name="album_ad">앨범 (데리고 광고)</string>
     <string name="camera">카메라</string>
     <string name="addWatermark">사진 추가 워터마크</string>
+    <string name="face_detection">사람 검색</string>
 
 
     <!--以下是EasyPhotos的-->
