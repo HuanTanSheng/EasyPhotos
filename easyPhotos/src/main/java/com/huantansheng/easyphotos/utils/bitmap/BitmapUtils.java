@@ -1,22 +1,13 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.media.FaceDetector;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
-import com.huantansheng.easyphotos.utils.bitmap.face.FaceCallBackOnUiThread;
-import com.huantansheng.easyphotos.utils.bitmap.face.FaceInformation;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,92 +125,4 @@ public class BitmapUtils {
         recycle(scaleWatermark);
     }
 
-
-    /**
-     * 获取脸部信息，无需考虑线程问题，EasyPhotos已经处理好了。目前只支持正脸检测
-     *
-     * @param activity 上下文
-     * @param bitmap   获取脸部信息的图片
-     * @param maxFaces 最大可检测到的人脸数
-     * @param callBack 回调
-     */
-    public static void getFaces(Activity activity, final Bitmap bitmap, final int maxFaces, final FaceCallBackOnUiThread callBack) {
-
-        final WeakReference<Activity> act = new WeakReference<Activity>(activity);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Bitmap desBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
-
-                FaceDetector faceDetector = new FaceDetector(desBitmap.getWidth(), desBitmap.getHeight(), maxFaces);
-                FaceDetector.Face[] faces = new FaceDetector.Face[maxFaces];
-                int realFaceNum = faceDetector.findFaces(desBitmap, faces);
-
-                if (realFaceNum > 0) {
-
-                    final ArrayList<FaceInformation> list = new ArrayList<>();
-                    for (FaceDetector.Face face : faces) {
-                        if (face.confidence() < 0.3) {
-                            continue;
-                        }
-                        PointF midPoint = new PointF();
-                        face.getMidPoint(midPoint);
-                        float eyesDistance = face.eyesDistance();
-
-                        FaceInformation faceInformation = new FaceInformation();
-                        faceInformation.midEyesPoint = midPoint;
-                        faceInformation.eyesDistance = eyesDistance;
-
-                        faceInformation.faceRect = new RectF(midPoint.x - eyesDistance, midPoint.y - eyesDistance, midPoint.x + eyesDistance, midPoint.y + eyesDistance + eyesDistance / 2);
-
-                        faceInformation.rightEsyRect = new RectF(midPoint.x + eyesDistance / 4, midPoint.y - eyesDistance / 4, midPoint.x + eyesDistance / 2 + eyesDistance / 4, midPoint.y + eyesDistance / 4);
-
-                        faceInformation.leftEsyRect = new RectF(midPoint.x - eyesDistance / 2 - eyesDistance / 4, midPoint.y - eyesDistance / 4, midPoint.x - eyesDistance / 4, midPoint.y + eyesDistance / 4);
-
-                        faceInformation.noseRect = new RectF(midPoint.x - eyesDistance / 3, midPoint.y + eyesDistance / 4, midPoint.x + eyesDistance / 3, midPoint.y + eyesDistance * 0.75f);
-
-                        faceInformation.mouthRect = new RectF(midPoint.x - eyesDistance / 2, midPoint.y + eyesDistance * 0.75f, midPoint.x + eyesDistance / 2, midPoint.y + eyesDistance * 1.5f);
-
-                        list.add(faceInformation);
-
-                    }
-
-                    recycle(desBitmap);
-                    if (list.isEmpty()) {
-                        if (null == act.get()) return;
-                        act.get().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                callBack.onFailed();
-                            }
-                        });
-
-                        return;
-                    }
-                    if (null == act.get()) return;
-                    act.get().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            callBack.onSuccess(list);
-                        }
-                    });
-                    return;
-                }
-
-                recycle(desBitmap);
-                if (null == act.get()) return;
-                act.get().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onFailed();
-                    }
-                });
-
-            }
-        }).start();
-
-
-    }
 }

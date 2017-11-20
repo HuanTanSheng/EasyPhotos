@@ -51,6 +51,7 @@ import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,14 +191,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getPackageManager()) != null) {
             createCameraTempImageFile();
-            if (mTempImageFile != null) {
-                Uri imageUri = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
-                    cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
-                } else {
-                    imageUri = Uri.fromFile(mTempImageFile);
-                }
+            if (mTempImageFile != null && mTempImageFile.exists()) {
+
+                Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
+                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
+
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);
             } else {
@@ -225,10 +223,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 }
             }
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.getDefault());
-        String imageName = "IMG_%s.jpg";
-        String filename = String.format(imageName, dateFormat.format(new Date()));
-        mTempImageFile = new File(dir, filename);
+
+        try {
+            mTempImageFile = File.createTempFile("IMG", ".jpg", dir);
+        } catch (IOException e) {
+            e.printStackTrace();
+            mTempImageFile = null;
+        }
+
     }
 
     @Override
@@ -241,7 +243,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                     if (mTempImageFile == null || !mTempImageFile.exists()) {
                         throw new RuntimeException("EasyPhotos拍照保存的图片不存在");
                     }
-                    onCameraResult(mTempImageFile);
+                    onCameraResult();
                     return;
                 }
 
@@ -282,11 +284,21 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
     }
 
-    private void onCameraResult(File imageFile) {
-        MediaScannerConnectionUtils.refresh(this, imageFile);// 更新媒体库
+    private void onCameraResult() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.getDefault());
+        String imageName = "IMG_%s.jpg";
+        String filename = String.format(imageName, dateFormat.format(new Date()));
+        File reNameFile = new File(mTempImageFile.getParentFile(), filename);
+        if (!reNameFile.exists()) {
+            if (mTempImageFile.renameTo(reNameFile)) {
+                mTempImageFile = reNameFile;
+            }
+        }
+
+        MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
         Intent data = new Intent();
-        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        Photo photo = new Photo(false, imageFile.getName(), imageFile.getAbsolutePath(), imageFile.lastModified(), bitmap.getWidth(), bitmap.getHeight(), imageFile.length(), "image/jpeg");
+        Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
+        Photo photo = new Photo(false, mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
         photo.selectedOriginal = Setting.selectedOriginal;
         resultList.add(photo);
         EasyPhotos.recycle(bitmap);

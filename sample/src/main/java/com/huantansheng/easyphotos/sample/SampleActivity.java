@@ -1,15 +1,8 @@
 package com.huantansheng.easyphotos.sample;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PointF;
-import android.media.FaceDetector;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,9 +24,6 @@ import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
-import com.huantansheng.easyphotos.utils.bitmap.face.FaceCallBackOnUiThread;
-import com.huantansheng.easyphotos.utils.bitmap.face.FaceInformation;
 
 import java.util.ArrayList;
 
@@ -62,8 +52,7 @@ public class SampleActivity extends AppCompatActivity
      */
     private Bitmap bitmap = null;
     private ImageView bitmapView = null;
-    private int realFaceNum = 0;//实际检测出的人脸数量
-    private ProgressDialog progressDialog = null;//我是图省事事儿才用ProgressDialog的，已经废弃的东西，不建议用了。在此也推荐一下我的另一个开源项目 L ，L是我集成的一个android开发便捷库，里面支持一键生成各种Dialog，而且都是继承DialogFragment的。
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,48 +249,6 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.face_detection://人脸检测，目前仅支持正脸检测
-                if (selectedPhotoList.isEmpty()) {
-                    Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-
-                progressDialog = ProgressDialog.show(this, null, null);
-
-                //因为返回脸部信息后要在该bitmap做绘图，所以需要copy出来一个新的bitmap。当然，如果你不需要在bitmap上绘制，可以不用Copy。另外copy耗时，虽然耗时不长，建议开线程操作。最后提醒你copy出来的bitmap在确定不用的时候要回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。。
-                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.RGB_565, true);
-
-                //人脸检测api，无需考虑线程问题，EasyPhotos内部已经处理好了
-                EasyPhotos.getFaceInformation(this, bitmap, 2, new FaceCallBackOnUiThread() {
-                    @Override
-                    public void onSuccess(final ArrayList<FaceInformation> faces) {
-                        Toast.makeText(SampleActivity.this, "检测到" + faces.size() + "张人脸", Toast.LENGTH_SHORT).show();
-                        for (FaceInformation face : faces) {
-                            Canvas canvas = new Canvas(bitmap);
-                            //画出人脸的区域
-                            Paint paint = new Paint();
-                            paint.setColor(Color.BLUE);
-                            paint.setStrokeWidth(2);
-                            paint.setStyle(Paint.Style.STROKE);//设置话出的是空心方框而不是实心方块
-                            canvas.drawRect(face.faceRect, paint);
-                            canvas.drawRect(face.leftEsyRect, paint);
-                            canvas.drawRect(face.rightEsyRect, paint);
-                            canvas.drawRect(face.mouthRect, paint);
-                            canvas.drawRect(face.noseRect, paint);
-                        }
-
-
-                        bitmapView.setVisibility(View.VISIBLE);
-                        bitmapView.setImageBitmap(bitmap);
-                        progressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        progressDialog.dismiss();
-                        Toast.makeText(SampleActivity.this, "未检测到", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
 
                 break;
 
