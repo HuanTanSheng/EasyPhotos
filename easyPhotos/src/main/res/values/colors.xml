@@ -31,7 +31,7 @@
     <color name="album_item_count_easy_photos">#ababab</color>//专辑项目列表中包含图片张书的字体颜色
     <!--图片列表-->
     <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色
-    <color name="preview_selected_photos_background_easy_photos" >#deffffff</color> //相册中预览选中图片集合的背景颜色
+    <color name="preview_selected_photos_background_easy_photos" >#deffffff</color> //该色值无用,之前想做相册中预览选中图片集合的背景颜色,经考虑去除了该功能.
     <!--加载图片错误icon-->
     <color name="photo_error_easy_photos">#ff0000</color>//图片发生错误时显示icon的颜色
     <!--图片预览页-->

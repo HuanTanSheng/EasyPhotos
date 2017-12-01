@@ -451,13 +451,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             Setting.selectedOriginal = !Setting.selectedOriginal;
             processOriginalMenu();
         } else if (R.id.tv_preview == id) {
-            if (flFragment.getVisibility() == View.VISIBLE) {
-                flFragment.setVisibility(View.GONE);
-            } else {
-                if (!Result.isEmpty()) {
-                    flFragment.setVisibility(View.VISIBLE);
-                }
-            }
+            PreviewActivity.start(EasyPhotosActivity.this, -1, 0);
+//            if (flFragment.getVisibility() == View.VISIBLE) {
+//                flFragment.setVisibility(View.GONE);
+//            } else {
+//                if (!Result.isEmpty()) {
+//                    flFragment.setVisibility(View.VISIBLE);
+//                }
+//            }
         }
     }
 
