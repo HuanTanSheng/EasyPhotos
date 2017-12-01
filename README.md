@@ -2,8 +2,17 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志    
-      
+### 更新日志  
+   
+**1.2.7：**    
+- 大图预览页新增：大图列表与选中图片列表联动    
+- 升级 classpath 'com.android.tools.build:gradle:3.0.1'    
+- 新增色值：    
+```java    
+<color name="preview_bottom_bar_easy_photos">#eb212123</color>//预览页的底部栏和预览列表背景颜色    
+<color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>//预览页的底部栏与预览列表的分割线颜色    
+```   
+
 **1.2.6：**    
 - 正式开放，投入使用   
 - 广告view可以传空，适用于VIP不显示广告场景
@@ -28,7 +37,8 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 - 升级图片选取返回信息（图片地址/宽高/文件大小/文件修改时间/文件类型/用户是否点击原图选项/文件名）
 - 图片选择新增原图选项
 - 预览界面支持选择完成
-- 预览界面支持当前图片位置显示
+- 预览界面支持当前图片位置显示   
+
 **1.1.1：**   
 - 优化相机和相册的调用API，使之更加友好    
 
@@ -147,12 +157,12 @@ configurations.all {
 
 ```    
   
-- 如果你的 `android studio` 版本不同于3.0.0正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
+- 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
-	//把3.0.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+        classpath 'com.android.tools.build:gradle:3.0.1'
+	//把3.0.1改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
 ```  
