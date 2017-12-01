@@ -258,6 +258,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                         return;
                     }
                     photosAdapter.change();
+                    fragmentPreview.notifyDataSetChanged();
                     processOriginalMenu();
                     shouldShowMenuDone();
                     return;
@@ -612,6 +613,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             showAlbumItems(false);
             return;
         }
+        if (flFragment.getVisibility() == View.VISIBLE) {
+            flFragment.setVisibility(View.GONE);
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -637,6 +642,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onPreviewPhotoClick(int position) {
-
+        PreviewActivity.start(EasyPhotosActivity.this, -1, position);
     }
 }

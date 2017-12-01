@@ -109,7 +109,11 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         Intent intent = getIntent();
         int albumItemIndex = intent.getIntExtra(Key.PREVIEW_ALBUM_ITEM_INDEX, 0);
         photos.clear();
-        photos.addAll(AlbumModel.instance.getCurrAlbumItemPhotos(albumItemIndex));
+        if (albumItemIndex == -1) {
+            photos.addAll(Result.photos);
+        } else {
+            photos.addAll(AlbumModel.instance.getCurrAlbumItemPhotos(albumItemIndex));
+        }
         index = intent.getIntExtra(Key.PREVIEW_PHOTO_INDEX, 0);
         if (photos.get(0).isCamera) {
             photos.remove(0);
