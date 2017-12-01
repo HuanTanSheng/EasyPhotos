@@ -11,7 +11,7 @@
     <!--底部栏-->
     <color name="bottom_bar_easy_photos">#393a3f</color>//底部栏的背景颜色
     <!--顶部栏和底部栏文字-->    <!--返回按钮-->
-    <color name="text_easy_photos">#FFFFFF</color>//文字颜色——默认，返回图标也是该颜色
+    <color name="text_easy_photos">#ffffff</color>//文字颜色——默认，返回图标也是该颜色
     <color name="text_unable_easy_photos">#9b9b9b</color>//文字颜色——不可用状态
     <!--完成按钮-->
     <color name="menu_easy_photos">#00AA00</color>//完成按钮的背景色——可用状态
@@ -35,4 +35,5 @@
     <color name="photo_error_easy_photos">#ff0000</color>//图片发生错误时显示icon的颜色
     <!--图片预览页-->
     <color name="preview_background_easy_photos">#000000</color>//预览页背景颜色
+    <color name="preview_selected_photos_background_easy_photos" >#deffffff</color> //预览所有选中图片集合背景颜色
 </resources>

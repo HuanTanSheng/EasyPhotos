@@ -68,7 +68,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/m_tool_bar_bottom_line" />
+    <FrameLayout
+        android:id="@+id/fl_fragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingEnd="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingStart="3dp"
+        app:layout_constraintBottom_toTopOf="@id/m_bottom_bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
+        <fragment
+            android:id="@+id/fragment_preview"
+            android:name="com.huantansheng.easyphotos.ui.PreviewFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
     <RelativeLayout
         android:id="@+id/root_view_album_items"
         android:layout_width="0dp"
@@ -146,14 +164,35 @@
         android:id="@+id/tv_original"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/original_easy_photos"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center"
+        android:text="@string/original_easy_photos"
         android:textColor="@color/text_easy_photos"
         app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="@id/m_bottom_bar"
         app:layout_constraintRight_toRightOf="@id/m_bottom_bar"
         app:layout_constraintTop_toTopOf="@id/m_bottom_bar" />
+
+    <com.huantansheng.easyphotos.ui.widget.PressedTextView
+        android:id="@+id/tv_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:visibility="gone"
+        android:text="@string/selector_preview_easy_photos"
+        android:textColor="@color/text_easy_photos"
+        app:layout_constraintBottom_toBottomOf="@id/m_bottom_bar"
+        app:layout_constraintRight_toRightOf="@id/m_tool_bar"
+        app:layout_constraintTop_toTopOf="@id/m_bottom_bar" />
+
+
+
 
 </android.support.constraint.ConstraintLayout>

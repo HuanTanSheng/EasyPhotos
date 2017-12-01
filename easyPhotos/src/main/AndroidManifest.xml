@@ -14,7 +14,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.PreviewEasyPhotosActivity"
+            android:name=".ui.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/EasyPhotosFullscreenTheme" />

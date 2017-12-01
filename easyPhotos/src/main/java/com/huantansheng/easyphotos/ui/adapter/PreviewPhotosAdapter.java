@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
- * 预览界面图片集合的适配器
+ * 大图预览界面图片集合的适配器
  * Created by huan on 2017/10/26.
  */
 
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
     ArrayList<Photo> photos;
     RequestManager mGlide;
-    LayoutInflater inflater;
     OnClickListener listener;
+    LayoutInflater inflater;
 
     public interface OnClickListener {
         void onPhotoClick();

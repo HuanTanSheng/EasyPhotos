@@ -38,10 +38,10 @@ import java.util.ArrayList;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PreviewEasyPhotosActivity extends AppCompatActivity implements PreviewPhotosAdapter.OnClickListener, View.OnClickListener {
+public class PreviewActivity extends AppCompatActivity implements PreviewPhotosAdapter.OnClickListener, View.OnClickListener {
 
     public static void start(Activity act, int albumItemIndex, int currIndex) {
-        Intent intent = new Intent(act, PreviewEasyPhotosActivity.class);
+        Intent intent = new Intent(act, PreviewActivity.class);
         intent.putExtra(Key.PREVIEW_ALBUM_ITEM_INDEX, albumItemIndex);
         intent.putExtra(Key.PREVIEW_PHOTO_INDEX, currIndex);
         act.startActivityForResult(intent, Code.REQUEST_PREVIEW_ACTIVITY);
@@ -57,7 +57,7 @@ public class PreviewEasyPhotosActivity extends AppCompatActivity implements Prev
     private final Runnable mHidePart2Runnable = new Runnable() {
         @Override
         public void run() {
-            SystemUtils.getInstance(PreviewEasyPhotosActivity.this).systemUiHide(PreviewEasyPhotosActivity.this, decorView);
+            SystemUtils.getInstance(PreviewActivity.this).systemUiHide(PreviewActivity.this, decorView);
         }
     };
     private RelativeLayout mBottomBar, mToolBar;

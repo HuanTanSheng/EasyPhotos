@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, PreviewFragment.OnPreviewFragmentClickListener {
 
     private boolean isShowCamera, onlyStartCamera;
 
@@ -77,8 +78,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private RecyclerView rvAlbumItems;
     private AlbumItemsAdapter albumItemsAdapter;
     private RelativeLayout rootViewAlbumItems;
+
     private View mBottomBar;
-    private PressedTextView tvAlbumItems, tvDone;
+    private PressedTextView tvAlbumItems, tvDone, tvPreview;
     private TextView tvOriginal;
     private AnimatorSet setHide;
     private AnimatorSet setShow;
@@ -87,6 +89,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private int albumItemsAdIndex = 0;
     private PressedTextView tvClear;
     private int currAlbumItemIndex = 0;
+
+    private PreviewFragment fragmentPreview;
+    private FrameLayout flFragment;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -373,13 +378,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
+        fragmentPreview = (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_preview);
+        flFragment = (FrameLayout) findViewById(R.id.fl_fragment);
         tvOriginal = (TextView) findViewById(R.id.tv_original);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();
         } else {
             tvOriginal.setVisibility(View.GONE);
         }
+        tvPreview = (PressedTextView) findViewById(R.id.tv_preview);
         tvOriginal.setOnClickListener(this);
+        tvPreview.setOnClickListener(this);
         tvClear.setOnClickListener(this);
         tvDone.setOnClickListener(this);
         ivBack.setOnClickListener(this);
@@ -432,6 +441,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             Result.removeAll();
             photosAdapter.change();
             shouldShowMenuDone();
+            updatePreview(true);
         } else if (R.id.tv_original == id) {
             if (!Setting.originalMenuUsable) {
                 Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
@@ -439,6 +449,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
             Setting.selectedOriginal = !Setting.selectedOriginal;
             processOriginalMenu();
+        } else if (R.id.tv_preview == id) {
+            if (flFragment.getVisibility() == View.VISIBLE) {
+                flFragment.setVisibility(View.GONE);
+            } else {
+                if (!Result.isEmpty()) {
+                    flFragment.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
@@ -539,6 +557,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
             tvDone.setVisibility(View.GONE);
             tvClear.setVisibility(View.GONE);
+            tvPreview.setVisibility(View.GONE);
         } else {
             if (View.GONE == tvDone.getVisibility()) {
                 ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
@@ -548,13 +567,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             tvDone.setVisibility(View.VISIBLE);
             if (Setting.count > 1)
                 tvClear.setVisibility(View.VISIBLE);
+            tvPreview.setVisibility(View.VISIBLE);
         }
         tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
     }
 
     @Override
     public void onPhotoClick(int position, int realPosition) {
-        PreviewEasyPhotosActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
+        PreviewActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
 
     }
 
@@ -566,6 +586,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onSelectorChanged() {
         shouldShowMenuDone();
+        updatePreview(Result.isEmpty());
+    }
+
+    private void updatePreview(boolean gone) {
+        fragmentPreview.notifyDataSetChanged();
+        if (gone) {
+            flFragment.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -605,5 +633,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 albumItemsAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onPreviewPhotoClick(int position) {
+
     }
 }

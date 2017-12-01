@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.huantansheng.easyphotos.ui.widget.PressedImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_photo"
+    android:layout_width="92dp"
+    android:layout_height="92dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:padding="1dp" />
+
+
