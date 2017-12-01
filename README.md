@@ -68,7 +68,9 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
     
 
    
-# EasyPhotos
+# EasyPhotos    
+[![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
+
 EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
 
 | 无选中状态   | 相册单选  | 相册多选 |
