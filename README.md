@@ -9,8 +9,8 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 - 升级 classpath 'com.android.tools.build:gradle:3.0.1'    
 - 新增色值：    
 ```java    
-<color name="preview_bottom_bar_easy_photos">#eb212123</color>//预览页的底部栏和预览列表背景颜色    
-<color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>//预览页的底部栏与预览列表的分割线颜色    
+<color name="preview_bottom_bar_easy_photos">#eb212123</color>//预览页的底部栏和选中图片列表背景颜色    
+<color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>//预览页的底部栏与选中图片列表的分割线颜色    
 ```   
 
 **1.2.6：**    
