@@ -73,10 +73,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:paddingEnd="3dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:paddingStart="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
+        android:background="@drawable/bg_fragment_preview_easy_photos"
         app:layout_constraintBottom_toTopOf="@id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">

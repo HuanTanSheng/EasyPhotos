@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ import java.util.ArrayList;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PreviewActivity extends AppCompatActivity implements PreviewPhotosAdapter.OnClickListener, View.OnClickListener {
+public class PreviewActivity extends AppCompatActivity implements PreviewPhotosAdapter.OnClickListener, View.OnClickListener, PreviewFragment.OnPreviewFragmentClickListener {
 
     public static void start(Activity act, int albumItemIndex, int currIndex) {
         Intent intent = new Intent(act, PreviewActivity.class);
@@ -84,6 +86,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private int lastPosition = 0;//记录recyclerView最后一次角标位置，用于判断是否转换了item
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
+
+    private FrameLayout flFragment;
+    private PreviewFragment previewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +209,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         tvNumber = (TextView) findViewById(R.id.tv_number);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
         tvOriginal = (TextView) findViewById(R.id.tv_original);
+        flFragment = (FrameLayout) findViewById(R.id.fl_fragment);
+        previewFragment = (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_preview);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();
         } else {
@@ -242,6 +249,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                     if (lastPosition == leftViewPosition - 1) {
                         return;
                     }
+                    previewFragment.setSelectedPosition(-1);
                     tvNumber.setText(getString(R.string.preview_current_number_easy_photos, leftViewPosition, photos.size()));
                     lastPosition = leftViewPosition - 1;
                     View view = snapHelper.findSnapView(lm);
@@ -305,9 +313,18 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private void toggleSelector() {
         if (photos.get(lastPosition).selected) {
             ivSelector.setImageResource(R.drawable.ic_selector_true);
+            if (!Result.isEmpty()) {
+                for (int i = 0; i < Result.count(); i++) {
+                    if (photos.get(lastPosition).path.equals(Result.getPhotoPath(i))) {
+                        previewFragment.setSelectedPosition(i);
+                        break;
+                    }
+                }
+            }
         } else {
             ivSelector.setImageResource(R.drawable.ic_selector);
         }
+        previewFragment.notifyDataSetChanged();
         shouldShowMenuDone();
     }
 
@@ -368,14 +385,28 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 tvDone.startAnimation(scaleHide);
             }
             tvDone.setVisibility(View.GONE);
+            flFragment.setVisibility(View.GONE);
         } else {
             if (View.GONE == tvDone.getVisibility()) {
                 ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
                 scaleShow.setDuration(200);
                 tvDone.startAnimation(scaleShow);
             }
+            flFragment.setVisibility(View.VISIBLE);
             tvDone.setVisibility(View.VISIBLE);
             tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
+        }
+    }
+
+    @Override
+    public void onPreviewPhotoClick(int position) {
+        String path = Result.getPhotoPath(position);
+        for (int i = 0; i < photos.size(); i++) {
+            if (TextUtils.equals(path, photos.get(i).path)) {
+                rvPhotos.scrollToPosition(i);
+                previewFragment.setSelectedPosition(position);
+                return;
+            }
         }
     }
 }

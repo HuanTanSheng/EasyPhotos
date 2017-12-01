@@ -31,7 +31,7 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         this.inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.mGlide = Glide.with(context);
-        RequestOptions options = new RequestOptions().centerInside().error(R.drawable.ic_photo_error_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -46,9 +46,9 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         final int p = position;
         mGlide.load(Result.getPhotoPath(position)).transition(withCrossFade()).into(holder.ivPhoto);
         if (checkedPosition == p) {
-            holder.ivPhoto.setBackgroundColor(ContextCompat.getColor(holder.ivPhoto.getContext(), R.color.menu_easy_photos));
+            holder.frame.setVisibility(View.VISIBLE);
         } else {
-            holder.ivPhoto.setBackgroundColor(ContextCompat.getColor(holder.ivPhoto.getContext(), R.color.preview_selected_photos_background_easy_photos));
+            holder.frame.setVisibility(View.GONE);
         }
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,16 +64,21 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
     }
 
     public void setChecked(int position) {
+        if (checkedPosition == position) {
+            return;
+        }
         checkedPosition = position;
         notifyDataSetChanged();
     }
 
     class PreviewPhotoVH extends RecyclerView.ViewHolder {
         PressedImageView ivPhoto;
+        View frame;
 
         public PreviewPhotoVH(View itemView) {
             super(itemView);
-            ivPhoto = itemView.findViewById(R.id.iv_photo);
+            ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
+            frame = itemView.findViewById(R.id.v_selector);
         }
     }
 

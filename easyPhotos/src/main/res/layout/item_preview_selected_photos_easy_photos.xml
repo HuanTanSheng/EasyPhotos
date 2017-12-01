@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.huantansheng.easyphotos.ui.widget.PressedImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/iv_photo"
-    android:layout_width="92dp"
-    android:layout_height="92dp"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
-    android:padding="1dp" />
+    android:layout_marginRight="8dp">
 
+    <com.huantansheng.easyphotos.ui.widget.PressedImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:id="@+id/v_selector"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_selected_frame"
+        android:visibility="gone" />
+</FrameLayout>
 

@@ -2,17 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_fragment_preview_easy_photos"
     tools:context="com.huantansheng.easyphotos.ui.PreviewFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_preview_selected_photos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:paddingEnd="0dp"
         android:paddingLeft="8dp"
         android:paddingRight="0dp"
         android:paddingStart="8dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="16dp" />
 </FrameLayout>

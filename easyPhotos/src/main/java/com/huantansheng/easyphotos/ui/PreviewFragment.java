@@ -63,4 +63,8 @@ public class PreviewFragment extends Fragment implements PreviewPhotosFragmentAd
     public void notifyDataSetChanged() {
         adapter.notifyDataSetChanged();
     }
+
+    public void setSelectedPosition(int position) {
+        adapter.setChecked(position);
+    }
 }

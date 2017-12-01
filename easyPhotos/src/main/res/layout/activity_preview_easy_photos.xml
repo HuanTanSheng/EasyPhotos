@@ -78,20 +78,38 @@
             android:id="@+id/m_bottom_bar"
             style="?metaButtonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/bottom_bar_easy_photos"
+            android:background="@color/preview_bottom_bar_easy_photos"
             android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true">
 
+            <FrameLayout
+                android:id="@+id/fl_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:visibility="gone">
+                <fragment
+                    android:id="@+id/fragment_preview"
+                    android:name="com.huantansheng.easyphotos.ui.PreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+            <View
+                android:layout_below="@id/fl_fragment"
+                android:background="@color/preview_bottom_bar_line_easy_photos"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:id="@+id/tv_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_below="@id/fl_fragment"
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -102,7 +120,8 @@
             <TextView
                 android:id="@+id/tv_original"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
+                android:layout_below="@id/fl_fragment"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="@string/original_easy_photos"
@@ -112,7 +131,8 @@
             <TextView
                 android:id="@+id/tv_selector"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
+                android:layout_below="@id/fl_fragment"
                 android:layout_toLeftOf="@+id/iv_selector"
                 android:layout_toStartOf="@+id/iv_selector"
                 android:gravity="center"
@@ -122,9 +142,10 @@
             <ImageView
                 android:id="@+id/iv_selector"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_below="@id/fl_fragment"
                 android:paddingEnd="16dp"
                 android:paddingLeft="6dp"
                 android:paddingRight="16dp"
