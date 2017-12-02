@@ -358,6 +358,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             }
         } else {
             Result.removePhoto(item);
+            previewFragment.setSelectedPosition(-1);
             if (unable) {
                 unable = false;
             }
@@ -408,7 +409,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         for (int i = 0; i < photos.size(); i++) {
             if (TextUtils.equals(path, photos.get(i).path)) {
                 rvPhotos.scrollToPosition(i);
+                lastPosition = i;
                 previewFragment.setSelectedPosition(position);
+                toggleSelector();
                 return;
             }
         }
