@@ -2,9 +2,12 @@
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志  
-   
-**1.2.7：**    
+### 更新日志    
+    
+**1.2.8：**    
+- 修复'选中图片列表'点击状态下与'大图列表和选择器'的联动错误    
+
+**1.2.7：**    
 - 大图预览页新增：大图列表与选中图片列表联动    
 - 升级 classpath 'com.android.tools.build:gradle:3.0.1'    
 - 新增色值：    
@@ -129,7 +132,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.2.7'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.2.8'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
