@@ -86,7 +86,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
 
-    private FrameLayout flFragment;
+    private FrameLayout flFragment,mRootView;
     private PreviewFragment previewFragment;
 
     @Override
@@ -200,7 +200,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     }
 
     private void initView() {
+        mRootView = (FrameLayout) findViewById(R.id.m_root_view);
         if (!SystemUtils.getInstance(this).hasNavigationBar()) {
+            mRootView.setFitsSystemWindows(true);
             findViewById(R.id.m_bar_root_view).setPadding(0, SystemUtils.getInstance(this).getStatusBarHeight(this), 0, 0);
         }
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
