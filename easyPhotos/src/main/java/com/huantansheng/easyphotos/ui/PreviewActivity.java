@@ -37,8 +37,7 @@ import com.huantansheng.easyphotos.utils.system.SystemUtils;
 import java.util.ArrayList;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * 预览页
  */
 public class PreviewActivity extends AppCompatActivity implements PreviewPhotosAdapter.OnClickListener, View.OnClickListener, PreviewFragment.OnPreviewFragmentClickListener {
 
