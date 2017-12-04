@@ -14,4 +14,6 @@ public class Code {
     public static final int REQUEST_PREVIEW_ACTIVITY = 13;
     //请求应用详情
     public static final int REQUEST_SETTING_APP_DETAILS = 14;
+    //拼图activity请求吗
+    public static final int REQUEST_PUZZLE = 15;
 }

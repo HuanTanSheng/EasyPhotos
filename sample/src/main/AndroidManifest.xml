@@ -39,9 +39,14 @@
 
 
         <!--<activity-->
-            <!--android:name="com.huantansheng.easyphotos.ui.PreviewActivity"-->
-            <!--android:screenOrientation="landscape"-->
-            <!--tools:replace="android:screenOrientation" />-->
+        <!--android:name="com.huantansheng.easyphotos.ui.PreviewActivity"-->
+        <!--android:screenOrientation="unspecified"-->
+        <!--tools:replace="android:screenOrientation" />-->
+
+        <!--<activity-->
+        <!--android:name="com.huantansheng.easyphotos.ui.PuzzleActivity"-->
+        <!--android:screenOrientation="unspecified"-->
+        <!--tools:replace="android:screenOrientation" />-->
 
     </application>
 

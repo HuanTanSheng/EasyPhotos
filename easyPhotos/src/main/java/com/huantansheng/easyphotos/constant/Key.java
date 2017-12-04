@@ -18,4 +18,8 @@ public class Key {
     public static final String PREVIEW_ALBUM_ITEM_INDEX = "keyOfPreviewAlbumItemIndex";
     //预览界面是否点击完成
     public static final String PREVIEW_CLICK_DONE = "keyOfPreviewClickDone";
+    //拼图界面图片类型,true-Photo,false-String
+    public static final String PUZZLE_FILE_IS_PHOTO = "keyOfPuzzleFilesTypeIsPhoto";
+    //拼图界面图片结合
+    public static final String PUZZLE_FILES = "keyOfPuzzleFiles";
 }
