@@ -28,7 +28,7 @@ public class EasyPhotos {
 
     //easyPhotos的返回数据Key
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
-    public static final String RRESULT_PATHS = "keyOfEasyPhotosResultPaths";
+    public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
 
     /**
@@ -259,6 +259,7 @@ public class EasyPhotos {
 
     /**
      * 设置广告监听
+     * 内部使用，无需关心
      *
      * @param adListener 广告监听
      */

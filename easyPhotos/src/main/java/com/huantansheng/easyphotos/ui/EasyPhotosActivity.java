@@ -316,7 +316,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         ArrayList<String> pathList = new ArrayList<>();
         pathList.add(photo.path);
 
-        data.putStringArrayListExtra(EasyPhotos.RRESULT_PATHS, pathList);
+        data.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, pathList);
 
         setResult(RESULT_OK, data);
         finish();
@@ -471,7 +471,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         for (Photo photo : resultList) {
             resultPaths.add(photo.path);
         }
-        intent.putStringArrayListExtra(EasyPhotos.RRESULT_PATHS, resultPaths);
+        intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, resultPaths);
         intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
         setResult(RESULT_OK, intent);
         finish();

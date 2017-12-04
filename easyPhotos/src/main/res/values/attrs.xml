@@ -1,12 +1,19 @@
 <resources>
 
-    <!-- Declare custom theme attributes that allow changing which styles are
-         used for button bars depending on the API level.
-         ?android:attr/buttonBarStyle is new as of API 11 so this is
-         necessary to support previous API levels. -->
     <declare-styleable name="ButtonBarContainerTheme">
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="PuzzleView">
+        <attr name="line_size" format="integer" />
+        <attr name="line_color" format="color" />
+        <attr name="selected_line_color" format="color" />
+        <attr name="handle_bar_color" format="color" />
+        <attr name="need_draw_line" format="boolean" />
+        <attr name="need_draw_outer_line" format="boolean" />
+        <attr name="piece_padding" format="dimension" />
+        <attr name="animation_duration" format="integer" />
+        <attr name="radian" format="float" />
+    </declare-styleable>
 </resources>
