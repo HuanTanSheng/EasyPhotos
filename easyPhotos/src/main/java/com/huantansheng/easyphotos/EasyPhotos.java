@@ -12,6 +12,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
+import com.huantansheng.easyphotos.ui.PuzzleActivity;
 import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 
@@ -396,6 +397,26 @@ public class EasyPhotos {
      */
     public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
         BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
+    }
+
+    /**
+     * 启动拼图
+     * @param act       上下文
+     * @param photos    图片集合
+     * @param requestCode   请求code
+     */
+    public static void toPuzzleWithPhotos(Activity act,ArrayList<Photo> photos,int requestCode) {
+        PuzzleActivity.startWithPhotos(act,photos,requestCode);
+    }
+
+    /**
+     * 启动拼图
+     * @param act       上下文
+     * @param paths    图片地址集合
+     * @param requestCode   请求code
+     */
+    public static void toPuzzleWithPaths(Activity act,ArrayList<String> paths,int requestCode) {
+        PuzzleActivity.startWithPaths(act,paths,requestCode);
     }
 
 

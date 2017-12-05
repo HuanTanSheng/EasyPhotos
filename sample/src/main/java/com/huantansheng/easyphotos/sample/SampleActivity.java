@@ -321,6 +321,7 @@ public class SampleActivity extends AppCompatActivity
             selectedPhotoList.addAll(resultPhotos);
             adapter.notifyDataSetChanged();
             rvImage.smoothScrollToPosition(0);
+            EasyPhotos.toPuzzleWithPhotos(this,selectedPhotoList,102);
 
         } else if (RESULT_CANCELED == resultCode) {
             Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();

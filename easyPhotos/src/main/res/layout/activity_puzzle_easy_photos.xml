@@ -3,43 +3,31 @@
     android:id="@+id/m_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/preview_background_easy_photos">
+    android:background="@color/puzzle_background_easy_photos"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/m_top_bar"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/tool_bar_easy_photos">
+        android:layout_alignParentTop="true">
 
-        <com.huantansheng.easyphotos.ui.widget.PressedImageView
-            android:id="@+id/iv_back"
-            android:layout_width="42dp"
+        <com.huantansheng.easyphotos.ui.widget.PressedTextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            app:srcCompat="@drawable/ic_back_easy_photos" />
-
-        <View
-            android:id="@+id/m_back_line"
-            android:layout_width="1dp"
-            android:layout_height="22dp"
-            android:layout_alignEnd="@id/iv_back"
-            android:layout_alignRight="@id/iv_back"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:background="@color/back_line_easy_photos" />
-
-        <com.huantansheng.easyphotos.ui.widget.PressedTextView
-            android:id="@+id/tv_number"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toEndOf="@id/m_back_line"
-            android:layout_toRightOf="@id/m_back_line"
             android:gravity="center"
+            android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@color/text_easy_photos" />
+            android:paddingStart="16dp"
+            android:text="@string/cancel_easy_photos"
+            android:textColor="@color/puzzle_menu_easy_photos"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
 
         <com.huantansheng.easyphotos.ui.widget.PressedTextView
             android:id="@+id/tv_done"
@@ -50,18 +38,19 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bg_menu_done_easy_photos"
             android:gravity="center"
             android:maxWidth="200dp"
+            android:minWidth="56dp"
             android:padding="6dp"
-            android:textColor="@color/text_easy_photos"
+            android:text="@string/done_easy_photos"
+            android:textColor="@color/puzzle_menu_done_easy_photos"
             android:textSize="12sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
     <com.huantansheng.easyphotos.models.puzzle.SquarePuzzleView
-        android:id="@+id/m_puzzle_view"
+        android:id="@+id/puzzle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/m_top_bar" />
@@ -70,27 +59,34 @@
         android:id="@+id/m_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/preview_bottom_bar_easy_photos"
         android:layout_alignParentBottom="true">
 
         <View
             android:id="@+id/rv_type"
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:background="@color/preview_bottom_bar_easy_photos"/>
+            android:layout_alignParentTop="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_puzzle_templet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_type"
+            android:paddingBottom="8dp"
+            android:paddingTop="6dp" />
+
         <View
             android:id="@+id/m_bottom_line"
-            android:layout_below="@id/rv_type"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/preview_bottom_bar_line_easy_photos"/>
+            android:layout_below="@id/rv_puzzle_templet"
+            android:background="@color/puzzle_bottom_bar_line_easy_photos" />
+
         <View
             android:id="@+id/m_bottom_bar"
-            android:layout_below="@id/m_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:background="@color/preview_bottom_bar_easy_photos"/>
+            android:layout_below="@id/m_bottom_line" />
     </RelativeLayout>
 
 </RelativeLayout>

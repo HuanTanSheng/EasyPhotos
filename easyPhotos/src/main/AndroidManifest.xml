@@ -22,7 +22,8 @@
 
         <activity
             android:name=".ui.PuzzleActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/PuzzleTheme"/>
     </application>
 
 </manifest>

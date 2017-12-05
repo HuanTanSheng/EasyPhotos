@@ -50,6 +50,7 @@
 
     <string name="preview_current_number_easy_photos">%1$d/%2$d</string>
 
+    <string name="done_easy_photos">Termina</string>
 
-
+    <string name="cancel_easy_photos">Cancelar</string>
 </resources>

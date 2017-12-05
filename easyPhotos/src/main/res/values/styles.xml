@@ -7,4 +7,5 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
+    <style name="PuzzleTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>
