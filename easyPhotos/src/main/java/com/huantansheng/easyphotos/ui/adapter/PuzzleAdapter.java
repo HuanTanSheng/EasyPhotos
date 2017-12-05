@@ -52,14 +52,17 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    int theme = 0;
+                    int themeType = 0;
+                    int themeId = 0;
                     if (puzzleLayout instanceof NumberSlantLayout) {
-                        theme = ((NumberSlantLayout) puzzleLayout).getTheme();
+                        themeType = 0;
+                        themeId = ((NumberSlantLayout) puzzleLayout).getTheme();
                     } else if (puzzleLayout instanceof NumberStraightLayout) {
-                        theme = ((NumberStraightLayout) puzzleLayout).getTheme();
+                        themeType = 1;
+                        themeId = ((NumberStraightLayout) puzzleLayout).getTheme();
                     }
                     selectedNumber = p;
-                    onItemClickListener.onItemClick(puzzleLayout, theme);
+                    onItemClickListener.onItemClick(themeType, themeId);
                     notifyDataSetChanged();
                 }
             }
@@ -108,6 +111,6 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
     }
 
     public interface OnItemClickListener {
-        void onItemClick(PuzzleLayout puzzleLayout, int themeId);
+        void onItemClick(int themeType, int themeId);
     }
 }

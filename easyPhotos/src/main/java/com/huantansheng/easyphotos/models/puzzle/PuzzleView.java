@@ -99,9 +99,9 @@ public class PuzzleView extends View {
         lineSize = ta.getInt(R.styleable.PuzzleView_line_size, 4);
         lineColor = ta.getColor(R.styleable.PuzzleView_line_color, ContextCompat.getColor(getContext(), R.color.puzzle_menu_easy_photos));
         selectedLineColor =
-                ta.getColor(R.styleable.PuzzleView_selected_line_color, Color.parseColor("#99BBFB"));
+                ta.getColor(R.styleable.PuzzleView_selected_line_color,  ContextCompat.getColor(getContext(), R.color.puzzle_selected_frame_easy_photos));
         handleBarColor =
-                ta.getColor(R.styleable.PuzzleView_handle_bar_color, Color.parseColor("#99BBFB"));
+                ta.getColor(R.styleable.PuzzleView_handle_bar_color,  ContextCompat.getColor(getContext(), R.color.puzzle_selected_controller_easy_photos));
         piecePadding = ta.getDimensionPixelSize(R.styleable.PuzzleView_piece_padding, 0);
         needDrawLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_line, false);
         needDrawOuterLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_outer_line, false);

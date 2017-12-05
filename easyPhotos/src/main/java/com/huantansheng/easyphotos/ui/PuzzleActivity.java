@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -82,19 +81,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initPuzzleView() {
-        puzzleLayout = PuzzleUtils.getPuzzleLayout(1, fileCount, 0);
+        puzzleLayout = PuzzleUtils.getPuzzleLayout(0, fileCount, 0);
         puzzleView = (PuzzleView) findViewById(R.id.puzzle_view);
-        puzzleView.setBackgroundColor(ContextCompat.getColor(this, R.color.bottom_bar_easy_photos));
         puzzleView.setPuzzleLayout(puzzleLayout);
-        puzzleView.setTouchEnable(true);
-        puzzleView.setNeedDrawLine(false);
-        puzzleView.setNeedDrawOuterLine(false);
-        puzzleView.setLineSize(4);
-        puzzleView.setLineColor(Color.GRAY);
-        puzzleView.setSelectedLineColor(ContextCompat.getColor(this, R.color.puzzle_selected_frame_easy_photos));
-        puzzleView.setHandleBarColor(ContextCompat.getColor(this, R.color.puzzle_selected_controller_easy_photos));
-        puzzleView.setAnimateDuration(300);
-        puzzleView.setPiecePadding(0);
         puzzleView.post(new Runnable() {
             @Override
             public void run() {
@@ -143,7 +132,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onItemClick(PuzzleLayout puzzleLayout, int themeId) {
-        puzzleView.setPuzzleLayout(puzzleLayout);
+    public void onItemClick(int themeType, int themeId) {
+        puzzleView.setPuzzleLayout(PuzzleUtils.getPuzzleLayout(themeType, fileCount, themeId));
+        puzzleView.addPieces(bitmaps);
+
     }
 }
