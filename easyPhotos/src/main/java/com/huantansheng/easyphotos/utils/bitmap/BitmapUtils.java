@@ -144,7 +144,7 @@ public class BitmapUtils {
      * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
      * @param notifyMedia 是否更新到媒体库
      * @param callBack 保存图片后的回调，回调已经处于UI线程
-     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     *
      */
     public static void saveBitmapToDir(final Activity act, final String dirPath, final String namePrefix, final Bitmap bitmap, final boolean notifyMedia, final SaveBitmapCallBack callBack) {
         new Thread(new Runnable() {
@@ -186,41 +186,6 @@ public class BitmapUtils {
             }
         }).start();
 
-    }
-
-
-    /**
-     * 保存Bitmap到指定文件夹
-     *
-     * @param context     上下文
-     * @param dir         文件夹
-     * @param bitmap      bitmap
-     * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
-     * @param notifyMedia 是否更新到媒体库
-     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
-     */
-    public static String saveBitmapToDir(Context context, File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
-
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
-        try {
-            File writeFile = File.createTempFile(namePrefix, ".png", dir);
-
-            FileOutputStream fos = null;
-            fos = new FileOutputStream(writeFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-            if (notifyMedia) {
-                EasyPhotos.notifyMedia(context, writeFile);
-            }
-            return writeFile.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 

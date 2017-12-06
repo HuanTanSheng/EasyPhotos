@@ -341,7 +341,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.toPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false);
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false);
                 return;
             }
 
