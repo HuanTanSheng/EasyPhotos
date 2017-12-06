@@ -6,10 +6,12 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
     
 **1.3.0：**   
 - 新增功能：    
-    - 拼图（内部处理运行时权限，无需关心运行时权限）    
-    - 保存bitmap到本地（可设置是否更新到媒体库，如果调用此方法前没有进入过EasyPhotos的相册或相机，则需要你自己处理读写权限）   
+    - 拼图（内部处理运行时权限，无需关心运行时权限）    
+    - 保存bitmap到本地（可设置是否更新到媒体库，如果调用此方法前没有进入过EasyPhotos的相册或相机，则需要你自己处理读写权限）      
 - 更换相册单选的选中图标样式    
-- 修复回调选中地址的key：RRESULT_PATHS 修复为 RESULT_PATHS。（ps：对如此智障的疏忽表示歉意。）  
+- 修复回调选中地址的key：RRESULT_PATHS 修复为 RESULT_PATHS。（ps：对如此智障的疏忽表示歉意。）    
+- 修复永久不给权限情况下，退出相册时发生的错误    
+- 修复调用系统权限设置页返回时，相册页面或拼图页面自销毁情况
 - 新增字符串：    
 ```java    
     <string name="done_easy_photos">完成</string>
@@ -159,7 +161,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.2.9'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.3.0'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
