@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -25,6 +26,7 @@ import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -38,10 +40,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private static WeakReference<Class<? extends Activity>> toClass;
 
 
-    public PuzzleActivity() {
-    }
-
-    public static void startWithPhotos(Activity act, ArrayList<Photo> photos, int requestCode, boolean replaceCustom) {
+    public static void startWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
@@ -49,13 +48,15 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(act, PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, true);
         intent.putParcelableArrayListExtra(Key.PUZZLE_FILES, photos);
+        intent.putExtra(Key.PUZZLE_SAVE_DIR, puzzleSaveDirPath);
+        intent.putExtra(Key.PUZZLE_SAVE_NAME_PREFIX, puzzleSaveNamePrefix);
         if (replaceCustom) {
             toClass = new WeakReference<Class<? extends Activity>>(act.getClass());
         }
         act.startActivityForResult(intent, requestCode);
     }
 
-    public static void startWithPaths(Activity act, ArrayList<String> paths, int requestCode, boolean replaceCustom) {
+    public static void startWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
@@ -63,6 +64,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(act, PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, false);
         intent.putStringArrayListExtra(Key.PUZZLE_FILES, paths);
+        intent.putExtra(Key.PUZZLE_SAVE_DIR, puzzleSaveDirPath);
+        intent.putExtra(Key.PUZZLE_SAVE_NAME_PREFIX, puzzleSaveNamePrefix);
         if (replaceCustom) {
             toClass = new WeakReference<Class<? extends Activity>>(act.getClass());
         }
@@ -73,6 +76,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> paths = null;
     ArrayList<Bitmap> bitmaps = new ArrayList<>();
     boolean fileTypeIsPhoto;
+    String saveDirPath, saveNamePrefix;
 
     private PuzzleView puzzleView;
     private PuzzleLayout puzzleLayout;
@@ -217,6 +221,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private void initData() {
         Intent intent = getIntent();
         fileTypeIsPhoto = intent.getBooleanExtra(Key.PUZZLE_FILE_IS_PHOTO, false);
+        saveDirPath = intent.getStringExtra(Key.PUZZLE_SAVE_DIR);
+        saveNamePrefix = intent.getStringExtra(Key.PUZZLE_SAVE_NAME_PREFIX);
         if (fileTypeIsPhoto) {
             photos = intent.getParcelableArrayListExtra(Key.PUZZLE_FILES);
             fileCount = photos.size() > 9 ? 9 : photos.size();
@@ -303,7 +309,15 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void savePhoto() {
-
+        Intent intent = new Intent();
+        Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
+        String filePath = EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true);
+        intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, filePath);
+        File file = new File(filePath);
+        Photo photo = new Photo(false, file.getName(), filePath, file.lastModified(), bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+        intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void toggleIvMenu(@IdRes int resId) {

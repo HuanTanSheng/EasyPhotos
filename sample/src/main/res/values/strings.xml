@@ -16,7 +16,7 @@
     <string name="camera">Camera</string>
     <string name="addWatermark">Add watermark to picture</string>
     <string name="face_detection">Face detection</string>
-
+    <string name="puzzle">Puzzle</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -55,4 +55,5 @@
     <string name="cancel_easy_photos">Cancel</string>
 
     <string name="template_easy_photos">Template</string>
+
 </resources>

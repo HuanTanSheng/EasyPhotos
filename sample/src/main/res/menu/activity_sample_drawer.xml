@@ -67,6 +67,10 @@
                     android:title="@string/addWatermark" />
 
                 <item
+                    android:id="@+id/puzzle"
+                    android:title="@string/puzzle" />
+
+                <item
                     android:id="@+id/face_detection"
                     android:visible="false"
                     android:title="@string/face_detection" />

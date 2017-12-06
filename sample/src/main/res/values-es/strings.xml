@@ -16,7 +16,7 @@
     <string name="camera">La Cámara</string>
     <string name="addWatermark">Añadir una imagen de marca de agua</string>
     <string name="face_detection">De cara a la detección</string>
-
+    <string name="puzzle">El rompecabezas</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -55,4 +55,5 @@
     <string name="cancel_easy_photos">Cancelar</string>
 
     <string name="template_easy_photos">Plantilla</string>
+
 </resources>

@@ -31,7 +31,9 @@ public class EasyPhotos {
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
     public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
-    public static final String RESULT_PUZZLE = "keyOfEasyPhotosResultPuzzle";
+    public static final String RESULT_PUZZLE_PHOTO = "keyOfEasyPhotosResultPuzzlePhoto";
+    public static final String RESULT_PUZZLE_PATH = "keyOfEasyPhotosResultPuzzlePath";
+
     public static final String KEY_PUZZLE_REPLACE_PATH = "keyOfPuzzleReplacePath";
     public static final String KEY_PUZZLE_REPLACE_PHOTO = "keyOfPuzzleReplacePhoto";
 
@@ -404,11 +406,11 @@ public class EasyPhotos {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context    上下文
-     * @param dirPath    文件夹全路径
-     * @param bitmap     bitmap
-     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
-     * @param notifyMedia     是否更新到媒体库
+     * @param context     上下文
+     * @param dirPath     文件夹全路径
+     * @param bitmap      bitmap
+     * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia 是否更新到媒体库
      * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
      */
     public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
@@ -418,47 +420,61 @@ public class EasyPhotos {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context    上下文
-     * @param dir        文件夹
-     * @param bitmap     bitmap
-     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
-     * @param notifyMedia     是否更新到媒体库
+     * @param context     上下文
+     * @param dir         文件夹
+     * @param bitmap      bitmap
+     * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia 是否更新到媒体库
      * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
      */
     public static String saveBitmapToDir(Context context, File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
         return BitmapUtils.saveBitmapToDir(context, dir, namePrefix, bitmap, notifyMedia);
     }
 
+    /**
+     * 把View画成Bitmap
+     *
+     * @param view 要处理的View
+     * @return Bitmap
+     */
+    public static Bitmap createBitmapFromView(View view) {
+        return BitmapUtils.createBitmapFromView(view);
+    }
+
 
     /**
      * 启动拼图
      *
-     * @param act           上下文
-     * @param photos        图片集合
-     * @param requestCode   请求code
-     * @param replaceCustom 单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
-     *                      Intent intent = new Intent();
-     *                      intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PHOTO , photo);
-     *                      act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param act            上下文
+     * @param photos         图片集合
+     * @param puzzleSaveDirPath    拼图完成保存的文件夹全路径
+     * @param puzzleSaveNamePrefix 拼图完成保存的文件名前缀，最终格式：前缀+默认生成唯一数字标识+.png
+     * @param requestCode    请求code
+     * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                       Intent intent = new Intent();
+     *                       intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PHOTO , photo);
+     *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
-    public static void toPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, int requestCode, boolean replaceCustom) {
+    public static void toPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
         act.setResult(Activity.RESULT_OK);
-        PuzzleActivity.startWithPhotos(act, photos, requestCode, replaceCustom);
+        PuzzleActivity.startWithPhotos(act, photos,puzzleSaveDirPath,puzzleSaveNamePrefix, requestCode, replaceCustom);
     }
 
     /**
      * 启动拼图
      *
-     * @param act           上下文
-     * @param paths         图片地址集合
-     * @param requestCode   请求code
-     * @param replaceCustom 单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
-     *                      Intent intent = new Intent();
-     *                      intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PATH , path);
-     *                      act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param act            上下文
+     * @param paths          图片地址集合
+     * @param puzzleSaveDirPath    拼图完成保存的文件夹全路径
+     * @param puzzleSaveNamePrefix 拼图完成保存的文件名前缀，最终格式：前缀+默认生成唯一数字标识+.png
+     * @param requestCode    请求code
+     * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                       Intent intent = new Intent();
+     *                       intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PATH , path);
+     *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
-    public static void toPuzzleWithPaths(Activity act, ArrayList<String> paths, int requestCode, boolean replaceCustom) {
-        PuzzleActivity.startWithPaths(act, paths, requestCode, replaceCustom);
+    public static void toPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
+        PuzzleActivity.startWithPaths(act, paths,puzzleSaveDirPath, puzzleSaveNamePrefix,requestCode, replaceCustom);
     }
 
 

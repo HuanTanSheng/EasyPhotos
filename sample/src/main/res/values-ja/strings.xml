@@ -16,7 +16,7 @@
     <string name="camera">カメラ</string>
     <string name="addWatermark">の写真が透かしを添えて</string>
     <string name="face_detection">人の顔検出</string>
-
+    <string name="puzzle">パズル</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -55,4 +55,5 @@
     <string name="cancel_easy_photos">キャンセル</string>
 
     <string name="template_easy_photos">タイプ</string>
+
 </resources>

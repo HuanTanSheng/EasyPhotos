@@ -16,7 +16,7 @@
     <string name="camera">相机</string>
     <string name="addWatermark">图片添加水印</string>
     <string name="face_detection">人脸检测</string>
-
+    <string name="puzzle">拼圖</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -55,5 +55,6 @@
     <string name="cancel_easy_photos">取消</string>
 
     <string name="template_easy_photos">範本</string>
+
 
 </resources>

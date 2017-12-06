@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -307,21 +308,43 @@ public class SampleActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode) {
+            //相机或相册回调
+            if (requestCode == 101) {
+                //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
+                ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
 
-            //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
-            ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
-
-            //返回图片地址集合：如果你只需要获取图片的地址，可以用这个
-            ArrayList<String> resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS);
-            //返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
-            boolean selectedOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
+                //返回图片地址集合：如果你只需要获取图片的地址，可以用这个
+                ArrayList<String> resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS);
+                //返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
+                boolean selectedOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
 
 
-            selectedPhotoList.clear();
-            selectedPhotoList.addAll(resultPhotos);
-            adapter.notifyDataSetChanged();
-            rvImage.smoothScrollToPosition(0);
-            EasyPhotos.toPuzzleWithPhotos(this,selectedPhotoList,102,false);
+                selectedPhotoList.clear();
+                selectedPhotoList.addAll(resultPhotos);
+                adapter.notifyDataSetChanged();
+                rvImage.smoothScrollToPosition(0);
+
+                return;
+            }
+
+
+            //为拼图选择照片的回调
+            if (requestCode == 102) {
+                EasyPhotos.toPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false);
+                return;
+            }
+
+            //拼图回调
+            if (requestCode == 103) {
+                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PUZZLE_PATH);
+
+                Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+                selectedPhotoList.clear();
+                selectedPhotoList.add(puzzlePhoto);
+                adapter.notifyDataSetChanged();
+                rvImage.smoothScrollToPosition(0);
+            }
+
 
         } else if (RESULT_CANCELED == resultCode) {
             Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();

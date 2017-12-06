@@ -16,7 +16,7 @@
     <string name="camera">카메라</string>
     <string name="addWatermark">사진 추가 워터마크</string>
     <string name="face_detection">사람 검색</string>
-
+    <string name="puzzle">퍼즐</string>
 
     <!--以下是EasyPhotos的-->
 
@@ -55,5 +55,6 @@
     <string name="cancel_easy_photos">취소</string>
 
     <string name="template_easy_photos">템플릿</string>
+
 
 </resources>

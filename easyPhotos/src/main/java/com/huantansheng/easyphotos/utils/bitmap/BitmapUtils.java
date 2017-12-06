@@ -1,18 +1,17 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
+import android.view.View;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -138,11 +137,11 @@ public class BitmapUtils {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context    上下文
-     * @param dirPath    文件夹全路径
-     * @param bitmap     bitmap
-     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
-     * @param notifyMedia     是否更新到媒体库
+     * @param context     上下文
+     * @param dirPath     文件夹全路径
+     * @param bitmap      bitmap
+     * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia 是否更新到媒体库
      * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
      */
     public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
@@ -174,14 +173,14 @@ public class BitmapUtils {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context    上下文
-     * @param dir        文件夹
-     * @param bitmap     bitmap
-     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
-     * @param notifyMedia     是否更新到媒体库
+     * @param context     上下文
+     * @param dir         文件夹
+     * @param bitmap      bitmap
+     * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia 是否更新到媒体库
      * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
      */
-    public static String saveBitmapToDir(Context context,File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
+    public static String saveBitmapToDir(Context context, File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
 
         if (!dir.exists()) {
             dir.mkdirs();
@@ -203,6 +202,25 @@ public class BitmapUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    /**
+     * 把View画成Bitmap
+     *
+     * @param view 要处理的View
+     * @return Bitmap
+     */
+    public static Bitmap createBitmapFromView(View view) {
+        if (view instanceof PuzzleView) {
+            ((PuzzleView) view).clearHandling();
+            ((PuzzleView) view).invalidate();
+        }
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
     }
 
 
