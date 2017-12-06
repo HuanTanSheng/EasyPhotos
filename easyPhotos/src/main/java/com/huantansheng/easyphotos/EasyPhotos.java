@@ -34,9 +34,6 @@ public class EasyPhotos {
     public static final String RESULT_PUZZLE_PHOTO = "keyOfEasyPhotosResultPuzzlePhoto";
     public static final String RESULT_PUZZLE_PATH = "keyOfEasyPhotosResultPuzzlePath";
 
-    public static final String KEY_PUZZLE_REPLACE_PATH = "keyOfPuzzleReplacePath";
-    public static final String KEY_PUZZLE_REPLACE_PHOTO = "keyOfPuzzleReplacePhoto";
-
     /**
      * 启动模式
      * CAMERA-相机
@@ -452,7 +449,7 @@ public class EasyPhotos {
      * @param requestCode    请求code
      * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
      *                       Intent intent = new Intent();
-     *                       intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PHOTO , photo);
+     *                       intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS , photos);
      *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
     public static void toPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
@@ -470,7 +467,7 @@ public class EasyPhotos {
      * @param requestCode    请求code
      * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
      *                       Intent intent = new Intent();
-     *                       intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PATH , path);
+     *                       intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS , paths);
      *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
     public static void toPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {

@@ -11,12 +11,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar;
@@ -261,6 +263,14 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             controlFlag = -1;
             degreeSeekBar.setVisibility(View.INVISIBLE);
             toggleIvMenu(R.id.iv_replace);
+            if (null == toClass) {
+                EasyPhotos.createAlbum(this, true)
+                        .setCount(1)
+                        .start(91);
+            } else {
+                Intent intent = new Intent(this, toClass.get());
+                startActivityForResult(intent, 91);
+            }
         } else if (R.id.iv_rotate == id) {
             if (controlFlag == FLAG_CONTROL_ROTATE) {
                 if (degrees.get(degreeIndex) % 90 != 0) {
@@ -313,9 +323,12 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
         String filePath = EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true);
         intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, filePath);
-        File file = new File(filePath);
-        Photo photo = new Photo(false, file.getName(), filePath, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
-        intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
+        if (!TextUtils.isEmpty(filePath)) {
+            File file = new File(filePath);
+            Photo photo = new Photo(false, file.getName(), filePath, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+            intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
+        }
+
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -357,5 +370,35 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             toClass = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case RESULT_OK:
+
+                degrees.remove(degreeIndex);
+                degrees.add(degreeIndex, 0);
+
+                if (fileTypeIsPhoto) {
+                    ArrayList<Photo> photos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                    Photo photo = photos.get(0);
+                    Bitmap bitmap = BitmapFactory.decodeFile(photo.path);
+                    puzzleView.replace(bitmap);
+                    return;
+                }
+
+                String path = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS).get(0);
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                puzzleView.replace(bitmap);
+
+                break;
+            case RESULT_CANCELED:
+                break;
+            default:
+                break;
+        }
     }
 }
