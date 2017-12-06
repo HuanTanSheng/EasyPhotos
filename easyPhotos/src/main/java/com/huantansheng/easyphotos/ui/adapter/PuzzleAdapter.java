@@ -50,6 +50,9 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selectedNumber == p) {
+                    return;
+                }
                 if (onItemClickListener != null) {
                     int themeType = 0;
                     int themeId = 0;
