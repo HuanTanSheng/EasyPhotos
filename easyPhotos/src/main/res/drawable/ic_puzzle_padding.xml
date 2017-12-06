@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="46.0"
+    android:viewportWidth="46.0">
+    <path
+        android:pathData="M9.64,9l17.92,0l10.25,0l0,12.46l0,16.42l-28.17,0z"
+        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M24,9L24,37.5"
+        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeLineCap="square"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M11,23L37.5,23"
+        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeLineCap="square"
+        android:strokeWidth="2" />
+</vector>

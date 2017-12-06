@@ -54,4 +54,6 @@
 
     <string name="cancel_easy_photos">取消</string>
 
+    <string name="template_easy_photos">模板</string>
+
 </resources>

@@ -53,4 +53,6 @@
     <string name="done_easy_photos">Termina</string>
 
     <string name="cancel_easy_photos">Cancelar</string>
+
+    <string name="template_easy_photos">Plantilla</string>
 </resources>

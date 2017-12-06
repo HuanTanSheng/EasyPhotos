@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.models.puzzle.templet.straight;
+package com.huantansheng.easyphotos.models.puzzle.template.straight;
 
 import android.util.Log;
 

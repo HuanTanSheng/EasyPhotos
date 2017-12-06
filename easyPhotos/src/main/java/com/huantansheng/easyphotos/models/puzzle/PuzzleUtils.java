@@ -1,20 +1,20 @@
 package com.huantansheng.easyphotos.models.puzzle;
 
 
-import com.huantansheng.easyphotos.models.puzzle.templet.slant.OneSlantLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.slant.SlantLayoutHelper;
-import com.huantansheng.easyphotos.models.puzzle.templet.slant.ThreeSlantLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.slant.TwoSlantLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.EightStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.FiveStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.FourStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.NineStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.OneStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.SevenStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.SixStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.StraightLayoutHelper;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.ThreeStraightLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.TwoStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.slant.OneSlantLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.slant.SlantLayoutHelper;
+import com.huantansheng.easyphotos.models.puzzle.template.slant.ThreeSlantLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.slant.TwoSlantLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.EightStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.FiveStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.FourStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.NineStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.OneStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.SevenStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.SixStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.StraightLayoutHelper;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.ThreeStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.TwoStraightLayout;
 
 import java.util.ArrayList;
 import java.util.List;

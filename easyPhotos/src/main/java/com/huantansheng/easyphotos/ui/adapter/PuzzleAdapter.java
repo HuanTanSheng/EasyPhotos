@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleLayout;
 import com.huantansheng.easyphotos.models.puzzle.SquarePuzzleView;
-import com.huantansheng.easyphotos.models.puzzle.templet.slant.NumberSlantLayout;
-import com.huantansheng.easyphotos.models.puzzle.templet.straight.NumberStraightLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.slant.NumberSlantLayout;
+import com.huantansheng.easyphotos.models.puzzle.template.straight.NumberStraightLayout;
 
 import java.util.ArrayList;
 import java.util.List;

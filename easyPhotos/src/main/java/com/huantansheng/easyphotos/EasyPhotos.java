@@ -32,6 +32,8 @@ public class EasyPhotos {
     public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
     public static final String RESULT_PUZZLE = "keyOfEasyPhotosResultPuzzle";
+    public static final String KEY_PUZZLE_REPLACE_PATH = "keyOfPuzzleReplacePath";
+    public static final String KEY_PUZZLE_REPLACE_PHOTO = "keyOfPuzzleReplacePhoto";
 
     /**
      * 启动模式
@@ -401,22 +403,33 @@ public class EasyPhotos {
 
     /**
      * 启动拼图
-     * @param act       上下文
-     * @param photos    图片集合
+     *
+     * @param act           上下文
+     * @param photos        图片集合
      * @param requestCode   请求code
+     * @param replaceCustom 单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                      Intent intent = new Intent();
+     *                      intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PHOTO , photo);
+     *                      act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
-    public static void toPuzzleWithPhotos(Activity act,ArrayList<Photo> photos,int requestCode) {
-        PuzzleActivity.startWithPhotos(act,photos,requestCode);
+    public static void toPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, int requestCode, boolean replaceCustom) {
+        act.setResult(Activity.RESULT_OK);
+        PuzzleActivity.startWithPhotos(act, photos, requestCode, replaceCustom);
     }
 
     /**
      * 启动拼图
-     * @param act       上下文
-     * @param paths    图片地址集合
+     *
+     * @param act           上下文
+     * @param paths         图片地址集合
      * @param requestCode   请求code
+     * @param replaceCustom 单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的，而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                      Intent intent = new Intent();
+     *                      intent.putExtra(EasyPhotos.KEY_PUZZLE_REPLACE_PATH , path);
+     *                      act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
-    public static void toPuzzleWithPaths(Activity act,ArrayList<String> paths,int requestCode) {
-        PuzzleActivity.startWithPaths(act,paths,requestCode);
+    public static void toPuzzleWithPaths(Activity act, ArrayList<String> paths, int requestCode, boolean replaceCustom) {
+        PuzzleActivity.startWithPaths(act, paths, requestCode, replaceCustom);
     }
 
 

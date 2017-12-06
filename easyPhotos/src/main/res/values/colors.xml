@@ -3,6 +3,7 @@
     <color name="transparent_black_easy_photos">#df000000</color>
     <color name="transparent_easy_photos">#00000000</color>
 
+
     <!--顶部栏-->
     <color name="tool_bar_easy_photos">#393a3f</color>//顶部栏的背景颜色303135
     <color name="tool_bar_bottom_line_easy_photos">#303135</color>//顶部栏的底端线颜色，主要用于Z轴的视觉效果
@@ -45,17 +46,17 @@
 
     <!--图片预览页-->
     <color name="preview_background_easy_photos">#000000</color>//预览页背景颜色
-    <color name="preview_bottom_bar_easy_photos">#eb212123</color>
-    //预览页的底部栏和选中图片列表的背景颜色
-    <color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>
-    //预览页的底部栏与选中图片列表的分割线颜色
+    <color name="preview_bottom_bar_easy_photos">#eb212123</color>//预览页的底部栏和选中图片列表的背景颜色
+    <color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>//预览页的底部栏与选中图片列表的分割线颜色
+    <color name="preview_status_easy_photos">#d73c3d41</color>//api21以上预览页状态栏颜色为该色值；api19和api20状态栏为透明色；其余api状态栏或透明或黑或灰，取决于各家rom和有无实体按键等因素。注：其余页面状态栏根据你的主题走
 
     <!--拼图页-->
     <color name="puzzle_background_easy_photos">#000000</color>//拼图页面背景色
-    <color name="puzzle_selected_frame_easy_photos">#71d971</color>//拼图页面当前处理item的边框颜色
+    <color name="puzzle_selected_frame_easy_photos">#57a457</color>//拼图页面当前处理item的边框颜色
     <color name="puzzle_selected_controller_easy_photos">#00AA00</color>//拼图页面当前处理item的操作bar颜色，就是item边框中凸起矩形的色值
-    <color name="puzzle_menu_easy_photos">#ffffff</color>//拼图页面的文字按钮和示例图片颜色
-    <color name="puzzle_menu_done_easy_photos">#00AA00</color>//拼图页面的完成按钮文字颜色
+    <color name="puzzle_menu_easy_photos">#969696</color>//拼图页面的文字按钮和示例图片颜色
+    <color name="puzzle_menu_done_easy_photos">#009700</color>//拼图页面的完成按钮文字颜色
     <color name="puzzle_bottom_bar_line_easy_photos">#ee3a3a3e</color>//拼图的底部栏间隔颜色
+    <color name="puzzle_photo_background">#ffffff</color>//图片的背景颜色
 
 </resources>

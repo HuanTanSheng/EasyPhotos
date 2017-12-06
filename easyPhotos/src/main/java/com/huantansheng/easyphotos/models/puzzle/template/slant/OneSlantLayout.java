@@ -1,4 +1,4 @@
-package com.huantansheng.easyphotos.models.puzzle.templet.slant;
+package com.huantansheng.easyphotos.models.puzzle.template.slant;
 
 import com.huantansheng.easyphotos.models.puzzle.Line;
 

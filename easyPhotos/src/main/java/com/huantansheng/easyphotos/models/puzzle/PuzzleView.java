@@ -323,7 +323,7 @@ public class PuzzleView extends View {
             } else {
                 handlingPiece = findHandlingPiece();
                 // trigger listener
-                if (handlingPiece != null && onPieceSelectedListener != null) {
+                if ( onPieceSelectedListener != null) {
                     onPieceSelectedListener.onPieceSelected(handlingPiece,
                             puzzlePieces.indexOf(handlingPiece));
                 }

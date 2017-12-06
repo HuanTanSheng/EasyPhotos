@@ -53,4 +53,6 @@
     <string name="done_easy_photos">仕上げ</string>
 
     <string name="cancel_easy_photos">キャンセル</string>
+
+    <string name="template_easy_photos">タイプ</string>
 </resources>

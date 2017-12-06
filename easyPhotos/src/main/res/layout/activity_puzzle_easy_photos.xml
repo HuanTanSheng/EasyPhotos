@@ -25,7 +25,7 @@
             android:paddingStart="16dp"
             android:text="@string/cancel_easy_photos"
             android:textColor="@color/puzzle_menu_easy_photos"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
@@ -44,7 +44,7 @@
             android:padding="6dp"
             android:text="@string/done_easy_photos"
             android:textColor="@color/puzzle_menu_done_easy_photos"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -53,7 +53,8 @@
         android:id="@+id/puzzle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/m_top_bar" />
+        android:layout_below="@id/m_top_bar"
+        android:background="@color/puzzle_photo_background" />
 
     <RelativeLayout
         android:id="@+id/m_bottom_layout"
@@ -61,17 +62,75 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <View
-            android:id="@+id/rv_type"
+        <com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar
+            android:id="@+id/degree_seek_bar"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentTop="true" />
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/ll_menu"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:visibility="invisible"
+            android:layout_below="@id/degree_seek_bar"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_replace"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                app:srcCompat="@drawable/ic_puzzle_replace" />
+
+            <ImageView
+                android:id="@+id/iv_rotate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_puzzle_rotate" />
+
+            <ImageView
+                android:id="@+id/iv_mirror"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_puzzle_mirror" />
+
+            <ImageView
+                android:id="@+id/iv_flip"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="1dp"
+                app:srcCompat="@drawable/ic_puzzle_flip" />
+
+
+            <ImageView
+                android:id="@+id/iv_corner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_puzzle_corner" />
+
+            <ImageView
+                android:id="@+id/iv_padding"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_puzzle_padding" />
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_puzzle_templet"
+            android:id="@+id/rv_puzzle_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rv_type"
+            android:layout_below="@id/ll_menu"
             android:paddingBottom="8dp"
             android:paddingTop="6dp" />
 
@@ -79,14 +138,20 @@
             android:id="@+id/m_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@id/rv_puzzle_templet"
+            android:layout_below="@id/rv_puzzle_template"
             android:background="@color/puzzle_bottom_bar_line_easy_photos" />
 
-        <View
-            android:id="@+id/m_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_below="@id/m_bottom_line" />
+        <TextView
+            android:id="@+id/tv_template"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/m_bottom_line"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/template_easy_photos"
+            android:textColor="@color/puzzle_menu_easy_photos"
+            android:textSize="12sp" />
     </RelativeLayout>
 
 </RelativeLayout>
