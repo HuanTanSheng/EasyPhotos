@@ -4,7 +4,7 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 
 ### 更新日志    
     
-**1.3.0：**   
+**1.3.1：**   
 - 新增功能：    
     - 拼图（内部处理运行时权限，无需关心运行时权限）    
     - 保存bitmap到本地（可设置是否更新到媒体库，如果调用此方法前没有进入过EasyPhotos的相册或相机，则需要你自己处理读写权限）      
@@ -127,9 +127,9 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 |:-------:|:---------:|:---------:|
 |![](images/07.png) | ![](images/08.png) | ![](images/09.png)|   
 
-|预览页缩放图片 | 预览页单击缩放图片显示操作栏| 持续更新 |
+|预览页缩放图片 | 预览页单击缩放图片显示操作栏| 拼图界面 |
 |:-------:|:---------:|:---------:|
-|![](images/10.png) | ![](images/11.png) | ![](images/12.png)|    
+|![](images/10.png) | ![](images/11.png) | ![](images/13.png)|    
   
     
 ## 关于EasyPhotos的SDK及相关版本公示 
@@ -161,7 +161,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.3.0'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.3.1'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
