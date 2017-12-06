@@ -249,6 +249,11 @@ public class SampleActivity extends AppCompatActivity
 
                 break;
 
+            case R.id.puzzle:
+                EasyPhotos.createAlbum(this, false)
+                        .setCount(9)
+                        .start(102);
+
             case R.id.face_detection://人脸检测，目前仅支持正脸检测
 
                 break;
@@ -330,6 +335,12 @@ public class SampleActivity extends AppCompatActivity
 
             //为拼图选择照片的回调
             if (requestCode == 102) {
+
+                ArrayList<Photo> resultPhotos =
+                        data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                selectedPhotoList.clear();
+                selectedPhotoList.addAll(resultPhotos);
+
                 EasyPhotos.toPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false);
                 return;
             }

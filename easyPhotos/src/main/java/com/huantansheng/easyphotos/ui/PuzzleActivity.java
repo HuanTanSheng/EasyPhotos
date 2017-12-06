@@ -314,7 +314,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         String filePath = EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true);
         intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, filePath);
         File file = new File(filePath);
-        Photo photo = new Photo(false, file.getName(), filePath, file.lastModified(), bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+        Photo photo = new Photo(false, file.getName(), filePath, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
         intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
         setResult(RESULT_OK, intent);
         finish();
