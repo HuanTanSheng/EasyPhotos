@@ -86,7 +86,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     private ArrayList<Integer> degrees = new ArrayList<>();
     private int degreeIndex = -1;
-    private boolean hideSeekBar = false;
     private int controlFlag;
     private static final int FLAG_CONTROL_PADDING = 0;
     private static final int FLAG_CONTROL_CORNER = 1;
@@ -184,14 +183,20 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         puzzleView.setOnPieceSelectedListener(new PuzzleView.OnPieceSelectedListener() {
             @Override
             public void onPieceSelected(PuzzlePiece piece, int position) {
-                hideSeekBar = degreeIndex == position;
-                toggleIvMenu(R.id.iv_replace);
-                degreeSeekBar.setVisibility(View.INVISIBLE);
-                controlFlag = -1;
-                if (hideSeekBar) {
+
+                if (null == piece) {
+                    toggleIvMenu(R.id.iv_replace);
                     llMenu.setVisibility(View.INVISIBLE);
+                    degreeSeekBar.setVisibility(View.INVISIBLE);
                     degreeIndex = -1;
+                    controlFlag = -1;
                     return;
+                }
+
+                if (degreeIndex != position) {
+                    controlFlag = -1;
+                    toggleIvMenu(R.id.iv_replace);
+                    degreeSeekBar.setVisibility(View.INVISIBLE);
                 }
                 llMenu.setVisibility(View.VISIBLE);
                 degreeIndex = position;

@@ -99,9 +99,9 @@ public class PuzzleView extends View {
         lineSize = ta.getInt(R.styleable.PuzzleView_line_size, 4);
         lineColor = ta.getColor(R.styleable.PuzzleView_line_color, ContextCompat.getColor(getContext(), R.color.puzzle_menu_easy_photos));
         selectedLineColor =
-                ta.getColor(R.styleable.PuzzleView_selected_line_color,  ContextCompat.getColor(getContext(), R.color.puzzle_selected_frame_easy_photos));
+                ta.getColor(R.styleable.PuzzleView_selected_line_color, ContextCompat.getColor(getContext(), R.color.puzzle_selected_frame_easy_photos));
         handleBarColor =
-                ta.getColor(R.styleable.PuzzleView_handle_bar_color,  ContextCompat.getColor(getContext(), R.color.puzzle_selected_controller_easy_photos));
+                ta.getColor(R.styleable.PuzzleView_handle_bar_color, ContextCompat.getColor(getContext(), R.color.puzzle_selected_controller_easy_photos));
         piecePadding = ta.getDimensionPixelSize(R.styleable.PuzzleView_piece_padding, 0);
         needDrawLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_line, false);
         needDrawOuterLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_outer_line, false);
@@ -322,11 +322,6 @@ public class PuzzleView extends View {
                 currentMode = ActionMode.MOVE;
             } else {
                 handlingPiece = findHandlingPiece();
-                // trigger listener
-                if ( onPieceSelectedListener != null) {
-                    onPieceSelectedListener.onPieceSelected(handlingPiece,
-                            puzzlePieces.indexOf(handlingPiece));
-                }
 
                 if (handlingPiece != null) {
                     currentMode = ActionMode.DRAG;
@@ -402,7 +397,14 @@ public class PuzzleView extends View {
                 if (previousHandlingPiece == handlingPiece
                         && Math.abs(downX - event.getX()) < 3
                         && Math.abs(downY - event.getY()) < 3) {
+
                     handlingPiece = null;
+                }
+
+                // trigger listener
+                if (onPieceSelectedListener != null) {
+                    onPieceSelectedListener.onPieceSelected(handlingPiece,
+                            puzzlePieces.indexOf(handlingPiece));
                 }
 
                 previousHandlingPiece = handlingPiece;
@@ -432,6 +434,11 @@ public class PuzzleView extends View {
                     handlingPiece = null;
                     replacePiece = null;
                     previousHandlingPiece = null;
+                    // trigger listener
+                    if (onPieceSelectedListener != null) {
+                        onPieceSelectedListener.onPieceSelected(null,
+                                0);
+                    }
                 }
                 break;
         }
