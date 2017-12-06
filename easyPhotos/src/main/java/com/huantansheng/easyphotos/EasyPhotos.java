@@ -402,6 +402,35 @@ public class EasyPhotos {
     }
 
     /**
+     * 保存Bitmap到指定文件夹
+     *
+     * @param context    上下文
+     * @param dirPath    文件夹全路径
+     * @param bitmap     bitmap
+     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia     是否更新到媒体库
+     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     */
+    public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
+        return BitmapUtils.saveBitmapToDir(context, dirPath, namePrefix, bitmap, notifyMedia);
+    }
+
+    /**
+     * 保存Bitmap到指定文件夹
+     *
+     * @param context    上下文
+     * @param dir        文件夹
+     * @param bitmap     bitmap
+     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia     是否更新到媒体库
+     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     */
+    public static String saveBitmapToDir(Context context, File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
+        return BitmapUtils.saveBitmapToDir(context, dir, namePrefix, bitmap, notifyMedia);
+    }
+
+
+    /**
      * 启动拼图
      *
      * @param act           上下文

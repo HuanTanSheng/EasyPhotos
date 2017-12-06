@@ -1,13 +1,22 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 
+import com.huantansheng.easyphotos.EasyPhotos;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -124,5 +133,77 @@ public class BitmapUtils {
         }
         recycle(scaleWatermark);
     }
+
+
+    /**
+     * 保存Bitmap到指定文件夹
+     *
+     * @param context    上下文
+     * @param dirPath    文件夹全路径
+     * @param bitmap     bitmap
+     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia     是否更新到媒体库
+     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     */
+    public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
+        File dirF = new File(dirPath);
+
+        if (!dirF.exists()) {
+            dirF.mkdirs();
+        }
+
+        try {
+            File writeFile = File.createTempFile(namePrefix, ".png", dirF);
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(writeFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+            if (notifyMedia) {
+                EasyPhotos.notifyMedia(context, writeFile);
+            }
+            return writeFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * 保存Bitmap到指定文件夹
+     *
+     * @param context    上下文
+     * @param dir        文件夹
+     * @param bitmap     bitmap
+     * @param namePrefix 保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
+     * @param notifyMedia     是否更新到媒体库
+     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     */
+    public static String saveBitmapToDir(Context context,File dir, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        try {
+            File writeFile = File.createTempFile(namePrefix, ".png", dir);
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(writeFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+            if (notifyMedia) {
+                EasyPhotos.notifyMedia(context, writeFile);
+            }
+            return writeFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }
