@@ -22,7 +22,6 @@ import java.util.List;
 public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleViewHolder> {
 
     private List<PuzzleLayout> layoutData = new ArrayList<>();
-    private List<Bitmap> bitmapData = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
     private int selectedNumber = 0;
 
@@ -68,18 +67,6 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
             }
         });
 
-        if (bitmapData == null) return;
-
-        final int bitmapSize = bitmapData.size();
-
-        if (puzzleLayout.getAreaCount() > bitmapSize) {
-            for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
-                holder.puzzleView.addPiece(ContextCompat.getDrawable(holder.puzzleView.getContext(), R.drawable.bg_dialog_album_items_background_easy_photos));
-            }
-        } else {
-            holder.puzzleView.addPiece(ContextCompat.getDrawable(holder.puzzleView.getContext(), R.drawable.bg_dialog_album_items_background_easy_photos));
-
-        }
     }
 
     @Override
@@ -87,9 +74,8 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
         return layoutData == null ? 0 : layoutData.size();
     }
 
-    public void refreshData(List<PuzzleLayout> layoutData, List<Bitmap> bitmapData) {
+    public void refreshData(List<PuzzleLayout> layoutData) {
         this.layoutData = layoutData;
-        this.bitmapData = bitmapData;
 
         notifyDataSetChanged();
     }
