@@ -14,6 +14,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.ui.PuzzleActivity;
 import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
+import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 
 import java.io.File;
@@ -403,15 +404,16 @@ public class EasyPhotos {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context     上下文
+     * @param act     上下文
      * @param dirPath     文件夹全路径
      * @param bitmap      bitmap
      * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
      * @param notifyMedia 是否更新到媒体库
-     * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
+     * @param callBack 保存图片后的回调，回调已经处于UI线程
+     *
      */
-    public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
-        return BitmapUtils.saveBitmapToDir(context, dirPath, namePrefix, bitmap, notifyMedia);
+    public static void saveBitmapToDir(Activity act, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia, SaveBitmapCallBack callBack) {
+        BitmapUtils.saveBitmapToDir(act, dirPath, namePrefix, bitmap, notifyMedia,callBack);
     }
 
     /**

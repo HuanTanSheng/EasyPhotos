@@ -1,11 +1,15 @@
 package com.huantansheng.easyphotos.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +19,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar;
@@ -27,6 +33,9 @@ import com.huantansheng.easyphotos.models.puzzle.PuzzlePiece;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
+import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
+import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
+import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -84,6 +93,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private PuzzleLayout puzzleLayout;
     private RecyclerView rvPuzzleTemplet;
     private PuzzleAdapter puzzleAdapter;
+    private ProgressBar progressBar;
     private int fileCount = 0;
 
     private LinearLayout llMenu;
@@ -115,6 +125,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         initIvMenu();
         initPuzzleView();
         initRecyclerView();
+        progressBar = findViewById(R.id.progress);
         findViewById(R.id.tv_back).setOnClickListener(this);
         findViewById(R.id.tv_done).setOnClickListener(this);
     }
@@ -299,11 +310,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         if (R.id.tv_back == id) {
             finish();
         } else if (R.id.tv_done == id) {
-            savePhoto();
-            Intent intent = new Intent();
-//            intent.putExtra(EasyPhotos.RESULT_PUZZLE, );
-            setResult(RESULT_OK, intent);
-            finish();
+            if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
+                savePhoto();
+            }
+
         } else if (R.id.iv_replace == id) {
             controlFlag = -1;
             degreeSeekBar.setVisibility(View.INVISIBLE);
@@ -364,18 +374,30 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void savePhoto() {
-        Intent intent = new Intent();
-        Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
-        String filePath = EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true);
-        intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, filePath);
-        if (!TextUtils.isEmpty(filePath)) {
-            File file = new File(filePath);
-            Photo photo = new Photo(false, file.getName(), filePath, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
-            intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
-        }
+        progressBar.setVisibility(View.VISIBLE);
+        findViewById(R.id.tv_done).setVisibility(View.INVISIBLE);
+        findViewById(R.id.progress_frame).setVisibility(View.VISIBLE);
+        final Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
+        EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true, new SaveBitmapCallBack() {
+            @Override
+            public void onSuccess(String path) {
+                Intent intent = new Intent();
+                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, path);
 
-        setResult(RESULT_OK, intent);
-        finish();
+                File file = new File(path);
+                Photo photo = new Photo(false, file.getName(), path, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
+                setResult(RESULT_OK, intent);
+                PuzzleActivity.this.finish();
+            }
+
+            @Override
+            public void onFailed(String errorInfo) {
+                setResult(RESULT_OK);
+                PuzzleActivity.this.finish();
+            }
+        });
+
     }
 
     private void toggleIvMenu(@IdRes int resId) {
@@ -420,7 +442,12 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (requestCode == Code.REQUEST_SETTING_APP_DETAILS) {
+            if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
+                savePhoto();
+            }
+            return;
+        }
         switch (resultCode) {
             case RESULT_OK:
 
@@ -433,7 +460,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                     Photo photo = photos.get(0);
                     tempPath = photo.path;
 
-                }else {
+                } else {
                     tempPath = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS).get(0);
                 }
 
@@ -457,5 +484,49 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    protected String[] getNeedPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+        return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtil.onPermissionResult(this, permissions, grantResults, new PermissionUtil.PermissionCallBack() {
+            @Override
+            public void onSuccess() {
+                savePhoto();
+            }
+
+            @Override
+            public void onShouldShow() {
+                Snackbar.make(rvPuzzleTemplet, R.string.permissions_again_easy_photos, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("go", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (PermissionUtil.checkAndRequestPermissionsInActivity(PuzzleActivity.this, getNeedPermissions())) {
+                                    savePhoto();
+                                }
+                            }
+                        })
+                        .show();
+            }
+
+            @Override
+            public void onFailed() {
+                Snackbar.make(rvPuzzleTemplet, R.string.permissions_die_easy_photos, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("go", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SettingsUtils.startMyApplicationDetailsForResult(PuzzleActivity.this, getPackageName());
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 }

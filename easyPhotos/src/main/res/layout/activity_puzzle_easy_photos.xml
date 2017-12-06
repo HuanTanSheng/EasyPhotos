@@ -29,7 +29,7 @@
             android:textStyle="bold" />
 
 
-        <com.huantansheng.easyphotos.ui.widget.PressedTextView
+        <TextView
             android:id="@+id/tv_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,6 +46,17 @@
             android:textColor="@color/puzzle_menu_done_easy_photos"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -75,9 +86,9 @@
             android:id="@+id/ll_menu"
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:visibility="invisible"
             android:layout_below="@id/degree_seek_bar"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/iv_replace"
@@ -152,6 +163,15 @@
             android:text="@string/template_easy_photos"
             android:textColor="@color/puzzle_menu_easy_photos"
             android:textSize="12sp" />
+
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/progress_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="invisible"
+        android:focusable="true" />
 
 </RelativeLayout>

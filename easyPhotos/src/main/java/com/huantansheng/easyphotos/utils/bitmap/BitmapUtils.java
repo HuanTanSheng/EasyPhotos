@@ -1,5 +1,6 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -137,36 +138,54 @@ public class BitmapUtils {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param context     上下文
+     * @param act     上下文
      * @param dirPath     文件夹全路径
      * @param bitmap      bitmap
      * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
      * @param notifyMedia 是否更新到媒体库
+     * @param callBack 保存图片后的回调，回调已经处于UI线程
      * @return bitmap保存到本地的文件全路径，null则为保存失败，失败原因大多数是权限问题或没有存储空间了
      */
-    public static String saveBitmapToDir(Context context, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia) {
-        File dirF = new File(dirPath);
+    public static void saveBitmapToDir(final Activity act, final String dirPath, final String namePrefix, final Bitmap bitmap, final boolean notifyMedia, final SaveBitmapCallBack callBack) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File dirF = new File(dirPath);
 
-        if (!dirF.exists()) {
-            dirF.mkdirs();
-        }
+                if (!dirF.exists()) {
+                    dirF.mkdirs();
+                }
 
-        try {
-            File writeFile = File.createTempFile(namePrefix, ".png", dirF);
+                try {
+                    final File writeFile = File.createTempFile(namePrefix, ".png", dirF);
 
-            FileOutputStream fos = null;
-            fos = new FileOutputStream(writeFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-            if (notifyMedia) {
-                EasyPhotos.notifyMedia(context, writeFile);
+                    FileOutputStream fos = null;
+                    fos = new FileOutputStream(writeFile);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                    if (notifyMedia) {
+                        EasyPhotos.notifyMedia(act, writeFile);
+                    }
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onSuccess(writeFile.getAbsolutePath());
+                        }
+                    });
+
+                } catch (final IOException e) {
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onFailed(e.toString());
+                        }
+                    });
+
+                }
             }
-            return writeFile.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        }).start();
+
     }
 
 

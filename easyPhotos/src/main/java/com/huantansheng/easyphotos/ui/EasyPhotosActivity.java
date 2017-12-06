@@ -161,7 +161,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                             @Override
                             public void onClick(View view) {
                                 SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this, getPackageName());
-                                EasyPhotosActivity.this.finish();
                             }
                         })
                         .show();
@@ -242,6 +241,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == Code.REQUEST_SETTING_APP_DETAILS) {
+            if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
+                hasPermissions();
+            }
+            return;
+        }
         switch (resultCode) {
             case RESULT_OK:
                 if (Code.REQUEST_CAMERA == requestCode) {
@@ -610,6 +615,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onBackPressed() {
+        if (null == rootViewAlbumItems || null == flFragment) {
+            super.onBackPressed();
+            return;
+        }
         if (rootViewAlbumItems.getVisibility() == View.VISIBLE) {
             showAlbumItems(false);
             return;
