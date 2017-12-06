@@ -4,6 +4,33 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 
 ### 更新日志    
     
+**1.3.0：**   
+- 新增功能：    
+    - 拼图（内部处理运行时权限，无需关心运行时权限）    
+    - 保存bitmap到本地（可设置是否更新到媒体库，如果调用此方法前没有进入过EasyPhotos的相册或相机，则需要你自己处理读写权限）   
+- 更换相册单选的选中图标样式    
+- 修复回调选中地址的key：RRESULT_PATHS 修复为 RESULT_PATHS。（ps：对如此智障的疏忽表示歉意。）  
+- 新增字符串：    
+```java    
+    <string name="done_easy_photos">完成</string>
+    <string name="cancel_easy_photos">取消</string>
+    <string name="template_easy_photos">模板</string>    
+```   
+- 新增色值：    
+```java   
+    <!--图片预览页-->
+    <color name="preview_status_easy_photos">#d73c3d41</color>//api21以上预览页状态栏颜色为该色值；api19和api20状态栏为透明色；其余api状态栏或透明或黑或灰，取决于各家rom和有无实体按键等因素。注：其余页面状态栏根据你的主题走
+
+    <!--拼图页-->
+    <color name="puzzle_background_easy_photos">#000000</color>//拼图页面背景色
+    <color name="puzzle_selected_frame_easy_photos">#57a457</color>//拼图页面当前处理item的边框颜色
+    <color name="puzzle_selected_controller_easy_photos">#00AA00</color>//拼图页面当前处理item的操作bar颜色，就是item边框中凸起矩形的色值
+    <color name="puzzle_menu_easy_photos">#969696</color>//拼图页面的文字按钮和示例图片颜色
+    <color name="puzzle_menu_done_easy_photos">#009700</color>//拼图页面的完成按钮文字颜色
+    <color name="puzzle_bottom_bar_line_easy_photos">#ee3a3a3e</color>//拼图的底部栏间隔颜色
+    <color name="puzzle_photo_background">#ffffff</color>//图片的背景颜色    
+```
+    
 **1.2.8：**    
 - 修复'选中图片列表'点击状态下与'大图列表和选择器'的联动错误    
 
@@ -132,7 +159,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.2.8'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.2.9'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
