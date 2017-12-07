@@ -38,6 +38,7 @@ import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -380,22 +381,28 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         final Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
         EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true, new SaveBitmapCallBack() {
             @Override
-            public void onSuccess(String path) {
+            public void onSuccess(File file) {
                 Intent intent = new Intent();
-                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, path);
+                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, file.getAbsolutePath());
 
-                File file = new File(path);
-                Photo photo = new Photo(false, file.getName(), path, file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+                Photo photo = new Photo(false, file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
                 intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
                 setResult(RESULT_OK, intent);
                 PuzzleActivity.this.finish();
             }
 
             @Override
-            public void onFailed(String errorInfo) {
+            public void onIOFailed(IOException exception) {
                 setResult(RESULT_OK);
                 PuzzleActivity.this.finish();
             }
+
+            @Override
+            public void onCreateDirFailed() {
+                setResult(RESULT_OK);
+                PuzzleActivity.this.finish();
+            }
+
         });
 
     }

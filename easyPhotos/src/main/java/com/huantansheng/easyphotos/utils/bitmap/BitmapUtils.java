@@ -1,7 +1,6 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -138,13 +137,12 @@ public class BitmapUtils {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param act     上下文
+     * @param act         上下文
      * @param dirPath     文件夹全路径
      * @param bitmap      bitmap
      * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
      * @param notifyMedia 是否更新到媒体库
-     * @param callBack 保存图片后的回调，回调已经处于UI线程
-     *
+     * @param callBack    保存图片后的回调，回调已经处于UI线程
      */
     public static void saveBitmapToDir(final Activity act, final String dirPath, final String namePrefix, final Bitmap bitmap, final boolean notifyMedia, final SaveBitmapCallBack callBack) {
         new Thread(new Runnable() {
@@ -152,8 +150,16 @@ public class BitmapUtils {
             public void run() {
                 File dirF = new File(dirPath);
 
-                if (!dirF.exists()) {
-                    dirF.mkdirs();
+                if (!dirF.exists() || !dirF.isDirectory()) {
+                    if (!dirF.mkdirs()) {
+                        act.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callBack.onCreateDirFailed();
+                            }
+                        });
+                        return;
+                    }
                 }
 
                 try {
@@ -170,7 +176,7 @@ public class BitmapUtils {
                     act.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            callBack.onSuccess(writeFile.getAbsolutePath());
+                            callBack.onSuccess(writeFile);
                         }
                     });
 
@@ -178,7 +184,7 @@ public class BitmapUtils {
                     act.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            callBack.onFailed(e.toString());
+                            callBack.onIOFailed(e);
                         }
                     });
 

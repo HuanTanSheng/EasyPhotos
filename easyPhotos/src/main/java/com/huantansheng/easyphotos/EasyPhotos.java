@@ -429,7 +429,7 @@ public class EasyPhotos {
 
 
     /**
-     * 启动拼图
+     * 启动拼图（最多拼9张图片）
      *
      * @param act            上下文
      * @param photos         图片集合
@@ -447,7 +447,7 @@ public class EasyPhotos {
     }
 
     /**
-     * 启动拼图
+     * 启动拼图（最多拼9张图片）
      *
      * @param act            上下文
      * @param paths          图片地址集合
