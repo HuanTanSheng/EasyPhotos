@@ -107,7 +107,10 @@ dependencies {
 
 ```
 
-**[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理    
+**[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：**    
+```pro   
+不需要任何处理    
+```
     
     
   
@@ -136,11 +139,11 @@ dependencies {
     
 [PuzzleView](https://github.com/wuapnjie/PuzzleView)：一个强大的拼图库，我的拼图功能是在此基础上实现，这个库由[wuapnjie](https://github.com/wuapnjie) 编写，因对其不了解，不妄作评价，推荐大家去关注一下。    
     
-### 编者语    
+## 编者语    
 
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
-### 更新日志    
+## 更新日志    
     
 **1.3.2：**   
 - 新增功能：    
