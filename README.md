@@ -4,9 +4,9 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 
 ### 更新日志    
     
-**1.3.1：**   
+**1.3.2：**   
 - 新增功能：    
-    - 拼图（内部处理运行时权限，无需关心运行时权限）    
+    - 拼图（最多对9张图片进行拼图，无需关心运行时权限，内部处理好了）    
     - 把View画成Bitmap    
     - 保存bitmap到本地（可设置是否更新到媒体库，如果调用此方法前没有进入过EasyPhotos的相册或相机，则需要你自己处理读写权限）      
 - 更换相册单选的选中图标样式    
@@ -162,7 +162,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.3.1'  
+    compile 'com.github.HuanTanSheng:easyPhotos:1.3.2'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
@@ -225,14 +225,17 @@ dependencies {
 
 
 ## [EasyPhotos文档总录](https://github.com/HuanTanSheng/EasyPhotos/wiki)
-* [关于权限](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E5%85%B3%E4%BA%8E%E6%9D%83%E9%99%90)
-* [相机与相册](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E7%9B%B8%E6%9C%BA%E4%B8%8E%E7%9B%B8%E5%86%8C)  
-* [图片添加水印](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0)
-* [Bitmap回收](https://github.com/HuanTanSheng/EasyPhotos/wiki/Bitmap%E5%9B%9E%E6%94%B6)
-* [更新媒体文件到媒体库](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E6%9B%B4%E6%96%B0%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E5%88%B0%E5%AA%92%E4%BD%93%E5%BA%93)
-* [屏幕方向设置](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E5%B1%8F%E5%B9%95%E6%96%B9%E5%90%91%E8%AE%BE%E7%BD%AE)
-* [自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
-* [多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/%E5%A4%9A%E8%AF%AD%E8%A8%80)
+* [01-关于权限](https://github.com/HuanTanSheng/EasyPhotos/wiki/01-%E5%85%B3%E4%BA%8E%E6%9D%83%E9%99%90)
+* [02-相机与相册](https://github.com/HuanTanSheng/EasyPhotos/wiki/02-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E7%9B%B8%E5%86%8C)    
+* [03-拼图](https://github.com/HuanTanSheng/EasyPhotos/wiki/03-%E6%8B%BC%E5%9B%BE)    
+* [04-图片添加水印](https://github.com/HuanTanSheng/EasyPhotos/wiki/04-%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0)     
+* [05-把View画成Bitmap](https://github.com/HuanTanSheng/EasyPhotos/wiki/05-%E6%8A%8AView%E7%94%BB%E6%88%90Bitmap)    
+* [06-保存Bitmap到指定文件夹](https://github.com/HuanTanSheng/EasyPhotos/wiki/06-%E4%BF%9D%E5%AD%98Bitmap%E5%88%B0%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E5%A4%B9)    
+* [07-Bitmap回收](https://github.com/HuanTanSheng/EasyPhotos/wiki/07-Bitmap%E5%9B%9E%E6%94%B6)
+* [08-更新媒体文件到媒体库](https://github.com/HuanTanSheng/EasyPhotos/wiki/08-%E6%9B%B4%E6%96%B0%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E5%88%B0%E5%AA%92%E4%BD%93%E5%BA%93)
+* [09-屏幕方向设置](https://github.com/HuanTanSheng/EasyPhotos/wiki/09-%E5%B1%8F%E5%B9%95%E6%96%B9%E5%90%91%E8%AE%BE%E7%BD%AE)
+* [10-自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
+* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)
 
 ## 感谢 
 [Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
