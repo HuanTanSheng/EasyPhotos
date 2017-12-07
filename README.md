@@ -1,4 +1,3 @@
- 
 # EasyPhotos    
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
@@ -76,8 +75,7 @@ configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:23.1.1'
 }  
 
-```    
-  
+```     
 - 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
 ```gradle  
 
@@ -109,7 +107,9 @@ dependencies {
 
 ```
 
-**[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理
+**[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理    
+    
+    
 
 
 ## [EasyPhotos文档总录](https://github.com/HuanTanSheng/EasyPhotos/wiki)
@@ -123,7 +123,9 @@ dependencies {
 * [08-更新媒体文件到媒体库](https://github.com/HuanTanSheng/EasyPhotos/wiki/08-%E6%9B%B4%E6%96%B0%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E5%88%B0%E5%AA%92%E4%BD%93%E5%BA%93)
 * [09-屏幕方向设置](https://github.com/HuanTanSheng/EasyPhotos/wiki/09-%E5%B1%8F%E5%B9%95%E6%96%B9%E5%90%91%E8%AE%BE%E7%BD%AE)
 * [10-自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
-* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)
+* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)    
+    
+    
 
 ## 感谢 
 [Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
