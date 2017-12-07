@@ -162,7 +162,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:easyPhotos:1.3.2'  
+    compile 'com.github.HuanTanSheng:EasyPhotos:1.3.2'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
@@ -172,8 +172,8 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }
 ```    
-
-为什么要添加Glide和PhotoView的引用呢？  
+    
+为什么要添加Glide和PhotoView的引用呢？    
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
 因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，可以理解为EasyPhotos并没有真正获取她们，所以需要你在项目中对她们进行引用依赖。  
       
