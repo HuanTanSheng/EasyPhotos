@@ -84,8 +84,8 @@ dependencies {
 	//把3.0.1改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
-```  
-  
+```    
+    
 ## 关于混淆    
   
 **EasyPhotos的混淆：**  
@@ -110,7 +110,8 @@ dependencies {
 **[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：** 不需要任何处理    
     
     
-
+  
+## EasyPhotos文档总录    
 
 ## [EasyPhotos文档总录](https://github.com/HuanTanSheng/EasyPhotos/wiki)
 * [01-关于权限](https://github.com/HuanTanSheng/EasyPhotos/wiki/01-%E5%85%B3%E4%BA%8E%E6%9D%83%E9%99%90)
@@ -125,8 +126,9 @@ dependencies {
 * [10-自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
 * [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)    
     
-    
-
+       
+           
+	   
 ## 感谢 
 [Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写    
 
