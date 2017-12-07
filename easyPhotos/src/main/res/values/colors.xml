@@ -21,8 +21,8 @@
     <color name="menu_unable_easy_photos">#277327</color>//完成按钮的背景色——不可用状态
     <color name="menu_easy_stroke_photos">#6800aa00</color>//完成按钮的边框颜色，主要用于Z轴的视觉效果
 
-    <!--相机-->
-    <color name="camera_easy_photos">#00AA00</color>
+    <!--相机icon-->
+    <color name="camera_easy_photos">#00AA00</color>//相机icon颜色
 
     <!--photo选择器-->
     <color name="selector_stroke_easy_photos">#FFFFFF</color>//图片选择器的边框颜色
@@ -37,7 +37,7 @@
     <color name="album_item_count_easy_photos">#ababab</color>//专辑项目列表中包含图片张书的字体颜色
 
     <!--图片列表-->
-    <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色
+    <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色，图片列表背景色，相册的背景色
     <color name="preview_selected_photos_background_easy_photos">#deffffff</color>
     //该色值无用,之前想做相册中预览选中图片集合的背景颜色,经考虑去除了该功能.
 

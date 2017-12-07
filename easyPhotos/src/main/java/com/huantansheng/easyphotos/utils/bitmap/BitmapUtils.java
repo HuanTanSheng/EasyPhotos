@@ -95,7 +95,7 @@ public class BitmapUtils {
      * @param offsetY                添加水印的Y轴偏移量
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
      */
-    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermarkWithText(@NonNull Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
         float imageWidth = image.getWidth();
         float imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
