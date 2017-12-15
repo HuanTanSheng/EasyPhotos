@@ -15,11 +15,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.huantansheng.easyphotos.EasyPhotos;
@@ -32,7 +33,10 @@ import com.huantansheng.easyphotos.models.puzzle.PuzzleLayout;
 import com.huantansheng.easyphotos.models.puzzle.PuzzlePiece;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
+import com.huantansheng.easyphotos.models.sticker.StickerModel;
+import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
+import com.huantansheng.easyphotos.ui.adapter.TextStickerAdapter;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
@@ -47,7 +51,7 @@ import java.util.ArrayList;
  * Created by huan on 2017/12/4.
  */
 
-public class PuzzleActivity extends AppCompatActivity implements View.OnClickListener, PuzzleAdapter.OnItemClickListener {
+public class PuzzleActivity extends AppCompatActivity implements View.OnClickListener, PuzzleAdapter.OnItemClickListener, TextStickerAdapter.OnItemClickListener {
 
     private static WeakReference<Class<? extends Activity>> toClass;
 
@@ -110,6 +114,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     private int deviceWidth = 0;
 
+    private TextView tvTemplate, tvTextSticker;
+    private RelativeLayout mRootView;
+    private TextStickerAdapter textStickerAdapter;
+    private ArrayList<TextStickerData> textStickerDatas;
+
+    private StickerModel stickerModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +143,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initIvMenu() {
+        tvTemplate = (TextView) findViewById(R.id.tv_template);
+        tvTextSticker = (TextView) findViewById(R.id.tv_text_sticker);
+        mRootView = (RelativeLayout) findViewById(R.id.m_root_view);
+
         llMenu = (LinearLayout) findViewById(R.id.ll_menu);
         ImageView ivReplace = (ImageView) findViewById(R.id.iv_replace);
         ImageView ivRotate = (ImageView) findViewById(R.id.iv_rotate);
@@ -145,10 +160,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         ivFlip.setOnClickListener(this);
         ivCorner.setOnClickListener(this);
         ivPadding.setOnClickListener(this);
-//        ivMenus.add(ivReplace);
+        tvTextSticker.setOnClickListener(this);
+        tvTemplate.setOnClickListener(this);
         ivMenus.add(ivRotate);
-//        ivMenus.add(ivMirror);
-//        ivMenus.add(ivFlip);
         ivMenus.add(ivCorner);
         ivMenus.add(ivPadding);
 
@@ -193,6 +207,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         rvPuzzleTemplet.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvPuzzleTemplet.setAdapter(puzzleAdapter);
         puzzleAdapter.refreshData(PuzzleUtils.getPuzzleLayouts(fileCount));
+
+        textStickerDatas = new ArrayList<>();
+        textStickerAdapter = new TextStickerAdapter(textStickerDatas, this);
     }
 
     private void initPuzzleView() {
@@ -229,6 +246,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
+        stickerModel = new StickerModel();
         deviceWidth = getResources().getDisplayMetrics().widthPixels;
         Intent intent = getIntent();
         fileTypeIsPhoto = intent.getBooleanExtra(Key.PUZZLE_FILE_IS_PHOTO, false);
@@ -364,6 +382,17 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         } else if (R.id.iv_padding == id) {
             handleSeekBar(FLAG_CONTROL_PADDING, 0, 100, puzzleView.getPiecePadding());
             toggleIvMenu(R.id.iv_padding);
+        } else if (R.id.tv_template == id) {
+            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_done_easy_photos));
+            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_easy_photos));
+
+            rvPuzzleTemplet.setAdapter(puzzleAdapter);
+
+        } else if (R.id.tv_text_sticker == id) {
+            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_done_easy_photos));
+            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_easy_photos));
+
+            rvPuzzleTemplet.setAdapter(textStickerAdapter);
         }
     }
 
@@ -378,14 +407,17 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
         findViewById(R.id.tv_done).setVisibility(View.INVISIBLE);
         findViewById(R.id.progress_frame).setVisibility(View.VISIBLE);
-        final Bitmap bitmap = EasyPhotos.createBitmapFromView(puzzleView);
-        EasyPhotos.saveBitmapToDir(this, saveDirPath, saveNamePrefix, bitmap, true, new SaveBitmapCallBack() {
+
+        puzzleView.clearHandling();
+        puzzleView.invalidate();
+
+        stickerModel.save(this, mRootView, puzzleView, puzzleView.getWidth(), puzzleView.getHeight(), saveDirPath, saveNamePrefix, true, new SaveBitmapCallBack() {
             @Override
             public void onSuccess(File file) {
                 Intent intent = new Intent();
                 intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, file.getAbsolutePath());
 
-                Photo photo = new Photo(false, file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), file.length(), "image/png");
+                Photo photo = new Photo(false, file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), "image/png");
                 intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
                 setResult(RESULT_OK, intent);
                 PuzzleActivity.this.finish();
@@ -404,7 +436,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             }
 
         });
-
     }
 
     private void toggleIvMenu(@IdRes int resId) {
@@ -535,5 +566,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                         .show();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(String stickerValue) {
+        stickerModel.addTextSticker(this, getSupportFragmentManager(), stickerValue, mRootView);
     }
 }

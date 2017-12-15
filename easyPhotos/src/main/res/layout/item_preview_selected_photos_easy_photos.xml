@@ -15,7 +15,7 @@
         android:id="@+id/v_selector"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:background="@drawable/bg_selected_frame"
+        android:background="@drawable/bg_selected_frame_easy_photos"
         android:visibility="gone" />
 </FrameLayout>
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="camera_padding_easy_photos">46dp</dimen>
+    <dimen name="sticker_text_size_easy_photos">16sp</dimen>
 </resources>

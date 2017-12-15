@@ -202,10 +202,6 @@ public class BitmapUtils {
      * @return Bitmap
      */
     public static Bitmap createBitmapFromView(View view) {
-        if (view instanceof PuzzleView) {
-            ((PuzzleView) view).clearHandling();
-            ((PuzzleView) view).invalidate();
-        }
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);

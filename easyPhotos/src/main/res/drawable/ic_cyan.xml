@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="12dp" />
+    <stroke
+        android:width="3dp"
+        android:color="#a9fae8" />
+    <solid android:color="@color/text_sticker_cyan_easy_photos" />
+    <size
+        android:width="24dp"
+        android:height="24dp" />
+
+</shape>

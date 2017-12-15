@@ -1,7 +1,5 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
-import android.graphics.Bitmap;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,7 @@ public class PuzzleAdapter extends RecyclerView.Adapter<PuzzleAdapter.PuzzleView
     @Override
     public PuzzleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView =
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_puzzle, parent, false);
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_puzzle_easy_photos, parent, false);
         return new PuzzleViewHolder(itemView);
     }
 

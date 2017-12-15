@@ -151,7 +151,7 @@
                 android:paddingLeft="6dp"
                 android:paddingRight="16dp"
                 android:paddingStart="6dp"
-                app:srcCompat="@drawable/ic_selector" />
+                app:srcCompat="@drawable/ic_selector_easy_photos" />
 
         </RelativeLayout>
     </FrameLayout>

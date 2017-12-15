@@ -5,15 +5,11 @@
     android:orientation="vertical"
     android:padding="6dp">
 
-    <com.huantansheng.easyphotos.models.puzzle.SquarePuzzleView
+    <TextView
         android:id="@+id/puzzle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <View
-        android:id="@+id/m_selector"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_selected_frame_puzzle" />
+        android:gravity="center"
+        android:textColor="@color/puzzle_menu_easy_photos" />
 
 </FrameLayout>

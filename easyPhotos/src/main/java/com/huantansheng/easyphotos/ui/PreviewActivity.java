@@ -317,7 +317,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     private void toggleSelector() {
         if (photos.get(lastPosition).selected) {
-            ivSelector.setImageResource(R.drawable.ic_selector_true);
+            ivSelector.setImageResource(R.drawable.ic_selector_true_easy_photos);
             if (!Result.isEmpty()) {
                 for (int i = 0; i < Result.count(); i++) {
                     if (photos.get(lastPosition).path.equals(Result.getPhotoPath(i))) {
@@ -327,7 +327,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 }
             }
         } else {
-            ivSelector.setImageResource(R.drawable.ic_selector);
+            ivSelector.setImageResource(R.drawable.ic_selector_easy_photos);
         }
         previewFragment.notifyDataSetChanged();
         shouldShowMenuDone();
