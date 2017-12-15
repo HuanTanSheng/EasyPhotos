@@ -32,6 +32,9 @@ import java.util.List;
 public class EasyPhotos {
 
     //easyPhotos的返回数据Key
+    /**
+     * 返回选择图片的Photo集合Key
+     */
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
     public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
