@@ -9,7 +9,7 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="PuzzleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="EasyPhotosPuzzleTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
     </style>
 </resources>

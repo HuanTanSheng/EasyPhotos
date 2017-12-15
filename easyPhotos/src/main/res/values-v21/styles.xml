@@ -9,7 +9,7 @@
         <item name="android:statusBarColor">@color/preview_status_easy_photos</item>
     </style>
 
-    <style name="PuzzleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="EasyPhotosPuzzleTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@color/puzzle_background_easy_photos</item>
     </style>
