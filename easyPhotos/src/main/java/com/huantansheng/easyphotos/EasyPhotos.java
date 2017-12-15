@@ -518,4 +518,5 @@ public class EasyPhotos {
         StickerModel.textDataList.clear();
     }
 
+
 }
