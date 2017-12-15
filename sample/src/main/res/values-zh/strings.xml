@@ -65,4 +65,8 @@
 
     <string name="text_sticker_date_easy_photos">日期</string>
 
+    <string name="text_sticker_hint_easy_photos">双击编辑</string>
+
+    <string name="text_sticker_hint_name_easy_photos">自定义</string>
+
 </resources>

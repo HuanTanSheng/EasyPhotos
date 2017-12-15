@@ -60,4 +60,9 @@
 
     <string name="text_sticker_date_easy_photos">Date</string>
 
+    <string name="text_sticker_hint_easy_photos">Double-click</string>
+
+    <string name="text_sticker_hint_name_easy_photos">Custom</string>
+
+
 </resources>

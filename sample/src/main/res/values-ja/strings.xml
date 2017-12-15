@@ -60,4 +60,8 @@
 
     <string name="text_sticker_date_easy_photos">日付</string>
 
+    <string name="text_sticker_hint_easy_photos">ダブルクリック</string>
+
+    <string name="text_sticker_hint_name_easy_photos">カスタマイズ</string>
+
 </resources>

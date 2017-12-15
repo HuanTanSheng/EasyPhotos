@@ -60,4 +60,8 @@
 
     <string name="text_sticker_date_easy_photos">Fecha</string>
 
+    <string name="text_sticker_hint_easy_photos">Haga doble clic en el</string>
+
+    <string name="text_sticker_hint_name_easy_photos">Custom</string>
+
 </resources>

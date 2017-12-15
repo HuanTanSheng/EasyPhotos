@@ -75,7 +75,7 @@ public class TextSticker extends View {
 
         this.text = text;
         if (TextUtils.isEmpty(this.text)) {
-            this.text = "double-click";
+            this.text = context.getString(R.string.text_sticker_hint_easy_photos);
         }
         path = new Path();
         textLayoutWidth = getResources().getDisplayMetrics().widthPixels / 2;

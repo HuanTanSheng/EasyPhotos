@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author wupanjie
+ * @author huan
  */
 public class TextStickerAdapter extends RecyclerView.Adapter<TextStickerAdapter.TextViewHolder> {
 
@@ -26,7 +26,7 @@ public class TextStickerAdapter extends RecyclerView.Adapter<TextStickerAdapter.
         super();
         this.onItemClickListener = listener;
         this.datas = new ArrayList<>();
-        TextStickerData data = new TextStickerData("• • •", "");
+        TextStickerData data = new TextStickerData(cxt.getString(R.string.text_sticker_hint_name_easy_photos), cxt.getString(R.string.text_sticker_hint_easy_photos));
         this.datas.add(0, data);
         TextStickerData d = new TextStickerData(cxt.getString(R.string.text_sticker_date_easy_photos), "-1");
         datas.add(d);

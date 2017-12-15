@@ -60,4 +60,8 @@
 
     <string name="text_sticker_date_easy_photos">날짜</string>
 
+    <string name="text_sticker_hint_easy_photos">두 번 누르기</string>
+
+    <string name="text_sticker_hint_name_easy_photos">사용자 정의</string>
+
 </resources>
