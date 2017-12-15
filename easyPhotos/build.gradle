@@ -28,7 +28,7 @@ dependencies {
 
 // 指定编码
 tasks.withType(JavaCompile) {
-    options.encoding = "GBK"
+    options.encoding = "UTF-8"
 }
 
 // 打包源码
