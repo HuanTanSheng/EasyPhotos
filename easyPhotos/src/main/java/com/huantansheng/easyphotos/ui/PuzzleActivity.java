@@ -28,13 +28,13 @@ import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.models.puzzle.Area;
 import com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleLayout;
 import com.huantansheng.easyphotos.models.puzzle.PuzzlePiece;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
 import com.huantansheng.easyphotos.models.sticker.StickerModel;
-import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
 import com.huantansheng.easyphotos.ui.adapter.TextStickerAdapter;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
@@ -44,7 +44,10 @@ import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * 拼图界面
@@ -95,7 +98,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     String saveDirPath, saveNamePrefix;
 
     private PuzzleView puzzleView;
-    private PuzzleLayout puzzleLayout;
     private RecyclerView rvPuzzleTemplet;
     private PuzzleAdapter puzzleAdapter;
     private ProgressBar progressBar;
@@ -117,7 +119,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tvTemplate, tvTextSticker;
     private RelativeLayout mRootView;
     private TextStickerAdapter textStickerAdapter;
-    private ArrayList<TextStickerData> textStickerDatas;
 
     private StickerModel stickerModel;
 
@@ -208,15 +209,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         rvPuzzleTemplet.setAdapter(puzzleAdapter);
         puzzleAdapter.refreshData(PuzzleUtils.getPuzzleLayouts(fileCount));
 
-        textStickerDatas = new ArrayList<>();
-        textStickerAdapter = new TextStickerAdapter(textStickerDatas, this);
+        textStickerAdapter = new TextStickerAdapter(this, this);
     }
 
     private void initPuzzleView() {
         int themeType = fileCount > 3 ? 1 : 0;
-        puzzleLayout = PuzzleUtils.getPuzzleLayout(themeType, fileCount, 0);
         puzzleView = (PuzzleView) findViewById(R.id.puzzle_view);
-        puzzleView.setPuzzleLayout(puzzleLayout);
+        puzzleView.setPuzzleLayout(PuzzleUtils.getPuzzleLayout(themeType, fileCount, 0));
         puzzleView.setOnPieceSelectedListener(new PuzzleView.OnPieceSelectedListener() {
             @Override
             public void onPieceSelected(PuzzlePiece piece, int position) {
@@ -570,6 +569,26 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(String stickerValue) {
+        if (stickerValue.equals("-1")) {
+            if (fileTypeIsPhoto) {
+                PuzzleLayout puzzleLayout = puzzleView.getPuzzleLayout();
+                for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String date = format.format(photos.get(i).time * 1000);
+                    stickerModel.addTextSticker(this, getSupportFragmentManager(), date, mRootView);
+                    stickerModel.currTextSticker.isChecked = true;
+                    Area area = puzzleLayout.getArea(i);
+                    stickerModel.currTextSticker.moveTo(area.centerX(), area.centerY());
+                }
+            } else {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String date = format.format(new Date());
+                stickerModel.addTextSticker(this, getSupportFragmentManager(), date, mRootView);
+
+            }
+            return;
+        }
+
         stickerModel.addTextSticker(this, getSupportFragmentManager(), stickerValue, mRootView);
     }
 }

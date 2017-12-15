@@ -1,5 +1,6 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.models.sticker.StickerModel;
 import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 
 import java.util.ArrayList;
@@ -20,14 +22,15 @@ public class TextStickerAdapter extends RecyclerView.Adapter<TextStickerAdapter.
     private List<TextStickerData> datas;
     private OnItemClickListener onItemClickListener;
 
-    public TextStickerAdapter(ArrayList<TextStickerData> textStickerDatas, OnItemClickListener listener) {
+    public TextStickerAdapter(Context cxt, OnItemClickListener listener) {
         super();
         this.onItemClickListener = listener;
-        this.datas = textStickerDatas;
+        this.datas = new ArrayList<>();
         TextStickerData data = new TextStickerData("• • •", "");
         this.datas.add(0, data);
-        TextStickerData d = new TextStickerData("时间", "2017-10-01");
+        TextStickerData d = new TextStickerData(cxt.getString(R.string.text_sticker_date_easy_photos), "-1");
         datas.add(d);
+        datas.addAll(StickerModel.textDataList);
     }
 
     @Override

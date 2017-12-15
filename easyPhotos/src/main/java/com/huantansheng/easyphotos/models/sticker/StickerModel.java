@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.sticker.cache.StickerCache;
+import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 import com.huantansheng.easyphotos.models.sticker.view.BitmapSticker;
 import com.huantansheng.easyphotos.models.sticker.view.TextSticker;
 import com.huantansheng.easyphotos.models.sticker.listener.OnStickerClickListener;
@@ -26,31 +27,18 @@ import java.util.List;
  */
 
 public class StickerModel {
-    private static final String TAG = "StickerModel";
+    public static final ArrayList<TextStickerData> textDataList = new ArrayList<>();
 
-    private List<BitmapSticker> bitmapStickers;
-    private List<TextSticker> textStickers;
-    private BitmapSticker currBitmapSticker;
-    private TextSticker currTextSticker;
-    private String errMsg;
+    public List<BitmapSticker> bitmapStickers;
+    public List<TextSticker> textStickers;
+    public BitmapSticker currBitmapSticker;
+    public TextSticker currTextSticker;
 
 
     public StickerModel() {
         super();
         this.bitmapStickers = new ArrayList<>();
         this.textStickers = new ArrayList<>();
-    }
-
-    public String getErrMsg() {
-        return this.errMsg;
-    }
-
-    public List<BitmapSticker> getBitmapStickers() {
-        return this.bitmapStickers;
-    }
-
-    public List<TextSticker> getTextStickers() {
-        return this.textStickers;
     }
 
     public void addBitmapSticker(Context cxt, String imagePath, int imageResourceId, ViewGroup rootgroup) {
@@ -155,7 +143,7 @@ public class StickerModel {
             saveBitmap = cropBitmap;
         }
 
-        EasyPhotos.saveBitmapToDir(act, dirPath, namePrefix, saveBitmap, true, callBack);
+        EasyPhotos.saveBitmapToDir(act, dirPath, namePrefix, saveBitmap, notifyMedia, callBack);
 
     }
 

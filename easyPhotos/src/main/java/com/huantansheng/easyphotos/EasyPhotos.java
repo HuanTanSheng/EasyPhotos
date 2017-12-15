@@ -9,6 +9,8 @@ import android.view.View;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.models.sticker.StickerModel;
+import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
@@ -20,6 +22,7 @@ import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -404,16 +407,15 @@ public class EasyPhotos {
     /**
      * 保存Bitmap到指定文件夹
      *
-     * @param act     上下文
+     * @param act         上下文
      * @param dirPath     文件夹全路径
      * @param bitmap      bitmap
      * @param namePrefix  保存文件的前缀名，文件最终名称格式为：前缀名+自动生成的唯一数字字符+.png
      * @param notifyMedia 是否更新到媒体库
-     * @param callBack 保存图片后的回调，回调已经处于UI线程
-     *
+     * @param callBack    保存图片后的回调，回调已经处于UI线程
      */
     public static void saveBitmapToDir(Activity act, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia, SaveBitmapCallBack callBack) {
-        BitmapUtils.saveBitmapToDir(act, dirPath, namePrefix, bitmap, notifyMedia,callBack);
+        BitmapUtils.saveBitmapToDir(act, dirPath, namePrefix, bitmap, notifyMedia, callBack);
     }
 
 
@@ -431,36 +433,36 @@ public class EasyPhotos {
     /**
      * 启动拼图（最多对9张图片进行拼图）
      *
-     * @param act            上下文
-     * @param photos         图片集合（最多对9张图片进行拼图）
+     * @param act                  上下文
+     * @param photos               图片集合（最多对9张图片进行拼图）
      * @param puzzleSaveDirPath    拼图完成保存的文件夹全路径
      * @param puzzleSaveNamePrefix 拼图完成保存的文件名前缀，最终格式：前缀+默认生成唯一数字标识+.png
-     * @param requestCode    请求code
-     * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
-     *                       Intent intent = new Intent();
-     *                       intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS , photos);
-     *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param requestCode          请求code
+     * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                             Intent intent = new Intent();
+     *                             intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS , photos);
+     *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
     public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
         act.setResult(Activity.RESULT_OK);
-        PuzzleActivity.startWithPhotos(act, photos,puzzleSaveDirPath,puzzleSaveNamePrefix, requestCode, replaceCustom);
+        PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom);
     }
 
     /**
      * 启动拼图（最多对9张图片进行拼图）
      *
-     * @param act            上下文
-     * @param paths          图片地址集合（最多对9张图片进行拼图）
+     * @param act                  上下文
+     * @param paths                图片地址集合（最多对9张图片进行拼图）
      * @param puzzleSaveDirPath    拼图完成保存的文件夹全路径
      * @param puzzleSaveNamePrefix 拼图完成保存的文件名前缀，最终格式：前缀+默认生成唯一数字标识+.png
-     * @param requestCode    请求code
-     * @param replaceCustom  单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
-     *                       Intent intent = new Intent();
-     *                       intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS , paths);
-     *                       act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param requestCode          请求code
+     * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     *                             Intent intent = new Intent();
+     *                             intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS , paths);
+     *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      */
     public static void startPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
-        PuzzleActivity.startWithPaths(act, paths,puzzleSaveDirPath, puzzleSaveNamePrefix,requestCode, replaceCustom);
+        PuzzleActivity.startWithPaths(act, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom);
     }
 
 
@@ -495,4 +497,25 @@ public class EasyPhotos {
     public static void notifyMedia(Context cxt, List<String> fileList) {
         MediaScannerConnectionUtils.refresh(cxt, fileList);
     }
+
+
+    //*********************************贴纸***************************
+
+
+    /**
+     * 添加文字贴纸的文字数据
+     *
+     * @param textStickerData 文字贴纸的文字数据
+     */
+    public static void addTextStickerData(TextStickerData... textStickerData) {
+        StickerModel.textDataList.addAll(Arrays.asList(textStickerData));
+    }
+
+    /**
+     * 清空文字贴纸的数据
+     */
+    public static void clearTextStickerDataList() {
+        StickerModel.textDataList.clear();
+    }
+
 }

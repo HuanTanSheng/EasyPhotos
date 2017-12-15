@@ -250,7 +250,7 @@ public class TextSticker extends View {
             RectF bounds = new RectF();
             path.computeBounds(bounds, true);
             Region region = new Region();
-            region.setPath(path, new Region((int)bounds.left, (int)bounds.top,(int)bounds.right, (int)bounds.bottom));
+            region.setPath(path, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
 
             if (region.contains(x, y)) {
                 if (isOut) {
@@ -297,6 +297,10 @@ public class TextSticker extends View {
     private void move(float distansX, float distansY) {
         mMatrix.postTranslate(distansX, distansY);
         matrixMap();
+    }
+
+    public void moveTo(float x, float y) {
+        move(x - dstPs[8], y - dstPs[1]);
     }
 
     private void controller(MotionEvent event) {
