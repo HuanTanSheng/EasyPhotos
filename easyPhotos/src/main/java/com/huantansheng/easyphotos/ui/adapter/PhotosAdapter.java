@@ -198,7 +198,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
             if (isSingle) {
                 singlePosition = position;
-                tvSelector.setText("★");
+                tvSelector.setText("√");
             }
         } else {
             if (unable) {
