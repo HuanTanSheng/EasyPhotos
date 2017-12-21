@@ -20,6 +20,7 @@
         android:id="@+id/iv_back"
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:onClick="onClick"
         app:layout_constraintLeft_toLeftOf="@id/m_tool_bar"
         app:layout_constraintTop_toTopOf="@id/m_tool_bar"
         app:srcCompat="@drawable/ic_back_easy_photos" />

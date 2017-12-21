@@ -357,7 +357,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);
-        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
         tvClear = (PressedTextView) findViewById(R.id.tv_clear);
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
@@ -397,7 +396,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         tvPreview.setOnClickListener(this);
         tvClear.setOnClickListener(this);
         tvDone.setOnClickListener(this);
-        ivBack.setOnClickListener(this);
         mBottomBar.setOnClickListener(this);
         ivAlbumItems.setOnClickListener(this);
         tvAlbumItems.setOnClickListener(this);
