@@ -382,14 +382,14 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             handleSeekBar(FLAG_CONTROL_PADDING, 0, 100, puzzleView.getPiecePadding());
             toggleIvMenu(R.id.iv_padding);
         } else if (R.id.tv_template == id) {
-            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_done_easy_photos));
-            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_easy_photos));
+            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
+            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
 
             rvPuzzleTemplet.setAdapter(puzzleAdapter);
 
         } else if (R.id.tv_text_sticker == id) {
-            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_done_easy_photos));
-            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.puzzle_menu_easy_photos));
+            tvTextSticker.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
+            tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
 
             rvPuzzleTemplet.setAdapter(textStickerAdapter);
         }
@@ -416,7 +416,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent();
                 intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, file.getAbsolutePath());
 
-                Photo photo = new Photo(false, file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), "image/png");
+                Photo photo = new Photo(file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), "image/png");
                 intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
                 setResult(RESULT_OK, intent);
                 PuzzleActivity.this.finish();
@@ -440,7 +440,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private void toggleIvMenu(@IdRes int resId) {
         for (ImageView ivMenu : ivMenus) {
             if (ivMenu.getId() == resId) {
-                ivMenu.setColorFilter(ContextCompat.getColor(this, R.color.puzzle_selected_frame_easy_photos));
+                ivMenu.setColorFilter(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
             } else {
                 ivMenu.clearColorFilter();
             }

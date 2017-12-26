@@ -5,16 +5,16 @@
     android:viewportWidth="46.0">
     <path
         android:pathData="M9.64,9l17.92,0l10.25,0l0,12.46l0,16.42l-28.17,0z"
-        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeColor="@color/easy_photos_fg_primary"
         android:strokeWidth="2" />
     <path
         android:pathData="M24,9L24,37.5"
-        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeColor="@color/easy_photos_fg_primary"
         android:strokeLineCap="square"
         android:strokeWidth="2" />
     <path
         android:pathData="M11,23L37.5,23"
-        android:strokeColor="@color/puzzle_menu_easy_photos"
+        android:strokeColor="@color/easy_photos_fg_primary"
         android:strokeLineCap="square"
         android:strokeWidth="2" />
 </vector>

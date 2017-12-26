@@ -74,9 +74,9 @@ public class DegreeSeekBar extends View {
     }
 
     private void init() {
-        mPointColor = ContextCompat.getColor(getContext(), R.color.puzzle_menu_easy_photos);
-        mTextColor = ContextCompat.getColor(getContext(), R.color.puzzle_menu_easy_photos);
-        mCenterTextColor = ContextCompat.getColor(getContext(), R.color.puzzle_selected_frame_easy_photos);
+        mPointColor = ContextCompat.getColor(getContext(), R.color.easy_photos_fg_primary);
+        mTextColor = ContextCompat.getColor(getContext(), R.color.easy_photos_fg_primary);
+        mCenterTextColor = ContextCompat.getColor(getContext(), R.color.easy_photos_fg_accent);
 
         mPointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPointPaint.setStyle(Paint.Style.STROKE);

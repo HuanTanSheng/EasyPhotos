@@ -49,7 +49,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
         this.selectedPosition = selectedPosition;
-        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop();
         mGlide.applyDefaultRequestOptions(options);
     }
 

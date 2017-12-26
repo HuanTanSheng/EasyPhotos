@@ -31,7 +31,7 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         this.inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.mGlide = Glide.with(context);
-        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop();
         this.mGlide.applyDefaultRequestOptions(options);
     }
 

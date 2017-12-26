@@ -62,13 +62,13 @@ public class AlbumModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                initAlbum(act, isShowCamera);
+                initAlbum(act);
                 callBack.onAlbumWorkedCallBack();
             }
         }).start();
     }
 
-    private void initAlbum(Activity act, boolean isShowCamera) {
+    private void initAlbum(Activity act) {
         if (Setting.selectedPhotos.size() > Setting.count) {
             throw new RuntimeException("EasyPhotos: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
@@ -133,7 +133,7 @@ public class AlbumModel {
                     }
                 }
 
-                Photo imageItem = new Photo(false, name, path, dateTime, width, height, size, type);
+                Photo imageItem = new Photo( name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
@@ -147,11 +147,7 @@ public class AlbumModel {
                 if (album.isEmpty()) {
                     // 用第一个图片作为专辑的封面
                     album.addAlbumItem(albumItem_all_name, "", path);
-                    // 是否显示相机按钮
-                    if (isShowCamera) {
-                        Photo cameraItem = new Photo(true, "", "", 0, 0, 0, 0, "");
-                        album.getAlbumItem(albumItem_all_name).addImageItem(cameraItem);
-                    }
+
                 }
 
                 // 把图片全部放进“全部”专辑

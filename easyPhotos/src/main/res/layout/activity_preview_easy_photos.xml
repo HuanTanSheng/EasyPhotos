@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/m_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/m_root_view"
-    android:background="@color/preview_background_easy_photos">
+    android:background="@color/easy_photos_bg_primary">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_photos"
@@ -22,18 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_gravity="top"
-            android:background="@color/tool_bar_easy_photos"
+            android:background="@color/easy_photos_bar_primary"
             android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true">
 
-            <com.huantansheng.easyphotos.ui.widget.PressedImageView
+            <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                app:srcCompat="@drawable/ic_back_easy_photos" />
+                android:onClick="onClick"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 
             <View
                 android:id="@+id/m_back_line"
@@ -43,7 +45,7 @@
                 android:layout_alignRight="@id/iv_back"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:background="@color/back_line_easy_photos" />
+                android:background="@color/easy_photos_bar_primary_dark" />
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:id="@+id/tv_number"
@@ -54,7 +56,7 @@
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColor="@color/text_easy_photos" />
+                android:textColor="@color/easy_photos_fg_primary" />
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:id="@+id/tv_done"
@@ -69,7 +71,7 @@
                 android:gravity="center"
                 android:maxWidth="200dp"
                 android:padding="6dp"
-                android:textColor="@color/text_easy_photos"
+                android:textColor="@color/white_easy_photos"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -81,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/preview_bottom_bar_easy_photos"
+            android:background="@color/easy_photos_bar_primary_translation"
             android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true">
@@ -92,17 +94,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:visibility="gone">
+
                 <fragment
                     android:id="@+id/fragment_preview"
                     android:name="com.huantansheng.easyphotos.ui.PreviewFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </FrameLayout>
-            <View
-                android:layout_below="@id/fl_fragment"
-                android:background="@color/preview_bottom_bar_line_easy_photos"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
 
             <com.huantansheng.easyphotos.ui.widget.PressedTextView
                 android:id="@+id/tv_edit"
@@ -115,7 +113,8 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/edit_easy_photos"
-                android:textColor="@color/text_easy_photos"
+                android:textColor="@color/easy_photos_fg_primary"
+                android:textStyle="bold"
                 android:visibility="gone" />
 
             <TextView
@@ -126,7 +125,8 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="@string/original_easy_photos"
-                android:textColor="@color/text_easy_photos" />
+                android:textColor="@color/easy_photos_fg_primary"
+                android:textStyle="bold" />
 
 
             <TextView
@@ -138,7 +138,8 @@
                 android:layout_toStartOf="@+id/iv_selector"
                 android:gravity="center"
                 android:text="@string/selector_easy_photos"
-                android:textColor="@color/text_easy_photos" />
+                android:textColor="@color/easy_photos_fg_primary"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/iv_selector"

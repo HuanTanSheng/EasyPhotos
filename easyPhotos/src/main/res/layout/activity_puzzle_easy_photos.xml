@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/puzzle_background_easy_photos"
+    android:background="@color/easy_photos_bg_primary"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
-            android:background="@color/puzzle_photo_background_easy_photos" />
+            android:background="@color/white_easy_photos" />
 
         <RelativeLayout
             android:id="@+id/m_bottom_layout"
@@ -95,17 +95,11 @@
                 android:paddingBottom="8dp"
                 android:paddingTop="6dp" />
 
-            <View
-                android:id="@+id/m_bottom_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/rv_puzzle_template"
-                android:background="@color/puzzle_bottom_bar_line_easy_photos" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/m_bottom_line"
+                android:layout_below="@id/rv_puzzle_template"
                 android:orientation="horizontal">
 
                 <TextView
@@ -116,7 +110,7 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="@string/template_easy_photos"
-                    android:textColor="@color/puzzle_menu_done_easy_photos"
+                    android:textColor="@color/easy_photos_fg_accent"
                     android:textSize="12sp" />
 
                 <TextView
@@ -127,7 +121,7 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="@string/text_sticker_easy_photos"
-                    android:textColor="@color/puzzle_menu_easy_photos"
+                    android:textColor="@color/easy_photos_fg_primary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -153,7 +147,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="@string/cancel_easy_photos"
-            android:textColor="@color/puzzle_menu_easy_photos"
+            android:textColor="@color/easy_photos_fg_primary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -172,7 +166,7 @@
             android:minWidth="56dp"
             android:padding="6dp"
             android:text="@string/done_easy_photos"
-            android:textColor="@color/puzzle_menu_done_easy_photos"
+            android:textColor="@color/easy_photos_fg_accent"
             android:textSize="14sp"
             android:textStyle="bold" />
 

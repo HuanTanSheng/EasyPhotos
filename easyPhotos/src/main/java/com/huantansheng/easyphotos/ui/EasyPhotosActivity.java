@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,8 +90,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private PressedTextView tvClear;
     private int currAlbumItemIndex = 0;
 
-    private PreviewFragment fragmentPreview;
-    private FrameLayout flFragment;
+    private ImageView ivCamera;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -109,6 +108,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         initConfig();
         mBottomBar = findViewById(R.id.m_bottom_bar);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
         }
@@ -263,7 +263,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                         return;
                     }
                     photosAdapter.change();
-                    fragmentPreview.notifyDataSetChanged();
                     processOriginalMenu();
                     shouldShowMenuDone();
                     return;
@@ -309,7 +308,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
         Intent data = new Intent();
         Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
-        Photo photo = new Photo(false, mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
+        Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
         photo.selectedOriginal = Setting.selectedOriginal;
         resultList.add(photo);
         EasyPhotos.recycle(bitmap);
@@ -353,6 +352,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         if (Setting.hasPhotosAd()) {
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
+        ivCamera = (ImageView) findViewById(R.id.iv_camera);
+        if (isShowCamera) {
+            ivCamera.setVisibility(View.VISIBLE);
+        }
         columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
@@ -383,8 +386,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
-        fragmentPreview = (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_preview);
-        flFragment = (FrameLayout) findViewById(R.id.fl_fragment);
         tvOriginal = (TextView) findViewById(R.id.tv_original);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();
@@ -399,6 +400,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         mBottomBar.setOnClickListener(this);
         ivAlbumItems.setOnClickListener(this);
         tvAlbumItems.setOnClickListener(this);
+        ivCamera.setOnClickListener(this);
         initAlbumItems();
         shouldShowMenuDone();
     }
@@ -445,7 +447,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             Result.removeAll();
             photosAdapter.change();
             shouldShowMenuDone();
-            updatePreview(true);
         } else if (R.id.tv_original == id) {
             if (!Setting.originalMenuUsable) {
                 Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
@@ -462,6 +463,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 //                    flFragment.setVisibility(View.VISIBLE);
 //                }
 //            }
+        } else if (R.id.iv_camera == id) {
+            launchCamera(Code.REQUEST_CAMERA);
         }
     }
 
@@ -482,12 +485,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void processOriginalMenu() {
         if (Setting.selectedOriginal) {
-            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.menu_easy_photos));
+            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
         } else {
             if (Setting.originalMenuUsable) {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
             } else {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_unable_easy_photos));
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary_dark));
             }
         }
     }
@@ -591,20 +594,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onSelectorChanged() {
         shouldShowMenuDone();
-        updatePreview(Result.isEmpty());
     }
 
-    private void updatePreview(boolean gone) {
-        fragmentPreview.notifyDataSetChanged();
-        if (gone) {
-            flFragment.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onCameraClicked() {
-        launchCamera(Code.REQUEST_CAMERA);
-    }
 
     @Override
     protected void onDestroy() {
@@ -613,7 +604,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onBackPressed() {
-        if (null == rootViewAlbumItems || null == flFragment) {
+        if (null == rootViewAlbumItems) {
             super.onBackPressed();
             return;
         }
@@ -621,10 +612,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             showAlbumItems(false);
             return;
         }
-        if (flFragment.getVisibility() == View.VISIBLE) {
-            flFragment.setVisibility(View.GONE);
-            return;
-        }
+
         super.onBackPressed();
     }
 

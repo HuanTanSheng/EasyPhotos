@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_sticker_editor_background_easy_photos">
+    android:background="@color/easy_photos_bg_primary">
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/text_sticker_editor_bar_easy_photos"
+        android:background="@color/easy_photos_bar_primary"
         android:paddingBottom="8dp"
         android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,8 +47,8 @@
             android:max="255"
             android:maxHeight="3dp"
             android:minHeight="3dp"
-            android:progressDrawable="@drawable/bg_seek_bar_alpha"
-            android:thumb="@drawable/thumb_seek_bar_alpha"
+            android:progressDrawable="@drawable/bg_seek_bar_alpha_easy_photos"
+            android:thumb="@drawable/thumb_seek_bar_alpha_easy_photos"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/done_easy_photos"
-            android:textColor="@color/text_sticker_editor_text_easy_photos"
+            android:textColor="@color/easy_photos_fg_accent"
             android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/m_seek_bar" />
@@ -78,7 +78,7 @@
             android:paddingRight="26dp"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
-            android:textColor="@color/text_sticker_editor_text_easy_photos"
+            android:textColor="@color/easy_photos_fg_accent"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/tv_done"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="@id/et"
             app:layout_constraintRight_toRightOf="@id/et"
             app:layout_constraintTop_toTopOf="@id/et"
-            app:srcCompat="@drawable/ic_clear" />
+            app:srcCompat="@drawable/ic_clear_easy_photos" />
 
 
         <LinearLayout
@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_red" />
+                android:src="@drawable/ic_red_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_orange"
@@ -123,7 +123,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_orange" />
+                android:src="@drawable/ic_orange_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_yellow"
@@ -132,7 +132,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_yelow" />
+                android:src="@drawable/ic_yelow_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_green"
@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_green" />
+                android:src="@drawable/ic_green_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_cyan"
@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_cyan" />
+                android:src="@drawable/ic_cyan_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_blue"
@@ -159,7 +159,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_blue" />
+                android:src="@drawable/ic_blue_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_purple"
@@ -168,7 +168,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_purple" />
+                android:src="@drawable/ic_purple_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_black"
@@ -177,7 +177,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_black" />
+                android:src="@drawable/ic_black_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_gray"
@@ -186,7 +186,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_gray" />
+                android:src="@drawable/ic_gray_easy_photos" />
 
             <ImageView
                 android:id="@+id/iv_white"
@@ -195,7 +195,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_white" />
+                android:src="@drawable/ic_white_easy_photos" />
 
         </LinearLayout>
 

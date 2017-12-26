@@ -18,12 +18,10 @@ public class Photo implements Parcelable {
     public int height;//图片高度
     public long size;//图片文件大小，单位：Bytes
     public long time;//图片最后修改时间戳,单位：秒
-    public boolean isCamera;//是否是相机按钮，内部使用，无需关心
     public boolean selected;//是否被选中,内部使用,无需关心
     public boolean selectedOriginal;//用户选择时是否选择了原图选项
 
-    public Photo(boolean isCamera, String name, String path, long time, int width, int height, long size, String type) {
-        this.isCamera = isCamera;
+    public Photo( String name, String path, long time, int width, int height, long size, String type) {
         this.name = name;
         this.path = path;
         this.time = time;
@@ -71,7 +69,6 @@ public class Photo implements Parcelable {
         dest.writeInt(this.height);
         dest.writeLong(this.size);
         dest.writeLong(this.time);
-        dest.writeByte(this.isCamera ? (byte) 1 : (byte) 0);
         dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
         dest.writeByte(this.selectedOriginal ? (byte) 1 : (byte) 0);
     }
@@ -84,7 +81,6 @@ public class Photo implements Parcelable {
         this.height = in.readInt();
         this.size = in.readLong();
         this.time = in.readLong();
-        this.isCamera = in.readByte() != 0;
         this.selected = in.readByte() != 0;
         this.selectedOriginal = in.readByte() != 0;
     }

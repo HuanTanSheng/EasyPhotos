@@ -30,7 +30,6 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PreviewPhotosAdapter;
-import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
@@ -114,10 +113,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             photos.addAll(AlbumModel.instance.getCurrAlbumItemPhotos(albumItemIndex));
         }
         index = intent.getIntExtra(Key.PREVIEW_PHOTO_INDEX, 0);
-        if (photos.get(0).isCamera) {
-            photos.remove(0);
-            index--;
-        }
+
         lastPosition = index;
         mVisible = true;
     }
@@ -208,7 +204,6 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
         mToolBar = (RelativeLayout) findViewById(R.id.m_top_bar);
-        PressedImageView ivBack = (PressedImageView) findViewById(R.id.iv_back);
         TextView tvSelector = (TextView) findViewById(R.id.tv_selector);
         ivSelector = (ImageView) findViewById(R.id.iv_selector);
         tvNumber = (TextView) findViewById(R.id.tv_number);
@@ -223,7 +218,6 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         }
         tvOriginal.setOnClickListener(this);
         tvDone.setOnClickListener(this);
-        ivBack.setOnClickListener(this);
         tvSelector.setOnClickListener(this);
         ivSelector.setOnClickListener(this);
         tvEdit.setOnClickListener(this);
@@ -305,12 +299,12 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     private void processOriginalMenu() {
         if (Setting.selectedOriginal) {
-            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.menu_easy_photos));
+            tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
         } else {
             if (Setting.originalMenuUsable) {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_easy_photos));
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
             } else {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.text_unable_easy_photos));
+                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary_dark));
             }
         }
     }

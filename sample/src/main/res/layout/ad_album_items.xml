@@ -7,7 +7,8 @@
     android:paddingEnd="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingStart="16dp">
+    android:paddingStart="16dp"
+    android:paddingTop="16dp">
 
     <ImageView
         android:id="@+id/iv_image"
@@ -19,36 +20,32 @@
         android:layout_marginTop="8dp"
         android:scaleType="fitXY" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@id/iv_image"
-        android:layout_marginTop="4dp"
-        android:background="@color/album_items_line_easy_photos" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
         android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="23dp"
-        android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/iv_image"
         android:layout_toRightOf="@id/iv_image"
         android:textColor="@color/album_item_name_easy_photos"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="1"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/album_item_count_easy_photos"
-        android:textSize="12sp"
         android:layout_below="@id/tv_title"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/iv_image"
         android:layout_toRightOf="@id/iv_image"
-        android:layout_toEndOf="@id/iv_image"/>
+        android:text="1"
+        android:textColor="@color/album_item_count_easy_photos"
+        android:textSize="12sp" />
 </RelativeLayout>

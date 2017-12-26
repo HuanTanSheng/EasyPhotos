@@ -40,7 +40,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         this.inflater = LayoutInflater.from(cxt);
         this.listener = listener;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerInside().error(R.drawable.ic_photo_error_easy_photos);
+        RequestOptions options = new RequestOptions().centerInside();
         this.mGlide.applyDefaultRequestOptions(options);
     }
 

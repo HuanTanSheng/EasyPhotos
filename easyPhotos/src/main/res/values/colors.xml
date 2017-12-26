@@ -1,63 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="transparent_black_easy_photos">#df000000</color>
     <color name="transparent_easy_photos">#00000000</color>
-
-
-    <!--顶部栏-->
-    <color name="tool_bar_easy_photos">#393a3f</color>//顶部栏的背景颜色303135
-    <color name="tool_bar_bottom_line_easy_photos">#303135</color>//顶部栏的底端线颜色，主要用于Z轴的视觉效果
-    <color name="back_line_easy_photos">#303135</color>//顶部栏返回按钮右侧的分割线颜色
-
-    <!--底部栏-->
-    <color name="bottom_bar_easy_photos">#393a3f</color>//底部栏的背景颜色
-
-    <!--顶部栏和底部栏文字-->    <!--返回按钮-->
-    <color name="text_easy_photos">#ffffff</color>//文字颜色——默认，返回图标也是该颜色
-    <color name="text_unable_easy_photos">#9b9b9b</color>//文字颜色——不可用状态
-
-    <!--完成按钮-->
-    <color name="menu_easy_photos">#00AA00</color>//完成按钮的背景色——可用状态
-    <color name="menu_unable_easy_photos">#277327</color>//完成按钮的背景色——不可用状态
-    <color name="menu_easy_stroke_photos">#6800aa00</color>//完成按钮的边框颜色，主要用于Z轴的视觉效果
-
-    <!--相机icon-->
-    <color name="camera_easy_photos">#00AA00</color>//相机icon颜色
-
-    <!--photo选择器-->
-    <color name="selector_stroke_easy_photos">#FFFFFF</color>//图片选择器的边框颜色
-    <color name="selector_selected_color_easy_photos">#00AA00</color>//图片选择器选中状态的填充颜色
-    <color name="selector_unable_easy_photos">#9b9b9b</color>//图片选择器不可用状态颜色
+    <color name="white_easy_photos">#FFFFFF</color>
 
     <!--专辑项目列表-->
     <color name="album_items_background_easy_photos">#FFFFFF</color>//专辑项目列表的背景颜色
-    <color name="album_items_line_easy_photos">#dee6e6e6</color>//专辑项目的分割线颜色
-    <color name="album_item_choose_icon_easy_photos">#00AA00</color>//专辑项目选中状态icon的颜色
-    <color name="album_item_name_easy_photos">#d0000000</color>//专辑项目列表中专辑名称的字体颜色
-    <color name="album_item_count_easy_photos">#ababab</color>//专辑项目列表中包含图片张书的字体颜色
+    <color name="album_item_name_easy_photos">#3e4145</color>//专辑项目列表中专辑名称的字体颜色
+    <color name="album_item_count_easy_photos">#4f5555</color>//专辑项目列表中包含图片张数的字体颜色
 
-    <!--图片列表-->
-    <color name="photos_line_easy_photos">#000000</color>//图片列表的分割线颜色，图片列表背景色，相册的背景色
-    <color name="preview_selected_photos_background_easy_photos">#deffffff</color>
-    //该色值无用,之前想做相册中预览选中图片集合的背景颜色,经考虑去除了该功能.
-
-    <!--加载图片错误icon-->
-    <color name="photo_error_easy_photos">#ff0000</color>//图片发生错误时显示icon的颜色
-
-    <!--图片预览页-->
-    <color name="preview_background_easy_photos">#000000</color>//预览页背景颜色
-    <color name="preview_bottom_bar_easy_photos">#eb212123</color>//预览页的底部栏和选中图片列表的背景颜色
-    <color name="preview_bottom_bar_line_easy_photos">#ee3a3a3e</color>//预览页的底部栏与选中图片列表的分割线颜色
-    <color name="preview_status_easy_photos">#d73c3d41</color>//api21以上预览页状态栏颜色为该色值；api19和api20状态栏为透明色；其余api状态栏或透明或黑或灰，取决于各家rom和有无实体按键等因素。注：其余页面状态栏根据你的主题走
-
-    <!--拼图页-->
-    <color name="puzzle_background_easy_photos">#000000</color>//拼图页面背景色
-    <color name="puzzle_selected_frame_easy_photos">#57a457</color>//拼图页面当前处理item的边框颜色
-    <color name="puzzle_selected_controller_easy_photos">#00AA00</color>//拼图页面当前处理item的操作bar颜色，就是item边框中凸起矩形的色值
-    <color name="puzzle_menu_easy_photos">#969696</color>//拼图页面的文字按钮和示例图片颜色
-    <color name="puzzle_menu_done_easy_photos">#009700</color>//拼图页面的完成按钮文字颜色
-    <color name="puzzle_bottom_bar_line_easy_photos">#ee3a3a3e</color>//拼图的底部栏间隔颜色
-    <color name="puzzle_photo_background_easy_photos">#ffffff</color>//图片的背景颜色
 
     <!--文字贴纸-->
     <color name="text_sticker_red_easy_photos">#d0021b</color>
@@ -70,10 +20,21 @@
     <color name="text_sticker_black_easy_photos">#000000</color>
     <color name="text_sticker_gray_easy_photos">#4a4a4a</color>
     <color name="text_sticker_white_easy_photos">#ffffff</color>
-    <color name="text_sticker_editor_background_easy_photos">#2c2e30</color>//文字贴纸的编辑页面背景颜色
-    <color name="text_sticker_editor_bar_easy_photos">#e3e8ec</color>//文字贴纸的编辑界面底部操作栏的背景颜色
-    <color name="text_sticker_editor_easy_photos">#ffffff</color>//文字贴纸的编辑界面文字编辑器的背景颜色
-    <color name="text_sticker_editor_text_easy_photos">#292d31</color>//文字贴纸的编辑界面编辑器和完成按钮的字体颜色
+
+
+    <!--前景色-->
+    <color name="easy_photos_fg_primary">#ffffff</color>//3e4145
+    <color name="easy_photos_fg_primary_dark">#9b9b9b</color>
+    <color name="easy_photos_fg_accent">#00AA00</color>//578fff
+
+
+    <!--背景色-->
+    <color name="easy_photos_bg_primary">#000000</color>//f9f9f9
+
+    <!--操作栏颜色-->
+    <color name="easy_photos_bar_primary">#393a3f</color>//ffffff
+    <color name="easy_photos_bar_primary_dark">#303135</color>//f9f9f9
+    <color name="easy_photos_bar_primary_translation">#eb212123</color>
 
 
 </resources>

@@ -4,7 +4,7 @@
     android:id="@+id/root_view_ad"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/tool_bar_easy_photos"
+    android:background="@color/easy_photos_bar_primary"
     android:padding="8dp">
 
 
@@ -29,7 +29,7 @@
         android:layout_toRightOf="@id/iv_image"
         android:maxLines="1"
         android:minWidth="100dp"
-        android:textColor="@color/text_easy_photos"
+        android:textColor="@color/easy_photos_fg_primary"
         android:textSize="12sp" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_toEndOf="@id/iv_image"
         android:layout_toRightOf="@id/iv_image"
         android:minWidth="100dp"
-        android:textColor="@color/text_easy_photos"
+        android:textColor="@color/easy_photos_fg_primary"
         android:textSize="12sp" />
 
 </RelativeLayout>

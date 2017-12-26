@@ -38,7 +38,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     OnClickListener listener;
     boolean unable, isSingle;
     int singlePosition;
-    private int padding = 0;
+
 
     public PhotosAdapter(Context cxt, ArrayList<Object> dataList, OnClickListener listener) {
         this.dataList = dataList;
@@ -47,7 +47,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.unable = Result.count() == Setting.count;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop().error(R.drawable.ic_photo_error_easy_photos);
+        RequestOptions options = new RequestOptions().centerCrop();
         this.mGlide.applyDefaultRequestOptions(options);
     }
 
@@ -71,36 +71,21 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(position);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, position);
-            if (item.isCamera) {
-                if (padding == 0) {
-                    padding = ((PhotoViewHolder) holder).ivPhoto.getPaddingBottom();
+
+            mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+            ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
+            ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
+            ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int realPosition = position;
+                    if (Setting.hasPhotosAd()) {
+                        realPosition--;
+                    }
+                    listener.onPhotoClick(position, realPosition);
                 }
-                ((PhotoViewHolder) holder).ivPhoto.setPadding(padding, padding, padding, padding);
-                ((PhotoViewHolder) holder).ivPhoto.setImageResource(R.drawable.ic_camera_easy_photos);
-                ((PhotoViewHolder) holder).vSelector.setVisibility(View.GONE);
-                ((PhotoViewHolder) holder).tvSelector.setVisibility(View.GONE);
-                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onCameraClicked();
-                    }
-                });
-            } else {
-                ((PhotoViewHolder) holder).ivPhoto.setPadding(0, 0, 0, 0);
-                mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
-                ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
-                ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
-                ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int realPosition = position;
-                        if (Setting.hasPhotosAd()) {
-                            realPosition--;
-                        }
-                        listener.onPhotoClick(position, realPosition);
-                    }
-                });
-            }
+            });
+
 
             ((PhotoViewHolder) holder).vSelector.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -229,8 +214,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         void onSelectorOutOfMax();
 
         void onSelectorChanged();
-
-        void onCameraClicked();
     }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
