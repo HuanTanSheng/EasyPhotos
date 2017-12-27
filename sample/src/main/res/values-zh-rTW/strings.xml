@@ -66,4 +66,8 @@
 
     <string name="text_sticker_hint_name_easy_photos">自定義</string>
 
+    <string name="picture_selection_easy_photos">圖片選擇</string>
+
+    <string name="puzzle_easy_photos">拼一張</string>
+
 </resources>

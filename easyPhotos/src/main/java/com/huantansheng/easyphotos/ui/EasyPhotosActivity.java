@@ -14,8 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -28,8 +28,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +48,6 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
-import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -58,7 +60,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, View.OnClickListener, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, PreviewFragment.OnPreviewFragmentClickListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, PreviewFragment.OnPreviewFragmentClickListener, View.OnClickListener {
 
     private boolean isShowCamera, onlyStartCamera;
 
@@ -79,18 +81,20 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private AlbumItemsAdapter albumItemsAdapter;
     private RelativeLayout rootViewAlbumItems;
 
-    private View mBottomBar;
     private PressedTextView tvAlbumItems, tvDone, tvPreview;
     private TextView tvOriginal;
     private AnimatorSet setHide;
     private AnimatorSet setShow;
 
-    private int columns = 3;
-    private int albumItemsAdIndex = 0;
-    private PressedTextView tvClear;
     private int currAlbumItemIndex = 0;
 
     private ImageView ivCamera;
+
+    private LinearLayout mSecondMenus;
+
+    private RelativeLayout permissionView;
+    private TextView tvPermission;
+    private View mBottomBar;
 
     public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
@@ -107,6 +111,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         hideActionBar();
         initConfig();
         mBottomBar = findViewById(R.id.m_bottom_bar);
+        permissionView = (RelativeLayout) findViewById(R.id.rl_permissions_view);
+        tvPermission = (TextView) findViewById(R.id.tv_permission);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
 
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
@@ -120,19 +126,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             launchCamera(Code.REQUEST_CAMERA);
             return;
         }
+        permissionView.setVisibility(View.GONE);
         AlbumModel.clear();
         albumModel = AlbumModel.getInstance(this, isShowCamera, this);
     }
 
     protected String[] getNeedPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (isShowCamera) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            }
+            return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            }
+            return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         }
-        return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionUtil.onPermissionResult(this, permissions, grantResults, new PermissionUtil.PermissionCallBack() {
             @Override
@@ -142,28 +157,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
             @Override
             public void onShouldShow() {
-                Snackbar.make(mBottomBar, R.string.permissions_again_easy_photos, Snackbar.LENGTH_INDEFINITE)
-                        .setAction("go", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (PermissionUtil.checkAndRequestPermissionsInActivity(EasyPhotosActivity.this, getNeedPermissions())) {
-                                    hasPermissions();
-                                }
-                            }
-                        })
-                        .show();
+                tvPermission.setText(R.string.permissions_again_easy_photos);
+                permissionView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (PermissionUtil.checkAndRequestPermissionsInActivity(EasyPhotosActivity.this, getNeedPermissions())) {
+                            hasPermissions();
+                        }
+                    }
+                });
+
             }
 
             @Override
             public void onFailed() {
-                Snackbar.make(mBottomBar, R.string.permissions_die_easy_photos, Snackbar.LENGTH_INDEFINITE)
-                        .setAction("go", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this, getPackageName());
-                            }
-                        })
-                        .show();
+                tvPermission.setText(R.string.permissions_die_easy_photos);
+                permissionView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this, getPackageName());
+                    }
+                });
+
             }
         });
     }
@@ -342,26 +357,27 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initView() {
+
         if (albumModel.getAlbumItems().isEmpty()) {
             Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
             if (isShowCamera) launchCamera(Code.REQUEST_CAMERA);
             else finish();
             return;
         }
+
         EasyPhotos.setAdListener(this);
         if (Setting.hasPhotosAd()) {
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
-        ivCamera = (ImageView) findViewById(R.id.iv_camera);
+        ivCamera = (ImageView) findViewById(R.id.fab_camera);
         if (isShowCamera) {
             ivCamera.setVisibility(View.VISIBLE);
         }
-        columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
+        mSecondMenus = (LinearLayout) findViewById(R.id.m_second_level_menu);
+        int columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
-        PressedImageView ivAlbumItems = (PressedImageView) findViewById(R.id.iv_album_items);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
-        tvClear = (PressedTextView) findViewById(R.id.tv_clear);
         rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);//去除item更新的闪光
         photoList.clear();
@@ -393,16 +409,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             tvOriginal.setVisibility(View.GONE);
         }
         tvPreview = (PressedTextView) findViewById(R.id.tv_preview);
-        tvOriginal.setOnClickListener(this);
-        tvPreview.setOnClickListener(this);
-        tvClear.setOnClickListener(this);
-        tvDone.setOnClickListener(this);
-        mBottomBar.setOnClickListener(this);
-        ivAlbumItems.setOnClickListener(this);
-        tvAlbumItems.setOnClickListener(this);
-        ivCamera.setOnClickListener(this);
+
         initAlbumItems();
         shouldShowMenuDone();
+        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.iv_back, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu);
+
     }
 
     private void hideActionBar() {
@@ -414,13 +425,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     private void initAlbumItems() {
 
-        rootViewAlbumItems.setOnClickListener(this);
         rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
         albumItemList.clear();
         albumItemList.addAll(albumModel.getAlbumItems());
 
         if (Setting.hasAlbumItemsAd()) {
-            albumItemsAdIndex = 2;
+            int albumItemsAdIndex = 2;
             if (albumItemList.size() < albumItemsAdIndex + 1) {
                 albumItemsAdIndex = albumItemList.size() - 1;
             }
@@ -444,9 +454,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else if (R.id.tv_done == id) {
             done();
         } else if (R.id.tv_clear == id) {
+            if (Setting.count < 1){
+                processSecondMenu();
+                return;
+            }
             Result.removeAll();
             photosAdapter.change();
             shouldShowMenuDone();
+            processSecondMenu();
         } else if (R.id.tv_original == id) {
             if (!Setting.originalMenuUsable) {
                 Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
@@ -454,6 +469,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
             Setting.selectedOriginal = !Setting.selectedOriginal;
             processOriginalMenu();
+            processSecondMenu();
         } else if (R.id.tv_preview == id) {
             PreviewActivity.start(EasyPhotosActivity.this, -1, 0);
 //            if (flFragment.getVisibility() == View.VISIBLE) {
@@ -463,8 +479,25 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 //                    flFragment.setVisibility(View.VISIBLE);
 //                }
 //            }
-        } else if (R.id.iv_camera == id) {
+        } else if (R.id.fab_camera == id) {
             launchCamera(Code.REQUEST_CAMERA);
+        } else if (R.id.iv_second_menu == id) {
+            processSecondMenu();
+        }
+    }
+
+    public void processSecondMenu() {
+        if (mSecondMenus == null) {
+            return;
+        }
+        if (View.VISIBLE == mSecondMenus.getVisibility()) {
+            mSecondMenus.setVisibility(View.INVISIBLE);
+            if(isShowCamera)
+            ivCamera.setVisibility(View.VISIBLE);
+        } else {
+            mSecondMenus.setVisibility(View.VISIBLE);
+            if(isShowCamera)
+            ivCamera.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -563,18 +596,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 scaleHide.setDuration(200);
                 tvDone.startAnimation(scaleHide);
             }
-            tvDone.setVisibility(View.GONE);
-            tvClear.setVisibility(View.GONE);
-            tvPreview.setVisibility(View.GONE);
+            tvDone.setVisibility(View.INVISIBLE);
+            tvPreview.setVisibility(View.INVISIBLE);
         } else {
-            if (View.GONE == tvDone.getVisibility()) {
+            if (View.INVISIBLE == tvDone.getVisibility()) {
                 ScaleAnimation scaleShow = new ScaleAnimation(0f, 1f, 0f, 1f);
                 scaleShow.setDuration(200);
                 tvDone.startAnimation(scaleShow);
             }
             tvDone.setVisibility(View.VISIBLE);
-            if (Setting.count > 1)
-                tvClear.setVisibility(View.VISIBLE);
             tvPreview.setVisibility(View.VISIBLE);
         }
         tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
@@ -604,12 +634,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     @Override
     public void onBackPressed() {
-        if (null == rootViewAlbumItems) {
-            super.onBackPressed();
+
+        if (null != rootViewAlbumItems && rootViewAlbumItems.getVisibility() == View.VISIBLE) {
+            showAlbumItems(false);
             return;
         }
-        if (rootViewAlbumItems.getVisibility() == View.VISIBLE) {
-            showAlbumItems(false);
+
+        if (null != mSecondMenus && View.VISIBLE == mSecondMenus.getVisibility()) {
+            processSecondMenu();
             return;
         }
 
@@ -639,5 +671,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     @Override
     public void onPreviewPhotoClick(int position) {
         PreviewActivity.start(EasyPhotosActivity.this, -1, position);
+    }
+
+    private void setClick(@IdRes int... ids) {
+        for (int id : ids) {
+            findViewById(id).setOnClickListener(this);
+        }
     }
 }
