@@ -99,7 +99,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_dialog_album_items_background_easy_photos"
-            android:paddingBottom="16dp"
             android:scrollbars="vertical" />
     </RelativeLayout>
 

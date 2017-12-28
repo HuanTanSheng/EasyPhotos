@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     int selectedPosition;
     OnClickListener listener;
     int adPosition = 0;
+    int padding = 0;
 
     public interface OnClickListener {
         void onAlbumItemClick(int position,int realPosition);
@@ -66,6 +68,14 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof AlbumItemsViewHolder) {
+            if (padding == 0) {
+                padding = ((AlbumItemsViewHolder) holder).mRoot.getPaddingLeft();
+            }
+            if (position == getItemCount() - 1) {
+                ((AlbumItemsViewHolder) holder).mRoot.setPadding(padding, padding, padding, padding);
+            }else{
+                ((AlbumItemsViewHolder) holder).mRoot.setPadding(padding, padding, padding, 0);
+            }
             AlbumItem item = (AlbumItem) dataList.get(position);
             mGlide.load(item.coverImagePath).transition(withCrossFade()).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
@@ -140,13 +150,14 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         TextView tvAlbumName;
         TextView tvAlbumPhotosCount;
         ImageView ivSelected;
-
+        ConstraintLayout mRoot;
         public AlbumItemsViewHolder(View itemView) {
             super(itemView);
             this.ivAlbumCover = (ImageView) itemView.findViewById(R.id.iv_album_cover);
             this.tvAlbumName = (TextView) itemView.findViewById(R.id.tv_album_name);
             this.tvAlbumPhotosCount = (TextView) itemView.findViewById(R.id.tv_album_photos_count);
             this.ivSelected = (ImageView) itemView.findViewById(R.id.iv_selected);
+            this.mRoot = (ConstraintLayout) itemView.findViewById(R.id.m_root_view);
         }
     }
 }
