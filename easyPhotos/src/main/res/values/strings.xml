@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">DCIM</string>
+
     <string name="selector_folder_all_easy_photos">所有图片</string>
 
     <string name="selector_easy_photos">选择</string>

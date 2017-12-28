@@ -130,6 +130,20 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void setSelectedPosition(int position) {
+        int realPosition = position;
+        if (Setting.hasAlbumItemsAd()) {
+            if (position > adPosition) {
+                realPosition--;
+            }
+        }
+        int tempSelected = selectedPosition;
+        selectedPosition = position;
+        notifyItemChanged(tempSelected);
+        notifyItemChanged(position);
+        listener.onAlbumItemClick(position,realPosition);
+    }
+
     @Override
     public int getItemCount() {
         return dataList.size();

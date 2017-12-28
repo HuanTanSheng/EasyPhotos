@@ -126,7 +126,7 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
         } else if (R.id.root_view_album_items == id) {
             showAlbumItems(false);
         } else if (R.id.tv_done == id) {
-            PuzzleActivity.startWithPhotos(this, selectedPhotos, Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM", "IMG", Code.REQUEST_PUZZLE, false);
+            PuzzleActivity.startWithPhotos(this, selectedPhotos, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getString(R.string.app_name), "IMG", Code.REQUEST_PUZZLE, false);
 
         }
     }

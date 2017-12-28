@@ -324,6 +324,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         String albumName = StringUtils.getLastPathSegment(folderPath);
         albumModel.album.addAlbumItem(albumName, folderPath, photo.path);
         albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
+
+
+        albumItemList.clear();
+        albumItemList.addAll(albumModel.getAlbumItems());
+        if (Setting.hasAlbumItemsAd()) {
+            int albumItemsAdIndex = 2;
+            if (albumItemList.size() < albumItemsAdIndex + 1) {
+                albumItemsAdIndex = albumItemList.size() - 1;
+            }
+            albumItemList.add(albumItemsAdIndex, Setting.albumItemsAdView);
+        }
+        albumItemsAdapter.notifyDataSetChanged();
+
         if (Setting.count == 1) {
             Result.clear();
             Result.addPhoto(photo);
@@ -334,7 +347,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 Result.addPhoto(photo);
             }
         }
-        updatePhotos(0);
+        rvAlbumItems.scrollToPosition(0);
+        albumItemsAdapter.setSelectedPosition(0);
         shouldShowMenuDone();
     }
 
@@ -469,7 +483,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else if (R.id.tv_done == id) {
             done();
         } else if (R.id.tv_clear == id) {
-            if (Setting.count < 1) {
+            if (Result.isEmpty()) {
                 processSecondMenu();
                 return;
             }
