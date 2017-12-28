@@ -26,6 +26,10 @@ public class Setting {
     public static boolean originalMenuUsable = false;
     public static String originalMenuUnusableHint = "";
     public static boolean selectedOriginal = false;
+    public static String fileProviderAuthority = null;
+    public static boolean isShowCamera = false;
+    public static boolean onlyStartCamera = false;
+    public static boolean showPuzzleMenu = true;
 
 
     public static void clear() {
@@ -42,6 +46,10 @@ public class Setting {
         originalMenuUsable = false;
         originalMenuUnusableHint = "";
         selectedOriginal = false;
+        isShowCamera = false;
+        onlyStartCamera = false;
+        showPuzzleMenu = true;
+
     }
 
     public static boolean hasPhotosAd() {

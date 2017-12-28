@@ -20,8 +20,7 @@
             android:theme="@style/EasyPhotosFullscreenTheme" />
         <activity
             android:name=".ui.PuzzleActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/EasyPhotosFullscreenTheme" />
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.PuzzleSelectorActivity"
             android:screenOrientation="portrait" />

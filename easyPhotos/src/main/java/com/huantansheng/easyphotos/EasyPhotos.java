@@ -52,10 +52,8 @@ public class EasyPhotos {
     private static EasyPhotos instance;
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
-    private String fileProviderAuthority;
-    private boolean isShowCamera = false;
-    private boolean onlyStartCamera = false;
     private WeakReference<AdListener> adListener;
+
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private EasyPhotos(Activity activity, StartupType startupType) {
         mActivity = new WeakReference<>(activity);
@@ -107,7 +105,7 @@ public class EasyPhotos {
      * @return EasyPhotos
      */
     public EasyPhotos setFileProviderAuthority(String fileProviderAuthority) {
-        this.fileProviderAuthority = fileProviderAuthority;
+        Setting.fileProviderAuthority = fileProviderAuthority;
         return EasyPhotos.this;
     }
 
@@ -207,6 +205,17 @@ public class EasyPhotos {
 
 
     /**
+     * 是否显示拼图按钮
+     * @param isShow 是否显示
+     * @return EasyPhotos
+     */
+    public EasyPhotos setPuzzleMenu(boolean isShow) {
+        Setting.showPuzzleMenu = isShow;
+        return EasyPhotos.this;
+    }
+
+
+    /**
      * 设置启动属性
      *
      * @param requestCode startActivityForResult的请求码
@@ -214,13 +223,13 @@ public class EasyPhotos {
     public void start(int requestCode) {
         switch (startupType) {
             case CAMERA:
-                onlyStartCamera = true;
+                Setting.onlyStartCamera = true;
                 break;
             case ALBUM:
-                isShowCamera = false;
+                Setting.isShowCamera = false;
                 break;
             case ALBUM_CAMERA:
-                isShowCamera = true;
+                Setting.isShowCamera = true;
                 break;
         }
         launchEasyPhotosActivity(requestCode);
@@ -232,7 +241,7 @@ public class EasyPhotos {
      * @param requestCode startActivityForResult的请求码
      */
     private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthority, requestCode);
+        EasyPhotosActivity.start(mActivity.get(), requestCode);
     }
 
     /**

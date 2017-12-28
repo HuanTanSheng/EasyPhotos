@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">Photo album (with camera, single)</string>
     <string name="album_camera_multi">Photo album (with camera, multi)</string>
-    <string name="album_selected">Photo album (with default check)</string>
+    <string name="album_selected">Photo album (with default check，do not display the puzzle button)</string>
     <string name="album_size">Photo album (Size and size limit)</string>
     <string name="album_original_usable">Photo album (display original button, available)</string>
     <string name="album_original_unusable">Photo album (display original button, not available)</string>
@@ -16,7 +16,7 @@
     <string name="camera">Camera</string>
     <string name="addWatermark">Add watermark to picture</string>
     <string name="face_detection">Face detection</string>
-    <string name="puzzle">Puzzle</string>
+    <string name="puzzle">Jigsaw puzzle (used as a single function)</string>
 
     <!--以下是EasyPhotos的-->
 

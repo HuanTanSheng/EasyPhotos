@@ -95,11 +95,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private TextView tvPermission;
     private View mBottomBar;
 
-    public static void start(Activity activity, boolean onlyStartCamera, boolean isShowCamera, String fileProviderText, int requestCode) {
+    public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
-        intent.putExtra(Key.IS_SHOW_CAMERA, isShowCamera);
-        intent.putExtra(Key.FILE_PROVIDER_TEXT, fileProviderText);
-        intent.putExtra(Key.ONLY_START_CAMERA, onlyStartCamera);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -183,10 +180,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void initConfig() {
-        Intent intent = getIntent();
-        isShowCamera = intent.getBooleanExtra(Key.IS_SHOW_CAMERA, false);
-        onlyStartCamera = intent.getBooleanExtra(Key.ONLY_START_CAMERA, false);
-        fileProviderText = intent.getStringExtra(Key.FILE_PROVIDER_TEXT);
+        isShowCamera = Setting.isShowCamera;
+        onlyStartCamera = Setting.onlyStartCamera;
+        fileProviderText = Setting.fileProviderAuthority;
     }
 
     /**
@@ -363,7 +359,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
         }
 
+        if (onlyStartCamera) {
+            MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
+            Intent data = new Intent();
+            Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
+            Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
+            photo.selectedOriginal = Setting.selectedOriginal;
+            resultList.add(photo);
+            EasyPhotos.recycle(bitmap);
 
+            data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
+
+            data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
+
+            ArrayList<String> pathList = new ArrayList<>();
+            pathList.add(photo.path);
+
+            data.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, pathList);
+
+            setResult(RESULT_OK, data);
+            finish();
+            return;
+        }
         Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
         Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
         EasyPhotos.recycle(bitmap);
@@ -401,6 +418,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         ivCamera = (ImageView) findViewById(R.id.fab_camera);
         if (isShowCamera) {
             ivCamera.setVisibility(View.VISIBLE);
+        }
+        if (!Setting.showPuzzleMenu) {
+            findViewById(R.id.tv_puzzle).setVisibility(View.GONE);
         }
         mSecondMenus = (LinearLayout) findViewById(R.id.m_second_level_menu);
         int columns = getResources().getInteger(R.integer.photos_columns_easy_photos);

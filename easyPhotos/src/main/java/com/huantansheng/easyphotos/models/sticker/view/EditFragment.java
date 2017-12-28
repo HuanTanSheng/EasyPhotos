@@ -116,6 +116,9 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     public void onActivityCreated(Bundle savedInstanceState) {
         Window dialogWindow = getDialog().getWindow();
         if (null != dialogWindow) {
+            WindowManager.LayoutParams attrs = dialogWindow.getAttributes();
+            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            dialogWindow.setAttributes(attrs);
             dialogWindow.requestFeature(Window.FEATURE_NO_TITLE);
         }
 
