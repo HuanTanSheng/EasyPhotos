@@ -30,15 +30,16 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:visibility="invisible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_menu"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="32dp"
+                android:paddingTop="8dp"
                 android:layout_below="@id/degree_seek_bar"
                 android:orientation="horizontal"
-                android:visibility="invisible">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_replace"

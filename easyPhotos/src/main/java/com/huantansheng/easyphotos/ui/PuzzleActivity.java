@@ -234,8 +234,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (null == piece) {
                     toggleIvMenu(R.id.iv_replace);
-                    llMenu.setVisibility(View.INVISIBLE);
-                    degreeSeekBar.setVisibility(View.INVISIBLE);
+                    llMenu.setVisibility(View.GONE);
+                    degreeSeekBar.setVisibility(View.GONE);
                     degreeIndex = -1;
                     controlFlag = -1;
                     return;
@@ -244,7 +244,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                 if (degreeIndex != position) {
                     controlFlag = -1;
                     toggleIvMenu(R.id.iv_replace);
-                    degreeSeekBar.setVisibility(View.INVISIBLE);
+                    degreeSeekBar.setVisibility(View.GONE);
                 }
                 llMenu.setVisibility(View.VISIBLE);
                 degreeIndex = position;
@@ -346,7 +346,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
         } else if (R.id.iv_replace == id) {
             controlFlag = -1;
-            degreeSeekBar.setVisibility(View.INVISIBLE);
+            degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
                 EasyPhotos.createAlbum(this, true)
@@ -378,13 +378,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             handleSeekBar(FLAG_CONTROL_ROTATE, -360, 360, degrees.get(degreeIndex));
             toggleIvMenu(R.id.iv_rotate);
         } else if (R.id.iv_mirror == id) {
-            degreeSeekBar.setVisibility(View.INVISIBLE);
+            degreeSeekBar.setVisibility(View.GONE);
             controlFlag = -1;
             toggleIvMenu(R.id.iv_mirror);
             puzzleView.flipHorizontally();
         } else if (R.id.iv_flip == id) {
             controlFlag = -1;
-            degreeSeekBar.setVisibility(View.INVISIBLE);
+            degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_flip);
             puzzleView.flipVertically();
         } else if (R.id.iv_corner == id) {
@@ -484,8 +484,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void resetDegress() {
         degreeIndex = -1;
-        llMenu.setVisibility(View.INVISIBLE);
-        degreeSeekBar.setVisibility(View.INVISIBLE);
+        llMenu.setVisibility(View.GONE);
+        degreeSeekBar.setVisibility(View.GONE);
 
         for (int i = 0; i < degrees.size(); i++) {
             degrees.remove(i);
