@@ -56,7 +56,7 @@ allprojects {
 dependencies {  
 
     //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:EasyPhotos:1.3.2'  
+    compile 'com.github.HuanTanSheng:EasyPhotos:2.0.0'  
     
     //以下是Glide
     compile 'com.github.bumptech.glide:glide:4.3.0'
