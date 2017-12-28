@@ -16,4 +16,6 @@ public class Code {
     public static final int REQUEST_SETTING_APP_DETAILS = 14;
     //拼图activity请求吗
     public static final int REQUEST_PUZZLE = 15;
+    //拼图选择activity请求吗
+    public static final int REQUEST_PUZZLE_SELECTOR = 16;
 }

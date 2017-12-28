@@ -27,27 +27,26 @@ import java.util.ArrayList;
 public class AlbumModel {
     private static final String TAG = "AlbumModel";
     public static AlbumModel instance;
-    private Album album;
+    public Album album;
     private CallBack callBack;
 
     /**
      * AlbumModel构造方法
      *
      * @param act          调用专辑的活动实体类
-     * @param isShowCamera 是否显示相机按钮
      * @param callBack     初始化全部专辑后的回调
      */
-    private AlbumModel(final Activity act, final boolean isShowCamera, AlbumModel.CallBack callBack) {
+    private AlbumModel(final Activity act, AlbumModel.CallBack callBack) {
         album = new Album();
         this.callBack = callBack;
-        init(act, isShowCamera);
+        init(act);
     }
 
-    public static AlbumModel getInstance(final Activity act, final boolean isShowCamera, AlbumModel.CallBack callBack) {
+    public static AlbumModel getInstance(final Activity act, AlbumModel.CallBack callBack) {
         if (null == instance) {
             synchronized (AlbumModel.class) {
                 if (null == instance) {
-                    instance = new AlbumModel(act, isShowCamera, callBack);
+                    instance = new AlbumModel(act, callBack);
                 }
             }
         }
@@ -58,7 +57,7 @@ public class AlbumModel {
         instance = null;
     }
 
-    private void init(final Activity act, final boolean isShowCamera) {
+    private void init(final Activity act) {
         new Thread(new Runnable() {
             @Override
             public void run() {

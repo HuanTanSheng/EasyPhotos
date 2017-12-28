@@ -28,8 +28,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +47,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
+import com.huantansheng.easyphotos.utils.String.StringUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
@@ -60,7 +59,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, PreviewFragment.OnPreviewFragmentClickListener, View.OnClickListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
 
     private boolean isShowCamera, onlyStartCamera;
 
@@ -128,7 +127,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         permissionView.setVisibility(View.GONE);
         AlbumModel.clear();
-        albumModel = AlbumModel.getInstance(this, isShowCamera, this);
+        albumModel = AlbumModel.getInstance(this, this);
     }
 
     protected String[] getNeedPermissions() {
@@ -197,7 +196,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
      */
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(fileProviderText))
-            throw new RuntimeException("EasyPhotos" + " : 请执行 setFileProviderAuthoritiesText()方法");
+            throw new RuntimeException("EasyPhotos" + " : 请执行 setFileProviderAuthority()方法");
         toAndroidCamera(requestCode);
     }
 
@@ -281,6 +280,28 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                     processOriginalMenu();
                     shouldShowMenuDone();
                     return;
+                }
+
+                if (Code.REQUEST_PUZZLE_SELECTOR == requestCode) {
+                    Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+
+                    String albumItem_all_name = getString(R.string.selector_folder_all_easy_photos);
+                    albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, puzzlePhoto);
+                    String folderPath = new File(puzzlePhoto.path).getParentFile().getAbsolutePath();
+                    String albumName = StringUtils.getLastPathSegment(folderPath);
+                    albumModel.album.addAlbumItem(albumName, folderPath, puzzlePhoto.path);
+                    albumModel.album.getAlbumItem(albumName).addImageItem(0, puzzlePhoto);
+                    if (Setting.count == 1) {
+                        Result.clear();
+                        Result.addPhoto(puzzlePhoto);
+                    } else {
+                        if (Result.count() >= Setting.count) {
+                            Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Result.addPhoto(puzzlePhoto);
+                        }
+                    }
+                    updatePhotos(0);
                 }
 
                 break;
@@ -412,7 +433,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
         initAlbumItems();
         shouldShowMenuDone();
-        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.iv_back, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu);
+        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.iv_back, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu, R.id.tv_puzzle);
 
     }
 
@@ -454,7 +475,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else if (R.id.tv_done == id) {
             done();
         } else if (R.id.tv_clear == id) {
-            if (Setting.count < 1){
+            if (Setting.count < 1) {
                 processSecondMenu();
                 return;
             }
@@ -472,17 +493,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             processSecondMenu();
         } else if (R.id.tv_preview == id) {
             PreviewActivity.start(EasyPhotosActivity.this, -1, 0);
-//            if (flFragment.getVisibility() == View.VISIBLE) {
-//                flFragment.setVisibility(View.GONE);
-//            } else {
-//                if (!Result.isEmpty()) {
-//                    flFragment.setVisibility(View.VISIBLE);
-//                }
-//            }
         } else if (R.id.fab_camera == id) {
             launchCamera(Code.REQUEST_CAMERA);
         } else if (R.id.iv_second_menu == id) {
             processSecondMenu();
+        } else if (R.id.tv_puzzle == id) {
+            PuzzleSelectorActivity.start(this);
         }
     }
 
@@ -492,12 +508,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         if (View.VISIBLE == mSecondMenus.getVisibility()) {
             mSecondMenus.setVisibility(View.INVISIBLE);
-            if(isShowCamera)
-            ivCamera.setVisibility(View.VISIBLE);
+            if (isShowCamera)
+                ivCamera.setVisibility(View.VISIBLE);
         } else {
             mSecondMenus.setVisibility(View.VISIBLE);
-            if(isShowCamera)
-            ivCamera.setVisibility(View.INVISIBLE);
+            if (isShowCamera)
+                ivCamera.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -547,7 +563,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void newShowAnim() {
-        ObjectAnimator translationShow = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", mBottomBar.getTop() - rvAlbumItems.getY(), rvAlbumItems.getY());
+        ObjectAnimator translationShow = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", mBottomBar.getTop(), 0);
         ObjectAnimator alphaShow = ObjectAnimator.ofFloat(rootViewAlbumItems, "alpha", 0.0f, 1.0f);
         translationShow.setDuration(300);
         setShow = new AnimatorSet();
@@ -556,7 +572,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void newHideAnim() {
-        ObjectAnimator translationHide = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", rvAlbumItems.getY(), mBottomBar.getTop() - rvAlbumItems.getY());
+        ObjectAnimator translationHide = ObjectAnimator.ofFloat(rvAlbumItems, "translationY", 0, mBottomBar.getTop());
         ObjectAnimator alphaHide = ObjectAnimator.ofFloat(rootViewAlbumItems, "alpha", 1.0f, 0.0f);
         translationHide.setDuration(200);
         setHide = new AnimatorSet();
@@ -668,10 +684,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         });
     }
 
-    @Override
-    public void onPreviewPhotoClick(int position) {
-        PreviewActivity.start(EasyPhotosActivity.this, -1, position);
-    }
 
     private void setClick(@IdRes int... ids) {
         for (int id : ids) {

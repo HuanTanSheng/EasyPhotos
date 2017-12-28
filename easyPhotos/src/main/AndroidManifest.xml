@@ -13,17 +13,18 @@
         <activity
             android:name=".ui.EasyPhotosActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/EasyPhotosFullscreenTheme" />
-
         <activity
             android:name=".ui.PuzzleActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/EasyPhotosPuzzleTheme"/>
+            android:theme="@style/EasyPhotosPuzzleTheme" />
+
+        <activity android:name=".ui.PuzzleSelectorActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

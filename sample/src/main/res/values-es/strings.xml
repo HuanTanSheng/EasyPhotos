@@ -68,5 +68,6 @@
 
     <string name="puzzle_easy_photos">Rompecabezas</string>
 
+    <string name="select_puzzle_photos">Por favor seleccione 2 \- 9 foto</string>
 
 </resources>

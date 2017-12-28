@@ -48,6 +48,11 @@
         <!--android:screenOrientation="unspecified"-->
         <!--tools:replace="android:screenOrientation" />-->
 
+        <!--<activity-->
+        <!--android:name="com.huantansheng.easyphotos.ui.PuzzleSelectorActivity"-->
+        <!--android:screenOrientation="unspecified"-->
+        <!--tools:replace="android:screenOrientation" />-->
+
     </application>
 
 </manifest>

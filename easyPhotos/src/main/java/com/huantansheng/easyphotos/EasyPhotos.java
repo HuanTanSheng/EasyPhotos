@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 
 import com.huantansheng.easyphotos.models.ad.AdListener;
@@ -51,11 +52,10 @@ public class EasyPhotos {
     private static EasyPhotos instance;
     private final WeakReference<Activity> mActivity;
     private StartupType startupType;
-    private String fileProviderAuthoritiesText;
+    private String fileProviderAuthority;
     private boolean isShowCamera = false;
     private boolean onlyStartCamera = false;
     private WeakReference<AdListener> adListener;
-
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private EasyPhotos(Activity activity, StartupType startupType) {
         mActivity = new WeakReference<>(activity);
@@ -103,11 +103,11 @@ public class EasyPhotos {
     /**
      * 设置fileProvider字段
      *
-     * @param fileProviderAuthoritiesText fileProvider字段
+     * @param fileProviderAuthority fileProvider字段
      * @return EasyPhotos
      */
-    public EasyPhotos setFileProviderAuthoritiesText(String fileProviderAuthoritiesText) {
-        this.fileProviderAuthoritiesText = fileProviderAuthoritiesText;
+    public EasyPhotos setFileProviderAuthority(String fileProviderAuthority) {
+        this.fileProviderAuthority = fileProviderAuthority;
         return EasyPhotos.this;
     }
 
@@ -232,7 +232,7 @@ public class EasyPhotos {
      * @param requestCode startActivityForResult的请求码
      */
     private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthoritiesText, requestCode);
+        EasyPhotosActivity.start(mActivity.get(), onlyStartCamera, isShowCamera, fileProviderAuthority, requestCode);
     }
 
     /**

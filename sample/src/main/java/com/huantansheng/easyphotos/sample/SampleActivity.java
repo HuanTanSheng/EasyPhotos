@@ -132,7 +132,7 @@ public class SampleActivity extends AppCompatActivity
             case R.id.camera://单独使用相机
 
                 EasyPhotos.createCamera(this)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
 
                 break;
@@ -155,14 +155,14 @@ public class SampleActivity extends AppCompatActivity
             case R.id.album_camera_single://相册单选，有相机功能
 
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
                 break;
 
             case R.id.album_camera_multi://相册多选，有相机功能
 
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(22)
                         .start(101);
 
@@ -178,7 +178,7 @@ public class SampleActivity extends AppCompatActivity
 
                 //启动方法，装载广告view
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
                         .start(101);
@@ -188,7 +188,7 @@ public class SampleActivity extends AppCompatActivity
             case R.id.album_size://只显示限制尺寸或限制文件大小以上的图片
 
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setMinWidth(500)
                         .setMinHeight(500)
@@ -211,7 +211,7 @@ public class SampleActivity extends AppCompatActivity
                 boolean isVip = false;//假设获取用户信息发现该用户不是vip
 
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")
                         .start(101);
@@ -221,7 +221,7 @@ public class SampleActivity extends AppCompatActivity
             case R.id.album_selected://相册中包含默认勾选图片
 
                 EasyPhotos.createAlbum(this, true)
-                        .setFileProviderAuthoritiesText("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setSelectedPhotos(selectedPhotoList)
 //                        .setSelectedPhotoPaths(selectedPhotoPathList)两种方式参数类型不同，根据情况任选

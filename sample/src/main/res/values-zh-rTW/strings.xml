@@ -70,4 +70,6 @@
 
     <string name="puzzle_easy_photos">拼一張</string>
 
+    <string name="select_puzzle_photos">請選擇2 \- 9張照片</string>
+
 </resources>

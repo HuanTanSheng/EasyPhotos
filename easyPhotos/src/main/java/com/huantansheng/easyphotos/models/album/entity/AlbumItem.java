@@ -23,4 +23,8 @@ public class AlbumItem {
     public void addImageItem(Photo imageItem) {
         this.photos.add(imageItem);
     }
+
+    public void addImageItem(int index,Photo imageItem) {
+        this.photos.add(index,imageItem);
+    }
 }
