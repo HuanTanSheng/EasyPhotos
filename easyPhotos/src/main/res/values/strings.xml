@@ -26,9 +26,9 @@
 
     <string name="no_photos_easy_photos">没有符合要求的图片，拍一张吧</string>
 
-    <string name="permissions_again_easy_photos">请允许相关权限</string>
+    <string name="permissions_again_easy_photos">请点击并允许相关权限</string>
 
-    <string name="permissions_die_easy_photos">请在设置中允许相关权限</string>
+    <string name="permissions_die_easy_photos">请点击并在设置中允许相关权限</string>
 
     <string name="original_easy_photos">原图</string>
 

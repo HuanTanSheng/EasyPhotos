@@ -43,8 +43,8 @@
 
     <string name="no_photos_easy_photos">안 인력이야말로 그림, 사진 한 장</string>
 
-    <string name="permissions_again_easy_photos">좀 관련 권한 부여</string>
-    <string name="permissions_die_easy_photos">허락해 주십시오 중 관련 권한 설정</string>
+    <string name="permissions_again_easy_photos">를 누르십시오. 결코 허락하지 관련 권한</string>
+    <string name="permissions_die_easy_photos">를 누르십시오. 결코 중 허용 관련 권한 설정</string>
 
     <string name="original_easy_photos">그림</string>
 

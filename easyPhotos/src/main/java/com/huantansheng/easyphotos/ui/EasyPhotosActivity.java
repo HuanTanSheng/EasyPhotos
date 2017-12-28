@@ -492,6 +492,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         } else if (R.id.iv_second_menu == id) {
             processSecondMenu();
         } else if (R.id.tv_puzzle == id) {
+            processSecondMenu();
             PuzzleSelectorActivity.start(this);
         }
     }

@@ -43,8 +43,8 @@
 
     <string name="no_photos_easy_photos">要求されている画像と、一枚撮りましょう</string>
 
-    <string name="permissions_again_easy_photos">関連権限を与えてください</string>
-    <string name="permissions_die_easy_photos">設置中に関連する権限を許可して下さい</string>
+    <string name="permissions_again_easy_photos">関連権限をクリックして許可してください</string>
+    <string name="permissions_die_easy_photos">設定中に関連権限を確認してください</string>
 
     <string name="original_easy_photos">原図</string>
 

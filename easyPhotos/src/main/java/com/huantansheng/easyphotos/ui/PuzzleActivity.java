@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,6 +36,7 @@ import com.huantansheng.easyphotos.models.puzzle.PuzzleLayout;
 import com.huantansheng.easyphotos.models.puzzle.PuzzlePiece;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
+import com.huantansheng.easyphotos.models.puzzle.SquarePuzzleView;
 import com.huantansheng.easyphotos.models.sticker.StickerModel;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
 import com.huantansheng.easyphotos.ui.adapter.TextStickerAdapter;
@@ -117,14 +120,19 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private int deviceWidth = 0;
 
     private TextView tvTemplate, tvTextSticker;
-    private RelativeLayout mRootView;
+    private RelativeLayout mRootView, mBottomLayout;
     private TextStickerAdapter textStickerAdapter;
 
     private StickerModel stickerModel;
 
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
         setContentView(R.layout.activity_puzzle_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -144,9 +152,12 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initIvMenu() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
         tvTemplate = (TextView) findViewById(R.id.tv_template);
         tvTextSticker = (TextView) findViewById(R.id.tv_text_sticker);
         mRootView = (RelativeLayout) findViewById(R.id.m_root_view);
+        mBottomLayout = (RelativeLayout) findViewById(R.id.m_bottom_layout);
 
         llMenu = (LinearLayout) findViewById(R.id.ll_menu);
         ImageView ivReplace = (ImageView) findViewById(R.id.iv_replace);
@@ -161,6 +172,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         ivFlip.setOnClickListener(this);
         ivCorner.setOnClickListener(this);
         ivPadding.setOnClickListener(this);
+        fab.setOnClickListener(this);
         tvTextSticker.setOnClickListener(this);
         tvTemplate.setOnClickListener(this);
         ivMenus.add(ivRotate);
@@ -392,6 +404,18 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             tvTemplate.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
 
             rvPuzzleTemplet.setAdapter(textStickerAdapter);
+        } else if (R.id.fab == id) {
+            processBottomLayout();
+        }
+    }
+
+    private void processBottomLayout() {
+        if (View.VISIBLE == mBottomLayout.getVisibility()) {
+            mBottomLayout.setVisibility(View.GONE);
+            fab.setImageResource(R.drawable.ic_arrow_up_easy_photos);
+        } else {
+            mBottomLayout.setVisibility(View.VISIBLE);
+            fab.setImageResource(R.drawable.ic_arrow_down_easy_photos);
         }
     }
 
@@ -403,6 +427,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void savePhoto() {
+        mBottomLayout.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         findViewById(R.id.tv_done).setVisibility(View.INVISIBLE);
         findViewById(R.id.progress_frame).setVisibility(View.VISIBLE);
@@ -590,5 +616,14 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         stickerModel.addTextSticker(this, getSupportFragmentManager(), stickerValue, mRootView);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (View.VISIBLE == mBottomLayout.getVisibility()) {
+            processBottomLayout();
+            return;
+        }
+        super.onBackPressed();
     }
 }

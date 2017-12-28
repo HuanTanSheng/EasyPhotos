@@ -43,8 +43,8 @@
 
     <string name="no_photos_easy_photos">No cumplen los requisitos de la imagen, una fotografía.</string>
 
-    <string name="permissions_again_easy_photos">Por favor, dar los permisos</string>
-    <string name="permissions_die_easy_photos">Por favor, en la configuracion de las competencias permite</string>
+    <string name="permissions_again_easy_photos">Por favor, haga clic en permisos y permitir que los</string>
+    <string name="permissions_die_easy_photos">Por favor, haga clic en configuración y permitidos en los permisos</string>
 
     <string name="original_easy_photos">Original</string>
 

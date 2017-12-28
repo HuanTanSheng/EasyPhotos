@@ -21,7 +21,7 @@
         <activity
             android:name=".ui.PuzzleActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/EasyPhotosPuzzleTheme" />
+            android:theme="@style/EasyPhotosFullscreenTheme" />
 
         <activity android:name=".ui.PuzzleSelectorActivity"
             android:screenOrientation="portrait" />
