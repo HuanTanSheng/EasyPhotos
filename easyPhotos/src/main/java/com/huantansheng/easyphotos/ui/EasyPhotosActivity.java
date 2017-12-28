@@ -284,24 +284,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
                 if (Code.REQUEST_PUZZLE_SELECTOR == requestCode) {
                     Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
-
-                    String albumItem_all_name = getString(R.string.selector_folder_all_easy_photos);
-                    albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, puzzlePhoto);
-                    String folderPath = new File(puzzlePhoto.path).getParentFile().getAbsolutePath();
-                    String albumName = StringUtils.getLastPathSegment(folderPath);
-                    albumModel.album.addAlbumItem(albumName, folderPath, puzzlePhoto.path);
-                    albumModel.album.getAlbumItem(albumName).addImageItem(0, puzzlePhoto);
-                    if (Setting.count == 1) {
-                        Result.clear();
-                        Result.addPhoto(puzzlePhoto);
-                    } else {
-                        if (Result.count() >= Setting.count) {
-                            Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Result.addPhoto(puzzlePhoto);
-                        }
-                    }
-                    updatePhotos(0);
+                    addNewPhoto(puzzlePhoto);
+                    return;
                 }
 
                 break;
@@ -330,6 +314,30 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
     }
 
+    private void addNewPhoto(Photo photo) {
+        MediaScannerConnectionUtils.refresh(this, photo.path);
+        photo.selectedOriginal = Setting.selectedOriginal;
+
+        String albumItem_all_name = getString(R.string.selector_folder_all_easy_photos);
+        albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, photo);
+        String folderPath = new File(photo.path).getParentFile().getAbsolutePath();
+        String albumName = StringUtils.getLastPathSegment(folderPath);
+        albumModel.album.addAlbumItem(albumName, folderPath, photo.path);
+        albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
+        if (Setting.count == 1) {
+            Result.clear();
+            Result.addPhoto(photo);
+        } else {
+            if (Result.count() >= Setting.count) {
+                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+            } else {
+                Result.addPhoto(photo);
+            }
+        }
+        updatePhotos(0);
+        shouldShowMenuDone();
+    }
+
     private void onCameraResult() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.getDefault());
         String imageName = "IMG_%s.jpg";
@@ -341,25 +349,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             }
         }
 
-        MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
-        Intent data = new Intent();
+
         Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
         Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
-        photo.selectedOriginal = Setting.selectedOriginal;
-        resultList.add(photo);
         EasyPhotos.recycle(bitmap);
-
-        data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
-
-        data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
-
-        ArrayList<String> pathList = new ArrayList<>();
-        pathList.add(photo.path);
-
-        data.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, pathList);
-
-        setResult(RESULT_OK, data);
-        finish();
+        addNewPhoto(photo);
 
     }
 
