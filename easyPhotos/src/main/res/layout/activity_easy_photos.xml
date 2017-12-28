@@ -128,6 +128,7 @@
         android:minWidth="70dp"
         android:paddingEnd="6dp"
         android:paddingLeft="16dp"
+        android:text="@string/selector_folder_all_easy_photos"
         android:paddingRight="6dp"
         android:paddingStart="16dp"
         android:textColor="@color/easy_photos_fg_primary"
