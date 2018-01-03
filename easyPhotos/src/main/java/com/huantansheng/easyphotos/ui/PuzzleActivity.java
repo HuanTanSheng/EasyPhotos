@@ -294,7 +294,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
         } else {
             paths = intent.getStringArrayListExtra(Key.PUZZLE_FILES);
-            fileCount = paths.size() > 0 ? 9 : paths.size();
+            fileCount = paths.size() > 9 ? 9 : paths.size();
 
             new Thread(new Runnable() {
                 @Override
