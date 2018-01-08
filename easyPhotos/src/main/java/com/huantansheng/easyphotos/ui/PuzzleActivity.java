@@ -325,9 +325,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap getScaleBitmap(String path) {
         Bitmap bitmap = null;
         try {
-            bitmap = Glide.with(this).asBitmap().load(path).submit(deviceWidth, deviceWidth).get();
+            bitmap = Glide.with(this).asBitmap().load(path).submit(deviceWidth/2, deviceWidth/2).get();
         } catch (Exception e) {
-            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth, deviceWidth, true);
+            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth/2, deviceWidth/2, true);
         }
         return bitmap;
     }
