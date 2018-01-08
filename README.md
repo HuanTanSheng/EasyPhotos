@@ -1,6 +1,9 @@
 # EasyPhotos    
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
+
+
 EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、文字贴纸、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、拼图、保存图片到指定文件夹、把View画成Bitmap、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
 
 | 无选中状态   | 选中状态  | 其他功能（各功能可自选） |
@@ -31,7 +34,8 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 compileSdkVersion 26  
 minSdkVersion 15  
 targetSdkVersion 26  
-buildToolsVersion '26.0.2'  
+buildToolsVersion '26.0.2'    
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
 
 ## 获取EasyPhotos（通过Gradle方式）
@@ -139,7 +143,9 @@ dependencies {
 * [08-更新媒体文件到媒体库](https://github.com/HuanTanSheng/EasyPhotos/wiki/08-%E6%9B%B4%E6%96%B0%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E5%88%B0%E5%AA%92%E4%BD%93%E5%BA%93)
 * [09-屏幕方向设置](https://github.com/HuanTanSheng/EasyPhotos/wiki/09-%E5%B1%8F%E5%B9%95%E6%96%B9%E5%90%91%E8%AE%BE%E7%BD%AE)
 * [10-自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
-* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)    
+* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)     
+    
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
     
        
            
@@ -153,7 +159,9 @@ dependencies {
     
 ## 编者语    
 
-EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
+EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！    
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
+
 
 ## 更新日志    
     
