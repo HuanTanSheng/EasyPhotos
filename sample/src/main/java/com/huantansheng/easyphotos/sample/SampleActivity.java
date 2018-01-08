@@ -200,6 +200,7 @@ public class SampleActivity extends AppCompatActivity
             case R.id.album_original_usable://显示原图按钮，并且默认选中，按钮可用
 
                 EasyPhotos.createAlbum(this, true)
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(true, true, null)
                         .start(101);
