@@ -55,21 +55,23 @@ allprojects {
 ```gradle
 dependencies {  
 
-    //这个是EasyPhotos
-    compile 'com.github.HuanTanSheng:EasyPhotos:2.0.1'  
+    //这个是EasyPhotos，请根据自身情况考虑是否换成api依赖方式依赖，studio低版本用compile方式依赖
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.0.2'  
+    
+    //以下是Glide，请务必使用api方式依赖，studio低版本用compile方式依赖
+    api ("com.github.bumptech.glide:glide:4.5.0") {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'  
     
-    //以下是Glide
-    compile 'com.github.bumptech.glide:glide:4.3.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'  
-    
-    //以下是PhotoView
-    compile 'com.github.chrisbanes:PhotoView:2.1.3'
+    //以下是PhotoView，请务必使用api方式依赖，studio低版本用compile方式依赖
+    api 'com.github.chrisbanes:PhotoView:2.1.3'
 }
 ```    
     
 为什么要添加Glide和PhotoView的引用呢？    
 答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
-因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了provided方式（只编译不打包场景的命令）的引用，可以理解为EasyPhotos并没有真正获取她们，所以需要你在项目中对她们进行引用依赖。  
+因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了compileOnly方式（只编译不打包场景的命令）的引用，可以理解为EasyPhotos并没有真正获取她们，所以需要你在项目中对她们进行引用依赖。  
       
 - 如果在引用的时候发生如下错误 ( 如果用android studio 3.0.0以上正式版，将不会出现这个问题 ) :    
 Error:Failed to resolve: annotationProcessor   
@@ -106,11 +108,14 @@ dependencies {
 ```pro  
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
+  **[] $VALUES;
+  public *;
 }
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 ```
 
@@ -151,8 +156,13 @@ dependencies {
 EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！
 
 ## 更新日志    
-   
-**2.0.1：**    
+    
+**2.0.2：**    
+- 升级：Glide到4.5.0（不影响低版本使用）    
+- 修复：拼一张功能因图片过多过大导致的oom问题    
+- 感谢@[Beiler](https://github.com/beiler) 提出的反馈
+   
+**2.0.1：**    
 - 修复bug：单独使用拼图功能时，以图片路径为参数时产生的数组越界bug。   
 
 **2.0.0：**   
