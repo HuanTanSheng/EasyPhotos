@@ -60,7 +60,7 @@ dependencies {
 }
 ```    
     
-## 关于EasyPhotos内部依赖Glide和PhotoView的说明。    
+** 关于EasyPhotos内部依赖Glide和PhotoView的说明。**     
 
 EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
 
@@ -73,11 +73,9 @@ EasyPhotos内部通过implementation方式引用了他们，这样做的好处�
 4、如果你没有使用PhotoView，你不需要更换你的图片缩放库，而EasyPhotos通过这种方式依赖PhotoView带来的文件增幅只有9Kb。    
 
 5、EasyPhotos会始终保持他们的最新版依赖，体验更加，又不破坏你的习惯。    
-
-
-
-
-## 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：    
+    
+    
+** 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
 
@@ -153,7 +151,8 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志     
-    
+    
+    
 **2.1.0：**    
 - 新增功能：EasyPhotos自动识别状态栏颜色，当状态栏趋近白色时，只能适配黑色字体。（该功能仅对6.0以上系统生效，并没有适配6.0以下的小米和魅族，如有需要可以加群交流）    
 - 新增功能：可配置是否显示Gif动图    
