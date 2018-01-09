@@ -60,7 +60,7 @@ dependencies {
 }
 ```    
     
-** 关于EasyPhotos内部依赖Glide和PhotoView的说明。**     
+**关于EasyPhotos内部依赖Glide和PhotoView的说明。**     
 
 EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
 
@@ -75,7 +75,7 @@ EasyPhotos内部通过implementation方式引用了他们，这样做的好处�
 5、EasyPhotos会始终保持他们的最新版依赖，体验更加，又不破坏你的习惯。    
     
     
-** 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
+**如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
 
