@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.IdRes;
@@ -29,6 +30,8 @@ import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleSelectorAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleSelectorPreviewAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
+import com.huantansheng.easyphotos.utils.Color.ColorUtils;
+import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
 import java.util.ArrayList;
 
@@ -62,6 +65,12 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle_selector_easy_photos);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int statusColor = getWindow().getStatusBarColor();
+            if (ColorUtils.isWhiteColor(statusColor)) {
+                SystemUtils.getInstance(this).setStatusDark(this, true);
+            }
+        }
         albumModel = AlbumModel.getInstance(this, null);
         initView();
     }

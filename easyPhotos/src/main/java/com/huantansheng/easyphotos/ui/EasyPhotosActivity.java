@@ -47,10 +47,12 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
+import com.huantansheng.easyphotos.utils.Color.ColorUtils;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
+import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,6 +107,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int statusColor = getWindow().getStatusBarColor();
+            if (ColorUtils.isWhiteColor(statusColor)) {
+                SystemUtils.getInstance(this).setStatusDark(this, true);
+            }
+        }
         initConfig();
         mBottomBar = findViewById(R.id.m_bottom_bar);
         permissionView = (RelativeLayout) findViewById(R.id.rl_permissions_view);
