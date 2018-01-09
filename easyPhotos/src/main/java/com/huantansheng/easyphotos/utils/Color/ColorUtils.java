@@ -32,6 +32,6 @@ public class ColorUtils {
 
     public static boolean isWhiteColor(int color) {
         int grey = toGrey(color);
-        return grey > 220;
+        return grey > 200;
     }
 }
