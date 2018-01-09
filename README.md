@@ -60,6 +60,7 @@ dependencies {
 }
 ```    
     
+    
 **关于EasyPhotos内部依赖Glide和PhotoView的说明。**     
 
 EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
