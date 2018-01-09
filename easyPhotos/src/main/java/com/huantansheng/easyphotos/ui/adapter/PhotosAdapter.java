@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
@@ -71,8 +74,21 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(position);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, position);
+            String path = item.path;
+            String type = item.type;
+            if(Setting.showGif){
+                if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+                    mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
+                    ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
+                } else {
+                    mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                    ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+                }
+            }else {
+                mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+            }
 
-            mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
             ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
             ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
@@ -220,12 +236,14 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         PressedImageView ivPhoto;
         TextView tvSelector;
         View vSelector;
+        TextView tvGif;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
             this.tvSelector = (TextView) itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
+            this.tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
         }
     }
 }

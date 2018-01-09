@@ -75,4 +75,6 @@
 
     <string name="select_puzzle_photos">请选择2 \- 9张照片</string>
 
+    <string name="gif_easy_photos">动图</string>
+
 </resources>

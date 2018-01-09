@@ -79,4 +79,8 @@ public class Result {
     public static String getPhotoPath(int position) {
         return photos.get(position).path;
     }
+
+    public static String getPhotoType(int position) {
+        return photos.get(position).type;
+    }
 }

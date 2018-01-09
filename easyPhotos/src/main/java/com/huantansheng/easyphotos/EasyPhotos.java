@@ -206,11 +206,22 @@ public class EasyPhotos {
 
     /**
      * 是否显示拼图按钮
+     *
      * @param isShow 是否显示
      * @return EasyPhotos
      */
     public EasyPhotos setPuzzleMenu(boolean isShow) {
         Setting.showPuzzleMenu = isShow;
+        return EasyPhotos.this;
+    }
+
+    /**
+     * 是否显示gif图
+     * @param isShow 是否显示
+     * @return @return EasyPhotos
+     */
+    public EasyPhotos setGif(boolean isShow) {
+        Setting.showGif = isShow;
         return EasyPhotos.this;
     }
 

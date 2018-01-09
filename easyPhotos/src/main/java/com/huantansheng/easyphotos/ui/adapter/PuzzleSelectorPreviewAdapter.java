@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
 import java.util.ArrayList;
@@ -52,10 +55,22 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         final int p = position;
+        Photo photo = dataList.get(position);
+        String path = photo.path;
+        String type = photo.type;
+        if (Setting.showGif) {
+            if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+                mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
+            }else {
+                mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+            }
+        }else {
+            mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+            ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+        }
 
-        final Photo item = (Photo) dataList.get(position);
-
-        mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
 
         ((PhotoViewHolder) holder).ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +94,12 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPhoto;
         ImageView ivDelete;
+        TextView tvGif;
         public PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
             this.ivDelete = (ImageView) itemView.findViewById(R.id.iv_delete);
+            this.tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
         }
     }
 }

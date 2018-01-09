@@ -23,4 +23,29 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="28dp" />
 
+    <TextView
+        android:id="@+id/tv_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="3dp"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="3dp"
+        android:shadowColor="@color/easy_photos_bar_primary"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="1.2"
+        android:text="@string/gif_easy_photos"
+        android:textColor="@color/easy_photos_fg_primary"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>

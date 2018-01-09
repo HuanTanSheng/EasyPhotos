@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
@@ -58,10 +59,21 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         final int p = position;
-
-        final Photo item = (Photo) dataList.get(position);
-
-        mGlide.load(item.path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+        Photo photo = dataList.get(position);
+        String path = photo.path;
+        String type = photo.type;
+        if (Setting.showGif) {
+            if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+                mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
+            } else {
+                mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+            }
+        } else {
+            mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+            ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+        }
 
         ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +96,12 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPhoto;
+        TextView tvGif;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
+            this.tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
         }
     }
 }

@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Album;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -33,8 +34,8 @@ public class AlbumModel {
     /**
      * AlbumModel构造方法
      *
-     * @param act          调用专辑的活动实体类
-     * @param callBack     初始化全部专辑后的回调
+     * @param act      调用专辑的活动实体类
+     * @param callBack 初始化全部专辑后的回调
      */
     private AlbumModel(final Activity act, AlbumModel.CallBack callBack) {
         album = new Album();
@@ -121,6 +122,11 @@ public class AlbumModel {
                 long size = cursor.getInt(sizeCol);
                 int width = 0;
                 int height = 0;
+                if (!Setting.showGif) {
+                    if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
+                        continue;
+                    }
+                }
                 if (size < Setting.minSize) {
                     continue;
                 }
@@ -132,7 +138,7 @@ public class AlbumModel {
                     }
                 }
 
-                Photo imageItem = new Photo( name, path, dateTime, width, height, size, type);
+                Photo imageItem = new Photo(name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {

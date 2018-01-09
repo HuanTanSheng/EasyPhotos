@@ -30,6 +30,7 @@ public class Setting {
     public static boolean isShowCamera = false;
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
+    public static boolean showGif = true;
 
 
     public static void clear() {
@@ -49,7 +50,7 @@ public class Setting {
         isShowCamera = false;
         onlyStartCamera = false;
         showPuzzleMenu = true;
-
+        showGif = true;
     }
 
     public static boolean hasPhotosAd() {
