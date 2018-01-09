@@ -31,10 +31,10 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 |![](images/16.png) | ![](images/17.png) | ![](images/18.png)|    
     
 ## 关于EasyPhotos的SDK及相关版本公示 
-compileSdkVersion 26  
+compileSdkVersion 27  
 minSdkVersion 15  
-targetSdkVersion 26  
-buildToolsVersion '26.0.2'    
+targetSdkVersion 27  
+buildToolsVersion '27.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
 
@@ -44,13 +44,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ```gradle
 allprojects {
 	repositories {  
-	
-	//EasyPhotos的  
+
         maven { url "https://jitpack.io" }
 	
-	//以下是Glide的
-	mavenCentral()
-  	maven { url 'https://maven.google.com' }
     }
 }
 ```
@@ -59,37 +55,30 @@ allprojects {
 ```gradle
 dependencies {  
 
-    //这个是EasyPhotos，请根据自身情况考虑是否换成api依赖方式依赖，studio低版本用compile方式依赖
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.0.2'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.1.0'  
     
-    //以下是Glide，请务必使用api方式依赖，studio低版本用compile方式依赖
-    api ("com.github.bumptech.glide:glide:4.5.0") {
-        exclude group: "com.android.support"
-    }
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'  
-    
-    //以下是PhotoView，请务必使用api方式依赖，studio低版本用compile方式依赖
-    api 'com.github.chrisbanes:PhotoView:2.1.3'
 }
 ```    
-    
-为什么要添加Glide和PhotoView的引用呢？    
-答：EasyPhotos使用了两个开源库的功能，他们是[Glide 4.x](https://github.com/bumptech/glide)和[PhotoView](https://github.com/chrisbanes/PhotoView)。    
-因为他们足够热门，所以为了避免给你造成重复引用的可能，EasyPhotos中对他们进行了compileOnly方式（只编译不打包场景的命令）的引用，可以理解为EasyPhotos并没有真正获取她们，所以需要你在项目中对她们进行引用依赖。  
-      
-- 如果在引用的时候发生如下错误 ( 如果用android studio 3.0.0以上正式版，将不会出现这个问题 ) :    
-Error:Failed to resolve: annotationProcessor   
-Error:Failed to resolve: com.android.support:support-annotations:26.0.2    
-这个应该是引用Glide时发生的，推荐你将 `android studio` 升级到3.0.0以上正式版，或者在你所有的`build.gradle（module）`文件里面添加（我并不推荐这样做，还是建议你将 `android studio` 升级到3.0.0以上正式版）：  
+    
+- 关于EasyPhotos内部依赖Glide和PhotoView的说明。    
 
-```gradle  
+EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
 
-configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:23.1.1'
-}  
+1、如果你也使用Glide，你不需要担心你的Glide版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个Glide，安装包文件大小基本没什么变化。    
 
-```     
-- 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：  
+2、如果你没有使用Glide，你不需要更换你的图片加载库，而EasyPhotos通过这种方式依赖Glide带来的文件增幅只有216Kb。    
+
+3、如果你也使用PhotoView，你不需要担心你的PhotoView版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个PhotoView，安装包文件大小基本没什么变化。    
+
+4、如果你没有使用PhotoView，你不需要更换你的图片缩放库，而EasyPhotos通过这种方式依赖PhotoView带来的文件增幅只有9Kb。    
+
+5、EasyPhotos会始终保持他们的最新版依赖，体验更加，又不破坏你的习惯。    
+
+
+
+
+- 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：    
+
 ```gradle  
 
 dependencies {
@@ -108,7 +97,7 @@ dependencies {
 -keep class com.huantansheng.easyphotos.models.** { *; }
 
 ```
-**[Glide 4.x](https://github.com/bumptech/glide)的混淆：**   
+**[Glide 4.x](https://github.com/bumptech/glide)的混淆：**   
 ```pro  
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -119,7 +108,7 @@ dependencies {
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 ```
 
@@ -163,9 +152,17 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志    
-    
-**2.0.2：**    
+## 更新日志     
+    
+**2.1.0：**    
+- 新增功能：EasyPhotos自动识别状态栏颜色，当状态栏趋近白色时，只能适配黑色字体。（该功能仅对6.0以上系统生效，并没有适配6.0以下的小米和魅族，如有需要可以加群交流）    
+- 新增功能：可配置是否显示Gif动图    
+- 功能优化：Gif动图的处理方式。
+- 界面优化：Gif动图、相机按钮等。
+- 新增字段：<string name="gif_easy_photos">动图</string>    
+- 内部升级：最新版编译工具和最新版sdk
+
+**2.0.2：**    
 - 升级：Glide到4.5.0（不影响低版本使用）    
 - 修复：拼一张功能因图片过多过大导致的oom问题    
 - 感谢@[Beiler](https://github.com/beiler) 提出的反馈      
