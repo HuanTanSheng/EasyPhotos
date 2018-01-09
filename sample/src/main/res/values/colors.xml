@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#393a3f</color>
-    <color name="colorPrimaryDark">#303135</color>
+    <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <!--前景色-->
+    <color name="easy_photos_fg_primary">#3e4145</color>//3e4145
+    <color name="easy_photos_fg_primary_dark">#9b9b9b</color>
+    <color name="easy_photos_fg_accent">#578fff</color>//578fff
+
+    <!--背景色-->
+    <color name="easy_photos_bg_primary">#f9f9f9</color>//f9f9f9
+
+    <!--操作栏颜色-->
+    <color name="easy_photos_bar_primary">#ffffff</color>//ffffff
+    <color name="easy_photos_bar_primary_dark">#f9f9f9</color>//f9f9f9
+    <color name="easy_photos_bar_primary_translation">#9bffffff</color>
 </resources>

@@ -34,7 +34,7 @@
     <!--操作栏颜色-->
     <color name="easy_photos_bar_primary">#393a3f</color>//ffffff
     <color name="easy_photos_bar_primary_dark">#303135</color>//f9f9f9
-    <color name="easy_photos_bar_primary_translation">#eb212123</color>
+    <color name="easy_photos_bar_primary_translation">#eb212123</color>//83ffffff
 
 
 </resources>

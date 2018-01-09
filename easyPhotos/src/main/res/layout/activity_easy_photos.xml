@@ -269,7 +269,7 @@
         android:visibility="gone"
         app:backgroundTint="@color/easy_photos_bar_primary_translation"
         app:borderWidth="0dp"
-        app:elevation="8dp"
+        app:elevation="1dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@id/m_bottom_bar"
         app:layout_constraintRight_toRightOf="parent"
