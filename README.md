@@ -33,7 +33,7 @@ EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片
 ## 关于EasyPhotos的SDK及相关版本公示 
 compileSdkVersion 27  
 minSdkVersion 15  
-targetSdkVersion 27  
+targetSdkVersion 27      
 buildToolsVersion '27.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
@@ -60,7 +60,7 @@ dependencies {
 }
 ```    
     
-- 关于EasyPhotos内部依赖Glide和PhotoView的说明。    
+## 关于EasyPhotos内部依赖Glide和PhotoView的说明。    
 
 EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
 
@@ -77,7 +77,7 @@ EasyPhotos内部通过implementation方式引用了他们，这样做的好处�
 
 
 
-- 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：    
+## 如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：    
 
 ```gradle  
 
