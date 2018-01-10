@@ -5,22 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -33,10 +27,10 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
 
 
-    ArrayList<Photo> dataList;
-    RequestManager mGlide;
-    LayoutInflater mInflater;
-    OnClickListener listener;
+    private ArrayList<Photo> dataList;
+    private RequestManager mGlide;
+    private LayoutInflater mInflater;
+    private OnClickListener listener;
 
 
     public PuzzleSelectorAdapter(Context cxt, ArrayList<Photo> dataList, OnClickListener listener) {
@@ -44,8 +38,6 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
         this.listener = listener;
         this.mInflater = LayoutInflater.from(cxt);
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop();
-        this.mGlide.applyDefaultRequestOptions(options);
     }
 
     @Override
@@ -63,7 +55,7 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
         String path = photo.path;
         String type = photo.type;
         if (Setting.showGif) {
-            if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+            if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                 mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
             } else {

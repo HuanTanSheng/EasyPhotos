@@ -24,10 +24,10 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
-    ArrayList<Photo> photos;
-    RequestManager mGlide;
-    OnClickListener listener;
-    LayoutInflater inflater;
+    private ArrayList<Photo> photos;
+    private RequestManager mGlide;
+    private OnClickListener listener;
+    private LayoutInflater inflater;
 
     public interface OnClickListener {
         void onPhotoClick();
@@ -75,7 +75,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
     public class PreviewPhotosViewHolder extends RecyclerView.ViewHolder {
         public PhotoView ivPhoto;
 
-        public PreviewPhotosViewHolder(View itemView) {
+        PreviewPhotosViewHolder(View itemView) {
             super(itemView);
             ivPhoto = (PhotoView) itemView.findViewById(R.id.iv_photo);
         }

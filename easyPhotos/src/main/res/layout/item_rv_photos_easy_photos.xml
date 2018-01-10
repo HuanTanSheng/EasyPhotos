@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1.2dp"
+        android:scaleType="centerCrop"
         android:background="@color/easy_photos_bar_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:1"

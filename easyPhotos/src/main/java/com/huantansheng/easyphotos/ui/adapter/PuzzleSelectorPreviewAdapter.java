@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 
 import java.util.ArrayList;
 
@@ -29,10 +27,10 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
 
 
-    ArrayList<Photo> dataList;
-    RequestManager mGlide;
-    LayoutInflater mInflater;
-    OnClickListener listener;
+    private ArrayList<Photo> dataList;
+    private RequestManager mGlide;
+    private LayoutInflater mInflater;
+    private OnClickListener listener;
 
 
     public PuzzleSelectorPreviewAdapter(Context cxt, ArrayList<Photo> dataList, OnClickListener listener) {
@@ -40,8 +38,6 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
         this.listener = listener;
         this.mInflater = LayoutInflater.from(cxt);
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop();
-        this.mGlide.applyDefaultRequestOptions(options);
     }
 
     @Override
@@ -59,14 +55,14 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
         String path = photo.path;
         String type = photo.type;
         if (Setting.showGif) {
-            if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+            if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                 mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
         }
@@ -95,6 +91,7 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
         ImageView ivPhoto;
         ImageView ivDelete;
         TextView tvGif;
+
         public PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);

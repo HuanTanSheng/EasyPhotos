@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.result.Result;
@@ -33,8 +32,6 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         this.inflater = LayoutInflater.from(context);
         this.listener = listener;
         this.mGlide = Glide.with(context);
-        RequestOptions options = new RequestOptions().centerCrop();
-        this.mGlide.applyDefaultRequestOptions(options);
     }
 
 
@@ -49,14 +46,14 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         String path = Result.getPhotoPath(position);
         String type = Result.getPhotoType(position);
         if (Setting.showGif) {
-            if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+            if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                 mGlide.asBitmap().load(path).into(holder.ivPhoto);
                 holder.tvGif.setVisibility(View.VISIBLE);
             } else {
                 mGlide.load(path).transition(withCrossFade()).into(holder.ivPhoto);
                 holder.tvGif.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             mGlide.load(path).transition(withCrossFade()).into(holder.ivPhoto);
             holder.tvGif.setVisibility(View.GONE);
         }

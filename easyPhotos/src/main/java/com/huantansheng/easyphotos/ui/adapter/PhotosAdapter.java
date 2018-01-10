@@ -1,7 +1,6 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
@@ -35,12 +32,12 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     private static final int TYPE_AD = 0;
     private static final int TYPE_ALBUM_ITEMS = 1;
 
-    ArrayList<Object> dataList;
-    RequestManager mGlide;
-    LayoutInflater mInflater;
-    OnClickListener listener;
-    boolean unable, isSingle;
-    int singlePosition;
+    private ArrayList<Object> dataList;
+    private RequestManager mGlide;
+    private LayoutInflater mInflater;
+    private OnClickListener listener;
+    private boolean unable, isSingle;
+    private int singlePosition;
 
 
     public PhotosAdapter(Context cxt, ArrayList<Object> dataList, OnClickListener listener) {
@@ -50,8 +47,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.unable = Result.count() == Setting.count;
         this.isSingle = Setting.count == 1;
         this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerCrop();
-        this.mGlide.applyDefaultRequestOptions(options);
     }
 
     public void change() {
@@ -70,21 +65,22 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final int p = position;
         if (holder instanceof PhotoViewHolder) {
-            final Photo item = (Photo) dataList.get(position);
-            updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, position);
+            final Photo item = (Photo) dataList.get(p);
+            updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
             String type = item.type;
-            if(Setting.showGif){
-                if (path.endsWith(Type.GIF)||type.endsWith(Type.GIF)) {
+            if (Setting.showGif) {
+                if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                     mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
                     ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
                 } else {
                     mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
                     ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
             }
@@ -94,11 +90,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int realPosition = position;
+                    int realPosition = p;
                     if (Setting.hasPhotosAd()) {
                         realPosition--;
                     }
-                    listener.onPhotoClick(position, realPosition);
+                    listener.onPhotoClick(p, realPosition);
                 }
             });
 
@@ -107,7 +103,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View view) {
                     if (isSingle) {
-                        singleSelector(item, position);
+                        singleSelector(item, p);
                         return;
                     }
                     if (unable) {
@@ -151,7 +147,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 return;
             }
 
-            WeakReference weakReference = (WeakReference) dataList.get(position);
+            WeakReference weakReference = (WeakReference) dataList.get(p);
 
             if (null != weakReference) {
                 View adView = (View) weakReference.get();
@@ -238,7 +234,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         View vSelector;
         TextView tvGif;
 
-        public PhotoViewHolder(View itemView) {
+        PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
             this.tvSelector = (TextView) itemView.findViewById(R.id.tv_selector);

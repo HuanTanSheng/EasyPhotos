@@ -16,7 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_title"
