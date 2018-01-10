@@ -6,11 +6,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、文字贴纸、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、拼图、gif动图选择、保存图片到指定文件夹、状态栏字体智能适配、把View画成Bitmap、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
 
-| 无选中状态（默认色调）   | 选中状态（备注的色调）  | 其他功能（各功能可自选） |
+| 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
 |:-----------:|:--------:|:---------:|
 |![](images/01.png) | ![](images/02.png) | ![](images/03.png)|  
 
-| 专辑列表 | 相册带广告（备注的色调） | 专辑列表带广告 |
+| 专辑列表（默认UI色调） | 相册带广告（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)） | 专辑列表带广告 |
 |:-------:|:---------:|:---------:|
 |![](images/05.png) | ![](images/04.png) | ![](images/06.png)|  
 
@@ -46,6 +46,9 @@ allprojects {
 	repositories {  
 
         maven { url "https://jitpack.io" }
+	
+	mavenCentral()
+  	google()
 	
     }
 }
