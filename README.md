@@ -47,6 +47,9 @@ allprojects {
 
         maven { url "https://jitpack.io" }
 	
+	mavenCentral()
+  	google()
+	
     }
 }
 ```
