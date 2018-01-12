@@ -66,19 +66,20 @@ dependencies {
     
 **关于EasyPhotos内部依赖Glide和PhotoView的说明。**     
 
-EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：    
-
-1、如果你也使用Glide，你不需要担心你的Glide版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个Glide，安装包文件大小基本没什么变化。    
+EasyPhotos内部通过implementation方式引用了他们，这样做的好处是：   
+1、如果你也使用Glide4.x，你不需要担心你的Glide版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个Glide，安装包文件大小没有什么变化。    
 
 2、如果你没有使用Glide，你不需要更换你的图片加载库，而EasyPhotos通过这种方式依赖Glide带来的文件增幅只有216Kb。    
 
-3、如果你也使用PhotoView，你不需要担心你的PhotoView版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个PhotoView，安装包文件大小基本没什么变化。    
+3、如果你也使用PhotoView，你不需要担心你的PhotoView版本和我的不兼容，而且亲测，在这种方式依赖下，同时依赖两个PhotoView，安装包文件大小没什么变化。    
 
 4、如果你没有使用PhotoView，你不需要更换你的图片缩放库，而EasyPhotos通过这种方式依赖PhotoView带来的文件增幅只有9Kb。    
 
-5、EasyPhotos会始终保持他们的最新版依赖，体验更佳，又不破坏你的习惯。     
-    
-          
+5、EasyPhotos会始终保持他们的最新版依赖，体验更佳，又不破坏你的习惯。      
+6、如果你使用Glide3.x，不要着急，EasyPhotos的2.1.1版本将会对此支持，并同时支持Picasso和Fresco，到时EasyPhotos会剔除掉对此类框架的依赖。预计在1月31日之前完成该版本的更新。
+
+    
+       
 **如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
@@ -114,10 +115,7 @@ dependencies {
 
 ```
 
-**[PhotoView](https://github.com/chrisbanes/PhotoView)的混淆：**    
-```pro   
-不需要任何处理    
-```
+
     
     
   
