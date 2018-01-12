@@ -162,7 +162,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 新增功能：可配置是否显示Gif动图    
 - 功能优化：Gif动图的处理方式。
 - 界面优化：Gif动图、相机按钮等。
-- 新增字段：<string name="gif_easy_photos">动图</string>    
+- 新增字段：    
+````java    
+<string name="gif_easy_photos">动图</string>    
+````    
+具体查看[11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)    
+
 - 内部升级：最新版编译工具和最新版sdk
 
 **2.0.2：**    
