@@ -76,7 +76,7 @@ EasyPhotos内部通过implementation方式引用了他们，这样做的好处�
 
 4、如果你没有使用PhotoView，你不需要更换你的图片缩放库，而EasyPhotos通过这种方式依赖PhotoView带来的文件增幅只有9Kb。    
 
-5、EasyPhotos会始终保持他们的最新版依赖，体验更加，又不破坏你的习惯。     
+5、EasyPhotos会始终保持他们的最新版依赖，体验更佳，又不破坏你的习惯。     
     
           
 **如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
@@ -162,7 +162,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 新增功能：可配置是否显示Gif动图    
 - 功能优化：Gif动图的处理方式。
 - 界面优化：Gif动图、相机按钮等。
-- 新增字段：<string name="gif_easy_photos">动图</string>    
+- 新增字段：    
+````java    
+<string name="gif_easy_photos">动图</string>    
+````    
+具体查看[11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)    
+
 - 内部升级：最新版编译工具和最新版sdk
 
 **2.0.2：**    
