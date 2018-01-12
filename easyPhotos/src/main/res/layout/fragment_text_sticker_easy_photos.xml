@@ -32,7 +32,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#393a3f"
+        android:background="@color/text_sticker_editor_fragment_bar_easy_photos"
         android:paddingBottom="8dp"
         android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

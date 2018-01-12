@@ -7,16 +7,4 @@
     <color name="black_overlay">#66000000</color>
 
 
-    <!--前景色-->
-    <color name="easy_photos_fg_primary">#3e4145</color>//3e4145  前景主色，如字体颜色、icon颜色
-    <color name="easy_photos_fg_primary_dark">#9b9b9b</color>//前景偏暗色，如不可用状态的字体颜色
-    <color name="easy_photos_fg_accent">#578fff</color>//578fff  前景突出色，如发送按钮的背景色，选中状态的颜色
-
-    <!--背景色-->
-    <color name="easy_photos_bg_primary">#f9f9f9</color>//f9f9f9  背景色，如每个activity的背景色，相册的图片间隔线颜色
-
-    <!--操作栏颜色-->
-    <color name="easy_photos_bar_primary">#ffffff</color>//ffffff 操作栏主色，如相册页顶部和底部操作栏
-    <color name="easy_photos_bar_primary_dark">#f9f9f9</color>//f9f9f9  操作栏偏暗色，操作栏间隔线颜色，如相册页返回按钮右边的竖线
-    <color name="easy_photos_bar_primary_translation">#b4ffffff</color>//b4ffffff  操作栏带透明的色值，如预览页的底部操作栏颜色，相册页的相机按钮背景颜色。
 </resources>
