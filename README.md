@@ -75,7 +75,8 @@ EasyPhotos内部通过implementation方式引用了他们，这样做的好处�
 
 4、如果你没有使用PhotoView，你不需要更换你的图片缩放库，而EasyPhotos通过这种方式依赖PhotoView带来的文件增幅只有9Kb。    
 
-5、EasyPhotos会始终保持他们的最新版依赖，体验更佳，又不破坏你的习惯。      
+5、EasyPhotos会始终保持他们的最新版依赖，体验更佳，又不破坏你的习惯。      
+
 6、如果你使用Glide3.x，不要着急，EasyPhotos的2.1.1版本将会对此支持，并同时支持Picasso和Fresco，到时EasyPhotos会剔除掉对此类框架的依赖。预计在1月31日之前完成该版本的更新。
 
     
