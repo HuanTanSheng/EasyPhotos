@@ -33,6 +33,19 @@ EasyPhotos内部没有使用任何图片加载框架，通过对ImageEngine接�
 |:-------:|:---------:|:---------:|
 |![](images/16.png) | ![](images/17.png) | ![](images/18.png)|    
     
+    
+## 产品特色    
+- 支持Glide、picasso、fresco、Imageloader等所有图片加载库，EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
+- 状态栏字体颜色智能适配，当状态栏颜色趋近于白色时，字体颜色智能处理为深色    
+- 拼一张功能（可配置开关）    
+- 原图功能（可配置开关）    
+- 广告填充（可配置开关）    
+- 内部处理运行时权限，使用者无需考虑权限问题    
+- UI色值高度浓缩，仅为7种，自定义超简单    
+- 对Gif动图的处理（可配置开关是否显示，列表中以静态图+动图标识显示，预览大图时自动播放）    
+- 自带Bitmap相关方法（如添加水印、把View画成Bitmap、保存Bitmap等）    
+- 自带媒体库相关方法（如媒体文件更新到媒体库）    
+
 ## 关于EasyPhotos的SDK及相关版本公示 
 compileSdkVersion 27  
 minSdkVersion 15  
@@ -58,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.1.0'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.0'  
     
 }
 ```    
@@ -130,7 +143,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 更新日志    
     
 **2.2.0：**    
-- 重大更新：EasyPhotos去除了Glide的依赖，并对外提供ImageEngine接口，通过对ImageEngine接口的实现，使用者可以快速绑定如Glide、picasso、fresco、Imageloader等你正在使用的任意图片加载库。    
+- 重大更新：EasyPhotos去除了Glide的依赖，并对外提供ImageEngine接口，通过对ImageEngine接口的实现，使用者可以快速绑定如Glide、picasso、fresco、Imageloader等你正在使用的任意图片加载库。[点击查看详情](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)    
 - 界面优化：优化单选图标    
 - 修改文字贴纸的文字编辑页面中，底部操作栏的背景色为固定色值（其实也可以改，看看EasyPhotos的color文件你就知道怎么改）
 
