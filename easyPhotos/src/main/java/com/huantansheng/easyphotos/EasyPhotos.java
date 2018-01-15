@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 
+import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -76,10 +76,14 @@ public class EasyPhotos {
     /**
      * 创建相机
      *
-     * @param activity 上下文
+     * @param activity    上下文
+     * @param imageEngine 图片加载引擎的具体实现
      * @return
      */
-    public static EasyPhotos createCamera(Activity activity) {
+    public static EasyPhotos createCamera(Activity activity, @NonNull ImageEngine imageEngine) {
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
+        }
         return EasyPhotos.with(activity, StartupType.CAMERA);
     }
 
@@ -88,9 +92,13 @@ public class EasyPhotos {
      *
      * @param activity     上下文
      * @param isShowCamera 是否显示相机按钮
+     * @param imageEngine  图片加载引擎的具体实现
      * @return
      */
-    public static EasyPhotos createAlbum(Activity activity, boolean isShowCamera) {
+    public static EasyPhotos createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
+        }
         if (isShowCamera) {
             return EasyPhotos.with(activity, StartupType.ALBUM_CAMERA);
         } else {
@@ -217,6 +225,7 @@ public class EasyPhotos {
 
     /**
      * 是否显示gif图
+     *
      * @param isShow 是否显示
      * @return @return EasyPhotos
      */
@@ -462,10 +471,11 @@ public class EasyPhotos {
      *                             Intent intent = new Intent();
      *                             intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS , photos);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param imageEngine          图片加载引擎的具体实现
      */
-    public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
+    public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         act.setResult(Activity.RESULT_OK);
-        PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom);
+        PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
     }
 
     /**
@@ -480,9 +490,10 @@ public class EasyPhotos {
      *                             Intent intent = new Intent();
      *                             intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS , paths);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
+     * @param imageEngine          图片加载引擎的具体实现
      */
-    public static void startPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
-        PuzzleActivity.startWithPaths(act, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom);
+    public static void startPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
+        PuzzleActivity.startWithPaths(act, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
     }
 
 

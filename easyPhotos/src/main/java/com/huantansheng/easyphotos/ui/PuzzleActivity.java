@@ -24,11 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
+import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.puzzle.Area;
 import com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar;
@@ -36,8 +36,8 @@ import com.huantansheng.easyphotos.models.puzzle.PuzzleLayout;
 import com.huantansheng.easyphotos.models.puzzle.PuzzlePiece;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleUtils;
 import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
-import com.huantansheng.easyphotos.models.puzzle.SquarePuzzleView;
 import com.huantansheng.easyphotos.models.sticker.StickerModel;
+import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
 import com.huantansheng.easyphotos.ui.adapter.TextStickerAdapter;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
@@ -62,10 +62,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private static WeakReference<Class<? extends Activity>> toClass;
 
 
-    public static void startWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
+    public static void startWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
+        }
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
         }
         Intent intent = new Intent(act, PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, true);
@@ -78,10 +81,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         act.startActivityForResult(intent, requestCode);
     }
 
-    public static void startWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom) {
+    public static void startWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
+        }
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
         }
         Intent intent = new Intent(act, PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, false);
@@ -325,9 +331,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap getScaleBitmap(String path) {
         Bitmap bitmap = null;
         try {
-            bitmap = Glide.with(this).asBitmap().load(path).submit(deviceWidth/2, deviceWidth/2).get();
+            bitmap = Setting.imageEngine.getCacheBitmap(this, path, deviceWidth / 2, deviceWidth / 2);
         } catch (Exception e) {
-            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth/2, deviceWidth/2, true);
+            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2, deviceWidth / 2, true);
         }
         return bitmap;
     }
@@ -349,7 +355,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, null)
                         .setCount(1)
                         .start(91);
             } else {

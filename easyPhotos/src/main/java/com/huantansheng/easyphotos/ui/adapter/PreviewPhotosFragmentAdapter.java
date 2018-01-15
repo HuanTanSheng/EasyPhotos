@@ -7,15 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * 预览所有选中图片集合的适配器
@@ -24,14 +20,12 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPhotosFragmentAdapter.PreviewPhotoVH> {
     private LayoutInflater inflater;
-    private RequestManager mGlide;
     private OnClickListener listener;
     private int checkedPosition = -1;
 
     public PreviewPhotosFragmentAdapter(Context context, OnClickListener listener) {
         this.inflater = LayoutInflater.from(context);
         this.listener = listener;
-        this.mGlide = Glide.with(context);
     }
 
 
@@ -47,14 +41,14 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         String type = Result.getPhotoType(position);
         if (Setting.showGif) {
             if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-                mGlide.asBitmap().load(path).into(holder.ivPhoto);
+                Setting.imageEngine.loadGifAsBitmap(holder.ivPhoto.getContext(), path, holder.ivPhoto);
                 holder.tvGif.setVisibility(View.VISIBLE);
             } else {
-                mGlide.load(path).transition(withCrossFade()).into(holder.ivPhoto);
+                Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
                 holder.tvGif.setVisibility(View.GONE);
             }
         } else {
-            mGlide.load(path).transition(withCrossFade()).into(holder.ivPhoto);
+            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
             holder.tvGif.setVisibility(View.GONE);
         }
 

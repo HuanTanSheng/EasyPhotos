@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
@@ -21,8 +19,6 @@ import com.huantansheng.easyphotos.ui.widget.PressedImageView;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
-
 /**
  * 专辑相册适配器
  * Created by huan on 2017/10/23.
@@ -33,7 +29,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     private static final int TYPE_ALBUM_ITEMS = 1;
 
     private ArrayList<Object> dataList;
-    private RequestManager mGlide;
     private LayoutInflater mInflater;
     private OnClickListener listener;
     private boolean unable, isSingle;
@@ -46,7 +41,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         this.mInflater = LayoutInflater.from(cxt);
         this.unable = Result.count() == Setting.count;
         this.isSingle = Setting.count == 1;
-        this.mGlide = Glide.with(cxt);
     }
 
     public void change() {
@@ -74,14 +68,14 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             String type = item.type;
             if (Setting.showGif) {
                 if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-                    mGlide.asBitmap().load(path).into(((PhotoViewHolder) holder).ivPhoto);
+                    Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
                     ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
                 } else {
-                    mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                    Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
                     ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
                 }
             } else {
-                mGlide.load(path).transition(withCrossFade()).into(((PhotoViewHolder) holder).ivPhoto);
+                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
             }
 

@@ -131,7 +131,7 @@ public class SampleActivity extends AppCompatActivity
         switch (id) {
             case R.id.camera://单独使用相机
 
-                EasyPhotos.createCamera(this)
+                EasyPhotos.createCamera(this, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
 
@@ -139,14 +139,14 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_single://相册单选，无相机功能
 
-                EasyPhotos.createAlbum(this, false)
+                EasyPhotos.createAlbum(this, false, new GlideEngine())
                         .start(101);
 
                 break;
 
             case R.id.album_multi://相册多选，无相机功能
 
-                EasyPhotos.createAlbum(this, false)
+                EasyPhotos.createAlbum(this, false, new GlideEngine())
                         .setCount(9)
                         .start(101);
 
@@ -154,14 +154,14 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_camera_single://相册单选，有相机功能
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .start(101);
                 break;
 
             case R.id.album_camera_multi://相册多选，有相机功能
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(22)
                         .start(101);
@@ -177,7 +177,7 @@ public class SampleActivity extends AppCompatActivity
                 initAdViews();
 
                 //启动方法，装载广告view
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
@@ -187,7 +187,7 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_size://只显示限制尺寸或限制文件大小以上的图片
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setMinWidth(500)
@@ -199,7 +199,7 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_original_usable://显示原图按钮，并且默认选中，按钮可用
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(true, true, null)
@@ -211,7 +211,7 @@ public class SampleActivity extends AppCompatActivity
 
                 boolean isVip = false;//假设获取用户信息发现该用户不是vip
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(false, isVip, "该功能为VIP会员特权功能")
@@ -221,7 +221,7 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_selected://相册中包含默认勾选图片
 
-                EasyPhotos.createAlbum(this, true)
+                EasyPhotos.createAlbum(this, true, new GlideEngine())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
                         .setPuzzleMenu(false)
                         .setCount(9)
@@ -252,7 +252,7 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.puzzle:
-                EasyPhotos.createAlbum(this, false)
+                EasyPhotos.createAlbum(this, false, new GlideEngine())
                         .setCount(9)
                         .start(102);
 
@@ -343,7 +343,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false);
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false, new GlideEngine());
                 return;
             }
 

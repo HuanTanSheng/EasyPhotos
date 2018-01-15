@@ -6,17 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.OnScaleChangedListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.huantansheng.easyphotos.R;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.setting.Setting;
 
 import java.util.ArrayList;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * 大图预览界面图片集合的适配器
@@ -25,7 +22,6 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
     private ArrayList<Photo> photos;
-    private RequestManager mGlide;
     private OnClickListener listener;
     private LayoutInflater inflater;
 
@@ -39,9 +35,6 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         this.photos = photos;
         this.inflater = LayoutInflater.from(cxt);
         this.listener = listener;
-        this.mGlide = Glide.with(cxt);
-        RequestOptions options = new RequestOptions().centerInside();
-        this.mGlide.applyDefaultRequestOptions(options);
     }
 
     @Override
@@ -51,7 +44,13 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     @Override
     public void onBindViewHolder(final PreviewPhotosViewHolder holder, int position) {
-        mGlide.load(photos.get(position).path).transition(withCrossFade()).into(holder.ivPhoto);
+        String path = photos.get(position).path;
+        String type = photos.get(position).type;
+        if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
+            Setting.imageEngine.loadGif(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+        } else {
+            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+        }
         holder.ivPhoto.setScale(1f);
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

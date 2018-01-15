@@ -2,6 +2,7 @@ package com.huantansheng.easyphotos.setting;
 
 import android.view.View;
 
+import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.lang.ref.WeakReference;
@@ -31,6 +32,7 @@ public class Setting {
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
     public static boolean showGif = true;
+    public static ImageEngine imageEngine = null;
 
 
     public static void clear() {

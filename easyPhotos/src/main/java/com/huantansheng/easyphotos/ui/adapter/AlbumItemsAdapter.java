@@ -10,8 +10,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
@@ -19,8 +17,6 @@ import com.huantansheng.easyphotos.setting.Setting;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * 媒体列表适配器
@@ -32,7 +28,6 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     private static final int TYPE_ALBUM_ITEMS = 1;
 
     private ArrayList<Object> dataList;
-    private RequestManager mGlide;
     private LayoutInflater mInflater;
     private int selectedPosition;
     private OnClickListener listener;
@@ -48,7 +43,6 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         this.dataList = list;
         this.mInflater = LayoutInflater.from(cxt);
         this.listener = listener;
-        this.mGlide = Glide.with(cxt);
         this.selectedPosition = selectedPosition;
     }
 
@@ -75,7 +69,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
                 ((AlbumItemsViewHolder) holder).mRoot.setPadding(padding, padding, padding, 0);
             }
             AlbumItem item = (AlbumItem) dataList.get(p);
-            mGlide.load(item.coverImagePath).transition(withCrossFade()).into(((AlbumItemsViewHolder) holder).ivAlbumCover);
+            Setting.imageEngine.loadPhoto(((AlbumItemsViewHolder) holder).ivAlbumCover.getContext(), item.coverImagePath, ((AlbumItemsViewHolder) holder).ivAlbumCover);
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
             ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(String.valueOf(item.photos.size()));
             if (selectedPosition == p) {
