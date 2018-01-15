@@ -4,7 +4,10 @@
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
 
-EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、文字贴纸、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、拼图、gif动图选择、保存图片到指定文件夹、状态栏字体智能适配、把View画成Bitmap、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。  
+EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、文字贴纸、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、拼图、gif动图选择、保存图片到指定文件夹、状态栏字体智能适配、把View画成Bitmap、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。    
+
+EasyPhotos内部没有使用任何图片加载框架，通过对ImageEngine接口的实现，你可以绑定如Glide、picasso、fresco、Imageloader等任意图片加载库。    
+
 
 | 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
 |:-----------:|:--------:|:---------:|
@@ -46,10 +49,7 @@ allprojects {
 	repositories {  
 
         maven { url "https://jitpack.io" }
-	
-	mavenCentral()
-  	google()
-	
+		
     }
 }
 ```
@@ -127,8 +127,13 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志     
+## 更新日志    
     
+**2.2.0：**    
+- 重大更新：EasyPhotosq去除了Glide的依赖，并对外提供ImageEngine接口，通过对ImageEngine接口的实现，使用者可以快速绑定如Glide、picasso、fresco、Imageloader等你正在使用的任意图片加载库。    
+- 界面优化：优化单选图标    
+- 修改文字贴纸的文字编辑页面中，底部操作栏的背景色为固定色值（其实也可以改，看看EasyPhotos的color文件你就知道怎么改）
+
     
 **2.1.0：**    
 - 新增功能：EasyPhotos智能识别状态栏的背景颜色，当其趋近于白色时，智能适配深色状态栏字体。（该功能仅对6.0以上系统生效，并没有适配6.0以下的小米和魅族，如有需要可以加群交流）    
