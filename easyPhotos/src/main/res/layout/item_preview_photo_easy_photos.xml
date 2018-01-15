@@ -6,6 +6,5 @@
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside" />
+        android:layout_height="match_parent" />
 </RelativeLayout>
