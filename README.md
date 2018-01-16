@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.2'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.3'  
     
 }
 ```    
@@ -95,9 +95,8 @@ dependencies {
 ## 关于混淆    
   
 **EasyPhotos的混淆：**  
-```pro  
+```pro  
 
--keep class com.huantansheng.easyphotos.constant.** { *; }  
 -keep class com.huantansheng.easyphotos.models.** { *; }
 
 ```
@@ -142,6 +141,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志    
     
+**2.2.3：**    
+- 修复拼一张更换图片时发生的错误    
+- 修复单独启动相机时的权限错误    
+- 优化混淆规则    
+
 **2.2.2：**    
 - 重大更新：EasyPhotos去除了Glide的依赖，并对外提供ImageEngine接口，通过对ImageEngine接口的实现，使用者可以快速绑定如Glide、picasso、fresco、Imageloader等你正在使用的任意图片加载库。[点击查看详情](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)    
 - 界面优化：优化单选图标    
