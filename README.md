@@ -127,7 +127,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
            
 	   
 ## 感谢    
-[Matisse](https://github.com/zhihu/Matisse)：没有Matisse，就没有EasyPhotos。当知乎的大神们填好Matisse的坑，并且EasyPhotos没有什么特别的存在价值后，我将停止维护EasyPhotos，回归Matisse阵营。
+
 
 [Glide](https://github.com/bumptech/glide)：我心目中最好的图像加载和缓存库，由[Bump Technologies](https://github.com/bumptech) 团队编写。已经从EasyPhotos中去除依赖，大家可以通过ImageEngine接口实现任意图片加载库的绑定。    
 
