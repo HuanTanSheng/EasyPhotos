@@ -355,7 +355,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
-                EasyPhotos.createAlbum(this, true, null)
+                EasyPhotos.createAlbum(this, true, Setting.imageEngine)
                         .setCount(1)
                         .start(91);
             } else {

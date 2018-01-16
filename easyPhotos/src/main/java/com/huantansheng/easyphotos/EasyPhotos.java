@@ -244,6 +244,7 @@ public class EasyPhotos {
         switch (startupType) {
             case CAMERA:
                 Setting.onlyStartCamera = true;
+                Setting.isShowCamera = true;
                 break;
             case ALBUM:
                 Setting.isShowCamera = false;

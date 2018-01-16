@@ -1,5 +1,5 @@
 #EasyPhotos
--keep class com.huantansheng.easyphotos.constant.** { *; }
+
 -keep class com.huantansheng.easyphotos.models.** { *; }
 
 #glide
