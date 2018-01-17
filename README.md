@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.3'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.4'  
     
 }
 ```    
@@ -143,6 +143,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志    
     
+**2.2.4：**    
+- 优化：单独启动相机时无需配置图片加载引擎       
+- 优化：示例中配置Glide4.x为图片加载引擎的示例文件改为单例模式    
+    
 **2.2.3：**    
 - 修复拼一张更换图片时发生的错误    
 - 修复单独启动相机时的权限错误    
