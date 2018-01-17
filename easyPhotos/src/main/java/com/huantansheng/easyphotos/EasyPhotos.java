@@ -77,13 +77,9 @@ public class EasyPhotos {
      * 创建相机
      *
      * @param activity    上下文
-     * @param imageEngine 图片加载引擎的具体实现
-     * @return
+     * @return              EasyPhotos
      */
-    public static EasyPhotos createCamera(Activity activity, @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
+    public static EasyPhotos createCamera(Activity activity) {
         return EasyPhotos.with(activity, StartupType.CAMERA);
     }
 
