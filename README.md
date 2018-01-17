@@ -3,10 +3,7 @@
 
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
-
-EasyPhotos会帮助你快速实现android的拍照、相册与文件夹中图片选择（单选/多选）、文字贴纸、相册选择界面的广告View填充，展示图片宽高限制、图片预览（含缩放）、图片添加水印、拼图、gif动图选择、保存图片到指定文件夹、状态栏字体智能适配、把View画成Bitmap、媒体文件更新到媒体库、自定义UI等功能，而无需考虑运行时权限、无图片显示、工具库与应用UI不统一等问题。    
-
-EasyPhotos内部没有使用任何图片加载框架，通过对ImageEngine接口的实现，你可以快速绑定如Glide、picasso、fresco、Imageloader等你正在使用的任意图片加载库。    
+  
 
 
 | 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
@@ -35,7 +32,7 @@ EasyPhotos内部没有使用任何图片加载框架，通过对ImageEngine接�
     
     
 ## 产品特色    
-- 支持Glide、picasso、fresco、Imageloader等所有图片加载库，EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
+- 支持绑定Glide、Picasso、Fresco、Imageloader等所有图片加载库，EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
 - 状态栏字体颜色智能适配，当状态栏颜色趋近于白色时，字体颜色智能处理为深色     
 - 内部处理运行时权限，使用者无需考虑权限问题    
 - 拼一张功能（可配置开关，可独立作为拼图使用）    
