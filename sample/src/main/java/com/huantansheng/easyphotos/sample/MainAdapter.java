@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.huantansheng.easyphotos.sample.thisAppGlideModule.GlideApp;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
     public MainAdapter(Context cxt, ArrayList<Photo> list) {
         this.list = list;
         mInflater = LayoutInflater.from(cxt);
-        mGlide = GlideApp.with(cxt);
+        mGlide = Glide.with(cxt);
     }
 
     @Override

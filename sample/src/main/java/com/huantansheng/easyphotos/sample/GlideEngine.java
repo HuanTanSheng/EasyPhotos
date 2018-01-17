@@ -11,6 +11,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 /**
  * Glide4.x的加载图片引擎实现,单例模式
+ * Glide4.x的缓存机制更加智能，已经达到无需配置的境界。如果使用Glide3.x，需要考虑缓存机制。
  * Created by huan on 2018/1/15.
  */
 
