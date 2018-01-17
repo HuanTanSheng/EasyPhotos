@@ -45,9 +45,11 @@ public class Result {
                 for (Photo photo : photos) {
                     photo.selectedOriginal = Setting.selectedOriginal;
                     if (isIceApi && photo.width == 0) {
-                        Bitmap b = BitmapFactory.decodeFile(photo.path);
-                        photo.width = b.getWidth();
-                        photo.height = b.getHeight();
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inJustDecodeBounds = true;
+                        BitmapFactory.decodeFile(photo.path,options);
+                        photo.width = options.outWidth;
+                        photo.height = options.outHeight;
                     }
                 }
             }

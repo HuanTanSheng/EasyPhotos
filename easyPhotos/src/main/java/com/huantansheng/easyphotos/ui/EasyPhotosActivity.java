@@ -366,15 +366,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 mTempImageFile = reNameFile;
             }
         }
-
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(),options);
         if (onlyStartCamera) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
-            Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
-            Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
+            Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, mTempImageFile.length(), options.outMimeType);
             photo.selectedOriginal = Setting.selectedOriginal;
             resultList.add(photo);
-            EasyPhotos.recycle(bitmap);
 
             data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
 
@@ -389,9 +389,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
             finish();
             return;
         }
-        Bitmap bitmap = BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath());
-        Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, bitmap.getWidth(), bitmap.getHeight(), mTempImageFile.length(), "image/jpeg");
-        EasyPhotos.recycle(bitmap);
+
+        Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, mTempImageFile.length(), options.outMimeType);
         addNewPhoto(photo);
 
     }
