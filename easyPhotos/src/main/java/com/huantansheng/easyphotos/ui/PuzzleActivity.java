@@ -124,6 +124,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private static final int FLAG_CONTROL_ROTATE = 2;
 
     private int deviceWidth = 0;
+    private int deviceHeight = 0;
 
     private TextView tvTemplate, tvTextSticker;
     private RelativeLayout mRootView, mBottomLayout;
@@ -265,6 +266,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private void initData() {
         stickerModel = new StickerModel();
         deviceWidth = getResources().getDisplayMetrics().widthPixels;
+        deviceHeight = getResources().getDisplayMetrics().heightPixels;
         Intent intent = getIntent();
         fileTypeIsPhoto = intent.getBooleanExtra(Key.PUZZLE_FILE_IS_PHOTO, false);
         saveDirPath = intent.getStringExtra(Key.PUZZLE_SAVE_DIR);
@@ -331,9 +333,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap getScaleBitmap(String path) {
         Bitmap bitmap = null;
         try {
-            bitmap = Setting.imageEngine.getCacheBitmap(this, path, deviceWidth / 2, deviceWidth / 2);
+            bitmap = Setting.imageEngine.getCacheBitmap(this, path, deviceWidth / 2, deviceHeight / 2);
         } catch (Exception e) {
-            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2, deviceWidth / 2, true);
+            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2, deviceHeight / 2, true);
         }
         return bitmap;
     }
