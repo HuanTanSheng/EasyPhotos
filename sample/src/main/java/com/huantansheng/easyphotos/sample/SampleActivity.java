@@ -349,9 +349,9 @@ public class SampleActivity extends AppCompatActivity
 
             //拼图回调
             if (requestCode == 103) {
-                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PUZZLE_PATH);
+                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PATHS);
 
-                Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+                Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
                 selectedPhotoList.clear();
                 selectedPhotoList.add(puzzlePhoto);
                 adapter.notifyDataSetChanged();

@@ -287,7 +287,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 }
 
                 if (Code.REQUEST_PUZZLE_SELECTOR == requestCode) {
-                    Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+                    Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
                     addNewPhoto(puzzlePhoto);
                     return;
                 }
