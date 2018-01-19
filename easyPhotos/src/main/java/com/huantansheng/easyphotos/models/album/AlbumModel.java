@@ -70,7 +70,7 @@ public class AlbumModel {
 
     private void initAlbum(Activity act) {
         if (Setting.selectedPhotos.size() > Setting.count) {
-            throw new RuntimeException("EasyPhotos: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
+            throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
 
         Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;

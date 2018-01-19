@@ -347,7 +347,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false, GlideEngine.getInstance());
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.getInstance());
                 return;
             }
 

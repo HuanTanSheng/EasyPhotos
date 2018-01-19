@@ -200,7 +200,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
      */
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(fileProviderText))
-            throw new RuntimeException("EasyPhotos" + " : 请执行 setFileProviderAuthority()方法");
+            throw new RuntimeException("AlbumBuilder" + " : 请执行 setFileProviderAuthority()方法");
         toAndroidCamera(requestCode);
     }
 
