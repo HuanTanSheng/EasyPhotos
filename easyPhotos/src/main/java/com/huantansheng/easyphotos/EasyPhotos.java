@@ -36,8 +36,6 @@ public class EasyPhotos {
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
     public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
-    public static final String RESULT_PUZZLE_PHOTO = "keyOfEasyPhotosResultPuzzlePhoto";
-    public static final String RESULT_PUZZLE_PATH = "keyOfEasyPhotosResultPuzzlePath";
 
     /**
      * 启动模式
