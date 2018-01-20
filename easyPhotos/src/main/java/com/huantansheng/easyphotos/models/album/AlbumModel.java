@@ -188,7 +188,6 @@ public class AlbumModel {
 
     public interface CallBack {
         void onAlbumWorkedCallBack();
-
     }
 
 }
