@@ -16,66 +16,74 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <RelativeLayout
-            android:id="@+id/m_top_bar"
-            style="?metaButtonBarStyle"
+        <FrameLayout
+            android:id="@+id/m_top_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_gravity="top"
-            android:background="@color/easy_photos_bar_primary"
-            android:clickable="true"
-            android:fitsSystemWindows="true"
-            android:focusable="true">
+            android:layout_height="wrap_content"
+            style="?metaButtonBarStyle"
+            android:background="@color/colorPrimaryDark">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="42dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:onClick="onClick"
-                android:padding="10dp"
-                app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
+            <RelativeLayout
+                android:id="@+id/m_top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_gravity="top"
+                android:background="@color/easy_photos_bar_primary"
+                android:clickable="true"
+                android:fitsSystemWindows="true"
+                android:focusable="true">
 
-            <View
-                android:id="@+id/m_back_line"
-                android:layout_width="1dp"
-                android:layout_height="22dp"
-                android:layout_alignEnd="@id/iv_back"
-                android:layout_alignRight="@id/iv_back"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:background="@color/easy_photos_bar_primary_dark" />
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="42dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:onClick="onClick"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 
-            <com.huantansheng.easyphotos.ui.widget.PressedTextView
-                android:id="@+id/tv_number"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toEndOf="@id/m_back_line"
-                android:layout_toRightOf="@id/m_back_line"
-                android:gravity="center"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/easy_photos_fg_primary" />
+                <View
+                    android:id="@+id/m_back_line"
+                    android:layout_width="1dp"
+                    android:layout_height="22dp"
+                    android:layout_alignEnd="@id/iv_back"
+                    android:layout_alignRight="@id/iv_back"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/easy_photos_bar_primary_dark" />
 
-            <com.huantansheng.easyphotos.ui.widget.PressedTextView
-                android:id="@+id/tv_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/bg_menu_done_easy_photos"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:padding="6dp"
-                android:textColor="@color/white_easy_photos"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                <com.huantansheng.easyphotos.ui.widget.PressedTextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/m_back_line"
+                    android:layout_toRightOf="@id/m_back_line"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/easy_photos_fg_primary" />
 
-        </RelativeLayout>
+                <com.huantansheng.easyphotos.ui.widget.PressedTextView
+                    android:id="@+id/tv_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/bg_menu_done_easy_photos"
+                    android:gravity="center"
+                    android:maxWidth="200dp"
+                    android:padding="6dp"
+                    android:textColor="@color/white_easy_photos"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </FrameLayout>
+
 
         <RelativeLayout
             android:id="@+id/m_bottom_bar"
