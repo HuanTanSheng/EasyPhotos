@@ -24,29 +24,24 @@ import java.lang.reflect.Method;
 
 public class SystemUtils {
     private static SystemUtils instance = null;
-    private Context cxt = null;
     private Boolean hasNavigation = null;//是否有导航栏
 
     /**
      * 私有构造方法
-     *
-     * @param context 上下任
      */
-    private SystemUtils(Context context) {
-        this.cxt = context.getApplicationContext();
+    private SystemUtils() {
     }
 
     /**
      * 获取单例
      *
-     * @param context 上下文
      * @return 单例
      */
-    public static SystemUtils getInstance(Context context) {
+    public static SystemUtils getInstance() {
         if (null == instance) {
             synchronized (SystemUtils.class) {
                 if (null == instance) {
-                    instance = new SystemUtils(context);
+                    instance = new SystemUtils();
                 }
             }
         }
@@ -58,14 +53,14 @@ public class SystemUtils {
      *
      * @return 有或没有
      */
-    public boolean hasNavigationBar() {
+    public boolean hasNavigationBar(Context context, View rootView) {
         if (null == hasNavigation) {
-            boolean hasMenuKey = ViewConfiguration.get(this.cxt)
-                    .hasPermanentMenuKey();
-            boolean hasBackKey = KeyCharacterMap
-                    .deviceHasKey(KeyEvent.KEYCODE_BACK);
-            hasNavigation = !hasMenuKey && !hasBackKey;
+            int[] size = new int[2];
+            rootView.getLocationOnScreen(size);
+            int height = context.getResources().getDisplayMetrics().heightPixels;
+            hasNavigation = height - size[1] > 10;
         }
+
         return hasNavigation;
     }
 
@@ -75,7 +70,7 @@ public class SystemUtils {
      * @param decorView getWindow().getDecorView()，不同view也可以
      */
     public void systemUiInit(Activity activity, View decorView) {
-        if (!hasNavigationBar()) {
+        if (!hasNavigationBar(activity, decorView)) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             return;
@@ -106,7 +101,7 @@ public class SystemUtils {
      */
     public void systemUiHide(Activity activity, View decorView) {
 
-        if (!hasNavigationBar()) {
+        if (!hasNavigationBar(activity, decorView)) {
             hideStatusBar(activity);
             return;
         }
@@ -137,7 +132,7 @@ public class SystemUtils {
      * @param decorView getWindow().getDecorView()，不同view也可以
      */
     public void systemUiShow(Activity activity, View decorView) {
-        if (!hasNavigationBar()) {
+        if (!hasNavigationBar(activity,decorView)) {
             showStatusBar(activity);
             return;
         }

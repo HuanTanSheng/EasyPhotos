@@ -110,7 +110,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
             if (ColorUtils.isWhiteColor(statusColor)) {
-                SystemUtils.getInstance(this).setStatusDark(this, true);
+                SystemUtils.getInstance().setStatusDark(this, true);
             }
         }
         initConfig();
