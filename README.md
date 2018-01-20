@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.4'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.5'  
     
 }
 ```    
@@ -141,8 +141,14 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志    
+## 更新日志      
     
+**2.2.5：**    
+- api修改：为统一api标准，将所有返回Key统一为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS。带来的改变就是拼图的返回Key改为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS，去除EasyPhotos.RESULT_PUZZLE_PHOTO和-
+EasyPhotos.RESULT_PUZZLE_PATH。      
+- UI修改：预览页导航栏颜色跟colorPrimaryDark走，不再是透明效果。     
+- 错误修复：修复努比亚机型的预览页占用导航栏问题      
+
 **2.2.4：**    
 - 优化：单独启动相机时无需配置图片加载引擎       
 - 优化：示例中配置Glide4.x为图片加载引擎的示例文件改为单例模式    
