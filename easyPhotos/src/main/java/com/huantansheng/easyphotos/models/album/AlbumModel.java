@@ -33,7 +33,6 @@ public class AlbumModel {
 
     /**
      * AlbumModel构造方法
-     *
      * @param act      调用专辑的活动实体类
      * @param callBack 初始化全部专辑后的回调
      */
