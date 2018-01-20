@@ -13,6 +13,7 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -31,6 +32,7 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PreviewPhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
+import com.huantansheng.easyphotos.utils.Color.ColorUtils;
 import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
 import java.util.ArrayList;
@@ -60,7 +62,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             SystemUtils.getInstance().systemUiHide(PreviewActivity.this, decorView);
         }
     };
-    private RelativeLayout mBottomBar, mToolBar;
+    private RelativeLayout mBottomBar;
+    private FrameLayout mToolBar;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -85,14 +88,21 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
 
-    private FrameLayout flFragment,mRootView;
+    private FrameLayout flFragment, mRootView;
     private PreviewFragment previewFragment;
+    private int statusColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         decorView = getWindow().getDecorView();
         SystemUtils.getInstance().systemUiInit(this, decorView);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            statusColor = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+            if (ColorUtils.isWhiteColor(statusColor)) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+        }
         setContentView(R.layout.activity_preview_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -197,13 +207,16 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     private void initView() {
         mRootView = (FrameLayout) findViewById(R.id.m_root_view);
-        if (!SystemUtils.getInstance().hasNavigationBar(this,mRootView)) {
+        mToolBar = (FrameLayout) findViewById(R.id.m_top_bar_layout);
+        if (!SystemUtils.getInstance().hasNavigationBar(this)) {
             mRootView.setFitsSystemWindows(true);
-            findViewById(R.id.m_bar_root_view).setPadding(0, SystemUtils.getInstance().getStatusBarHeight(this), 0, 0);
+            mToolBar.setPadding(0, SystemUtils.getInstance().getStatusBarHeight(this), 0, 0);
+            if (ColorUtils.isWhiteColor(statusColor)) {
+                SystemUtils.getInstance().setStatusDark(this, true);
+            }
         }
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
-        mToolBar = (RelativeLayout) findViewById(R.id.m_top_bar);
         TextView tvSelector = (TextView) findViewById(R.id.tv_selector);
         ivSelector = (ImageView) findViewById(R.id.iv_selector);
         tvNumber = (TextView) findViewById(R.id.tv_number);

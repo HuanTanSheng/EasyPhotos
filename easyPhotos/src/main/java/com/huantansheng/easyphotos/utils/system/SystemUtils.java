@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -53,12 +55,17 @@ public class SystemUtils {
      *
      * @return 有或没有
      */
-    public boolean hasNavigationBar(Context context, View rootView) {
+    public boolean hasNavigationBar(Activity activity) {
         if (null == hasNavigation) {
-            int[] size = new int[2];
-            rootView.getLocationOnScreen(size);
-            int height = context.getResources().getDisplayMetrics().heightPixels;
-            hasNavigation = height - size[1] > 10;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                int windowHeight = activity.getResources().getDisplayMetrics().heightPixels;
+                DisplayMetrics dm = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+                int screenHeight = dm.heightPixels;
+                hasNavigation = screenHeight - windowHeight > 0;
+            } else {
+                hasNavigation = true;
+            }
         }
 
         return hasNavigation;
@@ -70,7 +77,7 @@ public class SystemUtils {
      * @param decorView getWindow().getDecorView()，不同view也可以
      */
     public void systemUiInit(Activity activity, View decorView) {
-        if (!hasNavigationBar(activity, decorView)) {
+        if (!hasNavigationBar(activity)) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             return;
@@ -101,7 +108,7 @@ public class SystemUtils {
      */
     public void systemUiHide(Activity activity, View decorView) {
 
-        if (!hasNavigationBar(activity, decorView)) {
+        if (!hasNavigationBar(activity)) {
             hideStatusBar(activity);
             return;
         }
@@ -132,7 +139,7 @@ public class SystemUtils {
      * @param decorView getWindow().getDecorView()，不同view也可以
      */
     public void systemUiShow(Activity activity, View decorView) {
-        if (!hasNavigationBar(activity,decorView)) {
+        if (!hasNavigationBar(activity)) {
             showStatusBar(activity);
             return;
         }
@@ -149,10 +156,12 @@ public class SystemUtils {
      * @return 状态栏高度，单位PX
      */
     public int getStatusBarHeight(Context cxt) {
-        int statusBarHeight = -1;
+        int statusBarHeight = 0;
         int resourceId = cxt.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             statusBarHeight = cxt.getResources().getDimensionPixelSize(resourceId);
+        } else {
+            statusBarHeight = (int) (23 * (cxt.getResources().getDisplayMetrics().density) + 0.5f);
         }
         return statusBarHeight;
     }
