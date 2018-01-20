@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.5'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.6'  
     
 }
 ```    
@@ -143,10 +143,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志      
     
-**2.2.5：**    
+**2.2.6：**    
 - api修改：为统一api标准，将所有返回Key统一为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS。带来的改变就是单独使用拼图功能时的图片返回Key改为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS，去除原来的EasyPhotos.RESULT_PUZZLE_PHOTO和-
 EasyPhotos.RESULT_PUZZLE_PATH这两个Key。      
-- UI修改：预览页状态栏颜色跟colorPrimaryDark走，不再是透明效果。     
+- UI修改：预览页状态栏颜色与colorPrimaryDark色值对应。若其色值趋近于白色，在无虚拟按键的手机中状态栏字体颜色智能适配为深色，有虚拟按键的手机中状态栏智能优化为透明色。（除预览页外，其他页面若状态栏颜色趋近于白色，无论任何机型均为智能优化字体颜色为深色）     
 - 错误修复：修复努比亚机型的预览页占用导航栏问题      
 
 **2.2.4：**    
