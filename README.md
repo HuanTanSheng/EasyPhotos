@@ -144,8 +144,8 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 更新日志      
     
 **2.2.5：**    
-- api修改：为统一api标准，将所有返回Key统一为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS。带来的改变就是拼图的返回Key改为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS，去除EasyPhotos.RESULT_PUZZLE_PHOTO和-
-EasyPhotos.RESULT_PUZZLE_PATH。      
+- api修改：为统一api标准，将所有返回Key统一为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS。带来的改变就是单独使用拼图功能时的图片返回Key改为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS，去除原来的EasyPhotos.RESULT_PUZZLE_PHOTO和-
+EasyPhotos.RESULT_PUZZLE_PATH这两个Key。      
 - UI修改：预览页导航栏颜色跟colorPrimaryDark走，不再是透明效果。     
 - 错误修复：修复努比亚机型的预览页占用导航栏问题      
 
