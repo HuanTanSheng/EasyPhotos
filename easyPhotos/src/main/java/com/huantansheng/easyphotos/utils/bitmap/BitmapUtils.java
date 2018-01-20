@@ -63,7 +63,7 @@ public class BitmapUtils {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
-            throw new RuntimeException("EasyPhotos: 加水印的原图宽或高不能为0！");
+            throw new RuntimeException("AlbumBuilder: 加水印的原图宽或高不能为0！");
         }
         int watermarkWidth = watermark.getWidth();
         int watermarkHeight = watermark.getHeight();
@@ -99,7 +99,7 @@ public class BitmapUtils {
         float imageWidth = image.getWidth();
         float imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
-            throw new RuntimeException("EasyPhotos: 加水印的原图宽或高不能为0！");
+            throw new RuntimeException("AlbumBuilder: 加水印的原图宽或高不能为0！");
         }
         float watermarkWidth = watermark.getWidth();
         float watermarkHeight = watermark.getHeight();

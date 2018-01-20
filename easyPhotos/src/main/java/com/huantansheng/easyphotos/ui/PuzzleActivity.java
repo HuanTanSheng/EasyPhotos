@@ -448,10 +448,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onSuccess(File file) {
                 Intent intent = new Intent();
-                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PATH, file.getAbsolutePath());
+                intent.putExtra(EasyPhotos.RESULT_PATHS, file.getAbsolutePath());
 
                 Photo photo = new Photo(file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), "image/png");
-                intent.putExtra(EasyPhotos.RESULT_PUZZLE_PHOTO, photo);
+                intent.putExtra(EasyPhotos.RESULT_PHOTOS, photo);
                 setResult(RESULT_OK, intent);
                 PuzzleActivity.this.finish();
             }

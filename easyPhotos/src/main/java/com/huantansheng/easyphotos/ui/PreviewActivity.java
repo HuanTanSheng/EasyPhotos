@@ -57,7 +57,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private final Runnable mHidePart2Runnable = new Runnable() {
         @Override
         public void run() {
-            SystemUtils.getInstance(PreviewActivity.this).systemUiHide(PreviewActivity.this, decorView);
+            SystemUtils.getInstance().systemUiHide(PreviewActivity.this, decorView);
         }
     };
     private RelativeLayout mBottomBar, mToolBar;
@@ -92,7 +92,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         decorView = getWindow().getDecorView();
-        SystemUtils.getInstance(this).systemUiInit(this, decorView);
+        SystemUtils.getInstance().systemUiInit(this, decorView);
         setContentView(R.layout.activity_preview_easy_photos);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -162,7 +162,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private void show() {
         // Show the system bar
         if (Build.VERSION.SDK_INT >= 16) {
-            SystemUtils.getInstance(this).systemUiShow(this, decorView);
+            SystemUtils.getInstance().systemUiShow(this, decorView);
         }
 
         mVisible = true;
@@ -197,9 +197,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     private void initView() {
         mRootView = (FrameLayout) findViewById(R.id.m_root_view);
-        if (!SystemUtils.getInstance(this).hasNavigationBar()) {
+        if (!SystemUtils.getInstance().hasNavigationBar(this,mRootView)) {
             mRootView.setFitsSystemWindows(true);
-            findViewById(R.id.m_bar_root_view).setPadding(0, SystemUtils.getInstance(this).getStatusBarHeight(this), 0, 0);
+            findViewById(R.id.m_bar_root_view).setPadding(0, SystemUtils.getInstance().getStatusBarHeight(this), 0, 0);
         }
         PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);

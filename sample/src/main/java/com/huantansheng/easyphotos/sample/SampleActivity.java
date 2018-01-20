@@ -254,6 +254,7 @@ public class SampleActivity extends AppCompatActivity
             case R.id.puzzle:
                 EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                         .setCount(9)
+                        .setPuzzleMenu(false)
                         .start(102);
 
             case R.id.face_detection://人脸检测，目前仅支持正脸检测
@@ -340,18 +341,21 @@ public class SampleActivity extends AppCompatActivity
 
                 ArrayList<Photo> resultPhotos =
                         data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                if (resultPhotos.size() == 1) {
+                    resultPhotos.add(resultPhotos.get(0));
+                }
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "EasyPhotos", 103, false, GlideEngine.getInstance());
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.getInstance());
                 return;
             }
 
             //拼图回调
             if (requestCode == 103) {
-                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PUZZLE_PATH);
+                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PATHS);
 
-                Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+                Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
                 selectedPhotoList.clear();
                 selectedPhotoList.add(puzzlePhoto);
                 adapter.notifyDataSetChanged();

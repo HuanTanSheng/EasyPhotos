@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryDark">#303135</color>
     <color name="transparent_easy_photos">#00000000</color>
     <color name="white_easy_photos">#FFFFFF</color>
 

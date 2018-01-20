@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.huantansheng.easyphotos.Builder.AlbumBuilder;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
@@ -36,51 +37,15 @@ public class EasyPhotos {
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
     public static final String RESULT_PATHS = "keyOfEasyPhotosResultPaths";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
-    public static final String RESULT_PUZZLE_PHOTO = "keyOfEasyPhotosResultPuzzlePhoto";
-    public static final String RESULT_PUZZLE_PATH = "keyOfEasyPhotosResultPuzzlePath";
-
-    /**
-     * 启动模式
-     * CAMERA-相机
-     * ALBUM-相册专辑
-     * ALBUM_CAMERA-带有相机按钮的相册专辑
-     */
-    private enum StartupType {
-        CAMERA, ALBUM, ALBUM_CAMERA
-    }
-
-    private static EasyPhotos instance;
-    private final WeakReference<Activity> mActivity;
-    private StartupType startupType;
-    private WeakReference<AdListener> adListener;
-
-    //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
-    private EasyPhotos(Activity activity, StartupType startupType) {
-        mActivity = new WeakReference<>(activity);
-        this.startupType = startupType;
-    }
-
-    /**
-     * 内部处理相机和相册的实例
-     *
-     * @param activity Activity的实例
-     * @return EasyPhotos EasyPhotos的实例
-     */
-    private static EasyPhotos with(Activity activity, StartupType startupType) {
-        clear();
-        instance = new EasyPhotos(activity, startupType);
-        return instance;
-    }
-
 
     /**
      * 创建相机
      *
      * @param activity    上下文
-     * @return              EasyPhotos
+     * @return              AlbumBuilder
      */
-    public static EasyPhotos createCamera(Activity activity) {
-        return EasyPhotos.with(activity, StartupType.CAMERA);
+    public static AlbumBuilder createCamera(Activity activity) {
+        return AlbumBuilder.createCamera(activity);
     }
 
     /**
@@ -91,204 +56,14 @@ public class EasyPhotos {
      * @param imageEngine  图片加载引擎的具体实现
      * @return
      */
-    public static EasyPhotos createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
-        if (isShowCamera) {
-            return EasyPhotos.with(activity, StartupType.ALBUM_CAMERA);
-        } else {
-            return EasyPhotos.with(activity, StartupType.ALBUM);
-        }
-    }
-
-    /**
-     * 设置fileProvider字段
-     *
-     * @param fileProviderAuthority fileProvider字段
-     * @return EasyPhotos
-     */
-    public EasyPhotos setFileProviderAuthority(String fileProviderAuthority) {
-        Setting.fileProviderAuthority = fileProviderAuthority;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置选择数
-     *
-     * @param selectorMaxCount 最大选择数
-     * @return EasyPhotos
-     */
-    public EasyPhotos setCount(int selectorMaxCount) {
-        Setting.count = selectorMaxCount;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置显示照片的最小文件大小
-     *
-     * @param minFileSize 最小文件大小，单位Bytes
-     * @return EasyPhotos
-     */
-    public EasyPhotos setMinFileSize(long minFileSize) {
-        Setting.minSize = minFileSize;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置显示照片的最小宽度
-     *
-     * @param minWidth 照片的最小宽度，单位Px
-     * @return EasyPhotos
-     */
-    public EasyPhotos setMinWidth(int minWidth) {
-        Setting.minWidth = minWidth;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置显示照片的最小高度
-     *
-     * @param minHeight 显示照片的最小高度，单位Px
-     * @return EasyPhotos
-     */
-    public EasyPhotos setMinHeight(int minHeight) {
-        Setting.minHeight = minHeight;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置默认选择图片集合
-     *
-     * @param selectedPhotos 默认选择图片集合
-     * @return EasyPhotos
-     */
-    public EasyPhotos setSelectedPhotos(ArrayList<Photo> selectedPhotos) {
-        Setting.selectedPhotos.clear();
-        if (selectedPhotos.isEmpty()) {
-            return EasyPhotos.this;
-        }
-        Setting.selectedPhotos.addAll(selectedPhotos);
-        Setting.selectedOriginal = selectedPhotos.get(0).selectedOriginal;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 设置默认选择图片地址集合
-     *
-     * @param selectedPhotoPaths 默认选择图片地址集合
-     * @return EasyPhotos
-     */
-    public EasyPhotos setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths) {
-        Setting.selectedPhotos.clear();
-        ArrayList<Photo> selectedPhotos = new ArrayList<>();
-        for (String path : selectedPhotoPaths) {
-            Photo photo = new Photo(null, path, 0, 0, 0, 0, null);
-            selectedPhotos.add(photo);
-        }
-        Setting.selectedPhotos.addAll(selectedPhotos);
-        return EasyPhotos.this;
+    public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+       return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
 
-    /**
-     * 原图按钮设置,不调用该方法不显示原图按钮
-     *
-     * @param isChecked    原图选项默认状态是否为选中状态
-     * @param usable       原图按钮是否可使用
-     * @param unusableHint 原图按钮不可使用时给用户的文字提示
-     * @return EasyPhotos
-     */
-    public EasyPhotos setOriginalMenu(boolean isChecked, boolean usable, String unusableHint) {
-        Setting.showOriginalMenu = true;
-        Setting.selectedOriginal = isChecked;
-        Setting.originalMenuUsable = usable;
-        Setting.originalMenuUnusableHint = unusableHint;
-        return EasyPhotos.this;
-    }
-
-
-    /**
-     * 是否显示拼图按钮
-     *
-     * @param isShow 是否显示
-     * @return EasyPhotos
-     */
-    public EasyPhotos setPuzzleMenu(boolean isShow) {
-        Setting.showPuzzleMenu = isShow;
-        return EasyPhotos.this;
-    }
-
-    /**
-     * 是否显示gif图
-     *
-     * @param isShow 是否显示
-     * @return @return EasyPhotos
-     */
-    public EasyPhotos setGif(boolean isShow) {
-        Setting.showGif = isShow;
-        return EasyPhotos.this;
-    }
-
-
-    /**
-     * 设置启动属性
-     *
-     * @param requestCode startActivityForResult的请求码
-     */
-    public void start(int requestCode) {
-        switch (startupType) {
-            case CAMERA:
-                Setting.onlyStartCamera = true;
-                Setting.isShowCamera = true;
-                break;
-            case ALBUM:
-                Setting.isShowCamera = false;
-                break;
-            case ALBUM_CAMERA:
-                Setting.isShowCamera = true;
-                break;
-        }
-        launchEasyPhotosActivity(requestCode);
-    }
-
-    /**
-     * 正式启动
-     *
-     * @param requestCode startActivityForResult的请求码
-     */
-    private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), requestCode);
-    }
-
-    /**
-     * 清除所有数据
-     */
-    private static void clear() {
-        Result.clear();
-        Setting.clear();
-        AlbumModel.clear();
-        instance = null;
-    }
 
 //*********************AD************************************
 
-    /**
-     * 设置广告(不设置该选项则表示不使用广告)
-     *
-     * @param photosAdView         使用图片列表的广告View
-     * @param photosAdIsLoaded     图片列表广告是否加载完毕
-     * @param albumItemsAdView     使用专辑项目列表的广告View
-     * @param albumItemsAdIsLoaded 专辑项目列表广告是否加载完毕
-     * @return EasyPhotos
-     */
-    public EasyPhotos setAdView(View photosAdView, boolean photosAdIsLoaded, View albumItemsAdView, boolean albumItemsAdIsLoaded) {
-        Setting.photosAdView = new WeakReference<View>(photosAdView);
-        Setting.albumItemsAdView = new WeakReference<View>(albumItemsAdView);
-        Setting.photoAdIsOk = photosAdIsLoaded;
-        Setting.albumItemsAdIsOk = albumItemsAdIsLoaded;
-        return EasyPhotos.this;
-    }
 
     /**
      * 设置广告监听
@@ -297,77 +72,21 @@ public class EasyPhotos {
      * @param adListener 广告监听
      */
     public static void setAdListener(AdListener adListener) {
-        if (null == instance) return;
-        if (instance.startupType == StartupType.CAMERA) return;
-        instance.adListener = new WeakReference<AdListener>(adListener);
+        AlbumBuilder.setAdListener(adListener);
     }
 
     /**
      * 刷新图片列表广告数据
      */
     public static void notifyPhotosAdLoaded() {
-        if (Setting.photoAdIsOk) {
-            return;
-        }
-        if (null == instance) {
-            return;
-        }
-        if (instance.startupType == StartupType.CAMERA) {
-            return;
-        }
-        if (null == instance.adListener) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (null != instance && null != instance.adListener) {
-                        Setting.photoAdIsOk = true;
-                        instance.adListener.get().onPhotosAdLoaded();
-                    }
-                }
-            }).start();
-            return;
-        }
-        Setting.photoAdIsOk = true;
-        instance.adListener.get().onPhotosAdLoaded();
+        AlbumBuilder.notifyPhotosAdLoaded();
     }
 
     /**
      * 刷新专辑项目列表广告
      */
     public static void notifyAlbumItemsAdLoaded() {
-        if (Setting.albumItemsAdIsOk) {
-            return;
-        }
-        if (null == instance) {
-            return;
-        }
-        if (instance.startupType == StartupType.CAMERA) {
-            return;
-        }
-        if (null == instance.adListener) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (null != instance && null != instance.adListener) {
-                        Setting.albumItemsAdIsOk = true;
-                        instance.adListener.get().onAlbumItemsAdLoaded();
-                    }
-                }
-            }).start();
-            return;
-        }
-        Setting.albumItemsAdIsOk = true;
-        instance.adListener.get().onAlbumItemsAdLoaded();
+        AlbumBuilder.notifyAlbumItemsAdLoaded();
     }
 
 
@@ -466,7 +185,7 @@ public class EasyPhotos {
      * @param requestCode          请求code
      * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
      *                             Intent intent = new Intent();
-     *                             intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS , photos);
+     *                             intent.putParcelableArrayListExtra(AlbumBuilder.RESULT_PHOTOS , photos);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
@@ -485,7 +204,7 @@ public class EasyPhotos {
      * @param requestCode          请求code
      * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
      *                             Intent intent = new Intent();
-     *                             intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS , paths);
+     *                             intent.putStringArrayListExtra(AlbumBuilder.RESULT_PATHS , paths);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */

@@ -110,7 +110,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
             if (ColorUtils.isWhiteColor(statusColor)) {
-                SystemUtils.getInstance(this).setStatusDark(this, true);
+                SystemUtils.getInstance().setStatusDark(this, true);
             }
         }
         initConfig();
@@ -200,7 +200,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
      */
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(fileProviderText))
-            throw new RuntimeException("EasyPhotos" + " : 请执行 setFileProviderAuthority()方法");
+            throw new RuntimeException("AlbumBuilder" + " : 请执行 setFileProviderAuthority()方法");
         toAndroidCamera(requestCode);
     }
 
@@ -287,7 +287,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
                 }
 
                 if (Code.REQUEST_PUZZLE_SELECTOR == requestCode) {
-                    Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PUZZLE_PHOTO);
+                    Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
                     addNewPhoto(puzzlePhoto);
                     return;
                 }
