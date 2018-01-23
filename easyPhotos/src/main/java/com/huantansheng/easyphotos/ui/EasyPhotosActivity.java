@@ -368,7 +368,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(),options);
+        BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
         if (onlyStartCamera) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
@@ -569,6 +569,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     }
 
     private void processOriginalMenu() {
+        if (!Setting.showOriginalMenu) return;
         if (Setting.selectedOriginal) {
             tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
         } else {
