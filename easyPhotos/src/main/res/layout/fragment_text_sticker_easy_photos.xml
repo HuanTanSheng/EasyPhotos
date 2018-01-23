@@ -25,8 +25,8 @@
         android:gravity="center"
         android:textSize="@dimen/sticker_text_size_easy_photos"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/guideline2"
-        app:layout_constraintRight_toLeftOf="@id/guideline3"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
@@ -63,7 +63,7 @@
             android:textColor="@color/easy_photos_fg_accent"
             android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/m_seek_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/m_seek_bar" />
 
         <EditText
             android:id="@+id/et"
@@ -80,10 +80,10 @@
             android:paddingTop="8dp"
             android:textColor="@color/easy_photos_fg_accent"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_done"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_done"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/tv_done"
-            app:layout_constraintTop_toTopOf="@id/tv_done" />
+            app:layout_constraintRight_toLeftOf="@+id/tv_done"
+            app:layout_constraintTop_toTopOf="@+id/tv_done" />
 
         <ImageView
             android:id="@+id/iv_clear"
@@ -91,9 +91,9 @@
             android:layout_height="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/et"
-            app:layout_constraintRight_toRightOf="@id/et"
-            app:layout_constraintTop_toTopOf="@id/et"
+            app:layout_constraintBottom_toBottomOf="@+id/et"
+            app:layout_constraintRight_toRightOf="@+id/et"
+            app:layout_constraintTop_toTopOf="@+id/et"
             app:srcCompat="@drawable/ic_clear_easy_photos" />
 
 

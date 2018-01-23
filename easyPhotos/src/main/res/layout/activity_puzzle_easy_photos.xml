@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:paddingTop="8dp"
-                android:layout_below="@id/degree_seek_bar"
+                android:layout_below="@+id/degree_seek_bar"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
@@ -92,7 +92,7 @@
                 android:id="@+id/rv_puzzle_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ll_menu"
+                android:layout_below="@+id/ll_menu"
                 android:paddingBottom="8dp"
                 android:paddingTop="6dp" />
 
@@ -100,7 +100,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rv_puzzle_template"
+                android:layout_below="@+id/rv_puzzle_template"
                 android:orientation="horizontal">
 
                 <TextView
@@ -133,7 +133,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/m_bottom_layout"
+            android:layout_above="@+id/m_bottom_layout"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignWithParentIfMissing="true"

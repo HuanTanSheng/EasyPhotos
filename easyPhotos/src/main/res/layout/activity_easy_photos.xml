@@ -100,7 +100,7 @@
         app:layout_constraintBottom_toTopOf="@+id/m_bottom_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/m_tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/m_tool_bar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_album_items"
@@ -180,9 +180,9 @@
         android:layout_width="1dp"
         android:layout_height="18dp"
         android:background="@color/easy_photos_bar_primary_dark"
-        app:layout_constraintBottom_toBottomOf="@id/m_tool_bar"
-        app:layout_constraintLeft_toRightOf="@id/iv_back"
-        app:layout_constraintTop_toTopOf="@id/m_tool_bar" />
+        app:layout_constraintBottom_toBottomOf="@+id/m_tool_bar"
+        app:layout_constraintLeft_toRightOf="@+id/iv_back"
+        app:layout_constraintTop_toTopOf="@+id/m_tool_bar" />
 
     <View
         android:id="@+id/m_tool_bar_bottom_line"
@@ -191,7 +191,7 @@
         android:background="@color/easy_photos_bar_primary_dark"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/m_tool_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/m_tool_bar" />
 
     <ImageView
         android:id="@+id/iv_back"
@@ -199,8 +199,8 @@
         android:layout_height="42dp"
         android:onClick="onClick"
         android:padding="10dp"
-        app:layout_constraintLeft_toLeftOf="@id/m_tool_bar"
-        app:layout_constraintTop_toTopOf="@id/m_tool_bar"
+        app:layout_constraintLeft_toLeftOf="@+id/m_tool_bar"
+        app:layout_constraintTop_toTopOf="@+id/m_tool_bar"
         app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 
     <TextView
@@ -242,7 +242,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/m_tool_bar_bottom_line">
+        app:layout_constraintTop_toBottomOf="@+id/m_tool_bar_bottom_line">
 
         <TextView
             android:id="@+id/tv_permission"
@@ -255,7 +255,7 @@
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_above="@id/tv_permission"
+            android:layout_above="@+id/tv_permission"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
             app:srcCompat="@drawable/ic_notifications_easy_photos" />
@@ -271,7 +271,7 @@
         app:borderWidth="0dp"
         app:elevation="1dp"
         app:fabSize="normal"
-        app:layout_constraintBottom_toTopOf="@id/m_bottom_bar"
+        app:layout_constraintBottom_toTopOf="@+id/m_bottom_bar"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_camera_easy_photos" />
 </android.support.constraint.ConstraintLayout>
