@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.6'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.7'  
     
 }
 ```    
@@ -142,8 +142,14 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志      
+
+**2.2.7：**    
+- bug修复：在预览页点击最后一张的选择无效，以及因此产生的数组越界bug    
+- bug修复：极少情况下的预览页直接返回产生的空指针问题    
+- 感谢@zijinzhiyun 反馈以上bug
+    
     
-**2.2.6：**    
+**2.2.6：**    
 - api修改：为统一api标准，将所有返回Key统一为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS。带来的改变就是单独使用拼图功能时的图片返回Key改为EasyPhotos.RESULT_PHOTOS和EasyPhotos.RESULT_PATHS，去除原来的EasyPhotos.RESULT_PUZZLE_PHOTO和-
 EasyPhotos.RESULT_PUZZLE_PATH这两个Key。      
 - UI修改：预览页状态栏颜色与colorPrimaryDark色值对应。若其色值趋近于白色，在无虚拟按键的手机中状态栏字体颜色智能适配为深色，有虚拟按键的手机中状态栏智能优化为透明色。（除预览页外，其他页面若状态栏颜色趋近于白色，无论任何机型均为智能优化字体颜色为深色，[查看详情。](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）     
