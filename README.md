@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.7'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.8'  
     
 }
 ```    
@@ -143,7 +143,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志      
 
-**2.2.7：**    
+**2.2.8：**    
 - bug修复：在预览页点击最后一张的选择无效，以及因此产生的数组越界bug    
 - bug修复：极少情况下的预览页直接返回产生的空指针问题    
 - 感谢@zijinzhiyun 反馈以上bug
