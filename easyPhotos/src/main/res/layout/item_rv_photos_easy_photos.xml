@@ -24,7 +24,7 @@
         android:layout_margin="8dp"
         android:background="@drawable/bg_select_true_easy_photos"
         android:gravity="center"
-        android:textColor="@color/white_easy_photos"
+        android:textColor="@color/menu_text_easy_photos"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"

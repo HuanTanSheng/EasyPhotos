@@ -226,7 +226,7 @@
         android:background="@drawable/bg_menu_done_easy_photos"
         android:gravity="center"
         android:padding="6dp"
-        android:textColor="@color/white_easy_photos"
+        android:textColor="@color/menu_text_easy_photos"
         android:textSize="12sp"
         android:textStyle="bold"
         android:visibility="invisible"
