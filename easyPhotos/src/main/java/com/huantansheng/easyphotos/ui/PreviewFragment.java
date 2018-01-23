@@ -66,5 +66,9 @@ public class PreviewFragment extends Fragment implements PreviewPhotosFragmentAd
 
     public void setSelectedPosition(int position) {
         adapter.setChecked(position);
+        if (position != -1) {
+            rvPhotos.smoothScrollToPosition(position);
+        }
     }
+
 }

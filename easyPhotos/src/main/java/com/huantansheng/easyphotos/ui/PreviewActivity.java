@@ -353,6 +353,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 if (unable) {
                     unable = false;
                 }
+                toggleSelector();
                 return;
             }
             Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
@@ -418,6 +419,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             if (TextUtils.equals(path, photos.get(i).path)) {
                 rvPhotos.scrollToPosition(i);
                 lastPosition = i;
+                tvNumber.setText(getString(R.string.preview_current_number_easy_photos, lastPosition + 1, photos.size()));
                 previewFragment.setSelectedPosition(position);
                 toggleSelector();
                 return;
