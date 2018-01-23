@@ -88,7 +88,6 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
             ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
             frame = itemView.findViewById(R.id.v_selector);
             tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
-
         }
     }
 
