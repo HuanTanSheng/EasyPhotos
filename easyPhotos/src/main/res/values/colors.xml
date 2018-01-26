@@ -13,18 +13,18 @@
 
 
     <!--文字贴纸-->
-    <color name="text_sticker_red_easy_photos">#d0021b</color>
-    <color name="text_sticker_orange_easy_photos">#f5a623</color>
-    <color name="text_sticker_yellow_easy_photos">#f8e71c</color>
-    <color name="text_sticker_green_easy_photos">#7ed321</color>
-    <color name="text_sticker_cyan_easy_photos">#50e3c2</color>
-    <color name="text_sticker_blue_easy_photos">#4a90e2</color>
-    <color name="text_sticker_purple_easy_photos">#9013fe</color>
-    <color name="text_sticker_black_easy_photos">#000000</color>
-    <color name="text_sticker_gray_easy_photos">#4a4a4a</color>
-    <color name="text_sticker_white_easy_photos">#ffffff</color>
-    <color name="text_sticker_editor_fragment_bg_easy_photos">#2c2e30</color>
-    <color name="text_sticker_editor_fragment_bar_easy_photos">#393a3f</color>
+    <color name="text_sticker_red_easy_photos">#d0021b</color>//编辑字体颜色为红色
+    <color name="text_sticker_orange_easy_photos">#f5a623</color>//编辑字体颜色为橙色
+    <color name="text_sticker_yellow_easy_photos">#f8e71c</color>//编辑字体颜色为黄色
+    <color name="text_sticker_green_easy_photos">#7ed321</color>//编辑字体颜色为绿色
+    <color name="text_sticker_cyan_easy_photos">#50e3c2</color>//编辑字体颜色为青色
+    <color name="text_sticker_blue_easy_photos">#4a90e2</color>//编辑字体颜色为蓝色
+    <color name="text_sticker_purple_easy_photos">#9013fe</color>//编辑字体颜色为紫色
+    <color name="text_sticker_black_easy_photos">#000000</color>//编辑字体颜色为黑色
+    <color name="text_sticker_gray_easy_photos">#4a4a4a</color>//编辑字体颜色为灰色
+    <color name="text_sticker_white_easy_photos">#ffffff</color>//编辑字体颜色为白色
+    <color name="text_sticker_editor_fragment_bg_easy_photos">#2c2e30</color>//编辑界面背景色
+    <color name="text_sticker_editor_fragment_bar_easy_photos">#393a3f</color>//编辑界面操作栏颜色
 
 
 
