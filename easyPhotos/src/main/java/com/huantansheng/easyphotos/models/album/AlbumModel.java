@@ -29,17 +29,17 @@ public class AlbumModel {
     private static final String TAG = "AlbumModel";
     public static AlbumModel instance;
     public Album album;
-    private CallBack callBack;
+
 
     /**
      * AlbumModel构造方法
+     *
      * @param act      调用专辑的活动实体类
      * @param callBack 初始化全部专辑后的回调
      */
     private AlbumModel(final Activity act, AlbumModel.CallBack callBack) {
         album = new Album();
-        this.callBack = callBack;
-        init(act);
+        init(act, callBack);
     }
 
     public static AlbumModel getInstance(final Activity act, AlbumModel.CallBack callBack) {
@@ -57,12 +57,13 @@ public class AlbumModel {
         instance = null;
     }
 
-    private void init(final Activity act) {
+    private void init(final Activity act, final CallBack callBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 initAlbum(act);
-                callBack.onAlbumWorkedCallBack();
+                if (null != callBack)
+                    callBack.onAlbumWorkedCallBack();
             }
         }).start();
     }
@@ -74,15 +75,16 @@ public class AlbumModel {
 
         Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String sortOrder = MediaStore.Images.Media.DATE_ADDED + " DESC";
+        String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
 
         ContentResolver contentResolver = act.getContentResolver();
         String[] projections = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             projections = new String[]{
+                    MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.DATE_TAKEN,
                     MediaStore.Images.Media.MIME_TYPE,
                     MediaStore.Images.Media.WIDTH,
                     MediaStore.Images.Media.HEIGHT,
@@ -90,9 +92,10 @@ public class AlbumModel {
 
         } else {
             projections = new String[]{
+                    MediaStore.Images.Media._ID,
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.DATE_TAKEN,
                     MediaStore.Images.Media.MIME_TYPE,
                     MediaStore.Images.Media.SIZE};
         }
@@ -103,7 +106,7 @@ public class AlbumModel {
             String albumItem_all_name = act.getString(R.string.selector_folder_all_easy_photos);
             int pathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-            int DateCol = cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED);
+            int DateCol = cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN);
             int mimeType = cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE);
             int sizeCol = cursor.getColumnIndex(MediaStore.Images.Media.SIZE);
             int WidthCol = 0;

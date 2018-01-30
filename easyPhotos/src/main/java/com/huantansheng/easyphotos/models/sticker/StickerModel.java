@@ -129,6 +129,18 @@ public class StickerModel {
             this.currTextSticker.setUsing(false);
         }
 
+        for (BitmapSticker bs : bitmapStickers) {
+            if (bs.isUsing()) {
+                bs.setUsing(false);
+            }
+        }
+
+        for (TextSticker ts : textStickers) {
+            if (ts.isUsing()) {
+                ts.setUsing(false);
+            }
+        }
+
         Bitmap srcBitmap = Bitmap.createBitmap(stickerGroup.getWidth(), stickerGroup.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(srcBitmap);
         stickerGroup.draw(canvas);

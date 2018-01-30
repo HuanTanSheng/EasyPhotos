@@ -17,7 +17,7 @@ public class Photo implements Parcelable {
     public int width;//图片宽度
     public int height;//图片高度
     public long size;//图片文件大小，单位：Bytes
-    public long time;//图片最后修改时间戳,单位：秒
+    public long time;//图片拍摄的时间戳,单位：毫秒
     public boolean selected;//是否被选中,内部使用,无需关心
     public boolean selectedOriginal;//用户选择时是否选择了原图选项
 

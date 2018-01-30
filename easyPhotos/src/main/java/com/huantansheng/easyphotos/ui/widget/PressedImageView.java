@@ -1,8 +1,6 @@
 package com.huantansheng.easyphotos.ui.widget;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
@@ -12,22 +10,22 @@ import android.util.AttributeSet;
  */
 
 public class PressedImageView extends android.support.v7.widget.AppCompatImageView {
-    private int filterColor;//按压颜色
+    private float scaleSize;//按压颜色
 
     public PressedImageView(Context context) {
         super(context);
-        this.filterColor = Color.GRAY;
+        this.scaleSize = 0.97f;
     }
 
     public PressedImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.filterColor = Color.GRAY;
+        this.scaleSize = 0.97f;
 
     }
 
     public PressedImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.filterColor = Color.GRAY;
+        this.scaleSize = 0.97f;
 
     }
 
@@ -35,13 +33,15 @@ public class PressedImageView extends android.support.v7.widget.AppCompatImageVi
     public void setPressed(boolean pressed) {
         super.setPressed(pressed);
         if (isPressed()) {
-            setColorFilter(filterColor, PorterDuff.Mode.MULTIPLY);
+            setScaleX(this.scaleSize);
+            setScaleY(this.scaleSize);
         } else {
-            clearColorFilter();
+            setScaleX(1.0f);
+            setScaleY(1.0f);
         }
     }
 
-    public void setPressedColor(int pressedColor) {
-        filterColor = pressedColor;
+    public void setScaleSize(float scaleSize) {
+        this.scaleSize = scaleSize;
     }
 }
