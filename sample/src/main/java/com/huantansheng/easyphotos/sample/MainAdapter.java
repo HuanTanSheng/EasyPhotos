@@ -38,7 +38,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
     public void onBindViewHolder(MainVH holder, int position) {
         Photo photo = list.get(position);
         mGlide.load(photo.path).into(holder.ivPhoto);
-        holder.tvMessage.setText("[图片名称]： "+photo.name+"\n[宽]："+photo.width+"\n[高]："+photo.height+"\n[文件大小,单位bytes]："+photo.size+"\n[日期，时间戳，秒]："+photo.time+"\n[图片地址]："+photo.path+"\n[图片类型]："+photo.type+"\n[是否选择原图]："+photo.selectedOriginal);
+        holder.tvMessage.setText("[图片名称]： "+photo.name+"\n[宽]："+photo.width+"\n[高]："+photo.height+"\n[文件大小,单位bytes]："+photo.size+"\n[日期，时间戳，毫秒]："+photo.time+"\n[图片地址]："+photo.path+"\n[图片类型]："+photo.type+"\n[是否选择原图]："+photo.selectedOriginal);
     }
 
     @Override
