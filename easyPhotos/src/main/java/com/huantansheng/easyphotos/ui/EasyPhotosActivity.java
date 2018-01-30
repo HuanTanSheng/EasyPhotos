@@ -7,7 +7,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -61,7 +60,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.CallBack, AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
+public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
 
     private boolean isShowCamera, onlyStartCamera;
 
@@ -97,6 +96,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
     private TextView tvPermission;
     private View mBottomBar;
 
+    AlbumModel.CallBack albumModelCallBack;
+
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
         activity.startActivityForResult(intent, requestCode);
@@ -118,7 +119,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         permissionView = (RelativeLayout) findViewById(R.id.rl_permissions_view);
         tvPermission = (TextView) findViewById(R.id.tv_permission);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
-
+        setClick(R.id.iv_back);
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
         }
@@ -132,7 +133,18 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
         }
         permissionView.setVisibility(View.GONE);
         AlbumModel.clear();
-        albumModel = AlbumModel.getInstance(this, this);
+        albumModelCallBack = new AlbumModel.CallBack() {
+            @Override
+            public void onAlbumWorkedCallBack() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onAlbumWorkedDo();
+                    }
+                });
+            }
+        };
+        albumModel = AlbumModel.getInstance(this, albumModelCallBack);
     }
 
     protected String[] getNeedPermissions() {
@@ -395,15 +407,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
     }
 
-    @Override
-    public void onAlbumWorkedCallBack() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                onAlbumWorkedDo();
-            }
-        });
-    }
 
     private void onAlbumWorkedDo() {
         initView();
@@ -468,7 +471,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumModel.
 
         initAlbumItems();
         shouldShowMenuDone();
-        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.iv_back, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu, R.id.tv_puzzle);
+        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu, R.id.tv_puzzle);
 
     }
 

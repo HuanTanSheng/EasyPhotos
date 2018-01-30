@@ -206,6 +206,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     }
 
     private void initView() {
+        findViewById(R.id.iv_back).setOnClickListener(this);
         mRootView = (FrameLayout) findViewById(R.id.m_root_view);
         mToolBar = (FrameLayout) findViewById(R.id.m_top_bar_layout);
         if (!SystemUtils.getInstance().hasNavigationBar(this)) {

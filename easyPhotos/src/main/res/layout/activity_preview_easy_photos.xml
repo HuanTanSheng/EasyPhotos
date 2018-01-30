@@ -39,7 +39,6 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:onClick="onClick"
                     android:padding="10dp"
                     app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 

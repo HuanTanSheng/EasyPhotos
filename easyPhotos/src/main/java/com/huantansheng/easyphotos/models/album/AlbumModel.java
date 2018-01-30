@@ -29,17 +29,17 @@ public class AlbumModel {
     private static final String TAG = "AlbumModel";
     public static AlbumModel instance;
     public Album album;
-    private CallBack callBack;
+
 
     /**
      * AlbumModel构造方法
+     *
      * @param act      调用专辑的活动实体类
      * @param callBack 初始化全部专辑后的回调
      */
     private AlbumModel(final Activity act, AlbumModel.CallBack callBack) {
         album = new Album();
-        this.callBack = callBack;
-        init(act);
+        init(act, callBack);
     }
 
     public static AlbumModel getInstance(final Activity act, AlbumModel.CallBack callBack) {
@@ -57,12 +57,13 @@ public class AlbumModel {
         instance = null;
     }
 
-    private void init(final Activity act) {
+    private void init(final Activity act, final CallBack callBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 initAlbum(act);
-                callBack.onAlbumWorkedCallBack();
+                if (null != callBack)
+                    callBack.onAlbumWorkedCallBack();
             }
         }).start();
     }

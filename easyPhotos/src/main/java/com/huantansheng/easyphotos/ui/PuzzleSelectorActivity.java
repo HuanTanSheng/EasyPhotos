@@ -76,10 +76,13 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
+        setClick(R.id.iv_back);
         tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
         rootSelectorView = (RelativeLayout) findViewById(R.id.m_selector_root);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
+        tvDone.setOnClickListener(this);
+        tvAlbumItems.setOnClickListener(this);
         initAlbumItems();
         initPhotos();
         initPreview();
@@ -109,6 +112,8 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
 
     private void initAlbumItems() {
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+        rootViewAlbumItems.setOnClickListener(this);
+        setClick(R.id.iv_album_items);
         rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
         LinearLayoutManager lm = new LinearLayoutManager(this);
         ArrayList<Object> list = new ArrayList<Object>();
