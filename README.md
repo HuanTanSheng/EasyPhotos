@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.8'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.9'  
     
 }
 ```    
@@ -142,6 +142,18 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志      
+
+**2.2.9：**        
+- 重要修改：Photo类中的time字段的单位改为毫秒    
+- 优化：图片排序算法调整为与系统相册排序算法类似    
+- 优化：内存泄露情况    
+- 修复：部分机型出现少许图片丢失情况    
+- 修复：部分机型不读扩展SD卡中照片的情况    
+- 修复：三星的部分机型clearFilterColor（）方法无效的情况    
+- 修复：三星的部分机型因在xml中绑定点击事件导致的点击无效的情况    
+- 修改：单选选中图标改为数字1    
+- 其他：demo中新增了内存泄露检测工具，如使用中发现内存泄露，麻烦告知，我将第一时间处理，感谢！
+
 
 **2.2.8：**    
 - bug修复：在预览页点击最后一张的选择无效，以及因此产生的数组越界bug    
