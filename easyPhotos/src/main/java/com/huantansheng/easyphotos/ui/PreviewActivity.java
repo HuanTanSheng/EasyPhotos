@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -88,7 +89,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     private boolean isSingle = Setting.count == 1;
     private boolean unable = Result.count() == Setting.count;
 
-    private FrameLayout flFragment, mRootView;
+    private FrameLayout flFragment;
     private PreviewFragment previewFragment;
     private int statusColor;
 
@@ -97,19 +98,29 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         super.onCreate(savedInstanceState);
         decorView = getWindow().getDecorView();
         SystemUtils.getInstance().systemUiInit(this, decorView);
+
+        setContentView(R.layout.activity_preview_easy_photos);
+
+        hideActionBar();
+        adaptationStatusBar();
+        initData();
+        initView();
+    }
+
+    private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             statusColor = ContextCompat.getColor(this, R.color.colorPrimaryDark);
             if (ColorUtils.isWhiteColor(statusColor)) {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
         }
-        setContentView(R.layout.activity_preview_easy_photos);
+    }
+
+    private void hideActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
-        initData();
-        initView();
     }
 
 
@@ -206,19 +217,18 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     }
 
     private void initView() {
-        findViewById(R.id.iv_back).setOnClickListener(this);
-        mRootView = (FrameLayout) findViewById(R.id.m_root_view);
+        setClick(R.id.iv_back, R.id.tv_edit, R.id.tv_selector);
+
         mToolBar = (FrameLayout) findViewById(R.id.m_top_bar_layout);
         if (!SystemUtils.getInstance().hasNavigationBar(this)) {
+            FrameLayout mRootView = (FrameLayout) findViewById(R.id.m_root_view);
             mRootView.setFitsSystemWindows(true);
             mToolBar.setPadding(0, SystemUtils.getInstance().getStatusBarHeight(this), 0, 0);
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
             }
         }
-        PressedTextView tvEdit = (PressedTextView) findViewById(R.id.tv_edit);
         mBottomBar = (RelativeLayout) findViewById(R.id.m_bottom_bar);
-        TextView tvSelector = (TextView) findViewById(R.id.tv_selector);
         ivSelector = (ImageView) findViewById(R.id.iv_selector);
         tvNumber = (TextView) findViewById(R.id.tv_number);
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
@@ -230,11 +240,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         } else {
             tvOriginal.setVisibility(View.GONE);
         }
-        tvOriginal.setOnClickListener(this);
-        tvDone.setOnClickListener(this);
-        tvSelector.setOnClickListener(this);
-        ivSelector.setOnClickListener(this);
-        tvEdit.setOnClickListener(this);
+
+        setClick(tvOriginal, tvDone, ivSelector);
+
         initRecyclerView();
         shouldShowMenuDone();
     }
@@ -425,6 +433,18 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 toggleSelector();
                 return;
             }
+        }
+    }
+
+    private void setClick(@IdRes int... ids) {
+        for (int id : ids) {
+            findViewById(id).setOnClickListener(this);
+        }
+    }
+
+    private void setClick(View... views) {
+        for (View v : views) {
+            v.setOnClickListener(this);
         }
     }
 }

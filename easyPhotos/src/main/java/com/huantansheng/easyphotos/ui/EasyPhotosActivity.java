@@ -114,16 +114,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
+        adaptationStatusBar();
+        initSomeViews();
+        if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
+            hasPermissions();
+        }
+    }
+
+    private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
             }
-        }
-
-        initSomeViews();
-        if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
-            hasPermissions();
         }
     }
 
@@ -475,7 +478,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         initAlbumItems();
         shouldShowMenuDone();
-        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu, R.id.tv_puzzle);
+        setClick(R.id.iv_album_items, R.id.tv_clear, R.id.iv_second_menu, R.id.tv_puzzle);
+        setClick(tvAlbumItems, rootViewAlbumItems, tvDone, tvOriginal, tvPreview, ivCamera);
 
     }
 
@@ -732,6 +736,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void setClick(@IdRes int... ids) {
         for (int id : ids) {
             findViewById(id).setOnClickListener(this);
+        }
+    }
+
+    private void setClick(View... views) {
+        for (View v : views) {
+            v.setOnClickListener(this);
         }
     }
 }
