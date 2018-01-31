@@ -15,15 +15,16 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import java.util.ArrayList;
 
 /**
+ * 返回图片的列表适配器
  * Created by huan on 2017/10/30.
  */
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
-    ArrayList<Photo> list;
-    LayoutInflater mInflater;
-    RequestManager mGlide;
+    private ArrayList<Photo> list;
+    private LayoutInflater mInflater;
+    private RequestManager mGlide;
 
-    public MainAdapter(Context cxt, ArrayList<Photo> list) {
+    MainAdapter(Context cxt, ArrayList<Photo> list) {
         this.list = list;
         mInflater = LayoutInflater.from(cxt);
         mGlide = Glide.with(cxt);
@@ -46,10 +47,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainVH> {
         return list.size();
     }
 
-    public class MainVH extends RecyclerView.ViewHolder {
-        public ImageView ivPhoto;
-        public TextView tvMessage;
-        public MainVH(View itemView) {
+    class MainVH extends RecyclerView.ViewHolder {
+        ImageView ivPhoto;
+        TextView tvMessage;
+        MainVH(View itemView) {
             super(itemView);
             ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
             tvMessage = (TextView) itemView.findViewById(R.id.tv_message);
