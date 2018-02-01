@@ -154,8 +154,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         initPuzzleView();
         initRecyclerView();
         progressBar = findViewById(R.id.progress);
-        findViewById(R.id.tv_back).setOnClickListener(this);
-        findViewById(R.id.tv_done).setOnClickListener(this);
+        setClick(R.id.tv_back,R.id.tv_done);
     }
 
     private void initIvMenu() {
@@ -167,21 +166,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         mBottomLayout = (RelativeLayout) findViewById(R.id.m_bottom_layout);
 
         llMenu = (LinearLayout) findViewById(R.id.ll_menu);
-        ImageView ivReplace = (ImageView) findViewById(R.id.iv_replace);
         ImageView ivRotate = (ImageView) findViewById(R.id.iv_rotate);
-        ImageView ivMirror = (ImageView) findViewById(R.id.iv_mirror);
-        ImageView ivFlip = (ImageView) findViewById(R.id.iv_flip);
         ImageView ivCorner = (ImageView) findViewById(R.id.iv_corner);
         ImageView ivPadding = (ImageView) findViewById(R.id.iv_padding);
-        ivReplace.setOnClickListener(this);
-        ivRotate.setOnClickListener(this);
-        ivMirror.setOnClickListener(this);
-        ivFlip.setOnClickListener(this);
-        ivCorner.setOnClickListener(this);
-        ivPadding.setOnClickListener(this);
-        fab.setOnClickListener(this);
-        tvTextSticker.setOnClickListener(this);
-        tvTemplate.setOnClickListener(this);
+
+        setClick(R.id.iv_replace,R.id.iv_mirror,R.id.iv_flip);
+        setClick(ivRotate,ivCorner,ivPadding,fab,tvTextSticker,tvTemplate);
+
         ivMenus.add(ivRotate);
         ivMenus.add(ivCorner);
         ivMenus.add(ivPadding);
@@ -633,5 +624,17 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
         super.onBackPressed();
+    }
+
+    private void setClick(@IdRes int... ids) {
+        for (int id : ids) {
+            findViewById(id).setOnClickListener(this);
+        }
+    }
+
+    private void setClick(View... views) {
+        for (View v : views) {
+            v.setOnClickListener(this);
+        }
     }
 }

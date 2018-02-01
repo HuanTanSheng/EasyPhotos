@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.ContentResolverCompat;
 import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
@@ -101,7 +102,7 @@ public class AlbumModel {
         }
         Cursor cursor = contentResolver.query(contentUri, projections, null, null, sortOrder);
         if (cursor == null) {
-            Log.d(TAG, "call: " + "Empty photos");
+//            Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
             String albumItem_all_name = act.getString(R.string.selector_folder_all_easy_photos);
             int pathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);

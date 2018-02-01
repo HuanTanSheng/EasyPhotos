@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -62,9 +63,6 @@ import java.util.Locale;
 
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
 
-    private boolean isShowCamera, onlyStartCamera;
-
-    private String fileProviderText;//fileProvider的authorities字符串
     private File mTempImageFile;
 
     private AlbumModel albumModel;
@@ -96,11 +94,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private TextView tvPermission;
     private View mBottomBar;
 
-    AlbumModel.CallBack albumModelCallBack;
-
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void start(Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), EasyPhotosActivity.class);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    public static void start(android.support.v4.app.Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getContext(), EasyPhotosActivity.class);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -108,32 +114,38 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
+        adaptationStatusBar();
+        initSomeViews();
+        if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
+            hasPermissions();
+        }
+    }
+
+    private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
             }
         }
-        initConfig();
+    }
+
+    private void initSomeViews() {
         mBottomBar = findViewById(R.id.m_bottom_bar);
         permissionView = (RelativeLayout) findViewById(R.id.rl_permissions_view);
         tvPermission = (TextView) findViewById(R.id.tv_permission);
         rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
         setClick(R.id.iv_back);
-        if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
-            hasPermissions();
-        }
-
     }
 
     private void hasPermissions() {
-        if (onlyStartCamera) {
+        if (Setting.onlyStartCamera) {
             launchCamera(Code.REQUEST_CAMERA);
             return;
         }
         permissionView.setVisibility(View.GONE);
         AlbumModel.clear();
-        albumModelCallBack = new AlbumModel.CallBack() {
+        AlbumModel.CallBack albumModelCallBack = new AlbumModel.CallBack() {
             @Override
             public void onAlbumWorkedCallBack() {
                 runOnUiThread(new Runnable() {
@@ -148,7 +160,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     protected String[] getNeedPermissions() {
-        if (isShowCamera) {
+        if (Setting.isShowCamera) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 return new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
             }
@@ -165,6 +177,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         PermissionUtil.onPermissionResult(this, permissions, grantResults, new PermissionUtil.PermissionCallBack() {
             @Override
             public void onSuccess() {
@@ -199,11 +212,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         });
     }
 
-    private void initConfig() {
-        isShowCamera = Setting.isShowCamera;
-        onlyStartCamera = Setting.onlyStartCamera;
-        fileProviderText = Setting.fileProviderAuthority;
-    }
 
     /**
      * 启动相机
@@ -211,7 +219,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
      * @param requestCode startActivityForResult的请求码
      */
     private void launchCamera(int requestCode) {
-        if (TextUtils.isEmpty(fileProviderText))
+        if (TextUtils.isEmpty(Setting.fileProviderAuthority))
             throw new RuntimeException("AlbumBuilder" + " : 请执行 setFileProviderAuthority()方法");
         toAndroidCamera(requestCode);
     }
@@ -227,7 +235,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             createCameraTempImageFile();
             if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri = FileProvider.getUriForFile(this, fileProviderText, mTempImageFile);//通过FileProvider创建一个content类型的Uri
+                Uri imageUri = FileProvider.getUriForFile(this, Setting.fileProviderAuthority, mTempImageFile);//通过FileProvider创建一个content类型的Uri
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
 
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
@@ -314,7 +322,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                             mTempImageFile = null;
                         }
                     }
-                    if (onlyStartCamera) {
+                    if (Setting.onlyStartCamera) {
                         finish();
                     }
                     return;
@@ -340,7 +348,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         String albumName = StringUtils.getLastPathSegment(folderPath);
         albumModel.album.addAlbumItem(albumName, folderPath, photo.path);
         albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
-
 
         albumItemList.clear();
         albumItemList.addAll(albumModel.getAlbumItems());
@@ -381,7 +388,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
-        if (onlyStartCamera) {
+        if (Setting.onlyStartCamera||albumModel.getAlbumItems().isEmpty()) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
             Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, mTempImageFile.length(), options.outMimeType);
@@ -416,7 +423,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         if (albumModel.getAlbumItems().isEmpty()) {
             Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
-            if (isShowCamera) launchCamera(Code.REQUEST_CAMERA);
+            if (Setting.isShowCamera) launchCamera(Code.REQUEST_CAMERA);
             else finish();
             return;
         }
@@ -426,7 +433,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
         ivCamera = (ImageView) findViewById(R.id.fab_camera);
-        if (isShowCamera) {
+        if (Setting.isShowCamera) {
             ivCamera.setVisibility(View.VISIBLE);
         }
         if (!Setting.showPuzzleMenu) {
@@ -471,7 +478,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         initAlbumItems();
         shouldShowMenuDone();
-        setClick(R.id.tv_album_items, R.id.iv_album_items, R.id.root_view_album_items, R.id.tv_done, R.id.tv_clear, R.id.tv_original, R.id.tv_preview, R.id.fab_camera, R.id.iv_second_menu, R.id.tv_puzzle);
+        setClick(R.id.iv_album_items, R.id.tv_clear, R.id.iv_second_menu, R.id.tv_puzzle);
+        setClick(tvAlbumItems, rootViewAlbumItems, tvDone, tvOriginal, tvPreview, ivCamera);
 
     }
 
@@ -547,11 +555,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
         if (View.VISIBLE == mSecondMenus.getVisibility()) {
             mSecondMenus.setVisibility(View.INVISIBLE);
-            if (isShowCamera)
+            if (Setting.isShowCamera)
                 ivCamera.setVisibility(View.VISIBLE);
         } else {
             mSecondMenus.setVisibility(View.VISIBLE);
-            if (isShowCamera)
+            if (Setting.isShowCamera)
                 ivCamera.setVisibility(View.INVISIBLE);
         }
     }
@@ -728,6 +736,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void setClick(@IdRes int... ids) {
         for (int id : ids) {
             findViewById(id).setOnClickListener(this);
+        }
+    }
+
+    private void setClick(View... views) {
+        for (View v : views) {
+            v.setOnClickListener(this);
         }
     }
 }

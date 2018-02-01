@@ -1,30 +1,20 @@
 package com.huantansheng.easyphotos.Builder;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.huantansheng.easyphotos.models.sticker.StickerModel;
-import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
-import com.huantansheng.easyphotos.ui.PuzzleActivity;
-import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
-import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
-import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * EasyPhotos的启动管理器
@@ -43,13 +33,25 @@ public class AlbumBuilder {
     }
 
     private static AlbumBuilder instance;
-    private final WeakReference<Activity> mActivity;
+    private WeakReference<Activity> mActivity;
+    private WeakReference<Fragment> mFragmentV;
+    private WeakReference<android.app.Fragment> mFragment;
     private StartupType startupType;
     private WeakReference<AdListener> adListener;
 
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     private AlbumBuilder(Activity activity, StartupType startupType) {
         mActivity = new WeakReference<>(activity);
+        this.startupType = startupType;
+    }
+
+    private AlbumBuilder(Fragment fragment, StartupType startupType) {
+        mFragmentV = new WeakReference<Fragment>(fragment);
+        this.startupType = startupType;
+    }
+
+    private AlbumBuilder(android.app.Fragment fragment, StartupType startupType) {
+        mFragment = new WeakReference<android.app.Fragment>(fragment);
         this.startupType = startupType;
     }
 
@@ -69,8 +71,8 @@ public class AlbumBuilder {
     /**
      * 创建相机
      *
-     * @param activity    上下文
-     * @return              AlbumBuilder
+     * @param activity 上下文
+     * @return AlbumBuilder
      */
     public static AlbumBuilder createCamera(Activity activity) {
         return AlbumBuilder.with(activity, StartupType.CAMERA);
@@ -251,7 +253,18 @@ public class AlbumBuilder {
      * @param requestCode startActivityForResult的请求码
      */
     private void launchEasyPhotosActivity(int requestCode) {
-        EasyPhotosActivity.start(mActivity.get(), requestCode);
+        if (null != mActivity && null != mActivity.get()) {
+            EasyPhotosActivity.start(mActivity.get(), requestCode);
+            return;
+        }
+        if (null != mFragment && null != mFragment.get()) {
+            EasyPhotosActivity.start(mFragment.get(), requestCode);
+            return;
+        }
+        if (null != mFragmentV && null != mFragmentV.get()) {
+            EasyPhotosActivity.start(mFragmentV.get(), requestCode);
+        }
+
     }
 
     /**
