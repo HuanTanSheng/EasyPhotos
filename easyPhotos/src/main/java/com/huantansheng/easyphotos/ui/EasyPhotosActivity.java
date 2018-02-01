@@ -388,7 +388,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
-        if (Setting.onlyStartCamera) {
+        if (Setting.onlyStartCamera||albumModel.getAlbumItems().isEmpty()) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
             Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, mTempImageFile.length(), options.outMimeType);
