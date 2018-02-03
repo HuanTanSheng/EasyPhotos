@@ -235,7 +235,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             createCameraTempImageFile();
             if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri = FileProvider.getUriForFile(this, Setting.fileProviderAuthority, mTempImageFile);//通过FileProvider创建一个content类型的Uri
+                Uri imageUri = null;
+                if (Build.VERSION.SDK_INT >= 24) {
+                    imageUri = FileProvider.getUriForFile(this, Setting.fileProviderAuthority, mTempImageFile);//通过FileProvider创建一个content类型的Uri
+                } else {
+                    imageUri = Uri.fromFile(mTempImageFile);
+                }
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
 
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
@@ -388,7 +393,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
-        if (Setting.onlyStartCamera||albumModel.getAlbumItems().isEmpty()) {
+        if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
             Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, mTempImageFile.length(), options.outMimeType);
