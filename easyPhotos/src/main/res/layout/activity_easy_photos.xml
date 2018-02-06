@@ -10,7 +10,7 @@
     <View
         android:id="@+id/m_tool_bar"
         android:layout_width="0dp"
-        android:layout_height="42dp"
+        android:layout_height="@dimen/toolbar_size_easy_photos"
         android:background="@color/easy_photos_bar_primary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -201,6 +201,7 @@
         android:padding="10dp"
         app:layout_constraintLeft_toLeftOf="@+id/m_tool_bar"
         app:layout_constraintTop_toTopOf="@+id/m_tool_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/m_tool_bar"
         app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 
     <TextView
