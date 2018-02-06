@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.2.9'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.0'  
     
 }
 ```    
@@ -138,7 +138,11 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志      
+## 更新日志    
+    
+**2.3.0：**    
+- 修复4.4.3YouTaPhone拍照时相机停止运行错误    
+- 修复相册中没有图片情况下，EasyPhotos自动前往相机拍照时，发生的错误    
 
 **2.2.9：**        
 - 重要修改：Photo类中的time字段的单位改为毫秒    
