@@ -750,9 +750,4 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             v.setOnClickListener(this);
         }
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 }
