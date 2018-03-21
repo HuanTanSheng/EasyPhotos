@@ -67,6 +67,18 @@ public class AlbumBuilder {
         return instance;
     }
 
+    private static AlbumBuilder with(android.app.Fragment fragment, StartupType startupType) {
+        clear();
+        instance = new AlbumBuilder(fragment, startupType);
+        return instance;
+    }
+
+    private static AlbumBuilder with(Fragment fragmentV, StartupType startupType) {
+        clear();
+        instance = new AlbumBuilder(fragmentV, startupType);
+        return instance;
+    }
+
 
     /**
      * 创建相机
@@ -76,6 +88,14 @@ public class AlbumBuilder {
      */
     public static AlbumBuilder createCamera(Activity activity) {
         return AlbumBuilder.with(activity, StartupType.CAMERA);
+    }
+
+    public static AlbumBuilder createCamera(android.app.Fragment fragment) {
+        return AlbumBuilder.with(fragment, StartupType.CAMERA);
+    }
+
+    public static AlbumBuilder createCamera(Fragment fragmentV) {
+        return AlbumBuilder.with(fragmentV, StartupType.CAMERA);
     }
 
     /**
@@ -94,6 +114,28 @@ public class AlbumBuilder {
             return AlbumBuilder.with(activity, StartupType.ALBUM_CAMERA);
         } else {
             return AlbumBuilder.with(activity, StartupType.ALBUM);
+        }
+    }
+
+    public static AlbumBuilder createAlbum(android.app.Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
+        }
+        if (isShowCamera) {
+            return AlbumBuilder.with(fragment, StartupType.ALBUM_CAMERA);
+        } else {
+            return AlbumBuilder.with(fragment, StartupType.ALBUM);
+        }
+    }
+
+    public static AlbumBuilder createAlbum(Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        if (Setting.imageEngine != imageEngine) {
+            Setting.imageEngine = imageEngine;
+        }
+        if (isShowCamera) {
+            return AlbumBuilder.with(fragmentV, StartupType.ALBUM_CAMERA);
+        } else {
+            return AlbumBuilder.with(fragmentV, StartupType.ALBUM);
         }
     }
 

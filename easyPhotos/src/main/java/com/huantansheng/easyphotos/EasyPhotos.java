@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -48,6 +49,14 @@ public class EasyPhotos {
         return AlbumBuilder.createCamera(activity);
     }
 
+    public static AlbumBuilder createCamera(Fragment fragment) {
+        return AlbumBuilder.createCamera(fragment);
+    }
+
+    public static AlbumBuilder createCamera(android.support.v4.app.Fragment fragmentV) {
+        return AlbumBuilder.createCamera(fragmentV);
+    }
+
     /**
      * 创建相册
      *
@@ -58,6 +67,14 @@ public class EasyPhotos {
      */
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
+    }
+
+    public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine);
+    }
+
+    public static AlbumBuilder createAlbum(android.support.v4.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine);
     }
 
 

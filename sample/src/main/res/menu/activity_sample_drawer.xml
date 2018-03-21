@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <item android:title="Album/Camera">
@@ -72,8 +71,8 @@
 
                 <item
                     android:id="@+id/face_detection"
-                    android:visible="false"
-                    android:title="@string/face_detection" />
+                    android:title="@string/face_detection"
+                    android:visible="false" />
 
             </group>
         </menu>
