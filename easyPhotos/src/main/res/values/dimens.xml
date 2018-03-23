@@ -1,3 +1,4 @@
 <resources>
     <dimen name="sticker_text_size_easy_photos">16sp</dimen>
+    <dimen name="toolbar_size_easy_photos">42dp</dimen>
 </resources>

@@ -72,6 +72,10 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
             }
         }
         albumModel = AlbumModel.getInstance(this, null);
+        if (null == albumModel||albumModel.getAlbumItems().isEmpty()) {
+            finish();
+            return;
+        }
         initView();
     }
 
