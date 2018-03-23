@@ -62,10 +62,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final int p = position;
         if (holder instanceof PhotoViewHolder) {
-            if (null == Setting.imageEngine) {
-                listener.shouldFinish();
-                return;
-            }
             final Photo item = (Photo) dataList.get(p);
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
@@ -224,8 +220,6 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         void onSelectorOutOfMax();
 
         void onSelectorChanged();
-
-        void shouldFinish();
     }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {

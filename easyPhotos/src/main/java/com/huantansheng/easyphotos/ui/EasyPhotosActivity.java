@@ -117,6 +117,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
         adaptationStatusBar();
+        if (!Setting.onlyStartCamera && null == Setting.imageEngine) {
+            finish();
+            return;
+        }
         initSomeViews();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();
@@ -292,7 +296,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
 
     }
-
 
 
     @Override
@@ -708,11 +711,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     @Override
     public void onSelectorChanged() {
         shouldShowMenuDone();
-    }
-
-    @Override
-    public void shouldFinish() {
-        finish();
     }
 
 

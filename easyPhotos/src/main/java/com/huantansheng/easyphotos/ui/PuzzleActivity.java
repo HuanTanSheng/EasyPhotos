@@ -227,6 +227,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         if (actionBar != null) {
             actionBar.hide();
         }
+        if (null == Setting.imageEngine) {
+            finish();
+            return;
+        }
         initData();
         initView();
     }

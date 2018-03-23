@@ -44,6 +44,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     @Override
     public void onBindViewHolder(final PreviewPhotosViewHolder holder, int position) {
+
         String path = photos.get(position).path;
         String type = photos.get(position).type;
         if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {

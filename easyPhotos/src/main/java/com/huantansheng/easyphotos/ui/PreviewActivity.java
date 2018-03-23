@@ -103,6 +103,10 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
         hideActionBar();
         adaptationStatusBar();
+        if (null == AlbumModel.instance) {
+            finish();
+            return;
+        }
         initData();
         initView();
     }
@@ -128,6 +132,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         Intent intent = getIntent();
         int albumItemIndex = intent.getIntExtra(Key.PREVIEW_ALBUM_ITEM_INDEX, 0);
         photos.clear();
+
         if (albumItemIndex == -1) {
             photos.addAll(Result.photos);
         } else {
