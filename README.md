@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.0'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.1'  
     
 }
 ```    
@@ -140,6 +140,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志    
 
+**2.3.1：**    
+- 新增：调用相册支持Fragment直接调用，走Fragment的result回调    
+- 修复：三星S3拍照错误     
+- 修复：魅族用户在极端操作下的权限错误     
+- 修复：app在后台时，因设备内存不足而回收资源后，在任务列表中启动app后的异常    
+    
 **2.3.0：**    
 - 修复4.4.3YouTaPhone拍照时相机停止运行错误    
 - 修复相册中没有图片情况下，EasyPhotos自动前往相机拍照时，发生的错误    
