@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -222,6 +223,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void launchCamera(int requestCode) {
         if (TextUtils.isEmpty(Setting.fileProviderAuthority))
             throw new RuntimeException("AlbumBuilder" + " : 请执行 setFileProviderAuthority()方法");
+        if (!cameraIsCanUse()) {
+            permissionView.setVisibility(View.VISIBLE);
+            tvPermission.setText(R.string.permissions_die_easy_photos);
+            permissionView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this, getPackageName());
+                }
+            });
+            return;
+        }
         toAndroidCamera(requestCode);
     }
 
@@ -280,6 +292,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -696,6 +710,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         shouldShowMenuDone();
     }
 
+    @Override
+    public void shouldFinish() {
+        finish();
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -749,5 +768,30 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         for (View v : views) {
             v.setOnClickListener(this);
         }
+    }
+
+    /**
+     * 返回true 表示可以使用  返回false表示不可以使用
+     */
+    public boolean cameraIsCanUse() {
+        boolean isCanUse = true;
+        Camera mCamera = null;
+        try {
+            mCamera = Camera.open();
+            Camera.Parameters mParameters = mCamera.getParameters(); //针对魅族手机
+            mCamera.setParameters(mParameters);
+        } catch (Exception e) {
+            isCanUse = false;
+        }
+
+        if (mCamera != null) {
+            try {
+                mCamera.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return isCanUse;
+            }
+        }
+        return isCanUse;
     }
 }
