@@ -8,8 +8,8 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
@@ -130,6 +130,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
+            if(statusColor == Color.TRANSPARENT){
+                statusColor =  ContextCompat.getColor(this, R.color.colorPrimaryDark);
+            }
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
             }
