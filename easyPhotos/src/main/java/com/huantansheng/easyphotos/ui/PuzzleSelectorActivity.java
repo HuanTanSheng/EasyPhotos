@@ -6,10 +6,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.IdRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,6 +69,9 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_puzzle_selector_easy_photos);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
+            if(statusColor == Color.TRANSPARENT){
+                statusColor =  ContextCompat.getColor(this, R.color.colorPrimaryDark);
+            }
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
             }

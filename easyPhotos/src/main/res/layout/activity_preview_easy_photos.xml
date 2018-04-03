@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="?metaButtonBarStyle"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/easy_photos_status_bar">
 
             <RelativeLayout
                 android:id="@+id/m_top_bar"

@@ -7,7 +7,12 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/easy_photos_status_bar</item>
+    </style>
+
+
+    <style name="EasyPhotosTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/easy_photos_status_bar</item>
     </style>
 
 </resources>

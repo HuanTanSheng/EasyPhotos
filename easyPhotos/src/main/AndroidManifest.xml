@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.huantansheng.easyphotos">
 
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
 
 
     <application
@@ -15,7 +18,8 @@
         <activity
             android:name=".ui.EasyPhotosActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/EasyPhotosTheme" />
         <activity
             android:name=".ui.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -23,13 +27,16 @@
             android:theme="@style/EasyPhotosFullscreenTheme" />
         <activity
             android:name=".ui.PuzzleActivity"
-            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/EasyPhotosTheme"
+            android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".ui.PuzzleSelectorActivity"
+        <activity
+            android:name=".ui.PuzzleSelectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/EasyPhotosTheme" />
     </application>
 
 </manifest>
