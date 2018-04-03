@@ -7,4 +7,6 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
+    <style name="EasyPhotosTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
 </resources>
