@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.1'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.2'  
     
 }
 ```    
@@ -81,13 +81,13 @@ dependencies {
 
     
        
-**如果你的 `android studio` 版本不同于3.0.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
+**如果你的 `android studio` 版本不同于3.1.0正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-	//把3.0.1改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+        classpath 'com.android.tools.build:gradle:3.1.0'
+	//把3.1.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
 ```    
@@ -139,6 +139,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
+**2.3.2：**    
+- 优化：状态栏颜色独立为easy_photos_status_bar    
+    
 
 **2.3.1：**    
 - 新增：调用相册支持Fragment直接调用，走Fragment的result回调    
