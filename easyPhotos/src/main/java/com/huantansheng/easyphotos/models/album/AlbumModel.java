@@ -141,6 +141,11 @@ public class AlbumModel {
                     }
                 }
 
+                File file = new File(path);
+                if (!file.exists() || !file.isFile()) {
+                    continue;
+                }
+
                 Photo imageItem = new Photo(name, path, dateTime, width, height, size, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
