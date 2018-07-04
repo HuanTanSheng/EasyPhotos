@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.2'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.3'  
     
 }
 ```    
@@ -139,8 +139,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
-**2.3.2：**    
-- 优化：状态栏颜色独立为easy_photos_status_bar    
+**2.3.3：**    
+- 优化：过滤媒体库中存在但实际不存在的图片    
+    
+**2.3.2：**    
+- 优化：状态栏颜色独立为easy_photos_status_bar    
     
 
 **2.3.1：**    
