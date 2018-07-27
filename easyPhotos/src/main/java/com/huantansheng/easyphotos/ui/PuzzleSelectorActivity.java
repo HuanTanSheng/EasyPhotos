@@ -70,7 +70,7 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
             if(statusColor == Color.TRANSPARENT){
-                statusColor =  ContextCompat.getColor(this, R.color.colorPrimaryDark);
+                statusColor =  ContextCompat.getColor(this, R.color.easy_photos_status_bar);
             }
             if (ColorUtils.isWhiteColor(statusColor)) {
                 SystemUtils.getInstance().setStatusDark(this, true);
