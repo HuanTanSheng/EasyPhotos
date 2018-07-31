@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.ContentResolverCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
@@ -125,6 +126,9 @@ public class AlbumModel {
                 long size = cursor.getInt(sizeCol);
                 int width = 0;
                 int height = 0;
+                if (TextUtils.isEmpty(path) || TextUtils.isEmpty(type)) {
+                    continue;
+                }
                 if (!Setting.showGif) {
                     if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                         continue;
