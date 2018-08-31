@@ -76,7 +76,8 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
                 SystemUtils.getInstance().setStatusDark(this, true);
             }
         }
-        albumModel = AlbumModel.getInstance(this, null);
+        albumModel = AlbumModel.getInstance();
+        albumModel.query(this, null);
         if (null == albumModel||albumModel.getAlbumItems().isEmpty()) {
             finish();
             return;

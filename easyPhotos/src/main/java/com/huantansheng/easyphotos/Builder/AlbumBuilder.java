@@ -315,7 +315,6 @@ public class AlbumBuilder {
     private static void clear() {
         Result.clear();
         Setting.clear();
-        AlbumModel.clear();
         instance = null;
     }
 
