@@ -32,6 +32,7 @@ public class Setting {
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
     public static boolean showGif = true;
+    public static boolean showCleanMenu = true;
     public static ImageEngine imageEngine = null;
 
 
@@ -53,6 +54,7 @@ public class Setting {
         onlyStartCamera = false;
         showPuzzleMenu = true;
         showGif = true;
+        showCleanMenu = true;
     }
 
     public static boolean hasPhotosAd() {
