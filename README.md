@@ -47,10 +47,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
 ## 关于EasyPhotos的SDK及相关版本公示 
-compileSdkVersion 27  
+compileSdkVersion 28  
 minSdkVersion 15  
-targetSdkVersion 27      
-buildToolsVersion '27.0.3'    
+targetSdkVersion 28      
+buildToolsVersion '28.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
 
@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.4'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.5'  
     
 }
 ```    
@@ -86,7 +86,7 @@ dependencies {
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
 	//把3.1.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
@@ -139,6 +139,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
+**2.3.5：**     
+- 修复：修复文字贴纸自动生成日期错误    
+- 优化：AlbumModel类，更加节省内存    
+- 升级：compileSdkVersion 升级为28，buildToolsVersion 升级为 '28.0.3'。    
+    
 **2.3.4：**    
 - 修复：坚果pro和荣耀8在特殊情况下无法获取媒体文件路径的问题        
     
