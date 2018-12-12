@@ -153,7 +153,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             return;
         }
         permissionView.setVisibility(View.GONE);
-        AlbumModel.clear();
         AlbumModel.CallBack albumModelCallBack = new AlbumModel.CallBack() {
             @Override
             public void onAlbumWorkedCallBack() {
@@ -165,7 +164,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 });
             }
         };
-        albumModel = AlbumModel.getInstance(this, albumModelCallBack);
+        albumModel = AlbumModel.getInstance();
+        albumModel.query(this, albumModelCallBack);
     }
 
     protected String[] getNeedPermissions() {
