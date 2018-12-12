@@ -61,7 +61,7 @@ public class AlbumModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                album = new Album();
+                album.clear();
                 initAlbum(context);
                 if (null != callBack)
                     callBack.onAlbumWorkedCallBack();

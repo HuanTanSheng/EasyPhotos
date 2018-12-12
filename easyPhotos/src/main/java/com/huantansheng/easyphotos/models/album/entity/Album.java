@@ -39,4 +39,9 @@ public class Album {
     public boolean isEmpty() {
         return albumItems.isEmpty();
     }
+
+    public void clear() {
+        albumItems.clear();
+        hasAlbumItems.clear();
+    }
 }
