@@ -164,7 +164,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/m_bottom_bar"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit_easy_photos" />
 
         <com.huantansheng.easyphotos.ui.widget.PressedTextView
             android:id="@+id/tv_preview"
