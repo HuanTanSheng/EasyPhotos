@@ -113,7 +113,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            statusColor = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+            statusColor = ContextCompat.getColor(this, R.color.easy_photos_status_bar);
             if (ColorUtils.isWhiteColor(statusColor)) {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }

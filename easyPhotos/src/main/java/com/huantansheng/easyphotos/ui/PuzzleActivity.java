@@ -685,7 +685,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                 PuzzleLayout puzzleLayout = puzzleView.getPuzzleLayout();
                 for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    String date = format.format(photos.get(i).time * 1000);
+                    String date = format.format(photos.get(i).time );
                     stickerModel.addTextSticker(this, getSupportFragmentManager(), date, mRootView);
                     stickerModel.currTextSticker.isChecked = true;
                     Area area = puzzleLayout.getArea(i);

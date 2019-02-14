@@ -248,22 +248,32 @@ public class AlbumBuilder {
     /**
      * 是否显示拼图按钮
      *
-     * @param isShow 是否显示
+     * @param shouldShow 是否显示
      * @return AlbumBuilder
      */
-    public AlbumBuilder setPuzzleMenu(boolean isShow) {
-        Setting.showPuzzleMenu = isShow;
+    public AlbumBuilder setPuzzleMenu(boolean shouldShow) {
+        Setting.showPuzzleMenu = shouldShow;
         return AlbumBuilder.this;
     }
 
     /**
      * 是否显示gif图
      *
-     * @param isShow 是否显示
+     * @param shouldShow 是否显示
      * @return @return AlbumBuilder
      */
-    public AlbumBuilder setGif(boolean isShow) {
-        Setting.showGif = isShow;
+    public AlbumBuilder setGif(boolean shouldShow) {
+        Setting.showGif = shouldShow;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 相册选择页是否显示清空按钮
+     * @param shouldShow
+     * @return
+     */
+    public AlbumBuilder setCleanMenu(boolean shouldShow) {
+        Setting.showCleanMenu = shouldShow;
         return AlbumBuilder.this;
     }
 
@@ -315,7 +325,6 @@ public class AlbumBuilder {
     private static void clear() {
         Result.clear();
         Setting.clear();
-        AlbumModel.clear();
         instance = null;
     }
 

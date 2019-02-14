@@ -32,7 +32,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
     
     
 ## 产品特色    
-- 支持绑定Glide、Picasso、Fresco、Imageloader等所有图片加载库，EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
+- 支持绑定Glide、Picasso、Imageloader等所有图片加载库（fresco暂不支持），EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
 - 状态栏字体颜色智能适配，当状态栏颜色趋近于白色时，字体颜色智能处理为深色     
 - 内部处理运行时权限，使用者无需考虑权限问题    
 - 拼一张功能（可配置开关，可独立作为拼图使用）    
@@ -47,10 +47,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
 ## 关于EasyPhotos的SDK及相关版本公示 
-compileSdkVersion 27  
+compileSdkVersion 28  
 minSdkVersion 15  
-targetSdkVersion 27      
-buildToolsVersion '27.0.3'    
+targetSdkVersion 28      
+buildToolsVersion '28.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 
 
@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.2'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.6'  
     
 }
 ```    
@@ -86,7 +86,7 @@ dependencies {
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
 	//把3.1.0改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
@@ -139,8 +139,27 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
-**2.3.2：**    
-- 优化：状态栏颜色独立为easy_photos_status_bar    
+    
+**2.3.6：**     
+- 修复：2.3.5出现的拼图错误；    
+- 优化：解决部分机型在全屏预览图片返回到相册选择界面时状态栏闪烁的问题（感谢@wqxcloud）    
+- 优化：相册UI（将原底部操作栏中间的设置按钮样式改为编辑样式）        
+- 新增：相册页底部操作栏中间的编辑按钮，会根据开发者配置的清空按钮、原图按钮、拼图按钮使用情况进行显示或隐藏。（当清空按钮、原图按钮、拼图按钮都不显示时，编辑按钮隐藏。其余条件均显示。）    
+- 新增：可配置相册页清空按钮是否显示（详见wiki）       
+    
+**2.3.5：**     
+- 修复：修复文字贴纸自动生成日期错误    
+- 优化：AlbumModel类，更加节省内存 （感谢@ofexe）   
+- 升级：compileSdkVersion 升级为28，buildToolsVersion 升级为 '28.0.3'    
+    
+**2.3.4：**    
+- 修复：坚果pro和荣耀8在特殊情况下无法获取媒体文件路径的问题        
+    
+**2.3.3：**    
+- 优化：过滤媒体库中存在但实际不存在的图片    
+    
+**2.3.2：**    
+- 优化：状态栏颜色独立为easy_photos_status_bar    
     
 
 **2.3.1：**    
