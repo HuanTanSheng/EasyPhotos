@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
-import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -268,7 +267,19 @@ public class AlbumBuilder {
     }
 
     /**
+     * 是否显示video
+     *
+     * @param shouldShow 是否显示
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder setVideo(boolean shouldShow) {
+        Setting.showVideo = shouldShow;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 相册选择页是否显示清空按钮
+     *
      * @param shouldShow
      * @return
      */

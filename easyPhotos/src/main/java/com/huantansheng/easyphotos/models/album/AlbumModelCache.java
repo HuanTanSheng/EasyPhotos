@@ -28,20 +28,20 @@ import java.util.ArrayList;
  * 修改内容：将AlbumModel的实例化与数据查询分开
  */
 
-public class AlbumModel {
+public class AlbumModelCache {
     private static final String TAG = "AlbumModel";
-    public static AlbumModel instance;
+    public static AlbumModelCache instance;
     public Album album;
 
-    private AlbumModel() {
+    private AlbumModelCache() {
         album = new Album();
     }
 
-    public static AlbumModel getInstance() {
+    public static AlbumModelCache getInstance() {
         if (null == instance) {
-            synchronized (AlbumModel.class) {
+            synchronized (AlbumModelCache.class) {
                 if (null == instance) {
-                    instance = new AlbumModel();
+                    instance = new AlbumModelCache();
                 }
             }
         }
@@ -71,47 +71,38 @@ public class AlbumModel {
                     Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
 
-        final Uri contentUri = MediaStore.Files.getContentUri("external");
-        final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
-        final String selection =
-                "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
-                        + " OR "
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)"
-                        + " AND "
-                        + MediaStore.MediaColumns.SIZE + ">0";
-        final String[] selectionAllArgs = {
-                String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
-                String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO),
-        };
+        Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
 
         ContentResolver contentResolver = context.getContentResolver();
         String[] projections = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            projections = new String[]{MediaStore.Files.FileColumns._ID, MediaStore.MediaColumns.DATA,
-                    MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.WIDTH, MediaStore
-                    .MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE};
+            projections = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATE_TAKEN,
+                    MediaStore.Images.Media.MIME_TYPE, MediaStore.Images.Media.WIDTH, MediaStore
+                    .Images.Media.HEIGHT, MediaStore.Images.Media.SIZE};
 
         } else {
-            projections = new String[]{MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA,
-                    MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE};
+            projections = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA,
+                    MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATE_TAKEN,
+                    MediaStore.Images.Media.MIME_TYPE, MediaStore.Images.Media.SIZE};
         }
-        Cursor cursor = contentResolver.query(contentUri, projections, selection, selectionAllArgs, sortOrder);
+        Cursor cursor = contentResolver.query(contentUri, projections, null, null, sortOrder);
         if (cursor == null) {
 //            Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
             String albumItem_all_name = context.getString(R.string.selector_folder_all_easy_photos);
-            int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
-            int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
-            int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
-            int mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
-            int sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
+            int pathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            int nameCol = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
+            int DateCol = cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN);
+            int mimeType = cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE);
+            int sizeCol = cursor.getColumnIndex(MediaStore.Images.Media.SIZE);
             int WidthCol = 0;
             int HeightCol = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                WidthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH);
-                HeightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                WidthCol = cursor.getColumnIndex(MediaStore.Images.Media.WIDTH);
+                HeightCol = cursor.getColumnIndex(MediaStore.Images.Media.HEIGHT);
             }
 
             do {
@@ -130,15 +121,10 @@ public class AlbumModel {
                         continue;
                     }
                 }
-                if (!Setting.showVideo) {
-                    if (type.contains(Type.video)) {
-                        continue;
-                    }
-                }
                 if (size < Setting.minSize) {
                     continue;
                 }
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
                     if (width < Setting.minWidth || height < Setting.minHeight) {
@@ -165,6 +151,7 @@ public class AlbumModel {
                 if (album.isEmpty()) {
                     // 用第一个图片作为专辑的封面
                     album.addAlbumItem(albumItem_all_name, "", path);
+
                 }
 
                 // 把图片全部放进“全部”专辑

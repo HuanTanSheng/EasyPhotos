@@ -66,17 +66,18 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
             String type = item.type;
-            if (Setting.showGif) {
-                if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-                    Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                    ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
-                } else {
-                    Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                    ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
-                }
+            final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
+            if (Setting.showGif && isGif) {
+                Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
+                ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
+            } else if (Setting.showVideo && type.contains(Type.video)) {
+                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+                ((PhotoViewHolder) holder).tvType.setText(R.string.video_easy_photos);
+                ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
             } else {
                 Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+                ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
             }
 
             ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
@@ -226,14 +227,14 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         PressedImageView ivPhoto;
         TextView tvSelector;
         View vSelector;
-        TextView tvGif;
+        TextView tvType;
 
         PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
             this.tvSelector = (TextView) itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
-            this.tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
+            this.tvType = (TextView) itemView.findViewById(R.id.tv_type);
         }
     }
 }

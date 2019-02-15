@@ -48,17 +48,18 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
         Photo photo = dataList.get(position);
         String path = photo.path;
         String type = photo.type;
-        if (Setting.showGif) {
-            if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-                Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                ((PhotoViewHolder) holder).tvGif.setVisibility(View.VISIBLE);
-            } else {
-                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
-            }
+        final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
+        if (Setting.showGif && isGif) {
+            Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+            ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
+            ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
+        } else if (Setting.showVideo && type.contains(Type.video)) {
+            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+            ((PhotoViewHolder) holder).tvType.setText(R.string.video_easy_photos);
+            ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else {
             Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-            ((PhotoViewHolder) holder).tvGif.setVisibility(View.GONE);
+            ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
         }
 
         ((PhotoViewHolder) holder).ivPhoto.setOnClickListener(new View.OnClickListener() {
@@ -82,12 +83,12 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPhoto;
-        TextView tvGif;
+        TextView tvType;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
             this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
-            this.tvGif = (TextView) itemView.findViewById(R.id.tv_gif);
+            this.tvType = (TextView) itemView.findViewById(R.id.tv_type);
         }
     }
 }

@@ -151,6 +151,8 @@ public class SampleActivity extends AppCompatActivity
 
                 EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                         .setCount(9)
+                        .setVideo(false)
+                        .setGif(false)
                         .start(101);
 
                 break;
@@ -262,6 +264,8 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.face_detection://人脸检测，目前仅支持正脸检测
                 //暂时不做了。会导致lib过大，而且并不稳定
+                break;
+            default:
                 break;
 
         }
