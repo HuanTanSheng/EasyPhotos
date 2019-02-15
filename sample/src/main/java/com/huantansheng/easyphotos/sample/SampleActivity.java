@@ -151,10 +151,7 @@ public class SampleActivity extends AppCompatActivity
 
                 EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                         .setCount(9)
-                        .setVideo(false)
-                        .setGif(false)
                         .start(101);
-
                 break;
 
             case R.id.album_camera_single://相册单选，有相机功能
