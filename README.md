@@ -71,7 +71,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.6'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.0'  
     
 }
 ```    
@@ -139,9 +139,15 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
-    
+        
+**2.4.0：**     
+- 感谢：该版本[joker-fu](https://github.com/joker-fu)奉献
+- 新增：视频选择功能    
+- 新增API：是否启动视频选择，setVideo（boolean shouldShow）    
+- 优化：默认不显示gif图，可通过setGif（boolean shouldShow）控制是否显示    
+
 **2.3.6：**     
-- 修复：2.3.5出现的拼图错误；    
+- 修复：2.3.5出现的拼图错误    
 - 优化：解决部分机型在全屏预览图片返回到相册选择界面时状态栏闪烁的问题（感谢@wqxcloud）    
 - 优化：相册UI（将原底部操作栏中间的设置按钮样式改为编辑样式）        
 - 新增：相册页底部操作栏中间的编辑按钮，会根据开发者配置的清空按钮、原图按钮、拼图按钮使用情况进行显示或隐藏。（当清空按钮、原图按钮、拼图按钮都不显示时，编辑按钮隐藏。其余条件均显示。）    
