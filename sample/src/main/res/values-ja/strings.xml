@@ -10,6 +10,8 @@
     <string name="album_size">アルバム（サイズと大きさは制限が制限されて）</string>
     <string name="album_original_usable">アルバム（原図のボタン、可用）を表示</string>
     <string name="album_original_unusable">アルバム（原図のボタン、可用）は</string>
+    <string name="album_has_video">アルバム（サポートビデオとgif）</string>
+    <string name="album_no_menu">アルバム（アイコンボタンを表示しない）</string>
     <string name="album_single">アルバム（無カメラ、ラジオ）</string>
     <string name="album_multi">アルバム（無カメラ、複数の写真）を</string>
     <string name="album_ad">写真集（広告）</string>
@@ -71,5 +73,7 @@
     <string name="select_puzzle_photos">を選択してください 2 \- 9 写真</string>
 
     <string name="gif_easy_photos">gif</string>
+
+    <string name="video_easy_photos">動画</string>
 
 </resources>

@@ -53,6 +53,14 @@
 
                     android:title="@string/album_original_unusable" />
 
+                <item
+                    android:id="@+id/album_has_video_gif"
+                    android:title="@string/album_has_video" />
+
+                <item
+                    android:id="@+id/album_no_menu"
+                    android:title="@string/album_no_menu" />
+
             </group>
         </menu>
     </item>

@@ -10,6 +10,8 @@
     <string name="album_size">Álbum de fotos (Limitar el tamaño de)</string>
     <string name="album_original_usable">(Mostrar imagen del botón y disponible)</string>
     <string name="album_original_unusable">(mostrar el botón del álbum original, no disponible)</string>
+    <string name="album_has_video">álbumes de vídeo(apoyo a videoo y GIF)</string>
+    <string name="album_no_menu">No Mostrar botón de icono de Edición de fondo</string>
     <string name="album_single">El álbum de fotos sin cámara, radio)</string>
     <string name="album_multi">El álbum de fotos sin cámara, de opción múltiple)</string>
     <string name="album_ad">álbum (con publicidad)</string>
@@ -71,5 +73,7 @@
     <string name="select_puzzle_photos">Por favor seleccione 2 \- 9 foto</string>
 
     <string name="gif_easy_photos">gif</string>
+
+    <string name="video_easy_photos">Vídeo</string>
 
 </resources>

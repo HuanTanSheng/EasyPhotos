@@ -221,6 +221,24 @@ public class SampleActivity extends AppCompatActivity
 
                 break;
 
+            case R.id.album_has_video_gif://相册中显示视频和gif图
+                EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(9)
+                        .setVideo(true)
+                        .setGif(true)
+                        .start(101);
+                break;
+
+            case R.id.album_no_menu://相册中不显示底部的编辑图标按钮
+                EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
+                        .setCount(9)
+                        .setPuzzleMenu(false)
+                        .setCleanMenu(false)
+                        .start(101);
+                break;
+
             case R.id.album_selected://相册中包含默认勾选图片
 
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
