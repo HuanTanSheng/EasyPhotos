@@ -144,6 +144,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 感谢：该版本[joker-fu](https://github.com/joker-fu)奉献
 - 新增：视频选择功能    
 - 新增API：是否启动视频选择，setVideo（boolean shouldShow）    
+- 优化：默认不显示gif图，可通过setGif（boolean shouldShow）控制是否显示    
 
 **2.3.6：**     
 - 修复：2.3.5出现的拼图错误    
