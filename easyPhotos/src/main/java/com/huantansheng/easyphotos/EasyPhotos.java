@@ -10,20 +10,15 @@ import android.view.View;
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
-import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.sticker.StickerModel;
 import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
-import com.huantansheng.easyphotos.result.Result;
-import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.ui.PuzzleActivity;
 import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +37,8 @@ public class EasyPhotos {
     /**
      * 创建相机
      *
-     * @param activity    上下文
-     * @return              AlbumBuilder
+     * @param activity 上下文
+     * @return AlbumBuilder
      */
     public static AlbumBuilder createCamera(Activity activity) {
         return AlbumBuilder.createCamera(activity);
@@ -66,7 +61,7 @@ public class EasyPhotos {
      * @return
      */
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-       return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
+        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
     public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
@@ -76,7 +71,6 @@ public class EasyPhotos {
     public static AlbumBuilder createAlbum(android.support.v4.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine);
     }
-
 
 
 //*********************AD************************************
