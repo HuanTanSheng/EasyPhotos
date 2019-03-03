@@ -2,6 +2,7 @@
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
+[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)    
 
   
 
@@ -51,7 +52,9 @@ compileSdkVersion 28
 minSdkVersion 15  
 targetSdkVersion 28      
 buildToolsVersion '28.0.3'    
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
+[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
+
 
 
 ## 获取EasyPhotos（通过Gradle方式）
