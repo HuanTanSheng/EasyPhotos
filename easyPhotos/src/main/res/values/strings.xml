@@ -3,6 +3,10 @@
 
     <string name="selector_folder_all_easy_photos">所有图片</string>
 
+    <string name="selector_folder_all_video_easy_photos">图片和视频</string>
+
+    <string name="selector_folder_video_easy_photos">视频</string>
+
     <string name="selector_easy_photos">选择</string>
 
     <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->

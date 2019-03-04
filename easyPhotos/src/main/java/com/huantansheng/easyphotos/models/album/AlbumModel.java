@@ -101,7 +101,12 @@ public class AlbumModel {
         if (cursor == null) {
 //            Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
-            String albumItem_all_name = context.getString(R.string.selector_folder_all_easy_photos);
+            String albumItem_all_name = context.getString(R.string.selector_folder_all_video_easy_photos);
+            String albumItem_video_name = context.getString(R.string.selector_folder_video_easy_photos);
+            if (!Setting.showVideo) {
+                albumItem_all_name = context.getString(R.string.selector_folder_all_easy_photos);
+            }
+
             int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
             int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
@@ -166,9 +171,13 @@ public class AlbumModel {
                     // 用第一个图片作为专辑的封面
                     album.addAlbumItem(albumItem_all_name, "", path);
                 }
-
                 // 把图片全部放进“全部”专辑
                 album.getAlbumItem(albumItem_all_name).addImageItem(imageItem);
+
+                if (Setting.showVideo && type.contains(Type.video)) {
+                    album.addAlbumItem(albumItem_video_name, "", path);
+                    album.getAlbumItem(albumItem_video_name).addImageItem(imageItem);
+                }
 
                 // 添加当前图片的专辑到专辑模型实体中
                 String folderPath = new File(path).getParentFile().getAbsolutePath();
