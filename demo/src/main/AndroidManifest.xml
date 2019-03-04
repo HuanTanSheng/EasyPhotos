@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.huantansheng.easyphotos.demo">
+
+    <application
+        android:name="com.huantansheng.easyphotos.demo.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name="com.huantansheng.easyphotos.demo.SampleActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.huantansheng.easyphotos.demo.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>
+
+        <!-- <activity -->
+        <!-- android:name="com.huantansheng.easyphotos.ui.EasyPhotosActivity" -->
+        <!-- android:screenOrientation="unspecified" -->
+        <!-- tools:replace="android:screenOrientation"/> -->
+
+
+        <!-- <activity -->
+        <!-- android:name="com.huantansheng.easyphotos.ui.PreviewActivity" -->
+        <!-- android:screenOrientation="unspecified" -->
+        <!-- tools:replace="android:screenOrientation" /> -->
+
+
+        <!-- <activity -->
+        <!-- android:name="com.huantansheng.easyphotos.ui.PuzzleActivity" -->
+        <!-- android:screenOrientation="unspecified" -->
+        <!-- tools:replace="android:screenOrientation" /> -->
+
+
+        <!-- <activity -->
+        <!-- android:name="com.huantansheng.easyphotos.ui.PuzzleSelectorActivity" -->
+        <!-- android:screenOrientation="unspecified" -->
+        <!-- tools:replace="android:screenOrientation" /> -->
+
+        <activity
+            android:name="com.huantansheng.easyphotos.demo.SampleFragments" />
+    </application>
+
+</manifest>
