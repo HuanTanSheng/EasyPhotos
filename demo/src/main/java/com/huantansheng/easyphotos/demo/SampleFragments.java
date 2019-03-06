@@ -99,7 +99,7 @@ public class SampleFragments extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     EasyPhotos.createAlbum(PlaceholderFragment.this,true,GlideEngine.getInstance())
-                            .setFileProviderAuthority("com.huantansheng.easyphotos.sample.fileprovider")
+                            .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                             .start(0);
                 }
             });
