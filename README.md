@@ -74,7 +74,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.0'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.1'  
     
 }
 ```    
@@ -142,9 +142,13 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
+   
+**2.4.1：**     
+- 优化：2.4.0中的代码
+- 感谢：该版本由[joker-fu](https://github.com/joker-fu)、[SMask](https://github.com/SMask)贡献
         
 **2.4.0：**     
-- 感谢：该版本[joker-fu](https://github.com/joker-fu)奉献
+- 感谢：该版本由[joker-fu](https://github.com/joker-fu)贡献
 - 新增：视频选择功能    
 - 新增API：是否启动视频选择，setVideo（boolean shouldShow）    
 - 优化：默认不显示gif图，可通过setGif（boolean shouldShow）控制是否显示    
