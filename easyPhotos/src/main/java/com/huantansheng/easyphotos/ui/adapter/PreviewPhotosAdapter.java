@@ -88,7 +88,6 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri = getUri(context, path);
         intent.setDataAndType(uri, type);
-        intent.setAction(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

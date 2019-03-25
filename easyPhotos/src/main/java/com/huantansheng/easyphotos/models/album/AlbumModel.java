@@ -90,12 +90,12 @@ public class AlbumModel {
             projections = new String[]{MediaStore.Files.FileColumns._ID, MediaStore.MediaColumns.DATA,
                     MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
                     MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.WIDTH, MediaStore
-                    .MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE};
+                    .MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
 
         } else {
             projections = new String[]{MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA,
                     MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE};
+                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
         }
         Cursor cursor = contentResolver.query(contentUri, projections, selection, selectionAllArgs, sortOrder);
         if (cursor == null) {
@@ -109,6 +109,7 @@ public class AlbumModel {
             int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
             int mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
             int sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
+            int durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION);
             int WidthCol = 0;
             int HeightCol = 0;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -121,13 +122,18 @@ public class AlbumModel {
                 String name = cursor.getString(nameCol);
                 long dateTime = cursor.getLong(DateCol);
                 String type = cursor.getString(mimeType);
-                long size = cursor.getInt(sizeCol);
+                long size = cursor.getLong(sizeCol);
+                long duration = cursor.getLong(durationCol);
                 int width = 0;
                 int height = 0;
+
                 if (TextUtils.isEmpty(path) || TextUtils.isEmpty(type)) {
                     continue;
                 }
-                if (Setting.onlyVideo && !type.contains(Type.video)) {
+
+                boolean isVideo = type.contains(Type.video);// 是否是视频
+
+                if (Setting.onlyVideo && !isVideo) {
                     continue;
                 }
                 if (!Setting.showGif) {
@@ -136,7 +142,7 @@ public class AlbumModel {
                     }
                 }
                 if (!Setting.showVideo) {
-                    if (type.contains(Type.video)) {
+                    if (isVideo) {
                         continue;
                     }
                 }
@@ -144,7 +150,10 @@ public class AlbumModel {
                 if (size < Setting.minSize) {
                     continue;
                 }
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                if (isVideo && duration <= 0) {
+                    continue;
+                }
+                if (!isVideo && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
                     if (width < Setting.minWidth || height < Setting.minHeight) {
@@ -175,7 +184,7 @@ public class AlbumModel {
                 // 把图片全部放进“全部”专辑
                 album.getAlbumItem(albumItem_all_name).addImageItem(imageItem);
 
-                if (Setting.showVideo && type.contains(Type.video)) {
+                if (Setting.showVideo && isVideo) {
                     album.addAlbumItem(albumItem_video_name, "", path);
                     album.getAlbumItem(albumItem_video_name).addImageItem(imageItem);
                 }
