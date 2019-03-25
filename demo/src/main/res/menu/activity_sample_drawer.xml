@@ -58,6 +58,10 @@
                     android:title="@string/album_has_video" />
 
                 <item
+                    android:id="@+id/album_only_video"
+                    android:title="相册（仅有video）" />
+
+                <item
                     android:id="@+id/album_no_menu"
                     android:title="@string/album_no_menu" />
 

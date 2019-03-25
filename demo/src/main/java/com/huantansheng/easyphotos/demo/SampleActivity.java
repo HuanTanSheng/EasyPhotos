@@ -230,6 +230,14 @@ public class SampleActivity extends AppCompatActivity
                         .start(101);
                 break;
 
+            case R.id.album_only_video://相册中只选择视频(相册只有视频 会禁用相机和拼图)
+                EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
+                        .setCount(9)
+                        .onlyVideo(true)
+                        .start(101);
+                break;
+
             case R.id.album_no_menu://相册中不显示底部的编辑图标按钮
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")

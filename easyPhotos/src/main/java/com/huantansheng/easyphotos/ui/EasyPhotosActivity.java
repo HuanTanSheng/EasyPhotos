@@ -384,10 +384,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         MediaScannerConnectionUtils.refresh(this, photo.path);
         photo.selectedOriginal = Setting.selectedOriginal;
 
-        String albumItem_all_name = getString(R.string.selector_folder_all_video_easy_photos);
-        if (!Setting.showVideo) {
-            albumItem_all_name = getString(R.string.selector_folder_all_easy_photos);
-        }
+        String albumItem_all_name = albumModel.getAllAlbumName(this);
         albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, photo);
         String folderPath = new File(photo.path).getParentFile().getAbsolutePath();
         String albumName = StringUtils.getLastPathSegment(folderPath);
