@@ -31,6 +31,7 @@ public class Setting {
     public static boolean isShowCamera = false;
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
+    public static boolean onlyVideo = false;
     public static boolean showGif = false;
     public static boolean showVideo = false;
     public static boolean showCleanMenu = true;
@@ -54,6 +55,7 @@ public class Setting {
         isShowCamera = false;
         onlyStartCamera = false;
         showPuzzleMenu = true;
+        onlyVideo = false;
         showGif = false;
         showVideo = false;
         showCleanMenu = true;

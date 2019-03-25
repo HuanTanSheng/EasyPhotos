@@ -256,6 +256,17 @@ public class AlbumBuilder {
     }
 
     /**
+     * 只显示Video
+     *
+     * @param shouldShow 是否显示
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder onlyVideo(boolean shouldShow) {
+        Setting.onlyVideo = shouldShow;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 是否显示gif图
      *
      * @param shouldShow 是否显示
@@ -306,6 +317,13 @@ public class AlbumBuilder {
             case ALBUM_CAMERA:
                 Setting.isShowCamera = true;
                 break;
+        }
+        if (Setting.onlyVideo) {
+            //只选择视频 不支持拍照/拼图等
+            Setting.isShowCamera = false;
+            Setting.showPuzzleMenu = false;
+            Setting.showGif = false;
+            Setting.showVideo = true;
         }
         launchEasyPhotosActivity(requestCode);
     }
