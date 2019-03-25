@@ -15,6 +15,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
+import com.huantansheng.easyphotos.utils.media.DurationUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
             String type = item.type;
+            long duration = item.duration;
             final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
             if (Setting.showGif && isGif) {
                 Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
@@ -73,7 +75,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
             } else if (Setting.showVideo && type.contains(Type.video)) {
                 Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-                ((PhotoViewHolder) holder).tvType.setText(R.string.video_easy_photos);
+                ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
             } else {
                 Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);

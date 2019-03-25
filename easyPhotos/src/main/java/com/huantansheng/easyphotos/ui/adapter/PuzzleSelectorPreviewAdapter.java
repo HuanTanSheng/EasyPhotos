@@ -12,6 +12,7 @@ import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.utils.media.DurationUtils;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
         Photo photo = dataList.get(position);
         String path = photo.path;
         String type = photo.type;
+        long duration = photo.duration;
         final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
         if (Setting.showGif && isGif) {
             Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
@@ -55,7 +57,7 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else if (Setting.showVideo && type.contains(Type.video)) {
             Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
-            ((PhotoViewHolder) holder).tvType.setText(R.string.video_easy_photos);
+            ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else {
             Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);

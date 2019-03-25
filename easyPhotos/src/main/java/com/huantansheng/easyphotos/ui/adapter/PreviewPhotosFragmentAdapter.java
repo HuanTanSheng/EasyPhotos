@@ -12,6 +12,7 @@ import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.widget.PressedImageView;
+import com.huantansheng.easyphotos.utils.media.DurationUtils;
 
 /**
  * 预览所有选中图片集合的适配器
@@ -39,6 +40,7 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         final int p = position;
         String path = Result.getPhotoPath(position);
         String type = Result.getPhotoType(position);
+        long duration = Result.getPhotoDuration(position);
 
         final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
         if (Setting.showGif && isGif) {
@@ -47,7 +49,7 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
             holder.tvType.setVisibility(View.VISIBLE);
         } else if (Setting.showVideo && type.contains(Type.video)) {
             Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
-            holder.tvType.setText(R.string.video_easy_photos);
+            holder.tvType.setText(DurationUtils.format(duration));
             holder.tvType.setVisibility(View.VISIBLE);
         } else {
             Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);

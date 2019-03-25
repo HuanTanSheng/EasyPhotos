@@ -166,7 +166,7 @@ public class AlbumModel {
                     continue;
                 }
 
-                Photo imageItem = new Photo(name, path, dateTime, width, height, size, type);
+                Photo imageItem = new Photo(name, path, dateTime, width, height, size, duration, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
