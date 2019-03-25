@@ -11,6 +11,7 @@
     <string name="album_original_usable">アルバム（原図のボタン、可用）を表示</string>
     <string name="album_original_unusable">アルバム（原図のボタン、可用）は</string>
     <string name="album_has_video">アルバム（サポートビデオとgif）</string>
+    <string name="album_only_video">フォトアルバム（ビデオのみ）</string>
     <string name="album_no_menu">アルバム（アイコンボタンを表示しない）</string>
     <string name="album_single">アルバム（無カメラ、ラジオ）</string>
     <string name="album_multi">アルバム（無カメラ、複数の写真）を</string>
