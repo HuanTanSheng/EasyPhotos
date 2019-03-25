@@ -101,11 +101,8 @@ public class AlbumModel {
         if (cursor == null) {
 //            Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
-            String albumItem_all_name = context.getString(R.string.selector_folder_all_video_easy_photos);
+            String albumItem_all_name = getAllAlbumName(context);
             String albumItem_video_name = context.getString(R.string.selector_folder_video_easy_photos);
-            if (!Setting.showVideo) {
-                albumItem_all_name = context.getString(R.string.selector_folder_all_easy_photos);
-            }
 
             int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
@@ -130,6 +127,9 @@ public class AlbumModel {
                 if (TextUtils.isEmpty(path) || TextUtils.isEmpty(type)) {
                     continue;
                 }
+                if (Setting.onlyVideo && !type.contains(Type.video)) {
+                    continue;
+                }
                 if (!Setting.showGif) {
                     if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                         continue;
@@ -140,6 +140,7 @@ public class AlbumModel {
                         continue;
                     }
                 }
+
                 if (size < Setting.minSize) {
                     continue;
                 }
@@ -187,6 +188,22 @@ public class AlbumModel {
             } while (cursor.moveToNext());
             cursor.close();
         }
+    }
+
+    /**
+     * 获取全部专辑名
+     *
+     * @return 专辑名
+     */
+    public String getAllAlbumName(Context context) {
+        String albumItem_all_name = context.getString(R.string.selector_folder_all_video_photo_easy_photos);
+        if (Setting.onlyVideo) {
+            albumItem_all_name = context.getString(R.string.selector_folder_video_easy_photos);
+        } else if (!Setting.showVideo) {
+            //不显示视频
+            albumItem_all_name = context.getString(R.string.selector_folder_all_easy_photos);
+        }
+        return albumItem_all_name;
     }
 
     /**

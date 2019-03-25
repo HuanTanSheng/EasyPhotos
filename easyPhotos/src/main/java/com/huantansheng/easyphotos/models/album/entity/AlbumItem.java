@@ -21,7 +21,9 @@ public class AlbumItem {
     }
 
     public void addImageItem(Photo imageItem) {
-        this.photos.add(imageItem);
+        if(!this.photos.contains(imageItem)){
+            this.photos.add(imageItem);
+        }
     }
 
     public void addImageItem(int index,Photo imageItem) {
