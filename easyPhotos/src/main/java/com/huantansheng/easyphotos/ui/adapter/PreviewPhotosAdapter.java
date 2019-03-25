@@ -1,8 +1,11 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -81,12 +85,22 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
     }
 
     private void toPlayVideo(View v, String path, String type) {
+        Context context = v.getContext();
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(path);
+        Uri uri = getUri(context, path);
         intent.setDataAndType(uri, type);
         intent.setAction(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        v.getContext().startActivity(intent);
+        context.startActivity(intent);
+    }
+
+    private Uri getUri(Context context, String path) {
+        File file = new File(path);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(context, Setting.fileProviderAuthority, file);
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 
     @Override
