@@ -1,6 +1,5 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
