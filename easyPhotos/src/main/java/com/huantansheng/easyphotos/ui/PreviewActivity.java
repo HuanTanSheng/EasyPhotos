@@ -266,9 +266,9 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                    return;
-                }
+//                if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+//                    return;
+//                }
                 int leftViewPosition = snapHelper.findTargetSnapPosition(lm, 1, rvPhotos.getHeight() / 2);
                 int rightViewPosition = snapHelper.findTargetSnapPosition(lm, rvPhotos.getWidth() - 1, rvPhotos.getHeight() / 2);
                 if (leftViewPosition == rightViewPosition) {
