@@ -42,6 +42,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.PuzzleAdapter;
 import com.huantansheng.easyphotos.ui.adapter.TextStickerAdapter;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
+import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
@@ -527,7 +528,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent();
                 intent.putExtra(EasyPhotos.RESULT_PATHS, file.getAbsolutePath());
 
-                Photo photo = new Photo(file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), "image/png");
+                Photo photo = new Photo(file.getName(), file.getAbsolutePath(), file.lastModified() / 1000, puzzleView.getWidth(), puzzleView.getHeight(), file.length(), DurationUtils.getDuration(file.getAbsolutePath()), "image/png");
                 intent.putExtra(EasyPhotos.RESULT_PHOTOS, photo);
                 setResult(RESULT_OK, intent);
                 PuzzleActivity.this.finish();
@@ -685,7 +686,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                 PuzzleLayout puzzleLayout = puzzleView.getPuzzleLayout();
                 for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    String date = format.format(photos.get(i).time );
+                    String date = format.format(photos.get(i).time);
                     stickerModel.addTextSticker(this, getSupportFragmentManager(), date, mRootView);
                     stickerModel.currTextSticker.isChecked = true;
                     Area area = puzzleLayout.getArea(i);

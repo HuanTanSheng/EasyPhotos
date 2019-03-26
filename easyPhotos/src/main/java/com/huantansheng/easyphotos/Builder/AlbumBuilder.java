@@ -219,7 +219,7 @@ public class AlbumBuilder {
         Setting.selectedPhotos.clear();
         ArrayList<Photo> selectedPhotos = new ArrayList<>();
         for (String path : selectedPhotoPaths) {
-            Photo photo = new Photo(null, path, 0, 0, 0, 0, null);
+            Photo photo = new Photo(null, path, 0, 0, 0, 0, 0, null);
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);
