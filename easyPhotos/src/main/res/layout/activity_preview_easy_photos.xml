@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/easy_photos_bg_primary">
 
-    <android.support.v7.widget.RecyclerView
+    <com.huantansheng.easyphotos.ui.widget.PreviewRecyclerView
         android:id="@+id/rv_photos"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -18,9 +18,9 @@
 
         <FrameLayout
             android:id="@+id/m_top_bar_layout"
+            style="?metaButtonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?metaButtonBarStyle"
             android:background="@color/easy_photos_status_bar">
 
             <RelativeLayout
@@ -37,8 +37,8 @@
                     android:id="@+id/iv_back"
                     android:layout_width="42dp"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:padding="10dp"
                     app:srcCompat="@drawable/ic_arrow_back_easy_photos" />
 
@@ -113,9 +113,9 @@
                 android:id="@+id/tv_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/fl_fragment"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -141,8 +141,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_below="@+id/fl_fragment"
-                android:layout_toLeftOf="@+id/iv_selector"
                 android:layout_toStartOf="@+id/iv_selector"
+                android:layout_toLeftOf="@+id/iv_selector"
                 android:gravity="center"
                 android:text="@string/selector_easy_photos"
                 android:textColor="@color/easy_photos_fg_primary"
@@ -152,13 +152,13 @@
                 android:id="@+id/iv_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
+                android:layout_below="@+id/fl_fragment"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/fl_fragment"
-                android:paddingEnd="16dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="16dp"
                 android:paddingStart="6dp"
+                android:paddingLeft="6dp"
+                android:paddingEnd="16dp"
+                android:paddingRight="16dp"
                 app:srcCompat="@drawable/ic_selector_easy_photos" />
 
         </RelativeLayout>
