@@ -46,7 +46,7 @@ public class Result {
                     if (isIceApi && photo.width == 0) {
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = true;
-                        BitmapFactory.decodeFile(photo.path,options);
+                        BitmapFactory.decodeFile(photo.path, options);
                         photo.width = options.outWidth;
                         photo.height = options.outHeight;
                     }
@@ -84,4 +84,9 @@ public class Result {
     public static String getPhotoType(int position) {
         return photos.get(position).type;
     }
+
+    public static long getPhotoDuration(int position) {
+        return photos.get(position).duration;
+    }
+
 }

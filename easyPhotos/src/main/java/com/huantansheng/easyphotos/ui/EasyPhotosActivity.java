@@ -51,6 +51,7 @@ import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.Color.ColorUtils;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
+import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
@@ -438,7 +439,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             Intent data = new Intent();
             Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(),
                     mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,
-                    mTempImageFile.length(), options.outMimeType);
+                    mTempImageFile.length(), DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
             photo.selectedOriginal = Setting.selectedOriginal;
             resultList.add(photo);
 
@@ -458,7 +459,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(),
                 mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,
-                mTempImageFile.length(), options.outMimeType);
+                mTempImageFile.length(), DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
         addNewPhoto(photo);
 
     }

@@ -10,7 +10,8 @@
     <string name="album_size">Álbum de fotos (Limitar el tamaño de)</string>
     <string name="album_original_usable">(Mostrar imagen del botón y disponible)</string>
     <string name="album_original_unusable">(mostrar el botón del álbum original, no disponible)</string>
-    <string name="album_has_video">álbumes de vídeo(apoyo a videoo y GIF)</string>
+    <string name="album_has_video">álbumes de fotos(apoyo a videoo y GIF)</string>
+    <string name="album_only_video">álbumes de fotos (solo video)</string>
     <string name="album_no_menu">No Mostrar botón de icono de Edición de fondo</string>
     <string name="album_single">El álbum de fotos sin cámara, radio)</string>
     <string name="album_multi">El álbum de fotos sin cámara, de opción múltiple)</string>
