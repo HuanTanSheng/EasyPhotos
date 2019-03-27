@@ -265,28 +265,29 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         snapHelper.attachToRecyclerView(rvPhotos);
         rvPhotos.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int leftViewPosition = snapHelper.findTargetSnapPosition(lm, 1, rvPhotos.getHeight() / 2);
-                int rightViewPosition = snapHelper.findTargetSnapPosition(lm, rvPhotos.getWidth() - 1, rvPhotos.getHeight() / 2);
-                if (leftViewPosition == rightViewPosition) {
-                    if (lastPosition == leftViewPosition - 1) {
-                        return;
-                    }
-                    previewFragment.setSelectedPosition(-1);
-                    tvNumber.setText(getString(R.string.preview_current_number_easy_photos, leftViewPosition, photos.size()));
-                    lastPosition = leftViewPosition - 1;
-                    View view = snapHelper.findSnapView(lm);
-                    toggleSelector();
-                    if (null == view) {
-                        return;
-                    }
-                    PreviewPhotosAdapter.PreviewPhotosViewHolder viewHolder = (PreviewPhotosAdapter.PreviewPhotosViewHolder) rvPhotos.getChildViewHolder(view);
-                    if (viewHolder == null || viewHolder.ivPhoto == null) {
-                        return;
-                    }
-                    if (viewHolder.ivPhoto.getScale() != 1f)
-                        viewHolder.ivPhoto.setScale(1f, true);
+
+                View view = snapHelper.findSnapView(lm);
+                if (view == null) {
+                    return;
+                }
+                int position = lm.getPosition(view);
+                if (lastPosition == position) {
+                    return;
+                }
+                lastPosition = position;
+                previewFragment.setSelectedPosition(-1);
+                tvNumber.setText(getString(R.string.preview_current_number_easy_photos, lastPosition + 1, photos.size()));
+                toggleSelector();
+                PreviewPhotosAdapter.PreviewPhotosViewHolder holder = (PreviewPhotosAdapter.PreviewPhotosViewHolder) rvPhotos.getChildViewHolder(view);
+                if (holder == null || holder.ivPhoto == null) {
+                    return;
+                }
+                if (holder.ivPhoto.getScale() != 1f) {
+                    holder.ivPhoto.setScale(1f, true);
+
+              
                 }
             }
         });
