@@ -267,6 +267,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
                 View view = snapHelper.findSnapView(lm);
                 if (view == null) {
                     return;
@@ -285,6 +286,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 }
                 if (holder.ivPhoto.getScale() != 1f) {
                     holder.ivPhoto.setScale(1f, true);
+
+              
                 }
             }
         });
