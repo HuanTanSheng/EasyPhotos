@@ -27,7 +27,8 @@ import java.util.ArrayList;
 
 public class PhotosAdapter extends RecyclerView.Adapter {
     private static final int TYPE_AD = 0;
-    private static final int TYPE_ALBUM_ITEMS = 1;
+    private static final int TYPE_CAMERA = 1;
+    private static final int TYPE_ALBUM_ITEMS = 2;
 
     private ArrayList<Object> dataList;
     private LayoutInflater mInflater;
@@ -54,6 +55,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         switch (viewType) {
             case TYPE_AD:
                 return new AdViewHolder(mInflater.inflate(R.layout.item_ad_easy_photos, parent, false));
+            case TYPE_CAMERA:
+                return new CameraViewHolder(mInflater.inflate(R.layout.item_camera_easy_photos, parent, false));
             default:
                 return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
         }
@@ -64,6 +67,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         final int p = position;
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(p);
+            if (item == null) return;
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
             String type = item.type;
@@ -89,6 +93,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     int realPosition = p;
                     if (Setting.hasPhotosAd()) {
+                        realPosition--;
+                    }
+                    if (Setting.isShowCamera && !Setting.isMdCameraButton) {
                         realPosition--;
                     }
                     listener.onPhotoClick(p, realPosition);
@@ -160,6 +167,15 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 }
             }
         }
+
+        if (holder instanceof CameraViewHolder) {
+            ((CameraViewHolder) holder).flCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCameraClick();
+                }
+            });
+        }
     }
 
     private void singleSelector(Photo photo, int position) {
@@ -211,13 +227,25 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (0 == position && Setting.hasPhotosAd()) {
-            return TYPE_AD;
+        if (0 == position) {
+            if (Setting.hasPhotosAd()) {
+                return TYPE_AD;
+            }
+            if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+                return TYPE_CAMERA;
+            }
+        }
+        if (1 == position && !Setting.isMdCameraButton) {
+            if (Setting.hasPhotosAd() && Setting.isShowCamera) {
+                return TYPE_CAMERA;
+            }
         }
         return TYPE_ALBUM_ITEMS;
     }
 
     public interface OnClickListener {
+        void onCameraClick();
+
         void onPhotoClick(int position, int realPosition);
 
         void onSelectorOutOfMax();
@@ -225,11 +253,20 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         void onSelectorChanged();
     }
 
+    private class CameraViewHolder extends RecyclerView.ViewHolder {
+        final FrameLayout flCamera;
+
+        CameraViewHolder(View itemView) {
+            super(itemView);
+            this.flCamera = (FrameLayout) itemView.findViewById(R.id.fl_camera);
+        }
+    }
+
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
-        PressedImageView ivPhoto;
-        TextView tvSelector;
-        View vSelector;
-        TextView tvType;
+        final PressedImageView ivPhoto;
+        final TextView tvSelector;
+        final View vSelector;
+        final TextView tvType;
 
         PhotoViewHolder(View itemView) {
             super(itemView);

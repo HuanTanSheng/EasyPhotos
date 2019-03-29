@@ -29,6 +29,7 @@ public class Setting {
     public static boolean selectedOriginal = false;
     public static String fileProviderAuthority = null;
     public static boolean isShowCamera = false;
+    public static boolean isMdCameraButton = true;
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
     public static boolean onlyVideo = false;
@@ -52,6 +53,7 @@ public class Setting {
         originalMenuUsable = false;
         originalMenuUnusableHint = "";
         selectedOriginal = false;
+        isMdCameraButton = true;
         isShowCamera = false;
         onlyStartCamera = false;
         showPuzzleMenu = true;

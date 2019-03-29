@@ -182,6 +182,7 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
+                        .useCameraStyle(false)
                         .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
                         .start(101);
 

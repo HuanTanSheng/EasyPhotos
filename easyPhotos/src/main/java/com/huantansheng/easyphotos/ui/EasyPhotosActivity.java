@@ -483,7 +483,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
         ivCamera = (ImageView) findViewById(R.id.fab_camera);
-        if (Setting.isShowCamera) {
+        if (Setting.isShowCamera && Setting.isMdCameraButton) {
             ivCamera.setVisibility(View.VISIBLE);
         }
         if (!Setting.showPuzzleMenu) {
@@ -499,8 +499,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         //去除item更新的闪光
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
+        int index = 0;
         if (Setting.hasPhotosAd()) {
-            photoList.add(0, Setting.photosAdView);
+            photoList.add(index, Setting.photosAdView);
+        }
+        if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+            if (Setting.hasPhotosAd()) index = 1;
+            photoList.add(index, null);
         }
         photosAdapter = new PhotosAdapter(this, photoList, this);
 
@@ -699,8 +704,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         this.currAlbumItemIndex = currAlbumItemIndex;
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
+        int index = 0;
         if (Setting.hasPhotosAd()) {
-            photoList.add(0, Setting.photosAdView);
+            photoList.add(index, Setting.photosAdView);
+        }
+        if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+            if (Setting.hasPhotosAd()) index = 1;
+            photoList.add(index, null);
         }
         photosAdapter.change();
         rvPhotos.scrollToPosition(0);
@@ -729,9 +739,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     @Override
+    public void onCameraClick() {
+        launchCamera(Code.REQUEST_CAMERA);
+    }
+
+    @Override
     public void onPhotoClick(int position, int realPosition) {
         PreviewActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
-
     }
 
     @Override
