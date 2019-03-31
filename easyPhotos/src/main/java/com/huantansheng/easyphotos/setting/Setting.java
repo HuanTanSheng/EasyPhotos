@@ -1,10 +1,13 @@
 package com.huantansheng.easyphotos.setting;
 
+import android.support.annotation.IntDef;
 import android.view.View;
 
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -29,7 +32,7 @@ public class Setting {
     public static boolean selectedOriginal = false;
     public static String fileProviderAuthority = null;
     public static boolean isShowCamera = false;
-    public static boolean isMdCameraButton = true;
+    public static int cameraLocation = 1;
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
     public static boolean onlyVideo = false;
@@ -38,6 +41,13 @@ public class Setting {
     public static boolean showCleanMenu = true;
     public static ImageEngine imageEngine = null;
 
+    public static final int LIST_FIRST = 0;
+    public static final int BOTTOM_RIGHT = 1;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(value = {LIST_FIRST, BOTTOM_RIGHT})
+    public @interface Location {
+    }
 
     public static void clear() {
         minWidth = 1;
@@ -53,7 +63,7 @@ public class Setting {
         originalMenuUsable = false;
         originalMenuUnusableHint = "";
         selectedOriginal = false;
-        isMdCameraButton = true;
+        cameraLocation = BOTTOM_RIGHT;
         isShowCamera = false;
         onlyStartCamera = false;
         showPuzzleMenu = true;
@@ -69,5 +79,9 @@ public class Setting {
 
     public static boolean hasAlbumItemsAd() {
         return albumItemsAdView != null && albumItemsAdView.get() != null;
+    }
+
+    public static boolean isBottomRightCamera() {
+        return cameraLocation == BOTTOM_RIGHT;
     }
 }

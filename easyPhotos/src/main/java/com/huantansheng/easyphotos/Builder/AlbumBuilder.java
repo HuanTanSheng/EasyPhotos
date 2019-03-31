@@ -162,14 +162,12 @@ public class AlbumBuilder {
 
     /**
      * 设置相机按钮风格 默认true
-     * true: 相机按钮放在图库右下角
-     * false: 相机按钮放在图库最前面
      *
-     * @param isMd 使用Material Design风格相机按钮 默认true
+     * @param cLocation 使用Material Design风格相机按钮 默认 BOTTOM_RIGHT
      * @return AlbumBuilder
      */
-    public AlbumBuilder useCameraStyle(boolean isMd) {
-        Setting.isMdCameraButton = isMd;
+    public AlbumBuilder setCameraLocation(@Setting.Location int cLocation) {
+        Setting.cameraLocation = cLocation;
         return AlbumBuilder.this;
     }
 

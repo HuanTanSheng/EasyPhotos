@@ -64,6 +64,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
+
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter
         .OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
 
@@ -483,7 +485,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
         ivCamera = (ImageView) findViewById(R.id.fab_camera);
-        if (Setting.isShowCamera && Setting.isMdCameraButton) {
+        if (Setting.isShowCamera && isBottomRightCamera()) {
             ivCamera.setVisibility(View.VISIBLE);
         }
         if (!Setting.showPuzzleMenu) {
@@ -503,7 +505,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.hasPhotosAd()) {
             photoList.add(index, Setting.photosAdView);
         }
-        if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+        if (Setting.isShowCamera && !isBottomRightCamera()) {
             if (Setting.hasPhotosAd()) index = 1;
             photoList.add(index, null);
         }
@@ -708,7 +710,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.hasPhotosAd()) {
             photoList.add(index, Setting.photosAdView);
         }
-        if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+        if (Setting.isShowCamera && !isBottomRightCamera()) {
             if (Setting.hasPhotosAd()) index = 1;
             photoList.add(index, null);
         }

@@ -20,6 +20,8 @@ import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
+
 /**
  * 专辑相册适配器
  * Created by huan on 2017/10/23.
@@ -95,7 +97,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     if (Setting.hasPhotosAd()) {
                         realPosition--;
                     }
-                    if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+                    if (Setting.isShowCamera && !isBottomRightCamera()) {
                         realPosition--;
                     }
                     listener.onPhotoClick(p, realPosition);
@@ -231,11 +233,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             if (Setting.hasPhotosAd()) {
                 return TYPE_AD;
             }
-            if (Setting.isShowCamera && !Setting.isMdCameraButton) {
+            if (Setting.isShowCamera && !isBottomRightCamera()) {
                 return TYPE_CAMERA;
             }
         }
-        if (1 == position && !Setting.isMdCameraButton) {
+        if (1 == position && !isBottomRightCamera()) {
             if (Setting.hasPhotosAd() && Setting.isShowCamera) {
                 return TYPE_CAMERA;
             }
