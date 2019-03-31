@@ -322,6 +322,28 @@ public class AlbumBuilder {
     }
 
     /**
+     * 显示最少多少秒的视频
+     *
+     * @param second 秒
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoMinSecond(int second) {
+        Setting.videoMinSecond = second * 1000;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 显示最多多少秒的视频
+     *
+     * @param second 秒
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoMaxSecond(int second) {
+        Setting.videoMaxSecond = second * 1000;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 相册选择页是否显示清空按钮
      *
      * @param shouldShow
