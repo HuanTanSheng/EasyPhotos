@@ -161,6 +161,28 @@ public class AlbumBuilder {
     }
 
     /**
+     * 设置选择图片数(设置此参数后setCount失效)
+     *
+     * @param selectorMaxCount 最大选择数
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setPictureCount(int selectorMaxCount) {
+        Setting.pictureCount = selectorMaxCount;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 设置选择视频数(设置此参数后setCount失效)
+     *
+     * @param selectorMaxCount 最大选择数
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoCount(int selectorMaxCount) {
+        Setting.videoCount = selectorMaxCount;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 设置相机按钮风格 默认true
      *
      * @param cLocation 使用Material Design风格相机按钮 默认 BOTTOM_RIGHT
@@ -335,6 +357,9 @@ public class AlbumBuilder {
             Setting.showPuzzleMenu = false;
             Setting.showGif = false;
             Setting.showVideo = true;
+        }
+        if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
+            Setting.count = Setting.pictureCount + Setting.videoCount;
         }
         launchEasyPhotosActivity(requestCode);
     }

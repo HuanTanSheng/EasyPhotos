@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,12 +123,17 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                             notifyDataSetChanged();
                             return;
                         }
-                        listener.onSelectorOutOfMax();
+                        listener.onSelectorOutOfMax(null);
                         return;
                     }
                     item.selected = !item.selected;
                     if (item.selected) {
-                        Result.addPhoto(item);
+                        int res = Result.addPhoto(item);
+                        if (res != 0) {
+                            listener.onSelectorOutOfMax(res);
+                            item.selected = false;
+                            return;
+                        }
                         ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
                         ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.count()));
                         if (Result.count() == Setting.count) {
@@ -250,7 +256,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
         void onPhotoClick(int position, int realPosition);
 
-        void onSelectorOutOfMax();
+        void onSelectorOutOfMax(@Nullable Integer result);
 
         void onSelectorChanged();
     }

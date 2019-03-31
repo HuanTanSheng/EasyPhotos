@@ -21,6 +21,8 @@ public class Setting {
     public static int minHeight = 1;
     public static long minSize = 1;
     public static int count = 1;
+    public static int pictureCount = -1;
+    public static int videoCount = -1;
     public static WeakReference<View> photosAdView = null;
     public static WeakReference<View> albumItemsAdView = null;
     public static boolean photoAdIsOk = false;
@@ -54,6 +56,8 @@ public class Setting {
         minHeight = 1;
         minSize = 1;
         count = 1;
+        pictureCount = -1;
+        videoCount = -1;
         photosAdView = null;
         albumItemsAdView = null;
         photoAdIsOk = false;

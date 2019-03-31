@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -407,14 +408,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         if (Setting.count == 1) {
             Result.clear();
-            Result.addPhoto(photo);
+            int res = Result.addPhoto(photo);
+            onSelectorOutOfMax(res);
         } else {
             if (Result.count() >= Setting.count) {
-                Toast.makeText(this, getString(R.string
-                        .selector_reach_max_image_hint_easy_photos, Setting.count), Toast
-                        .LENGTH_SHORT).show();
+                onSelectorOutOfMax(null);
             } else {
-                Result.addPhoto(photo);
+                int res = Result.addPhoto(photo);
+                onSelectorOutOfMax(res);
             }
         }
         rvAlbumItems.scrollToPosition(0);
@@ -751,9 +752,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     @Override
-    public void onSelectorOutOfMax() {
-        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
-                Setting.count), Toast.LENGTH_SHORT).show();
+    public void onSelectorOutOfMax(@Nullable Integer result) {
+        if (result == null) {
+            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        switch (result) {
+            case -1:
+                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.pictureCount), Toast.LENGTH_SHORT).show();
+                break;
+            case -2:
+                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos, Setting.videoCount), Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override

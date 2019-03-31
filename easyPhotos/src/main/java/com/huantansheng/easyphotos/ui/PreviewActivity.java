@@ -287,7 +287,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 if (holder.ivPhoto.getScale() != 1f) {
                     holder.ivPhoto.setScale(1f, true);
 
-              
+
                 }
             }
         });
@@ -369,12 +369,24 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 toggleSelector();
                 return;
             }
-            Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
             return;
         }
         item.selected = !item.selected;
         if (item.selected) {
-            Result.addPhoto(item);
+            int res = Result.addPhoto(item);
+            if (res != 0) {
+                item.selected = false;
+                switch (res) {
+                    case -1:
+                        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.pictureCount), Toast.LENGTH_SHORT).show();
+                        break;
+                    case -2:
+                        Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos, Setting.videoCount), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return;
+            }
             if (Result.count() == Setting.count) {
                 unable = true;
             }
