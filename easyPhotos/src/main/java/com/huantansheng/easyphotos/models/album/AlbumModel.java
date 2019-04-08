@@ -150,7 +150,7 @@ public class AlbumModel {
                 if (size < Setting.minSize) {
                     continue;
                 }
-                if (isVideo && duration <= 0) {
+                if (isVideo && (duration <= Setting.videoMinSecond || duration >= Setting.videoMaxSecond)) {
                     continue;
                 }
                 if (!isVideo && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
+import com.huantansheng.easyphotos.setting.Setting;
 
 import java.util.ArrayList;
 
@@ -182,6 +183,7 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
+                        .setCameraLocation(Setting.LIST_FIRST)
                         .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
                         .start(101);
 
@@ -234,6 +236,7 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
+                        .setVideoMinSecond(10)
                         .onlyVideo(true)
                         .start(101);
                 break;

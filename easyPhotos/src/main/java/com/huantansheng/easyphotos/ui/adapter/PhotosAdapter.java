@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
+
 /**
  * 专辑相册适配器
  * Created by huan on 2017/10/23.
@@ -27,7 +30,8 @@ import java.util.ArrayList;
 
 public class PhotosAdapter extends RecyclerView.Adapter {
     private static final int TYPE_AD = 0;
-    private static final int TYPE_ALBUM_ITEMS = 1;
+    private static final int TYPE_CAMERA = 1;
+    private static final int TYPE_ALBUM_ITEMS = 2;
 
     private ArrayList<Object> dataList;
     private LayoutInflater mInflater;
@@ -54,6 +58,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         switch (viewType) {
             case TYPE_AD:
                 return new AdViewHolder(mInflater.inflate(R.layout.item_ad_easy_photos, parent, false));
+            case TYPE_CAMERA:
+                return new CameraViewHolder(mInflater.inflate(R.layout.item_camera_easy_photos, parent, false));
             default:
                 return new PhotoViewHolder(mInflater.inflate(R.layout.item_rv_photos_easy_photos, parent, false));
         }
@@ -64,6 +70,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         final int p = position;
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(p);
+            if (item == null) return;
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
             String type = item.type;
@@ -91,6 +98,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     if (Setting.hasPhotosAd()) {
                         realPosition--;
                     }
+                    if (Setting.isShowCamera && !isBottomRightCamera()) {
+                        realPosition--;
+                    }
                     listener.onPhotoClick(p, realPosition);
                 }
             });
@@ -113,12 +123,17 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                             notifyDataSetChanged();
                             return;
                         }
-                        listener.onSelectorOutOfMax();
+                        listener.onSelectorOutOfMax(null);
                         return;
                     }
                     item.selected = !item.selected;
                     if (item.selected) {
-                        Result.addPhoto(item);
+                        int res = Result.addPhoto(item);
+                        if (res != 0) {
+                            listener.onSelectorOutOfMax(res);
+                            item.selected = false;
+                            return;
+                        }
                         ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
                         ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.count()));
                         if (Result.count() == Setting.count) {
@@ -159,6 +174,15 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     ((AdViewHolder) holder).adFrame.addView(adView);
                 }
             }
+        }
+
+        if (holder instanceof CameraViewHolder) {
+            ((CameraViewHolder) holder).flCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCameraClick();
+                }
+            });
         }
     }
 
@@ -211,25 +235,46 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (0 == position && Setting.hasPhotosAd()) {
-            return TYPE_AD;
+        if (0 == position) {
+            if (Setting.hasPhotosAd()) {
+                return TYPE_AD;
+            }
+            if (Setting.isShowCamera && !isBottomRightCamera()) {
+                return TYPE_CAMERA;
+            }
+        }
+        if (1 == position && !isBottomRightCamera()) {
+            if (Setting.hasPhotosAd() && Setting.isShowCamera) {
+                return TYPE_CAMERA;
+            }
         }
         return TYPE_ALBUM_ITEMS;
     }
 
     public interface OnClickListener {
+        void onCameraClick();
+
         void onPhotoClick(int position, int realPosition);
 
-        void onSelectorOutOfMax();
+        void onSelectorOutOfMax(@Nullable Integer result);
 
         void onSelectorChanged();
     }
 
+    private class CameraViewHolder extends RecyclerView.ViewHolder {
+        final FrameLayout flCamera;
+
+        CameraViewHolder(View itemView) {
+            super(itemView);
+            this.flCamera = (FrameLayout) itemView.findViewById(R.id.fl_camera);
+        }
+    }
+
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
-        PressedImageView ivPhoto;
-        TextView tvSelector;
-        View vSelector;
-        TextView tvType;
+        final PressedImageView ivPhoto;
+        final TextView tvSelector;
+        final View vSelector;
+        final TextView tvType;
 
         PhotoViewHolder(View itemView) {
             super(itemView);

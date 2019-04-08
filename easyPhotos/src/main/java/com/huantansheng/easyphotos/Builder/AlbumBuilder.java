@@ -161,6 +161,39 @@ public class AlbumBuilder {
     }
 
     /**
+     * 设置选择图片数(设置此参数后setCount失效)
+     *
+     * @param selectorMaxCount 最大选择数
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setPictureCount(int selectorMaxCount) {
+        Setting.pictureCount = selectorMaxCount;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 设置选择视频数(设置此参数后setCount失效)
+     *
+     * @param selectorMaxCount 最大选择数
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoCount(int selectorMaxCount) {
+        Setting.videoCount = selectorMaxCount;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 设置相机按钮风格 默认true
+     *
+     * @param cLocation 使用Material Design风格相机按钮 默认 BOTTOM_RIGHT
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setCameraLocation(@Setting.Location int cLocation) {
+        Setting.cameraLocation = cLocation;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 设置显示照片的最小文件大小
      *
      * @param minFileSize 最小文件大小，单位Bytes
@@ -289,6 +322,28 @@ public class AlbumBuilder {
     }
 
     /**
+     * 显示最少多少秒的视频
+     *
+     * @param second 秒
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoMinSecond(int second) {
+        Setting.videoMinSecond = second * 1000;
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 显示最多多少秒的视频
+     *
+     * @param second 秒
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder setVideoMaxSecond(int second) {
+        Setting.videoMaxSecond = second * 1000;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 相册选择页是否显示清空按钮
      *
      * @param shouldShow
@@ -324,6 +379,9 @@ public class AlbumBuilder {
             Setting.showPuzzleMenu = false;
             Setting.showGif = false;
             Setting.showVideo = true;
+        }
+        if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
+            Setting.count = Setting.pictureCount + Setting.videoCount;
         }
         launchEasyPhotosActivity(requestCode);
     }

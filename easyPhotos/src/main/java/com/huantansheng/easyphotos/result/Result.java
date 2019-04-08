@@ -3,6 +3,7 @@ package com.huantansheng.easyphotos.result;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
@@ -16,9 +17,23 @@ import java.util.ArrayList;
 public class Result {
     public static ArrayList<Photo> photos = new ArrayList<>();
 
-    public static void addPhoto(Photo photo) {
+    /**
+     * @return 0：添加成功 -2：超过视频选择数 -1：超过图片选择数
+     */
+    public static int addPhoto(Photo photo) {
+        if (Setting.videoCount != -1 || Setting.pictureCount != -1) {
+            int number = getVideoNumber();
+            if (photo.type.contains(Type.video) && number >= Setting.videoCount) {
+                return -2;
+            }
+            number = photos.size() - number;
+            if ((!photo.type.contains(Type.video)) && number >= Setting.pictureCount) {
+                return -1;
+            }
+        }
         photo.selected = true;
         photos.add(photo);
+        return 0;
     }
 
     public static void removePhoto(Photo photo) {
@@ -35,6 +50,16 @@ public class Result {
         for (int i = 0; i < size; i++) {
             removePhoto(0);
         }
+    }
+
+    private static int getVideoNumber() {
+        int count = 0;
+        for (Photo p : photos) {
+            if (p.type.contains(Type.video)) {
+                count += 1;
+            }
+        }
+        return count;
     }
 
     public static void processOriginal() {

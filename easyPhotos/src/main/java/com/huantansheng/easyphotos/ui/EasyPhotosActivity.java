@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -63,6 +64,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
 
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter
         .OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
@@ -405,14 +408,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         if (Setting.count == 1) {
             Result.clear();
-            Result.addPhoto(photo);
+            int res = Result.addPhoto(photo);
+            onSelectorOutOfMax(res);
         } else {
             if (Result.count() >= Setting.count) {
-                Toast.makeText(this, getString(R.string
-                        .selector_reach_max_image_hint_easy_photos, Setting.count), Toast
-                        .LENGTH_SHORT).show();
+                onSelectorOutOfMax(null);
             } else {
-                Result.addPhoto(photo);
+                int res = Result.addPhoto(photo);
+                onSelectorOutOfMax(res);
             }
         }
         rvAlbumItems.scrollToPosition(0);
@@ -483,7 +486,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
         ivCamera = (ImageView) findViewById(R.id.fab_camera);
-        if (Setting.isShowCamera) {
+        if (Setting.isShowCamera && isBottomRightCamera()) {
             ivCamera.setVisibility(View.VISIBLE);
         }
         if (!Setting.showPuzzleMenu) {
@@ -499,8 +502,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         //去除item更新的闪光
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
+        int index = 0;
         if (Setting.hasPhotosAd()) {
-            photoList.add(0, Setting.photosAdView);
+            photoList.add(index, Setting.photosAdView);
+        }
+        if (Setting.isShowCamera && !isBottomRightCamera()) {
+            if (Setting.hasPhotosAd()) index = 1;
+            photoList.add(index, null);
         }
         photosAdapter = new PhotosAdapter(this, photoList, this);
 
@@ -699,8 +707,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         this.currAlbumItemIndex = currAlbumItemIndex;
         photoList.clear();
         photoList.addAll(albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex));
+        int index = 0;
         if (Setting.hasPhotosAd()) {
-            photoList.add(0, Setting.photosAdView);
+            photoList.add(index, Setting.photosAdView);
+        }
+        if (Setting.isShowCamera && !isBottomRightCamera()) {
+            if (Setting.hasPhotosAd()) index = 1;
+            photoList.add(index, null);
         }
         photosAdapter.change();
         rvPhotos.scrollToPosition(0);
@@ -729,15 +742,29 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     @Override
-    public void onPhotoClick(int position, int realPosition) {
-        PreviewActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
-
+    public void onCameraClick() {
+        launchCamera(Code.REQUEST_CAMERA);
     }
 
     @Override
-    public void onSelectorOutOfMax() {
-        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
-                Setting.count), Toast.LENGTH_SHORT).show();
+    public void onPhotoClick(int position, int realPosition) {
+        PreviewActivity.start(EasyPhotosActivity.this, currAlbumItemIndex, realPosition);
+    }
+
+    @Override
+    public void onSelectorOutOfMax(@Nullable Integer result) {
+        if (result == null) {
+            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        switch (result) {
+            case -1:
+                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.pictureCount), Toast.LENGTH_SHORT).show();
+                break;
+            case -2:
+                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos, Setting.videoCount), Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override
