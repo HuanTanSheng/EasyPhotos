@@ -35,7 +35,7 @@ public class AlbumBuilder {
         CAMERA, ALBUM, ALBUM_CAMERA
     }
 
-    private static final String TAG = "EASY_PHOTOS";
+    private static final String TAG = "com.huantansheng.easyphotos";
     private static AlbumBuilder instance;
     private WeakReference<Activity> mActivity;
     private WeakReference<Fragment> mFragmentV;
