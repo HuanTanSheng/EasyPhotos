@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
+import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -18,6 +19,7 @@ import com.huantansheng.easyphotos.ui.PuzzleActivity;
 import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
 import com.huantansheng.easyphotos.utils.bitmap.SaveBitmapCallBack;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
+import com.huantansheng.easyphotos.utils.result.EasyResult;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -198,7 +200,6 @@ public class EasyPhotos {
         return BitmapUtils.createBitmapFromView(view);
     }
 
-
     /**
      * 启动拼图（最多对9张图片进行拼图）
      *
@@ -213,9 +214,15 @@ public class EasyPhotos {
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
+    @Deprecated
     public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         act.setResult(Activity.RESULT_OK);
         PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
+    }
+
+    public static void startPuzzleWithPhotos(FragmentActivity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, @NonNull ImageEngine imageEngine, PuzzleCallback callback) {
+        act.setResult(Activity.RESULT_OK);
+        EasyResult.get(act).startPuzzleWithPhotos(photos, puzzleSaveDirPath, puzzleSaveNamePrefix, replaceCustom, imageEngine, callback);
     }
 
     /**
@@ -232,10 +239,14 @@ public class EasyPhotos {
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
+    @Deprecated
     public static void startPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         PuzzleActivity.startWithPaths(act, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
     }
 
+    public static void startPuzzleWithPaths(FragmentActivity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, @NonNull ImageEngine imageEngine, PuzzleCallback callback) {
+        EasyResult.get(act).startPuzzleWithPaths(paths, puzzleSaveDirPath, puzzleSaveNamePrefix, replaceCustom, imageEngine, callback);
+    }
 
     //**************更新媒体库***********************
 
@@ -287,17 +298,5 @@ public class EasyPhotos {
      */
     public static void clearTextStickerDataList() {
         StickerModel.textDataList.clear();
-    }
-
-    public abstract static class Callback {
-
-        /**
-         * 选择结果回调
-         *
-         * @param photos     返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
-         * @param paths      返回图片地址集合：如果你只需要获取图片的地址，可以用这个
-         * @param isOriginal 返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
-         */
-        public abstract void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal);
     }
 }

@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.callback.PuzzleCallback;
+import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
@@ -168,7 +170,7 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(22)
-                        .start(new EasyPhotos.Callback() {
+                        .start(new SelectCallback() {
                             @Override
                             public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
                                 selectedPhotoList.clear();
@@ -294,7 +296,20 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                         .setCount(9)
                         .setPuzzleMenu(false)
-                        .start(102);
+                        .start(new SelectCallback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
+                                EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
+                                    @Override
+                                    public void onResult(Photo photo, String path) {
+                                        selectedPhotoList.clear();
+                                        selectedPhotoList.add(photo);
+                                        adapter.notifyDataSetChanged();
+                                        rvImage.smoothScrollToPosition(0);
+                                    }
+                                });
+                            }
+                        });
 
             case R.id.face_detection://人脸检测，目前仅支持正脸检测
                 //暂时不做了。会导致lib过大，而且并不稳定
@@ -377,7 +392,7 @@ public class SampleActivity extends AppCompatActivity
             }
 
 
-            //为拼图选择照片的回调
+/*            //为拼图选择照片的回调
             if (requestCode == 102) {
 
                 ArrayList<Photo> resultPhotos =
@@ -388,7 +403,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.getInstance());
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.get());
                 return;
             }
 
@@ -401,7 +416,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.add(puzzlePhoto);
                 adapter.notifyDataSetChanged();
                 rvImage.smoothScrollToPosition(0);
-            }
+            }*/
 
 
         } else if (RESULT_CANCELED == resultCode) {
