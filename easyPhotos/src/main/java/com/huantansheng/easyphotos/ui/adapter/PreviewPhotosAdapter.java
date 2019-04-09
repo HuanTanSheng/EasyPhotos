@@ -54,7 +54,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         final String type = photos.get(position).type;
 
         holder.ivPlay.setVisibility(View.GONE);
-        if (type.contains(Type.video)) {
+        if (type.contains(Type.VIDEO)) {
             Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {

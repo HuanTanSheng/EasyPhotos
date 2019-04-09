@@ -398,14 +398,7 @@ public class AlbumBuilder {
         return AlbumBuilder.this;
     }
 
-
-    /**
-     * 设置启动属性
-     *
-     * @param requestCode startActivityForResult的请求码
-     */
-    @Deprecated
-    public void start(int requestCode) {
+    private void setSettingParams() {
         switch (startupType) {
             case CAMERA:
                 Setting.onlyStartCamera = true;
@@ -428,6 +421,16 @@ public class AlbumBuilder {
         if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
             Setting.count = Setting.pictureCount + Setting.videoCount;
         }
+    }
+
+    /**
+     * 设置启动属性
+     *
+     * @param requestCode startActivityForResult的请求码
+     */
+    @Deprecated
+    public void start(int requestCode) {
+        setSettingParams();
         launchEasyPhotosActivity(requestCode);
     }
 
@@ -454,28 +457,7 @@ public class AlbumBuilder {
         if (mHolderFragment == null || null == mHolderFragment.get()) {
             throw new RuntimeException("the HolderFragment is null, can not use this method... ");
         }
-        switch (startupType) {
-            case CAMERA:
-                Setting.onlyStartCamera = true;
-                Setting.isShowCamera = true;
-                break;
-            case ALBUM:
-                Setting.isShowCamera = false;
-                break;
-            case ALBUM_CAMERA:
-                Setting.isShowCamera = true;
-                break;
-        }
-        if (Setting.onlyVideo) {
-            //只选择视频 不支持拍照/拼图等
-            Setting.isShowCamera = false;
-            Setting.showPuzzleMenu = false;
-            Setting.showGif = false;
-            Setting.showVideo = true;
-        }
-        if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
-            Setting.count = Setting.pictureCount + Setting.videoCount;
-        }
+        setSettingParams();
         mHolderFragment.get().startEasyPhoto(callback);
     }
 

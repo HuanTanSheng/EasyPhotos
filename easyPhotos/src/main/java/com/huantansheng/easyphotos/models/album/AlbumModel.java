@@ -131,7 +131,7 @@ public class AlbumModel {
                     continue;
                 }
 
-                boolean isVideo = type.contains(Type.video);// 是否是视频
+                boolean isVideo = type.contains(Type.VIDEO);// 是否是视频
 
                 if (Setting.onlyVideo && !isVideo) {
                     continue;
