@@ -167,8 +167,15 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(22)
-                        .start(101);
-
+                        .start(new EasyPhotos.Callback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
+                                selectedPhotoList.clear();
+                                selectedPhotoList.addAll(photos);
+                                adapter.notifyDataSetChanged();
+                                rvImage.smoothScrollToPosition(0);
+                            }
+                        });
                 break;
 
             case R.id.album_ad://相册中包含广告

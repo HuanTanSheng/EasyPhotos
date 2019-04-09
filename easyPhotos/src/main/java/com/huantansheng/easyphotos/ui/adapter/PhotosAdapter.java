@@ -101,6 +101,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     if (Setting.isShowCamera && !isBottomRightCamera()) {
                         realPosition--;
                     }
+                    final Photo item1 = (Photo) dataList.get(p);
                     listener.onPhotoClick(p, realPosition);
                 }
             });
