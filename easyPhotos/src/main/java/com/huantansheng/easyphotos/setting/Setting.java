@@ -3,6 +3,7 @@ package com.huantansheng.easyphotos.setting;
 import android.support.annotation.IntDef;
 import android.view.View;
 
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 
@@ -10,6 +11,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * EasyPhotos的设置值
@@ -37,7 +39,7 @@ public class Setting {
     public static int cameraLocation = 1;
     public static boolean onlyStartCamera = false;
     public static boolean showPuzzleMenu = true;
-    public static boolean onlyVideo = false;
+    public static List<String> filterTypes = new ArrayList<>();
     public static boolean showGif = false;
     public static boolean showVideo = false;
     public static boolean showCleanMenu = true;
@@ -51,6 +53,7 @@ public class Setting {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(value = {LIST_FIRST, BOTTOM_RIGHT})
     public @interface Location {
+
     }
 
     public static void clear() {
@@ -73,12 +76,29 @@ public class Setting {
         isShowCamera = false;
         onlyStartCamera = false;
         showPuzzleMenu = true;
-        onlyVideo = false;
+        filterTypes = new ArrayList<>();
         showGif = false;
         showVideo = false;
         showCleanMenu = true;
         videoMinSecond = 0L;
         videoMaxSecond = Long.MAX_VALUE;
+    }
+
+    public static boolean isFilter(String type) {
+        if (Setting.filterTypes.isEmpty()) {
+            return true;
+        }
+        type = type.toLowerCase();
+        for (String filterType : Setting.filterTypes) {
+            if (type.contains(filterType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isOnlyVideo() {
+        return filterTypes.size() == 1 && filterTypes.get(0).equals(Type.VIDEO);
     }
 
     public static boolean hasPhotosAd() {

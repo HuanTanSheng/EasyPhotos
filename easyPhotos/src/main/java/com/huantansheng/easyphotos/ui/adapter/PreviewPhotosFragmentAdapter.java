@@ -47,7 +47,7 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
             Setting.imageEngine.loadGifAsBitmap(holder.ivPhoto.getContext(), path, holder.ivPhoto);
             holder.tvType.setText(R.string.gif_easy_photos);
             holder.tvType.setVisibility(View.VISIBLE);
-        } else if (Setting.showVideo && type.contains(Type.video)) {
+        } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
             Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
             holder.tvType.setText(DurationUtils.format(duration));
             holder.tvType.setVisibility(View.VISIBLE);

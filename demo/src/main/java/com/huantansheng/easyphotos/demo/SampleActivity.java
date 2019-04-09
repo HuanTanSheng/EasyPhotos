@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
@@ -167,8 +168,15 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(22)
-                        .start(101);
-
+                        .start(new EasyPhotos.Callback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
+                                selectedPhotoList.clear();
+                                selectedPhotoList.addAll(photos);
+                                adapter.notifyDataSetChanged();
+                                rvImage.smoothScrollToPosition(0);
+                            }
+                        });
                 break;
 
             case R.id.album_ad://相册中包含广告
@@ -237,7 +245,7 @@ public class SampleActivity extends AppCompatActivity
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setVideoMinSecond(10)
-                        .onlyVideo(true)
+                        .filter(Type.VIDEO)
                         .start(101);
                 break;
 

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.huantansheng.easyphotos.R;
@@ -131,11 +132,15 @@ public class AlbumModel {
                     continue;
                 }
 
-                boolean isVideo = type.contains(Type.video);// 是否是视频
+                boolean isVideo = type.contains(Type.VIDEO);// 是否是视频
 
-                if (Setting.onlyVideo && !isVideo) {
+                if (Setting.isOnlyVideo() && !isVideo) {
                     continue;
                 }
+                if (!Setting.isFilter(type)) {
+                    continue;
+                }
+
                 if (!Setting.showGif) {
                     if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                         continue;
@@ -206,7 +211,7 @@ public class AlbumModel {
      */
     public String getAllAlbumName(Context context) {
         String albumItem_all_name = context.getString(R.string.selector_folder_all_video_photo_easy_photos);
-        if (Setting.onlyVideo) {
+        if (Setting.isOnlyVideo()) {
             albumItem_all_name = context.getString(R.string.selector_folder_video_easy_photos);
         } else if (!Setting.showVideo) {
             //不显示视频

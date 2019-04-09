@@ -23,11 +23,11 @@ public class Result {
     public static int addPhoto(Photo photo) {
         if (Setting.videoCount != -1 || Setting.pictureCount != -1) {
             int number = getVideoNumber();
-            if (photo.type.contains(Type.video) && number >= Setting.videoCount) {
+            if (photo.type.contains(Type.VIDEO) && number >= Setting.videoCount) {
                 return -2;
             }
             number = photos.size() - number;
-            if ((!photo.type.contains(Type.video)) && number >= Setting.pictureCount) {
+            if ((!photo.type.contains(Type.VIDEO)) && number >= Setting.pictureCount) {
                 return -1;
             }
         }
@@ -55,7 +55,7 @@ public class Result {
     private static int getVideoNumber() {
         int count = 0;
         for (Photo p : photos) {
-            if (p.type.contains(Type.video)) {
+            if (p.type.contains(Type.VIDEO)) {
                 count += 1;
             }
         }

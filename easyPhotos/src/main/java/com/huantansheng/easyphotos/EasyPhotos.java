@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
@@ -40,12 +41,18 @@ public class EasyPhotos {
      * @param activity 上下文
      * @return AlbumBuilder
      */
+    @Deprecated
     public static AlbumBuilder createCamera(Activity activity) {
         return AlbumBuilder.createCamera(activity);
     }
 
+    @Deprecated
     public static AlbumBuilder createCamera(Fragment fragment) {
         return AlbumBuilder.createCamera(fragment);
+    }
+
+    public static AlbumBuilder createCamera(FragmentActivity activity) {
+        return AlbumBuilder.createCamera(activity);
     }
 
     public static AlbumBuilder createCamera(android.support.v4.app.Fragment fragmentV) {
@@ -60,12 +67,18 @@ public class EasyPhotos {
      * @param imageEngine  图片加载引擎的具体实现
      * @return
      */
+    @Deprecated
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
+    @Deprecated
     public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine);
+    }
+
+    public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
     public static AlbumBuilder createAlbum(android.support.v4.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
@@ -276,5 +289,15 @@ public class EasyPhotos {
         StickerModel.textDataList.clear();
     }
 
+    public abstract static class Callback {
 
+        /**
+         * 选择结果回调
+         *
+         * @param photos     返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
+         * @param paths      返回图片地址集合：如果你只需要获取图片的地址，可以用这个
+         * @param isOriginal 返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
+         */
+        public abstract void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal);
+    }
 }
