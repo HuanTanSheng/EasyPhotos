@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
@@ -244,7 +245,7 @@ public class SampleActivity extends AppCompatActivity
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setVideoMinSecond(10)
-                        .onlyVideo(true)
+                        .filter(Type.VIDEO)
                         .start(101);
                 break;
 

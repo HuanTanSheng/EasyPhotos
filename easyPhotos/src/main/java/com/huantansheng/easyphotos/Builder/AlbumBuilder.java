@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -18,6 +19,7 @@ import com.huantansheng.easyphotos.ui.HolderFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * EasyPhotos的启动管理器
@@ -338,8 +340,19 @@ public class AlbumBuilder {
      * @param shouldShow 是否显示
      * @return @return AlbumBuilder
      */
+    @Deprecated
     public AlbumBuilder onlyVideo(boolean shouldShow) {
-        Setting.onlyVideo = shouldShow;
+        return filter(Type.VIDEO);
+    }
+
+    /**
+     * 过滤
+     *
+     * @param types {@link Type}
+     * @return @return AlbumBuilder
+     */
+    public AlbumBuilder filter(String... types) {
+        Setting.filterTypes = Arrays.asList(types);
         return AlbumBuilder.this;
     }
 
@@ -411,7 +424,7 @@ public class AlbumBuilder {
                 Setting.isShowCamera = true;
                 break;
         }
-        if (Setting.onlyVideo) {
+        if (Setting.isOnlyVideo()) {
             //只选择视频 不支持拍照/拼图等
             Setting.isShowCamera = false;
             Setting.showPuzzleMenu = false;
