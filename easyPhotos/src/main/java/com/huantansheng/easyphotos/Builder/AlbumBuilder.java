@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
@@ -15,7 +15,8 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
-import com.huantansheng.easyphotos.ui.HolderFragment;
+import com.huantansheng.easyphotos.utils.result.EasyResult;
+import com.huantansheng.easyphotos.utils.result.HolderFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ public class AlbumBuilder {
     private WeakReference<android.app.Fragment> mFragment;
     private StartupType startupType;
     private WeakReference<AdListener> adListener;
-    private WeakReference<HolderFragment> mHolderFragment;
 
     //私有构造函数，不允许外部调用，真正实例化通过静态方法实现
     @Deprecated
@@ -61,15 +61,11 @@ public class AlbumBuilder {
 
     private AlbumBuilder(FragmentActivity activity, StartupType startupType) {
         mActivity = new WeakReference<Activity>(activity);
-        HolderFragment holder = getHolderFragment(activity.getSupportFragmentManager());
-        mHolderFragment = new WeakReference<HolderFragment>(holder);
         this.startupType = startupType;
     }
 
     private AlbumBuilder(Fragment fragment, StartupType startupType) {
         mFragmentV = new WeakReference<Fragment>(fragment);
-        HolderFragment holder = getHolderFragment(fragment.getChildFragmentManager());
-        mHolderFragment = new WeakReference<HolderFragment>(holder);
         this.startupType = startupType;
     }
 
@@ -466,31 +462,18 @@ public class AlbumBuilder {
         }
     }
 
-    public void start(EasyPhotos.Callback callback) {
-        if (mHolderFragment == null || null == mHolderFragment.get()) {
-            throw new RuntimeException("the HolderFragment is null, can not use this method... ");
-        }
+    public void start(SelectCallback callback) {
         setSettingParams();
-        mHolderFragment.get().startEasyPhoto(callback);
-    }
-
-    private HolderFragment getHolderFragment(FragmentManager fragmentManager) {
-        HolderFragment holderFragment = findHolderFragment(fragmentManager);
-        if (holderFragment == null) {
-            holderFragment = new HolderFragment();
-            fragmentManager
-                    .beginTransaction()
-                    .add(holderFragment, TAG)
-                    .commitAllowingStateLoss();
-            fragmentManager.executePendingTransactions();
+        if (null != mActivity && null != mActivity.get() && mActivity.get() instanceof FragmentActivity) {
+            EasyResult.get((FragmentActivity) mActivity.get()).startEasyPhoto(callback);
+            return;
         }
-        return holderFragment;
+        if (null != mFragmentV && null != mFragmentV.get()) {
+            EasyResult.get(mFragmentV.get()).startEasyPhoto(callback);
+            return;
+        }
+        throw new RuntimeException("mActivity or mFragmentV maybe null, you can not use this method... ");
     }
-
-    private HolderFragment findHolderFragment(FragmentManager fragmentManager) {
-        return (HolderFragment) fragmentManager.findFragmentByTag(TAG);
-    }
-
 
     /**
      * 清除所有数据
