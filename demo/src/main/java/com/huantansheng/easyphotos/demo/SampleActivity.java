@@ -391,8 +391,7 @@ public class SampleActivity extends AppCompatActivity
                 return;
             }
 
-
-/*            //为拼图选择照片的回调
+            //为拼图选择照片的回调
             if (requestCode == 102) {
 
                 ArrayList<Photo> resultPhotos =
@@ -403,7 +402,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.get());
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.getInstance());
                 return;
             }
 
@@ -416,7 +415,7 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.add(puzzlePhoto);
                 adapter.notifyDataSetChanged();
                 rvImage.smoothScrollToPosition(0);
-            }*/
+            }
 
 
         } else if (RESULT_CANCELED == resultCode) {

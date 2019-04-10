@@ -475,23 +475,6 @@ public class AlbumBuilder {
         throw new RuntimeException("mActivity or mFragmentV maybe null, you can not use this method... ");
     }
 
-    private HolderFragment getHolderFragment(FragmentManager fragmentManager) {
-        HolderFragment holderFragment = findHolderFragment(fragmentManager);
-        if (holderFragment == null) {
-            holderFragment = new HolderFragment();
-            fragmentManager
-                    .beginTransaction()
-                    .add(holderFragment, TAG)
-                    .commitAllowingStateLoss();
-            fragmentManager.executePendingTransactions();
-        }
-        return holderFragment;
-    }
-
-    private HolderFragment findHolderFragment(FragmentManager fragmentManager) {
-        return (HolderFragment) fragmentManager.findFragmentByTag(TAG);
-    }
-
     /**
      * 清除所有数据
      */
