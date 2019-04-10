@@ -137,7 +137,7 @@ public class AlbumModel {
                 if (Setting.isOnlyVideo() && !isVideo) {
                     continue;
                 }
-                if (!Setting.isFilter(type)) {
+                if (!Setting.filterTypes.isEmpty() && !Setting.isFilter(type)) {
                     continue;
                 }
 
