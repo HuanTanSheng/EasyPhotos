@@ -146,6 +146,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 更新日志    
    
 **2.4.4：**     
+- 修复：修复2.4.3版本引发的图片数据加载缓慢问题
+- 感谢：该版本由[joker-fu](https://github.com/joker-fu)贡献
+   
+**2.4.3：**     
 - 新增：start(SelectCallback callback)启动方式，通过接口回调数据
 - 新增：filter(String... types)方式控制只显示的文件类型，支持Type.GIF和Type.VIDEO，前提是已经选择显示了gif和video
 - 新增：对显示视频的时长过滤api
