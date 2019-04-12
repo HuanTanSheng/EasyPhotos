@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
  * 大图预览界面图片集合的适配器
  * Created by huan on 2017/10/26.
  */
-
 public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdapter.PreviewPhotosViewHolder> {
     private ArrayList<Photo> photos;
     private OnClickListener listener;
@@ -43,13 +43,14 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public PreviewPhotosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PreviewPhotosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PreviewPhotosViewHolder(inflater.inflate(R.layout.item_preview_photo_easy_photos, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final PreviewPhotosViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PreviewPhotosViewHolder holder, int position) {
         final String path = photos.get(position).path;
         final String type = photos.get(position).type;
 
@@ -86,15 +87,16 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
     private void toPlayVideo(View v, String path, String type) {
         Context context = v.getContext();
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = getUri(context, path);
+        Uri uri = getUri(context, path, intent);
         intent.setDataAndType(uri, type);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    private Uri getUri(Context context, String path) {
+    private Uri getUri(Context context, String path, Intent intent) {
         File file = new File(path);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             return FileProvider.getUriForFile(context, Setting.fileProviderAuthority, file);
         } else {
             return Uri.fromFile(file);
@@ -112,8 +114,8 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
         PreviewPhotosViewHolder(View itemView) {
             super(itemView);
-            ivPhoto = (PhotoView) itemView.findViewById(R.id.iv_photo);
-            ivPlay = (ImageView) itemView.findViewById(R.id.iv_play);
+            ivPhoto = itemView.findViewById(R.id.iv_photo);
+            ivPlay = itemView.findViewById(R.id.iv_play);
         }
     }
 }
