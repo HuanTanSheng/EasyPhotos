@@ -420,8 +420,16 @@ public class AlbumBuilder {
                 Setting.isShowCamera = true;
                 break;
         }
+        if (!Setting.filterTypes.isEmpty()) {
+            if (Setting.isFilter(Type.GIF)) {
+                Setting.showGif = true;
+            }
+            if (Setting.isFilter(Type.VIDEO)) {
+                Setting.showVideo = true;
+            }
+        }
         if (Setting.isOnlyVideo()) {
-            //只选择视频 不支持拍照/拼图等
+            //只选择视频 暂不支持拍照/拼图等
             Setting.isShowCamera = false;
             Setting.showPuzzleMenu = false;
             Setting.showGif = false;

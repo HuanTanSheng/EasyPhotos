@@ -85,9 +85,6 @@ public class Setting {
     }
 
     public static boolean isFilter(String type) {
-        if (Setting.filterTypes.isEmpty()) {
-            return true;
-        }
         type = type.toLowerCase();
         for (String filterType : Setting.filterTypes) {
             if (type.contains(filterType)) {

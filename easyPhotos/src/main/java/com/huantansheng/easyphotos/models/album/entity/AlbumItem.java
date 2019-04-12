@@ -21,12 +21,10 @@ public class AlbumItem {
     }
 
     public void addImageItem(Photo imageItem) {
-        if(!this.photos.contains(imageItem)){
-            this.photos.add(imageItem);
-        }
+        this.photos.add(imageItem);
     }
 
-    public void addImageItem(int index,Photo imageItem) {
-        this.photos.add(index,imageItem);
+    public void addImageItem(int index, Photo imageItem) {
+        this.photos.add(index, imageItem);
     }
 }
