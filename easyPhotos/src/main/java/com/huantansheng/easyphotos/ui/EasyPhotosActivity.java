@@ -65,8 +65,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
-
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter
         .OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
 
@@ -146,9 +144,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     private void initSomeViews() {
         mBottomBar = findViewById(R.id.m_bottom_bar);
-        permissionView = (RelativeLayout) findViewById(R.id.rl_permissions_view);
-        tvPermission = (TextView) findViewById(R.id.tv_permission);
-        rootViewAlbumItems = (RelativeLayout) findViewById(R.id.root_view_album_items);
+        permissionView = findViewById(R.id.rl_permissions_view);
+        tvPermission = findViewById(R.id.tv_permission);
+        rootViewAlbumItems = findViewById(R.id.root_view_album_items);
         findViewById(R.id.iv_second_menu).setVisibility(Setting.showPuzzleMenu || Setting
                 .showCleanMenu || Setting.showOriginalMenu ? View.VISIBLE : View.GONE);
         setClick(R.id.iv_back);
@@ -270,7 +268,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             createCameraTempImageFile();
             if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri = null;
+                Uri imageUri;
                 if (Build.VERSION.SDK_INT >= 24) {
                     imageUri = FileProvider.getUriForFile(this, Setting.fileProviderAuthority,
                             mTempImageFile);//通过FileProvider创建一个content类型的Uri
@@ -485,19 +483,19 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.hasPhotosAd()) {
             findViewById(R.id.m_tool_bar_bottom_line).setVisibility(View.GONE);
         }
-        ivCamera = (ImageView) findViewById(R.id.fab_camera);
-        if (Setting.isShowCamera && isBottomRightCamera()) {
+        ivCamera = findViewById(R.id.fab_camera);
+        if (Setting.isShowCamera && Setting.isBottomRightCamera()) {
             ivCamera.setVisibility(View.VISIBLE);
         }
         if (!Setting.showPuzzleMenu) {
             findViewById(R.id.tv_puzzle).setVisibility(View.GONE);
         }
-        mSecondMenus = (LinearLayout) findViewById(R.id.m_second_level_menu);
+        mSecondMenus = findViewById(R.id.m_second_level_menu);
         int columns = getResources().getInteger(R.integer.photos_columns_easy_photos);
-        tvAlbumItems = (PressedTextView) findViewById(R.id.tv_album_items);
+        tvAlbumItems = findViewById(R.id.tv_album_items);
         tvAlbumItems.setText(albumModel.getAlbumItems().get(0).name);
-        tvDone = (PressedTextView) findViewById(R.id.tv_done);
-        rvPhotos = (RecyclerView) findViewById(R.id.rv_photos);
+        tvDone = findViewById(R.id.tv_done);
+        rvPhotos = findViewById(R.id.rv_photos);
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);
         //去除item更新的闪光
         photoList.clear();
@@ -506,7 +504,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.hasPhotosAd()) {
             photoList.add(index, Setting.photosAdView);
         }
-        if (Setting.isShowCamera && !isBottomRightCamera()) {
+        if (Setting.isShowCamera && !Setting.isBottomRightCamera()) {
             if (Setting.hasPhotosAd()) index = 1;
             photoList.add(index, null);
         }
@@ -527,13 +525,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
-        tvOriginal = (TextView) findViewById(R.id.tv_original);
+        tvOriginal = findViewById(R.id.tv_original);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();
         } else {
             tvOriginal.setVisibility(View.GONE);
         }
-        tvPreview = (PressedTextView) findViewById(R.id.tv_preview);
+        tvPreview = findViewById(R.id.tv_preview);
 
         initAlbumItems();
         shouldShowMenuDone();
@@ -551,7 +549,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     private void initAlbumItems() {
 
-        rvAlbumItems = (RecyclerView) findViewById(R.id.rv_album_items);
+        rvAlbumItems = findViewById(R.id.rv_album_items);
         albumItemList.clear();
         albumItemList.addAll(albumModel.getAlbumItems());
 
@@ -614,10 +612,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
         if (View.VISIBLE == mSecondMenus.getVisibility()) {
             mSecondMenus.setVisibility(View.INVISIBLE);
-            if (Setting.isShowCamera) ivCamera.setVisibility(View.VISIBLE);
+            if (Setting.isShowCamera && Setting.isBottomRightCamera()) {
+                ivCamera.setVisibility(View.VISIBLE);
+            }
         } else {
             mSecondMenus.setVisibility(View.VISIBLE);
-            if (Setting.isShowCamera) ivCamera.setVisibility(View.INVISIBLE);
+            if (Setting.isShowCamera && Setting.isBottomRightCamera()) {
+                ivCamera.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -711,7 +713,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.hasPhotosAd()) {
             photoList.add(index, Setting.photosAdView);
         }
-        if (Setting.isShowCamera && !isBottomRightCamera()) {
+        if (Setting.isShowCamera && !Setting.isBottomRightCamera()) {
             if (Setting.hasPhotosAd()) index = 1;
             photoList.add(index, null);
         }

@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,13 +22,10 @@ import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.huantansheng.easyphotos.setting.Setting.isBottomRightCamera;
-
 /**
  * 专辑相册适配器
  * Created by huan on 2017/10/23.
  */
-
 public class PhotosAdapter extends RecyclerView.Adapter {
     private static final int TYPE_AD = 0;
     private static final int TYPE_CAMERA = 1;
@@ -53,8 +51,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_AD:
                 return new AdViewHolder(mInflater.inflate(R.layout.item_ad_easy_photos, parent, false));
@@ -66,7 +65,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         final int p = position;
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(p);
@@ -98,7 +97,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                     if (Setting.hasPhotosAd()) {
                         realPosition--;
                     }
-                    if (Setting.isShowCamera && !isBottomRightCamera()) {
+                    if (Setting.isShowCamera && !Setting.isBottomRightCamera()) {
                         realPosition--;
                     }
                     listener.onPhotoClick(p, realPosition);
@@ -239,11 +238,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             if (Setting.hasPhotosAd()) {
                 return TYPE_AD;
             }
-            if (Setting.isShowCamera && !isBottomRightCamera()) {
+            if (Setting.isShowCamera && !Setting.isBottomRightCamera()) {
                 return TYPE_CAMERA;
             }
         }
-        if (1 == position && !isBottomRightCamera()) {
+        if (1 == position && !Setting.isBottomRightCamera()) {
             if (Setting.hasPhotosAd() && Setting.isShowCamera) {
                 return TYPE_CAMERA;
             }
@@ -266,7 +265,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
         CameraViewHolder(View itemView) {
             super(itemView);
-            this.flCamera = (FrameLayout) itemView.findViewById(R.id.fl_camera);
+            this.flCamera = itemView.findViewById(R.id.fl_camera);
         }
     }
 
@@ -278,10 +277,10 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
         PhotoViewHolder(View itemView) {
             super(itemView);
-            this.ivPhoto = (PressedImageView) itemView.findViewById(R.id.iv_photo);
-            this.tvSelector = (TextView) itemView.findViewById(R.id.tv_selector);
+            this.ivPhoto = itemView.findViewById(R.id.iv_photo);
+            this.tvSelector = itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
-            this.tvType = (TextView) itemView.findViewById(R.id.tv_type);
+            this.tvType = itemView.findViewById(R.id.tv_type);
         }
     }
 }
