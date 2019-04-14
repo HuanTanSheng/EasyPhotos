@@ -246,7 +246,6 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
-                        .setVideoMinSecond(10)
                         .filter(Type.VIDEO)
                         .start(101);
                 break;

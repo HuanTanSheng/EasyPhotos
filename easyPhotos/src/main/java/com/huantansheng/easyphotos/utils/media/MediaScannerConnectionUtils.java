@@ -1,6 +1,5 @@
 package com.huantansheng.easyphotos.utils.media;
 
-import android.app.Application;
 import android.content.Context;
 import android.media.MediaScannerConnection;
 
