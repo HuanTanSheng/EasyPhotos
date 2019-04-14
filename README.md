@@ -42,6 +42,8 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 过滤图片（图片宽度、图片高度、文件大小三个维度任意选择和搭配）
 - 默认勾选图片（可配置）    
 - 图片预览（可全屏，可缩放）    
+- 支持动图gif显示，并支持只显示动图gif
+- 支持视频video显示，并支持只显示视频video
 - UI色值高度浓缩，仅为7种，自定义超简单     
 - 对Gif动图的处理（可配置开关是否显示，列表中以静态图+动图标识显示，预览大图时自动播放）    
 - 自带Bitmap相关方法（如添加水印、把View画成Bitmap、保存Bitmap等）    
@@ -74,7 +76,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.1'  
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.4'  
     
 }
 ```    
@@ -84,13 +86,13 @@ dependencies {
 
     
        
-**如果你的 `android studio` 版本不同于3.2.1正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
+**如果你的 `android studio` 版本不同于3.3.2正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-	//把3.2.1改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+        classpath 'com.android.tools.build:gradle:3.3.2'
+	//把3.3.2改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
 ```    
@@ -142,6 +144,20 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
+   
+**2.4.4：**     
+- 修复：修复2.4.3版本引发的图片数据加载缓慢问题
+- 感谢：该版本由[joker-fu](https://github.com/joker-fu)贡献
+   
+**2.4.3：**     
+- 新增：start(SelectCallback callback)启动方式，通过接口回调数据
+- 新增：filter(String... types)方式控制只显示的文件类型，支持Type.GIF和Type.VIDEO，前提是已经选择显示了gif和video
+- 新增：对显示视频的时长过滤api
+- 新增：单独对图片和视频的最大选择数控制
+- 新增：支持相机按钮位置设置，setCameraLocation(@Setting.Location int cLocation)//默认左下角，通过设置可设置为相册第一张图片的位置    
+- 优化：预览页
+- 感谢：该版本由[joker-fu](https://github.com/joker-fu)、[SMask](https://github.com/SMask)贡献 
+- 提示：新的api详见[wiki](https://github.com/HuanTanSheng/EasyPhotos/wiki/02-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E7%9B%B8%E5%86%8C) 
    
 **2.4.1：**     
 - 优化：2.4.0中的代码

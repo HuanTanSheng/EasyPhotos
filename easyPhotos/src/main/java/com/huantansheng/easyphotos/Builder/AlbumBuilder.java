@@ -225,7 +225,7 @@ public class AlbumBuilder {
     }
 
     /**
-     * 设置相机按钮风格 默认true
+     * 设置相机按钮位置
      *
      * @param cLocation 使用Material Design风格相机按钮 默认 BOTTOM_RIGHT
      * @return AlbumBuilder

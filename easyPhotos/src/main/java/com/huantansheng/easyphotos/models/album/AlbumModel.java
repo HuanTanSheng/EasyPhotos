@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.huantansheng.easyphotos.R;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
  * Modified by Eagle on 2018/08/31.
  * 修改内容：将AlbumModel的实例化与数据查询分开
  */
-
 public class AlbumModel {
     private static final String TAG = "AlbumModel";
     public static AlbumModel instance;
@@ -86,7 +84,7 @@ public class AlbumModel {
         };
 
         ContentResolver contentResolver = context.getContentResolver();
-        String[] projections = null;
+        String[] projections;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             projections = new String[]{MediaStore.Files.FileColumns._ID, MediaStore.MediaColumns.DATA,
                     MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
@@ -189,7 +187,7 @@ public class AlbumModel {
                 // 把图片全部放进“全部”专辑
                 album.getAlbumItem(albumItem_all_name).addImageItem(imageItem);
 
-                if (Setting.showVideo && isVideo) {
+                if (Setting.showVideo && isVideo && !albumItem_video_name.equals(albumItem_all_name)) {
                     album.addAlbumItem(albumItem_video_name, "", path);
                     album.getAlbumItem(albumItem_video_name).addImageItem(imageItem);
                 }
