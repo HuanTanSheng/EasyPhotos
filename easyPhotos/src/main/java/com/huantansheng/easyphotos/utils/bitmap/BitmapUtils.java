@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.view.View;
 
@@ -110,25 +112,29 @@ public class BitmapUtils {
         float scaleWatermarkHeight = watermarkHeight * scale;
         Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, (int) scaleWatermarkWidth, (int) scaleWatermarkHeight, true);
         Canvas canvas = new Canvas(image);
-        Paint textPaint = new TextPaint();
+        TextPaint textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.WHITE);
         float textsize = (float) (scaleWatermark.getHeight() * 2) / (float) 3;
         textPaint.setTextSize(textsize);
-        Rect textRect = new Rect();
-        textPaint.getTextBounds(text, 0, text.length(), textRect);
+        StaticLayout staticLayout = new StaticLayout(text, textPaint, canvas.getWidth() / 3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        int textWidth = staticLayout.getWidth();
+        int textHeight = staticLayout.getHeight();
+        canvas.save();
         if (addInLeft) {
-            canvas.drawText(text, scaleWatermarkWidth + offsetX, imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
+            canvas.translate(scaleWatermarkWidth + offsetX + scaleWatermarkWidth / 6, imageHeight - textHeight - offsetY - scaleWatermarkHeight / 6);
         } else {
-            canvas.drawText(text, imageWidth - offsetX - textRect.width() - textRect.left, imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
+            canvas.translate(imageWidth - offsetX - textWidth, imageHeight - textHeight - offsetY - scaleWatermarkHeight / 6);
         }
+        staticLayout.draw(canvas);
+        canvas.restore();
 
         Paint sacleWatermarkPaint = new Paint();
         sacleWatermarkPaint.setAntiAlias(true);
         if (addInLeft) {
-            canvas.drawBitmap(scaleWatermark, offsetX, imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
+            canvas.drawBitmap(scaleWatermark, offsetX, imageHeight - textHeight - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
         } else {
-            canvas.drawBitmap(scaleWatermark, imageWidth - textRect.width() - offsetX - scaleWatermarkWidth / 6, imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
+            canvas.drawBitmap(scaleWatermark, imageWidth - textWidth - offsetX - scaleWatermarkWidth - scaleWatermarkWidth / 6, imageHeight - textHeight - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
         }
         recycle(scaleWatermark);
     }

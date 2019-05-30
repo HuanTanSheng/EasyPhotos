@@ -285,6 +285,8 @@ public class SampleActivity extends AppCompatActivity
                 //给图片添加水印的api
                 EasyPhotos.addWatermark(watermark, bitmap, 1080, 20, 20, true);
 
+//                EasyPhotos.addWatermarkWithText(watermark, bitmap, 1080, "aaa\r\n这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。", 20, 20, true);
+
                 bitmapView.setVisibility(View.VISIBLE);
                 bitmapView.setImageBitmap(bitmap);
                 Toast.makeText(SampleActivity.this, "水印在左下角", Toast.LENGTH_SHORT).show();
