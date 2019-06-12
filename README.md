@@ -49,6 +49,13 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带Bitmap相关方法（如添加水印、把View画成Bitmap、保存Bitmap等）    
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
+## 关于EasyPhotos的SDK及相关版本公示（androidx版本） 
+compileSdkVersion 29  
+minSdkVersion 15  
+targetSdkVersion 29      
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
+[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
+
 ## 关于EasyPhotos的SDK及相关版本公示 
 compileSdkVersion 28  
 minSdkVersion 15  
@@ -56,7 +63,6 @@ targetSdkVersion 28  
 buildToolsVersion '28.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 [demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
-
 
 
 ## 获取EasyPhotos（通过Gradle方式）
@@ -76,8 +82,10 @@ allprojects {
 ```gradle
 dependencies {  
 
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.4'  
-    
+      implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.6' //支持androidx
+      
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //不支持androidx
+   
 }
 ```    
     
@@ -144,6 +152,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志    
+
+**2.4.6：** 
+- 优化：支持androidx
 
 **2.4.5：** 
 - 修复：当相机按钮位置在图片第一张时，点击相册页底部中间的编辑按钮会导致右下角相机按钮也显示出来
