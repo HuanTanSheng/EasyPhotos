@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
@@ -57,7 +57,7 @@ public class EasyPhotos {
         return AlbumBuilder.createCamera(activity);
     }
 
-    public static AlbumBuilder createCamera(android.support.v4.app.Fragment fragmentV) {
+    public static AlbumBuilder createCamera(androidx.fragment.app.Fragment fragmentV) {
         return AlbumBuilder.createCamera(fragmentV);
     }
 
@@ -83,7 +83,7 @@ public class EasyPhotos {
         return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
-    public static AlbumBuilder createAlbum(android.support.v4.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
+    public static AlbumBuilder createAlbum(androidx.fragment.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine);
     }
 

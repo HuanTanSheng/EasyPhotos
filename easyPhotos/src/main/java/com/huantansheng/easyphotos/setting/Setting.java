@@ -1,6 +1,6 @@
 package com.huantansheng.easyphotos.setting;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.view.View;
 
 import com.huantansheng.easyphotos.constant.Type;

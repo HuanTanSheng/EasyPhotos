@@ -8,15 +8,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -102,7 +102,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static void startWithPhotos(android.support.v4.app.Fragment fragmentV, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
+    public static void startWithPhotos(androidx.fragment.app.Fragment fragmentV, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
@@ -163,7 +163,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static void startWithPaths(android.support.v4.app.Fragment fragmentV, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
+    public static void startWithPaths(androidx.fragment.app.Fragment fragmentV, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
