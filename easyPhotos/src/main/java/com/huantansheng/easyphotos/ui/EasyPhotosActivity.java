@@ -327,6 +327,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (requestCode == Code.REQUEST_SETTING_APP_DETAILS) {
             if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
                 hasPermissions();
+            }else {
+                permissionView.setVisibility(View.VISIBLE);
             }
             return;
         }
