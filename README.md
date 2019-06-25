@@ -82,7 +82,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-      implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.6' //支持androidx
+      implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.7' //支持androidx
       
     implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //不支持androidx
    
@@ -151,7 +151,10 @@ EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续�
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志    
+## 更新日志 
+
+**2.4.7：** 
+- 优化：修复相册页在部分机型会闪现权限提醒UI问题   
 
 **2.4.6：** 
 - 优化：支持androidx
