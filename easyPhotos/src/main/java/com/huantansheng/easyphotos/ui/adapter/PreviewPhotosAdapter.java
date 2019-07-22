@@ -2,18 +2,20 @@ package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.github.chrisbanes.photoview.OnScaleChangedListener;
-import com.github.chrisbanes.photoview.PhotoView;
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -55,8 +57,12 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         final String type = photos.get(position).type;
 
         holder.ivPlay.setVisibility(View.GONE);
+        holder.ivGifPhoto.setVisibility(View.GONE);
+        holder.ivLongPhoto.setVisibility(View.GONE);
+
         if (type.contains(Type.VIDEO)) {
-            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            holder.ivLongPhoto.setVisibility(View.VISIBLE);
+            holder.ivLongPhoto.setImage(ImageSource.uri(path));
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,21 +71,33 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
                 }
             });
         } else if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-            Setting.imageEngine.loadGif(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            holder.ivGifPhoto.setVisibility(View.VISIBLE);
+            Setting.imageEngine.loadGif(holder.ivGifPhoto.getContext(), path, holder.ivGifPhoto);
         } else {
-            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            holder.ivLongPhoto.setVisibility(View.VISIBLE);
+            holder.ivLongPhoto.setImage(ImageSource.uri(path));
         }
-        holder.ivPhoto.setScale(1f);
-        holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
+        holder.ivLongPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onPhotoClick();
             }
         });
-        holder.ivPhoto.setOnScaleChangeListener(new OnScaleChangedListener() {
+        holder.ivGifPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScaleChange(float scaleFactor, float focusX, float focusY) {
+            public void onClick(View v) {
+                listener.onPhotoClick();
+            }
+        });
+        holder.ivLongPhoto.setOnStateChangedListener(new SubsamplingScaleImageView.OnStateChangedListener() {
+            @Override
+            public void onScaleChanged(float newScale, int origin) {
                 listener.onPhotoScaleChanged();
+            }
+
+            @Override
+            public void onCenterChanged(PointF newCenter, int origin) {
+
             }
         });
     }
@@ -109,12 +127,14 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
     }
 
     public class PreviewPhotosViewHolder extends RecyclerView.ViewHolder {
-        public PhotoView ivPhoto;
+        public SubsamplingScaleImageView ivLongPhoto;
         ImageView ivPlay;
+        ImageView ivGifPhoto;
 
         PreviewPhotosViewHolder(View itemView) {
             super(itemView);
-            ivPhoto = itemView.findViewById(R.id.iv_photo);
+            ivLongPhoto = itemView.findViewById(R.id.iv_long_photo);
+            ivGifPhoto = itemView.findViewById(R.id.iv_gif_photo);
             ivPlay = itemView.findViewById(R.id.iv_play);
         }
     }

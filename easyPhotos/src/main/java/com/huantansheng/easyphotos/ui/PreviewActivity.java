@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -206,8 +208,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
 
     @Override
     public void onPhotoScaleChanged() {
-        if (mVisible)
-            hide();
+        if (mVisible) hide();
     }
 
     @Override
@@ -240,7 +241,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         tvDone = (PressedTextView) findViewById(R.id.tv_done);
         tvOriginal = (TextView) findViewById(R.id.tv_original);
         flFragment = (FrameLayout) findViewById(R.id.fl_fragment);
-        previewFragment = (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_preview);
+        previewFragment =
+                (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_preview);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();
         } else {
@@ -278,20 +280,13 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 }
                 lastPosition = position;
                 previewFragment.setSelectedPosition(-1);
-                tvNumber.setText(getString(R.string.preview_current_number_easy_photos, lastPosition + 1, photos.size()));
+                tvNumber.setText(getString(R.string.preview_current_number_easy_photos,
+                        lastPosition + 1, photos.size()));
                 toggleSelector();
-                PreviewPhotosAdapter.PreviewPhotosViewHolder holder = (PreviewPhotosAdapter.PreviewPhotosViewHolder) rvPhotos.getChildViewHolder(view);
-                if (holder == null || holder.ivPhoto == null) {
-                    return;
-                }
-                if (holder.ivPhoto.getScale() != 1f) {
-                    holder.ivPhoto.setScale(1f, true);
-
-
-                }
             }
         });
-        tvNumber.setText(getString(R.string.preview_current_number_easy_photos, index + 1, photos.size()));
+        tvNumber.setText(getString(R.string.preview_current_number_easy_photos, index + 1,
+                photos.size()));
     }
 
     @Override
@@ -328,9 +323,11 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
         } else {
             if (Setting.originalMenuUsable) {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary));
+                tvOriginal.setTextColor(ContextCompat.getColor(this,
+                        R.color.easy_photos_fg_primary));
             } else {
-                tvOriginal.setTextColor(ContextCompat.getColor(this, R.color.easy_photos_fg_primary_dark));
+                tvOriginal.setTextColor(ContextCompat.getColor(this,
+                        R.color.easy_photos_fg_primary_dark));
             }
         }
     }
@@ -369,7 +366,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 toggleSelector();
                 return;
             }
-            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos, Setting.count), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
+                    Setting.count), Toast.LENGTH_SHORT).show();
             return;
         }
         item.selected = !item.selected;
@@ -379,10 +377,14 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 item.selected = false;
                 switch (res) {
                     case -1:
-                        Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, Setting.pictureCount), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,
+                                getString(R.string.selector_reach_max_image_hint_easy_photos,
+                                        Setting.pictureCount), Toast.LENGTH_SHORT).show();
                         break;
                     case -2:
-                        Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos, Setting.videoCount), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,
+                                getString(R.string.selector_reach_max_video_hint_easy_photos,
+                                        Setting.videoCount), Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return;
@@ -433,7 +435,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             }
             flFragment.setVisibility(View.VISIBLE);
             tvDone.setVisibility(View.VISIBLE);
-            tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(), Setting.count));
+            tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(),
+                    Setting.count));
         }
     }
 
@@ -444,7 +447,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             if (TextUtils.equals(path, photos.get(i).path)) {
                 rvPhotos.scrollToPosition(i);
                 lastPosition = i;
-                tvNumber.setText(getString(R.string.preview_current_number_easy_photos, lastPosition + 1, photos.size()));
+                tvNumber.setText(getString(R.string.preview_current_number_easy_photos,
+                        lastPosition + 1, photos.size()));
                 previewFragment.setSelectedPosition(position);
                 toggleSelector();
                 return;
