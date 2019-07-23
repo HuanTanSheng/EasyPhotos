@@ -82,9 +82,9 @@ allprojects {
 ```gradle
 dependencies {  
 
-      implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.7' //支持androidx
+      implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.8' //支持androidx
       
-    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //不支持androidx
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本
    
 }
 ```    
