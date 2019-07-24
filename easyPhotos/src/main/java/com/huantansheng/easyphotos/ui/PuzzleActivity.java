@@ -411,7 +411,11 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap getScaleBitmap(String path) {
         Bitmap bitmap = null;
         try {
-            bitmap = Setting.imageEngine.getCacheBitmap(this, path, deviceWidth / 2, deviceHeight / 2);
+            bitmap = Setting.imageEngine.getCacheBitmap(this, path, deviceWidth / 2,
+                    deviceHeight / 2);
+            if (bitmap == null) {
+                bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2, deviceHeight / 2, true);
+            }
         } catch (Exception e) {
             bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2, deviceHeight / 2, true);
         }
