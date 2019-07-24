@@ -57,7 +57,7 @@ targetSdkVersion 29  
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 [demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
 
-## 关于EasyPhotos的SDK及相关版本公示 
+## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
 minSdkVersion 15  
 targetSdkVersion 28      
@@ -83,7 +83,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.8' //支持androidx
+        implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.9' //支持androidx
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本
    
@@ -95,13 +95,13 @@ dependencies {
 
     
        
-**如果你的 `android studio` 版本不同于3.3.2正式版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
+**如果你的 `android studio` 版本低于3.4.2版，有可能会打不开我的Demo，只需要修改Demo里面 `build.gradle（project）` 文件中的：**     
 
 ```gradle  
 
 dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-	//把3.3.2改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
+        classpath 'com.android.tools.build:gradle:3.4.2'
+	//把3.4.2改成你对应的版本即可，如果不清楚对应版本可以看看你其他正常项目的这里是怎么写的  
 	}
 
 ```    
@@ -154,7 +154,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志 
 
-**2.4.8：** 
+**2.4.9：** 
 - 优化：修复预览页预览大图片和长图片时清晰度模糊问题   
 
 **2.4.7：** 

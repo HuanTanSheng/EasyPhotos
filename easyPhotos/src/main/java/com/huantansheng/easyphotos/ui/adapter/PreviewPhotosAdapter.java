@@ -61,8 +61,8 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         holder.ivLongPhoto.setVisibility(View.GONE);
 
         if (type.contains(Type.VIDEO)) {
-            holder.ivLongPhoto.setVisibility(View.VISIBLE);
-            holder.ivLongPhoto.setImage(ImageSource.uri(path));
+            holder.ivGifPhoto.setVisibility(View.VISIBLE);
+            Setting.imageEngine.loadPhoto(holder.ivGifPhoto.getContext(), path, holder.ivGifPhoto);
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
