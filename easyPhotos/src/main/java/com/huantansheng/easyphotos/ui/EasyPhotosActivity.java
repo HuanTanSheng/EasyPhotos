@@ -93,6 +93,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private int currAlbumItemIndex = 0;
 
     private ImageView ivCamera;
+    private TextView tvTitle;
 
     private LinearLayout mSecondMenus;
 
@@ -150,6 +151,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         permissionView = findViewById(R.id.rl_permissions_view);
         tvPermission = findViewById(R.id.tv_permission);
         rootViewAlbumItems = findViewById(R.id.root_view_album_items);
+        tvTitle = findViewById(R.id.tv_title);
+        if (Setting.isOnlyVideo()) {
+            tvTitle.setText(R.string.video_selection_easy_photos);
+        }
         findViewById(R.id.iv_second_menu).setVisibility(Setting.showPuzzleMenu || Setting.showCleanMenu || Setting.showOriginalMenu ? View.VISIBLE : View.GONE);
         setClick(R.id.iv_back);
     }
@@ -327,7 +332,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (requestCode == Code.REQUEST_SETTING_APP_DETAILS) {
             if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
                 hasPermissions();
-            }else {
+            } else {
                 permissionView.setVisibility(View.VISIBLE);
             }
             return;

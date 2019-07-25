@@ -76,5 +76,5 @@
     <string name="gif_easy_photos">gif</string>
 
     <string name="video_easy_photos">비디오</string>
-
+    <string name="video_selection_easy_photos">비디오 선택</string>
 </resources>

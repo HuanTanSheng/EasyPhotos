@@ -60,6 +60,8 @@
 
     <string name="picture_selection_easy_photos">图片选择</string>
 
+    <string name="video_selection_easy_photos">视频选择</string>
+
     <string name="puzzle_easy_photos">拼一张</string>
 
     <string name="select_puzzle_photos">请选择2 \- 9张照片</string>

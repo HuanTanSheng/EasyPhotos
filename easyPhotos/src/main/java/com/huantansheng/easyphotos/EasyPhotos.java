@@ -43,12 +43,10 @@ public class EasyPhotos {
      * @param activity 上下文
      * @return AlbumBuilder
      */
-    @Deprecated
     public static AlbumBuilder createCamera(Activity activity) {
         return AlbumBuilder.createCamera(activity);
     }
 
-    @Deprecated
     public static AlbumBuilder createCamera(Fragment fragment) {
         return AlbumBuilder.createCamera(fragment);
     }
@@ -69,12 +67,10 @@ public class EasyPhotos {
      * @param imageEngine  图片加载引擎的具体实现
      * @return
      */
-    @Deprecated
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
     }
 
-    @Deprecated
     public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
         return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine);
     }
@@ -214,7 +210,7 @@ public class EasyPhotos {
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
-    @Deprecated
+
     public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         act.setResult(Activity.RESULT_OK);
         PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
@@ -239,7 +235,7 @@ public class EasyPhotos {
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
-    @Deprecated
+
     public static void startPuzzleWithPaths(Activity act, ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
         PuzzleActivity.startWithPaths(act, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
     }
