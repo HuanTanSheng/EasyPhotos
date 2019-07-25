@@ -584,8 +584,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         } else if (R.id.root_view_album_items == id) {
             showAlbumItems(false);
         } else if (R.id.iv_back == id) {
-            setResult(RESULT_CANCELED);
-            finish();
+            onBackPressed();
         } else if (R.id.tv_done == id) {
             done();
         } else if (R.id.tv_clear == id) {
@@ -790,11 +789,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onBackPressed() {
 
         if (null != rootViewAlbumItems && rootViewAlbumItems.getVisibility() == View.VISIBLE) {
@@ -806,8 +800,14 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             processSecondMenu();
             return;
         }
-
-        super.onBackPressed();
+        if (Setting.hasPhotosAd()) {
+            photosAdapter.clearAd();
+        }
+        if (Setting.hasAlbumItemsAd()) {
+            albumItemsAdapter.clearAd();
+        }
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     @Override

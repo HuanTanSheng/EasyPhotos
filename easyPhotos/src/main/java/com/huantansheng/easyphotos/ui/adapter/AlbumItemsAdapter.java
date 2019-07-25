@@ -34,6 +34,8 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     private int adPosition = 0;
     private int padding = 0;
 
+    private boolean clearAd = false;
+
     public interface OnClickListener {
         void onAlbumItemClick(int position, int realPosition);
     }
@@ -98,6 +100,11 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
+            if (clearAd) {
+                ((AdViewHolder) holder).adFrame.removeAllViews();
+                ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
+                return;
+            }
             adPosition = p;
             if (!Setting.albumItemsAdIsOk) {
                 ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
@@ -120,6 +127,11 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
                 }
             }
         }
+    }
+
+    public void clearAd() {
+        clearAd = true;
+        notifyDataSetChanged();
     }
 
     public void setSelectedPosition(int position) {

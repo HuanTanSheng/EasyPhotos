@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -370,6 +371,16 @@ public class SampleActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (albumItemsAdView != null) {
+            if (albumItemsAdView.getParent() != null) {
+                ((FrameLayout)(albumItemsAdView.getParent())).removeAllViews();
+            }
+        }
+        if (photosAdView != null) {
+            if (photosAdView.getParent() != null) {
+                ((FrameLayout)(photosAdView.getParent())).removeAllViews();
+            }
+        }
         if (RESULT_OK == resultCode) {
             //相机或相册回调
             if (requestCode == 101) {

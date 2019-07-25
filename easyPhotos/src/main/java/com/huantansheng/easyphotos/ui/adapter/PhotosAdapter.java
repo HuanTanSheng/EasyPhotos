@@ -37,6 +37,8 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     private boolean unable, isSingle;
     private int singlePosition;
 
+    private boolean clearAd = false;
+
 
     public PhotosAdapter(Context cxt, ArrayList<Object> dataList, OnClickListener listener) {
         this.dataList = dataList;
@@ -153,6 +155,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
 
         if (holder instanceof AdViewHolder) {
+            if (clearAd) {
+                ((AdViewHolder) holder).adFrame.removeAllViews();
+                ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
+                return;
+            }
             if (!Setting.photoAdIsOk) {
                 ((AdViewHolder) holder).adFrame.setVisibility(View.GONE);
                 return;
@@ -183,6 +190,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+    }
+
+    public void clearAd() {
+        clearAd = true;
+        notifyDataSetChanged();
     }
 
     private void singleSelector(Photo photo, int position) {
