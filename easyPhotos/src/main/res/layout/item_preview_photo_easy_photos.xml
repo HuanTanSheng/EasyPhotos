@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ImageView
-        android:id="@+id/iv_gif_photo"
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/iv_photo_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
