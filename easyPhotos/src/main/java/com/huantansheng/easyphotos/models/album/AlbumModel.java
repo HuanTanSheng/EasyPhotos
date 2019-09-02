@@ -66,42 +66,40 @@ public class AlbumModel {
 
     private void initAlbum(Context context) {
         if (Setting.selectedPhotos.size() > Setting.count) {
-            throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" +
-                    Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
+            throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
 
         final Uri contentUri = MediaStore.Files.getContentUri("external");
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
         final String selection =
-                "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
-                        + " OR "
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)"
-                        + " AND "
-                        + MediaStore.MediaColumns.SIZE + ">0";
-        final String[] selectionAllArgs = {
-                String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
-                String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO),
-        };
+                "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?" + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)" + " AND " + MediaStore.MediaColumns.SIZE + ">0";
+        final String[] selectionAllArgs =
+                {String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
+                        String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO),};
 
         ContentResolver contentResolver = context.getContentResolver();
         String[] projections;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            projections = new String[]{MediaStore.Files.FileColumns._ID, MediaStore.MediaColumns.DATA,
-                    MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.WIDTH, MediaStore
-                    .MediaColumns.HEIGHT, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
+            projections = new String[]{MediaStore.Files.FileColumns._ID,
+                    MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME,
+                    MediaStore.MediaColumns.DATE_MODIFIED, MediaStore.MediaColumns.MIME_TYPE,
+                    MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT,
+                    MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
 
         } else {
             projections = new String[]{MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA,
                     MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
+                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE,
+                    MediaStore.Video.Media.DURATION};
         }
-        Cursor cursor = contentResolver.query(contentUri, projections, selection, selectionAllArgs, sortOrder);
+        Cursor cursor = contentResolver.query(contentUri, projections, selection,
+                selectionAllArgs, sortOrder);
         if (cursor == null) {
 //            Log.d(TAG, "call: " + "Empty photos");
         } else if (cursor.moveToFirst()) {
             String albumItem_all_name = getAllAlbumName(context);
-            String albumItem_video_name = context.getString(R.string.selector_folder_video_easy_photos);
+            String albumItem_video_name =
+                    context.getString(R.string.selector_folder_video_easy_photos);
 
             int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
@@ -169,7 +167,8 @@ public class AlbumModel {
                     continue;
                 }
 
-                Photo imageItem = new Photo(name, path, dateTime, width, height, size, duration, type);
+                Photo imageItem = new Photo(name, path, dateTime, width, height, size, duration,
+                        type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
                         if (path.equals(selectedPhoto.path)) {
@@ -193,7 +192,11 @@ public class AlbumModel {
                 }
 
                 // 添加当前图片的专辑到专辑模型实体中
-                String folderPath = new File(path).getParentFile().getAbsolutePath();
+                File parentFile = new File(path).getParentFile();
+                if (null == parentFile) {
+                    continue;
+                }
+                String folderPath = parentFile.getAbsolutePath();
                 String albumName = StringUtils.getLastPathSegment(folderPath);
                 album.addAlbumItem(albumName, folderPath, path);
                 album.getAlbumItem(albumName).addImageItem(imageItem);
@@ -208,7 +211,8 @@ public class AlbumModel {
      * @return 专辑名
      */
     public String getAllAlbumName(Context context) {
-        String albumItem_all_name = context.getString(R.string.selector_folder_all_video_photo_easy_photos);
+        String albumItem_all_name =
+                context.getString(R.string.selector_folder_all_video_photo_easy_photos);
         if (Setting.isOnlyVideo()) {
             albumItem_all_name = context.getString(R.string.selector_folder_video_easy_photos);
         } else if (!Setting.showVideo) {
