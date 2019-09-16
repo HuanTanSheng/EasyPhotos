@@ -18,7 +18,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 专辑模型
@@ -227,7 +227,7 @@ public class AlbumModel {
      *
      * @return 当前专辑项目的图片集
      */
-    public ArrayList<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
+    public List<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
         return album.getAlbumItem(currAlbumItemIndex).photos;
     }
 
@@ -236,7 +236,7 @@ public class AlbumModel {
      *
      * @return 专辑项目集
      */
-    public ArrayList<AlbumItem> getAlbumItems() {
+    public List<AlbumItem> getAlbumItems() {
         return album.albumItems;
     }
 

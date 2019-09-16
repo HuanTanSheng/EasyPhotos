@@ -153,6 +153,8 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志 
+**2.5.0：** 
+- 优化：修复ArrayList在多线程中addItem出现的角标越界问题
 
 **2.4.9：** 
 - 重要：升级到gradle:3.4.2，低版本studio可能因为该项升级而产生错误，建议升级studio或手动修改classpath 'com.android.tools.build:gradle:3.4.2'到你的可用版本
