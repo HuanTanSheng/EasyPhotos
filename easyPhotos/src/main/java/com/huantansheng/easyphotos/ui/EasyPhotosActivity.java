@@ -803,6 +803,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             processSecondMenu();
             return;
         }
+        albumModel.stopQuery();
         if (Setting.hasPhotosAd()) {
             photosAdapter.clearAd();
         }
@@ -811,6 +812,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        albumModel.stopQuery();
+        super.onDestroy();
     }
 
     @Override

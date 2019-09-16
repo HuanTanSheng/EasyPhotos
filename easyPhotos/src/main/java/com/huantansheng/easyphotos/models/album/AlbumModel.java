@@ -18,7 +18,7 @@ import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 专辑模型
@@ -53,7 +53,10 @@ public class AlbumModel {
      * @param context  调用查询方法的context
      * @param callBack 查询完成后的回调
      */
+    public boolean canRun = true;
+
     public void query(final Context context, final CallBack callBack) {
+        canRun = true;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +65,10 @@ public class AlbumModel {
                 if (null != callBack) callBack.onAlbumWorkedCallBack();
             }
         }).start();
+    }
+
+    public void stopQuery() {
+        canRun = false;
     }
 
     private void initAlbum(Context context) {
@@ -200,7 +207,7 @@ public class AlbumModel {
                 String albumName = StringUtils.getLastPathSegment(folderPath);
                 album.addAlbumItem(albumName, folderPath, path);
                 album.getAlbumItem(albumName).addImageItem(imageItem);
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext() && canRun);
             cursor.close();
         }
     }
@@ -227,7 +234,7 @@ public class AlbumModel {
      *
      * @return 当前专辑项目的图片集
      */
-    public List<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
+    public ArrayList<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex) {
         return album.getAlbumItem(currAlbumItemIndex).photos;
     }
 
@@ -236,7 +243,7 @@ public class AlbumModel {
      *
      * @return 专辑项目集
      */
-    public List<AlbumItem> getAlbumItems() {
+    public ArrayList<AlbumItem> getAlbumItems() {
         return album.albumItems;
     }
 

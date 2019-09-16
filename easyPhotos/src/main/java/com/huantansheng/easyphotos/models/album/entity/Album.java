@@ -1,9 +1,7 @@
 package com.huantansheng.easyphotos.models.album.entity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedHashMap;
 
 /**
  * 专辑模型实体类
@@ -11,23 +9,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 public class Album {
-    final public List<AlbumItem> albumItems;
-    private ConcurrentHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
+    public ArrayList<AlbumItem> albumItems;
+    private LinkedHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
 
     public Album() {
-        albumItems = Collections.synchronizedList(new ArrayList<AlbumItem>());
-        hasAlbumItems = new ConcurrentHashMap<>();
+        albumItems = new ArrayList<>();
+        hasAlbumItems = new LinkedHashMap<>();
     }
 
     private void addAlbumItem(AlbumItem albumItem) {
-        synchronized (albumItems) {
-            boolean absent = !albumItems.contains(albumItem);
-            if (absent) {
-                this.albumItems.add(albumItem);
-                this.hasAlbumItems.put(albumItem.name, albumItem);
-            }
-        }
-
+        this.hasAlbumItems.put(albumItem.name, albumItem);
+        this.albumItems.add(albumItem);
     }
 
     public void addAlbumItem(String name, String folderPath, String coverImagePath) {
