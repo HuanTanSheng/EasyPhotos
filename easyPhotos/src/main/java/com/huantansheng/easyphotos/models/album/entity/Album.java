@@ -2,8 +2,8 @@ package com.huantansheng.easyphotos.models.album.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 专辑模型实体类
@@ -12,11 +12,11 @@ import java.util.List;
 
 public class Album {
     final public List<AlbumItem> albumItems;
-    private LinkedHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
+    private ConcurrentHashMap<String, AlbumItem> hasAlbumItems;//用于记录专辑项目
 
     public Album() {
         albumItems = Collections.synchronizedList(new ArrayList<AlbumItem>());
-        hasAlbumItems = new LinkedHashMap<>();
+        hasAlbumItems = new ConcurrentHashMap<>();
     }
 
     private void addAlbumItem(AlbumItem albumItem) {
