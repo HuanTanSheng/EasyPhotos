@@ -84,7 +84,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.0' //androidx版本，支持android 10，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.1' //androidx版本，支持android 10，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -154,7 +154,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志 
-**3.0.0：**
+**3.0.1：**
 - 兼容android 10
 - 因为android 10 不支持用path路径显示图片，所以回调取消了单独获取path集合的回调，只保留获取Photo集合的回调，如需使用path，可以在Photo对象中获取
 - ImageEngine接口（因为android 10 不支持用path路径显示图片，所以全部改为Uri的形式），望升级用户周知

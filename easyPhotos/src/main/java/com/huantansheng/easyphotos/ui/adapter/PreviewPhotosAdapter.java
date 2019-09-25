@@ -67,13 +67,12 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
         if (type.contains(Type.VIDEO)) {
             holder.ivPhotoView.setVisibility(View.VISIBLE);
-            Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri,
-                    holder.ivPhotoView);
+            Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toPlayVideo(v, path, type);
+                    toPlayVideo(v, uri, type);
                 }
             });
         } else if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
@@ -83,9 +82,10 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
             if (ratio > 2.3) {
                 holder.ivLongPhoto.setVisibility(View.VISIBLE);
                 holder.ivLongPhoto.setImage(ImageSource.uri(path));
-            }else {
+            } else {
                 holder.ivPhotoView.setVisibility(View.VISIBLE);
-                Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
+                Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri,
+                        holder.ivPhotoView);
             }
         }
 
@@ -123,10 +123,13 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         });
     }
 
-    private void toPlayVideo(View v, String path, String type) {
+    private void toPlayVideo(View v, Uri uri, String type) {
         Context context = v.getContext();
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = getUri(context, path, intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
         intent.setDataAndType(uri, type);
         context.startActivity(intent);
     }

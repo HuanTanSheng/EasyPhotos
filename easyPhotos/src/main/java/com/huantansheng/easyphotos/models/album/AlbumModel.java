@@ -123,7 +123,6 @@ public class AlbumModel {
 
             do {
                 String id = cursor.getString(idCol);
-                Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
                 String path = cursor.getString(pathCol);
                 String name = cursor.getString(nameCol);
                 long dateTime = cursor.getLong(DateCol);
@@ -138,6 +137,7 @@ public class AlbumModel {
                 }
 
                 boolean isVideo = type.contains(Type.VIDEO);// 是否是视频
+                Uri uri = Uri.withAppendedPath(isVideo?MediaStore.Video.Media.EXTERNAL_CONTENT_URI:MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
                 if (Setting.isOnlyVideo() && !isVideo) {
                     continue;
