@@ -1,5 +1,7 @@
 package com.huantansheng.easyphotos.models.album.entity;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -22,9 +24,9 @@ public class Album {
         this.albumItems.add(albumItem);
     }
 
-    public void addAlbumItem(String name, String folderPath, String coverImagePath) {
+    public void addAlbumItem(String name, String folderPath, String coverImagePath, Uri coverImageUri) {
         if (null == hasAlbumItems.get(name)) {
-            addAlbumItem(new AlbumItem(name, folderPath, coverImagePath));
+            addAlbumItem(new AlbumItem(name, folderPath, coverImagePath,coverImageUri));
         }
     }
 

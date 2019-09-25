@@ -2,6 +2,8 @@ package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,18 +51,19 @@ public class PuzzleSelectorAdapter extends RecyclerView.Adapter {
         Photo photo = dataList.get(position);
         String path = photo.path;
         String type = photo.type;
+        Uri uri = photo.uri;
         long duration = photo.duration;
         final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
         if (Setting.showGif && isGif) {
-            Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+            Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
-            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else {
-            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
         }
 

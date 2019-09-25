@@ -2,21 +2,25 @@ package com.huantansheng.easyphotos.demo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
+
+import java.util.ArrayList;
 
 /**
  * 由Fragment启动EasyPhotos的测试界面
@@ -98,9 +102,9 @@ public class SampleFragments extends AppCompatActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    EasyPhotos.createAlbum(PlaceholderFragment.this,true,GlideEngine.getInstance())
-                            .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
-                            .start(0);
+                    EasyPhotos.createAlbum(PlaceholderFragment.this, true,
+                            GlideEngine.getInstance()).setFileProviderAuthority("com.huantansheng" +
+                            ".easyphotos.demo.fileprovider").start(0);
                 }
             });
 
@@ -112,7 +116,9 @@ public class SampleFragments extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == 0) {
                 if (resultCode == RESULT_OK) {
-                    Glide.with(this).load(data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS).get(0)).into(imageView);
+                    ArrayList<Photo> photos =
+                            data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                    Glide.with(this).load(photos.get(0).uri).into(imageView);
                 }
             }
         }

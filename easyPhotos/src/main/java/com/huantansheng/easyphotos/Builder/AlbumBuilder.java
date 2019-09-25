@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.Builder;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,9 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.utils.result.EasyResult;
+import com.huantansheng.easyphotos.utils.uri.UriUtils;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -283,15 +286,30 @@ public class AlbumBuilder {
 
     /**
      * 设置默认选择图片地址集合
-     *
+     * @Deprecated android 10 不推荐使用直接使用Path方式，推荐使用Photo类
      * @param selectedPhotoPaths 默认选择图片地址集合
      * @return AlbumBuilder
      */
+    @Deprecated
     public AlbumBuilder setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths) {
         Setting.selectedPhotos.clear();
         ArrayList<Photo> selectedPhotos = new ArrayList<>();
         for (String path : selectedPhotoPaths) {
-            Photo photo = new Photo(null, path, 0, 0, 0, 0, 0, null);
+            File file = new File(path);
+            Uri uri = null;
+            if (null != mActivity && null != mActivity.get()) {
+               uri = UriUtils.getUri(mActivity.get(),file);
+            }
+            if (null != mFragment && null != mFragment.get()) {
+                uri = UriUtils.getUri(mFragment.get().getActivity(),file);
+            }
+            if (null != mFragmentV && null != mFragmentV.get()) {
+                uri = UriUtils.getUri(mFragmentV.get().getActivity(),file);
+            }
+            if (uri == null) {
+                uri = Uri.fromFile(file);
+            }
+            Photo photo = new Photo(null,uri, path, 0, 0, 0, 0, 0, null);
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);

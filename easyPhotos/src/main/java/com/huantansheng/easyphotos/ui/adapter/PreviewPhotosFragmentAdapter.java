@@ -2,6 +2,8 @@ package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,19 +42,20 @@ public class PreviewPhotosFragmentAdapter extends RecyclerView.Adapter<PreviewPh
         final int p = position;
         String path = Result.getPhotoPath(position);
         String type = Result.getPhotoType(position);
+        Uri uri = Result.getPhotoUri(position);
         long duration = Result.getPhotoDuration(position);
 
         final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
         if (Setting.showGif && isGif) {
-            Setting.imageEngine.loadGifAsBitmap(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            Setting.imageEngine.loadGifAsBitmap(holder.ivPhoto.getContext(), uri, holder.ivPhoto);
             holder.tvType.setText(R.string.gif_easy_photos);
             holder.tvType.setVisibility(View.VISIBLE);
         } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
-            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), uri, holder.ivPhoto);
             holder.tvType.setText(DurationUtils.format(duration));
             holder.tvType.setVisibility(View.VISIBLE);
         } else {
-            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), path, holder.ivPhoto);
+            Setting.imageEngine.loadPhoto(holder.ivPhoto.getContext(), uri, holder.ivPhoto);
             holder.tvType.setVisibility(View.GONE);
         }
 

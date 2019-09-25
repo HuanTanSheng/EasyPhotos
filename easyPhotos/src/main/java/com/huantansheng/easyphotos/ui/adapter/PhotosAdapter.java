@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,19 +76,20 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             if (item == null) return;
             updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
             String path = item.path;
+            Uri uri = item.uri;
             String type = item.type;
             long duration = item.duration;
             final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
             if (Setting.showGif && isGif) {
-                Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+                Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
             } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
-                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
             } else {
-                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), path, ((PhotoViewHolder) holder).ivPhoto);
+                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
             }
 

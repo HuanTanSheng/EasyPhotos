@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.result;
 
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 
 import com.huantansheng.easyphotos.constant.Type;
@@ -104,6 +105,10 @@ public class Result {
 
     public static String getPhotoPath(int position) {
         return photos.get(position).path;
+    }
+
+    public static Uri getPhotoUri(int position) {
+        return photos.get(position).uri;
     }
 
     public static String getPhotoType(int position) {

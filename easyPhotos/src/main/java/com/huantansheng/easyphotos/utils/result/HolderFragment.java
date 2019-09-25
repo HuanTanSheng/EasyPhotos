@@ -46,10 +46,6 @@ public class HolderFragment extends Fragment {
         PuzzleActivity.startWithPhotos(this, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, HOLDER_PUZZLE_REQUEST_CODE, replaceCustom, imageEngine);
     }
 
-    public void startPuzzleWithPaths(ArrayList<String> paths, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, @NonNull ImageEngine imageEngine, PuzzleCallback callback) {
-        mPuzzleCallback = callback;
-        PuzzleActivity.startWithPaths(this, paths, puzzleSaveDirPath, puzzleSaveNamePrefix, HOLDER_PUZZLE_REQUEST_CODE, replaceCustom, imageEngine);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -59,16 +55,14 @@ public class HolderFragment extends Fragment {
                 case HOLDER_SELECT_REQUEST_CODE:
                     if (mSelectCallback != null) {
                         ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
-                        ArrayList<String> resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS);
                         boolean selectedOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
-                        mSelectCallback.onResult(resultPhotos, resultPaths, selectedOriginal);
+                        mSelectCallback.onResult(resultPhotos,  selectedOriginal);
                     }
                     break;
                 case HOLDER_PUZZLE_REQUEST_CODE:
                     if (mPuzzleCallback != null) {
                         Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
-                        String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PATHS);
-                        mPuzzleCallback.onResult(puzzlePhoto, puzzlePath);
+                        mPuzzleCallback.onResult(puzzlePhoto);
                     }
                     break;
             }

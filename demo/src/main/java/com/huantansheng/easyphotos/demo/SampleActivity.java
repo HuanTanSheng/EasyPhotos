@@ -173,7 +173,7 @@ public class SampleActivity extends AppCompatActivity
                         .setCount(22)
                         .start(new SelectCallback() {
                             @Override
-                            public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
+                            public void onResult(ArrayList<Photo> photos,  boolean isOriginal) {
                                 selectedPhotoList.clear();
                                 selectedPhotoList.addAll(photos);
                                 adapter.notifyDataSetChanged();
@@ -298,10 +298,10 @@ public class SampleActivity extends AppCompatActivity
                         .setPuzzleMenu(false)
                         .start(new SelectCallback() {
                             @Override
-                            public void onResult(ArrayList<Photo> photos, ArrayList<String> paths, boolean isOriginal) {
+                            public void onResult(ArrayList<Photo> photos,  boolean isOriginal) {
                                 EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
                                     @Override
-                                    public void onResult(Photo photo, String path) {
+                                    public void onResult(Photo photo) {
                                         selectedPhotoList.clear();
                                         selectedPhotoList.add(photo);
                                         adapter.notifyDataSetChanged();
@@ -387,8 +387,6 @@ public class SampleActivity extends AppCompatActivity
                 //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
                 ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
 
-                //返回图片地址集合：如果你只需要获取图片的地址，可以用这个
-                ArrayList<String> resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS);
                 //返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
                 boolean selectedOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
 
@@ -418,8 +416,6 @@ public class SampleActivity extends AppCompatActivity
 
             //拼图回调
             if (requestCode == 103) {
-                String puzzlePath = data.getStringExtra(EasyPhotos.RESULT_PATHS);
-
                 Photo puzzlePhoto = data.getParcelableExtra(EasyPhotos.RESULT_PHOTOS);
                 selectedPhotoList.clear();
                 selectedPhotoList.add(puzzlePhoto);

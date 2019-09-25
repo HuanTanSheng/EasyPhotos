@@ -107,7 +107,7 @@ public class AlbumModel {
             String albumItem_all_name = getAllAlbumName(context);
             String albumItem_video_name =
                     context.getString(R.string.selector_folder_video_easy_photos);
-
+            int idCol = cursor.getColumnIndex(MediaStore.MediaColumns._ID);
             int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
             int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
             int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
@@ -122,6 +122,8 @@ public class AlbumModel {
             }
 
             do {
+                String id = cursor.getString(idCol);
+                Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
                 String path = cursor.getString(pathCol);
                 String name = cursor.getString(nameCol);
                 long dateTime = cursor.getLong(DateCol);
@@ -174,7 +176,7 @@ public class AlbumModel {
                     continue;
                 }
 
-                Photo imageItem = new Photo(name, path, dateTime, width, height, size, duration,
+                Photo imageItem = new Photo(name,uri, path, dateTime, width, height, size, duration,
                         type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     for (Photo selectedPhoto : Setting.selectedPhotos) {
@@ -188,13 +190,13 @@ public class AlbumModel {
                 // 初始化“全部”专辑
                 if (album.isEmpty()) {
                     // 用第一个图片作为专辑的封面
-                    album.addAlbumItem(albumItem_all_name, "", path);
+                    album.addAlbumItem(albumItem_all_name, "", path,uri);
                 }
                 // 把图片全部放进“全部”专辑
                 album.getAlbumItem(albumItem_all_name).addImageItem(imageItem);
 
                 if (Setting.showVideo && isVideo && !albumItem_video_name.equals(albumItem_all_name)) {
-                    album.addAlbumItem(albumItem_video_name, "", path);
+                    album.addAlbumItem(albumItem_video_name, "", path,uri);
                     album.getAlbumItem(albumItem_video_name).addImageItem(imageItem);
                 }
 
@@ -205,7 +207,7 @@ public class AlbumModel {
                 }
                 String folderPath = parentFile.getAbsolutePath();
                 String albumName = StringUtils.getLastPathSegment(folderPath);
-                album.addAlbumItem(albumName, folderPath, path);
+                album.addAlbumItem(albumName, folderPath, path,uri);
                 album.getAlbumItem(albumName).addImageItem(imageItem);
             } while (cursor.moveToNext() && canRun);
             cursor.close();

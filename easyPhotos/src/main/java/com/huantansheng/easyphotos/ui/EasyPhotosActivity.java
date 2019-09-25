@@ -7,6 +7,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -59,6 +60,7 @@ import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 import com.huantansheng.easyphotos.utils.system.SystemUtils;
+import com.huantansheng.easyphotos.utils.uri.UriUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -275,13 +277,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             createCameraTempImageFile();
             if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri;
-                if (Build.VERSION.SDK_INT >= 24) {
-                    imageUri = FileProvider.getUriForFile(this, Setting.fileProviderAuthority,
-                            mTempImageFile);//通过FileProvider创建一个content类型的Uri
-                } else {
-                    imageUri = Uri.fromFile(mTempImageFile);
-                }
+                Uri imageUri = UriUtils.getUri(this,mTempImageFile);
+
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
 
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
@@ -401,7 +398,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, photo);
         String folderPath = new File(photo.path).getParentFile().getAbsolutePath();
         String albumName = StringUtils.getLastPathSegment(folderPath);
-        albumModel.album.addAlbumItem(albumName, folderPath, photo.path);
+        albumModel.album.addAlbumItem(albumName, folderPath, photo.path,photo.uri);
         albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
 
         albumItemList.clear();
@@ -449,9 +446,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
-            Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(),
-                    mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,
-                    mTempImageFile.length(),
+            Uri uri = UriUtils.getUri(this,mTempImageFile);
+            Photo photo = new Photo(mTempImageFile.getName(), uri,
+                    mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000,
+                    options.outWidth, options.outHeight, mTempImageFile.length(),
                     DurationUtils.getDuration(mTempImageFile.getAbsolutePath()),
                     options.outMimeType);
             photo.selectedOriginal = Setting.selectedOriginal;
@@ -461,17 +459,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
             data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
 
-            ArrayList<String> pathList = new ArrayList<>();
-            pathList.add(photo.path);
-
-            data.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, pathList);
 
             setResult(RESULT_OK, data);
             finish();
             return;
         }
 
-        Photo photo = new Photo(mTempImageFile.getName(), mTempImageFile.getAbsolutePath(),
+        Uri uri = UriUtils.getUri(this,mTempImageFile);
+
+        Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
                 mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,
                 mTempImageFile.length(),
                 DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
@@ -641,11 +637,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         Result.processOriginal();
         resultList.addAll(Result.photos);
         intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
-        ArrayList<String> resultPaths = new ArrayList<>();
-        for (Photo photo : resultList) {
-            resultPaths.add(photo.path);
-        }
-        intent.putStringArrayListExtra(EasyPhotos.RESULT_PATHS, resultPaths);
+
         intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
         setResult(RESULT_OK, intent);
         finish();
@@ -816,7 +808,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     @Override
     protected void onDestroy() {
-        albumModel.stopQuery();
+        if (albumModel != null) albumModel.stopQuery();
         super.onDestroy();
     }
 

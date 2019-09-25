@@ -55,6 +55,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
     @Override
     public void onBindViewHolder(@NonNull final PreviewPhotosViewHolder holder, int position) {
+        final Uri uri = photos.get(position).uri;
         final String path = photos.get(position).path;
         final String type = photos.get(position).type;
         final double ratio =
@@ -66,7 +67,7 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
 
         if (type.contains(Type.VIDEO)) {
             holder.ivPhotoView.setVisibility(View.VISIBLE);
-            Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), path,
+            Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri,
                     holder.ivPhotoView);
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
@@ -77,14 +78,14 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
             });
         } else if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
             holder.ivPhotoView.setVisibility(View.VISIBLE);
-            Setting.imageEngine.loadGif(holder.ivPhotoView.getContext(), path, holder.ivPhotoView);
+            Setting.imageEngine.loadGif(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
         } else {
             if (ratio > 2.3) {
                 holder.ivLongPhoto.setVisibility(View.VISIBLE);
                 holder.ivLongPhoto.setImage(ImageSource.uri(path));
             }else {
                 holder.ivPhotoView.setVisibility(View.VISIBLE);
-                Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), path, holder.ivPhotoView);
+                Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
             }
         }
 

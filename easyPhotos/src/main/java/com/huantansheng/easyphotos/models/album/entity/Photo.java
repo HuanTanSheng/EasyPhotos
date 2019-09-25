@@ -1,5 +1,6 @@
 package com.huantansheng.easyphotos.models.album.entity;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 public class Photo implements Parcelable {
     private static final String TAG = "Photo";
+    public Uri uri;//图片Uri
     public String name;//图片名称
     public String path;//图片全路径
     public String type;//图片类型
@@ -22,8 +24,9 @@ public class Photo implements Parcelable {
     public boolean selected;//是否被选中,内部使用,无需关心
     public boolean selectedOriginal;//用户选择时是否选择了原图选项
 
-    public Photo(String name, String path, long time, int width, int height, long size, long duration, String type) {
+    public Photo(String name, Uri uri, String path, long time, int width, int height, long size, long duration, String type) {
         this.name = name;
+        this.uri = uri;
         this.path = path;
         this.time = time;
         this.width = width;
@@ -50,6 +53,7 @@ public class Photo implements Parcelable {
     public String toString() {
         return "Photo{" +
                 "name='" + name + '\'' +
+                ", uri='" + uri.toString() + '\'' +
                 ", path='" + path + '\'' +
                 ", time=" + time + '\'' +
                 ", minWidth=" + width + '\'' +
@@ -64,6 +68,7 @@ public class Photo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        Uri.writeToParcel(dest,this.uri);
         dest.writeString(this.name);
         dest.writeString(this.path);
         dest.writeString(this.type);
@@ -77,6 +82,7 @@ public class Photo implements Parcelable {
     }
 
     protected Photo(Parcel in) {
+        this.uri = Uri.CREATOR.createFromParcel(in);
         this.name = in.readString();
         this.path = in.readString();
         this.type = in.readString();
