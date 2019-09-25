@@ -277,7 +277,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             createCameraTempImageFile();
             if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri = UriUtils.getUri(this,mTempImageFile);
+                Uri imageUri = UriUtils.getUri(this, mTempImageFile);
 
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
 
@@ -294,6 +294,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     private void createCameraTempImageFile() {
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+            dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        }
         if (null == dir) {
             dir = new File(Environment.getExternalStorageDirectory(),
                     File.separator + "DCIM" + File.separator + "Camera" + File.separator);
@@ -398,7 +401,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, photo);
         String folderPath = new File(photo.path).getParentFile().getAbsolutePath();
         String albumName = StringUtils.getLastPathSegment(folderPath);
-        albumModel.album.addAlbumItem(albumName, folderPath, photo.path,photo.uri);
+        albumModel.album.addAlbumItem(albumName, folderPath, photo.path, photo.uri);
         albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
 
         albumItemList.clear();
@@ -446,7 +449,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
             MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
-            Uri uri = UriUtils.getUri(this,mTempImageFile);
+            Uri uri = UriUtils.getUri(this, mTempImageFile);
             Photo photo = new Photo(mTempImageFile.getName(), uri,
                     mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000,
                     options.outWidth, options.outHeight, mTempImageFile.length(),
@@ -465,7 +468,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             return;
         }
 
-        Uri uri = UriUtils.getUri(this,mTempImageFile);
+        Uri uri = UriUtils.getUri(this, mTempImageFile);
 
         Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
                 mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,
@@ -795,7 +798,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             processSecondMenu();
             return;
         }
-        albumModel.stopQuery();
+        if (albumModel != null) albumModel.stopQuery();
         if (Setting.hasPhotosAd()) {
             photosAdapter.clearAd();
         }
