@@ -80,9 +80,13 @@ public class AlbumModel {
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
         final String selection =
                 "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?" + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)" + " AND " + MediaStore.MediaColumns.SIZE + ">0";
-        final String[] selectionAllArgs =
+        String[] selectionAllArgs =
                 {String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
-                        String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO),};
+                        String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
+
+        if (Setting.isOnlyVideo()){
+            selectionAllArgs = new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
+        }
 
         ContentResolver contentResolver = context.getContentResolver();
         String[] projections;
@@ -166,9 +170,12 @@ public class AlbumModel {
                 if (!isVideo && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
-                    if (width < Setting.minWidth || height < Setting.minHeight) {
-                        continue;
+                    if (width>0 && height>0){
+                        if (width < Setting.minWidth || height < Setting.minHeight) {
+                            continue;
+                        }
                     }
+
                 }
 
                 File file = new File(path);
