@@ -68,7 +68,7 @@ public class Photo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        Uri.writeToParcel(dest,this.uri);
+        dest.writeParcelable(this.uri, flags);
         dest.writeString(this.name);
         dest.writeString(this.path);
         dest.writeString(this.type);
@@ -82,7 +82,7 @@ public class Photo implements Parcelable {
     }
 
     protected Photo(Parcel in) {
-        this.uri = Uri.CREATOR.createFromParcel(in);
+        this.uri = in.readParcelable(Uri.class.getClassLoader());
         this.name = in.readString();
         this.path = in.readString();
         this.type = in.readString();
@@ -95,7 +95,7 @@ public class Photo implements Parcelable {
         this.selectedOriginal = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
         @Override
         public Photo createFromParcel(Parcel source) {
             return new Photo(source);
