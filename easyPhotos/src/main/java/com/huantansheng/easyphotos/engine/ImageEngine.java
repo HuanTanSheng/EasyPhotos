@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 /**
  * 自定义图片加载方式
  * Created by huan on 2018/1/15.
@@ -18,7 +20,7 @@ public interface ImageEngine {
      * @param imageView 加载到的ImageView
      */
     //安卓10推荐uri，并且path的方式不再可用
-    void loadPhoto(Context context, Uri uri, ImageView imageView);
+    void loadPhoto(@NonNull Context context, @NonNull Uri uri,@NonNull ImageView imageView);
 
     /**
      * 加载gif动图图片到ImageView，gif动图不动
@@ -30,7 +32,7 @@ public interface ImageEngine {
      *                  备注：不支持动图显示的情况下可以不写
      */
     //安卓10推荐uri，并且path的方式不再可用
-    void loadGifAsBitmap(Context context, Uri gifUri, ImageView imageView);
+    void loadGifAsBitmap(@NonNull Context context,@NonNull Uri gifUri,@NonNull ImageView imageView);
 
     /**
      * 加载gif动图到ImageView，gif动图动
@@ -42,7 +44,7 @@ public interface ImageEngine {
      *                  备注：不支持动图显示的情况下可以不写
      */
     //安卓10推荐uri，并且path的方式不再可用
-    void loadGif(Context context, Uri gifUri, ImageView imageView);
+    void loadGif(@NonNull Context context,@NonNull Uri gifUri,@NonNull ImageView imageView);
 
     /**
      * 获取图片加载框架中的缓存Bitmap
@@ -55,7 +57,7 @@ public interface ImageEngine {
      * @throws Exception 异常直接抛出，EasyPhotos内部处理
      */
     //安卓10推荐uri，并且path的方式不再可用
-    Bitmap getCacheBitmap(Context context, Uri uri, int width, int height) throws Exception;
+    Bitmap getCacheBitmap(@NonNull Context context,@NonNull Uri uri, int width, int height) throws Exception;
 
 
 }
