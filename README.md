@@ -157,6 +157,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 **3.0.2：**
 - 拼图和加水印功能适配android 10
 - 感谢：该版本由[zhangshaobo87](https://github.com/zhangshaobo87)贡献 
+
 **3.0.1：**
 - 兼容android 10
 - 因为android 10 不支持用path路径显示图片，所以回调取消了单独获取path集合的回调，只保留获取Photo集合的回调，如需使用path，可以在Photo对象中获取
