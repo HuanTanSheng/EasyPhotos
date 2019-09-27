@@ -5,17 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +14,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+
+import com.google.android.material.navigation.NavigationView;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.callback.SelectCallback;
@@ -32,6 +33,7 @@ import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class SampleActivity extends AppCompatActivity
@@ -106,16 +108,6 @@ public class SampleActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-            return;
-        }
-        super.onBackPressed();
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sample, menu);
         return true;
@@ -173,7 +165,7 @@ public class SampleActivity extends AppCompatActivity
                         .setCount(22)
                         .start(new SelectCallback() {
                             @Override
-                            public void onResult(ArrayList<Photo> photos,  boolean isOriginal) {
+                            public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
                                 selectedPhotoList.clear();
                                 selectedPhotoList.addAll(photos);
                                 adapter.notifyDataSetChanged();
@@ -281,8 +273,11 @@ public class SampleActivity extends AppCompatActivity
 
                 //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。
                 Bitmap watermark = BitmapFactory.decodeResource(getResources(), R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
-                bitmap = BitmapFactory.decodeFile(selectedPhotoList.get(0).path).copy(Bitmap.Config.ARGB_8888, true);
-
+                try {
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedPhotoList.get(0).uri)).copy(Bitmap.Config.ARGB_8888, true);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 //给图片添加水印的api
                 EasyPhotos.addWatermark(watermark, bitmap, 1080, 20, 20, true);
 
@@ -296,9 +291,10 @@ public class SampleActivity extends AppCompatActivity
                 EasyPhotos.createAlbum(this, false, GlideEngine.getInstance())
                         .setCount(9)
                         .setPuzzleMenu(false)
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .start(new SelectCallback() {
                             @Override
-                            public void onResult(ArrayList<Photo> photos,  boolean isOriginal) {
+                            public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
                                 EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
                                     @Override
                                     public void onResult(Photo photo) {
@@ -373,12 +369,12 @@ public class SampleActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (albumItemsAdView != null) {
             if (albumItemsAdView.getParent() != null) {
-                ((FrameLayout)(albumItemsAdView.getParent())).removeAllViews();
+                ((FrameLayout) (albumItemsAdView.getParent())).removeAllViews();
             }
         }
         if (photosAdView != null) {
             if (photosAdView.getParent() != null) {
-                ((FrameLayout)(photosAdView.getParent())).removeAllViews();
+                ((FrameLayout) (photosAdView.getParent())).removeAllViews();
             }
         }
         if (RESULT_OK == resultCode) {
@@ -427,6 +423,16 @@ public class SampleActivity extends AppCompatActivity
         } else if (RESULT_CANCELED == resultCode) {
             Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+        super.onBackPressed();
+
     }
 
 

@@ -6,12 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
+import android.os.Build;
 import android.text.TextPaint;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.huantansheng.easyphotos.EasyPhotos;
-import com.huantansheng.easyphotos.models.puzzle.PuzzleView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -161,7 +162,10 @@ public class BitmapUtils {
                         return;
                     }
                 }
-
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+                    //android10+
+                    dirF = act.getCacheDir();
+                }
                 try {
                     final File writeFile = File.createTempFile(namePrefix, ".png", dirF);
 
