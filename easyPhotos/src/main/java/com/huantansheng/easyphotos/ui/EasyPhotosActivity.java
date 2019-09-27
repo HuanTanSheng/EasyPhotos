@@ -320,27 +320,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
 
     private void createCameraTempImageFile() {
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        if (null == dir) {
-            dir = new File(Environment.getExternalStorageDirectory(),
-                    File.separator + "DCIM" + File.separator + "Camera" + File.separator);
-        }
-        if (!dir.exists() || !dir.isDirectory()) {
-            if (!dir.mkdirs()) {
-                dir = getExternalFilesDir(null);
-                if (null == dir || !dir.exists()) {
-                    dir = getFilesDir();
-                    if (null == dir || !dir.exists()) {
-                        String cacheDirPath =
-                                File.separator + "data" + File.separator + "data" + File.separator + getPackageName() + File.separator + "cache" + File.separator;
-                        dir = new File(cacheDirPath);
-                        if (!dir.exists()) {
-                            dir.mkdirs();
-                        }
-                    }
-                }
-            }
-        }
+        File dir   = getExternalCacheDir();
 
         try {
             mTempImageFile = File.createTempFile("IMG", ".jpg", dir);
