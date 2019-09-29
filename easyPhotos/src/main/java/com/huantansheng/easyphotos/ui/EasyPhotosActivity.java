@@ -400,11 +400,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             case RESULT_CANCELED:
                 if (Code.REQUEST_CAMERA == requestCode) {
                     // 删除临时文件
-                    while (mTempImageFile != null && mTempImageFile.exists()) {
-                        boolean success = mTempImageFile.delete();
-                        if (success) {
-                            mTempImageFile = null;
-                        }
+                    if (mTempImageFile != null && mTempImageFile.exists()) {
+                        mTempImageFile.delete();
+                        mTempImageFile = null;
                     }
                     if (Setting.onlyStartCamera) {
                         finish();
@@ -529,8 +527,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
+        MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
         if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
-            MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
             Intent data = new Intent();
             Uri uri = UriUtils.getUri(this, mTempImageFile);
             Photo photo = new Photo(mTempImageFile.getName(), uri,
