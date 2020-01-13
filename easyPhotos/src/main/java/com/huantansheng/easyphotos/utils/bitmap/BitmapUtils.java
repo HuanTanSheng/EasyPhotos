@@ -1,22 +1,29 @@
 package com.huantansheng.easyphotos.utils.bitmap;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextPaint;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.utils.uri.UriUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -60,7 +67,8 @@ public class BitmapUtils {
      * @param srcWaterMarkImageWidth 水印对应的原图片宽度,即ui制作水印时候参考的图片画布宽度,应该是已知的图片最大宽度
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
      */
-    public static void addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth,
+                                    int offsetX, int offsetY, boolean addInLeft) {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
@@ -73,14 +81,17 @@ public class BitmapUtils {
         else if (scale < 0.4) scale = 0.4f;
         int scaleWatermarkWidth = (int) (watermarkWidth * scale);
         int scaleWatermarkHeight = (int) (watermarkHeight * scale);
-        Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, scaleWatermarkWidth, scaleWatermarkHeight, true);
+        Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, scaleWatermarkWidth,
+                scaleWatermarkHeight, true);
         Canvas canvas = new Canvas(image);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         if (addInLeft) {
-            canvas.drawBitmap(scaleWatermark, offsetX, imageHeight - scaleWatermarkHeight - offsetY, paint);
+            canvas.drawBitmap(scaleWatermark, offsetX,
+                    imageHeight - scaleWatermarkHeight - offsetY, paint);
         } else {
-            canvas.drawBitmap(scaleWatermark, imageWidth - offsetX - scaleWatermarkWidth, imageHeight - scaleWatermarkHeight - offsetY, paint);
+            canvas.drawBitmap(scaleWatermark, imageWidth - offsetX - scaleWatermarkWidth,
+                    imageHeight - scaleWatermarkHeight - offsetY, paint);
         }
         recycle(scaleWatermark);
     }
@@ -96,7 +107,9 @@ public class BitmapUtils {
      * @param offsetY                添加水印的Y轴偏移量
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
      */
-    public static void addWatermarkWithText(@NonNull Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermarkWithText(@NonNull Bitmap watermark, Bitmap image,
+                                            int srcWaterMarkImageWidth, @NonNull String text,
+                                            int offsetX, int offsetY, boolean addInLeft) {
         float imageWidth = image.getWidth();
         float imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
@@ -109,7 +122,8 @@ public class BitmapUtils {
         else if (scale < 0.4) scale = 0.4f;
         float scaleWatermarkWidth = watermarkWidth * scale;
         float scaleWatermarkHeight = watermarkHeight * scale;
-        Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, (int) scaleWatermarkWidth, (int) scaleWatermarkHeight, true);
+        Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, (int) scaleWatermarkWidth,
+                (int) scaleWatermarkHeight, true);
         Canvas canvas = new Canvas(image);
         Paint textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
@@ -119,17 +133,24 @@ public class BitmapUtils {
         Rect textRect = new Rect();
         textPaint.getTextBounds(text, 0, text.length(), textRect);
         if (addInLeft) {
-            canvas.drawText(text, scaleWatermarkWidth + offsetX, imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
+            canvas.drawText(text, scaleWatermarkWidth + offsetX,
+                    imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
         } else {
-            canvas.drawText(text, imageWidth - offsetX - textRect.width() - textRect.left, imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
+            canvas.drawText(text, imageWidth - offsetX - textRect.width() - textRect.left,
+                    imageHeight - textRect.height() - textRect.top - offsetY, textPaint);
         }
 
         Paint sacleWatermarkPaint = new Paint();
         sacleWatermarkPaint.setAntiAlias(true);
         if (addInLeft) {
-            canvas.drawBitmap(scaleWatermark, offsetX, imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
+            canvas.drawBitmap(scaleWatermark, offsetX,
+                    imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6,
+                    sacleWatermarkPaint);
         } else {
-            canvas.drawBitmap(scaleWatermark, imageWidth - textRect.width() - offsetX - scaleWatermarkWidth / 6, imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6, sacleWatermarkPaint);
+            canvas.drawBitmap(scaleWatermark,
+                    imageWidth - textRect.width() - offsetX - scaleWatermarkWidth / 6,
+                    imageHeight - textRect.height() - offsetY - scaleWatermarkHeight / 6,
+                    sacleWatermarkPaint);
         }
         recycle(scaleWatermark);
     }
@@ -145,12 +166,20 @@ public class BitmapUtils {
      * @param notifyMedia 是否更新到媒体库
      * @param callBack    保存图片后的回调，回调已经处于UI线程
      */
-    public static void saveBitmapToDir(final Activity act, final String dirPath, final String namePrefix, final Bitmap bitmap, final boolean notifyMedia, final SaveBitmapCallBack callBack) {
+    public static void saveBitmapToDir(final Activity act, final String dirPath,
+                                       final String namePrefix, final Bitmap bitmap,
+                                       final boolean notifyMedia,
+                                       final SaveBitmapCallBack callBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                File dirF = new File(dirPath);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                    //android10+
+                    saveBitmapToDirQ(act, dirPath, namePrefix, bitmap, notifyMedia, callBack);
+                    return;
+                }
 
+                File dirF = new File(dirPath);
                 if (!dirF.exists() || !dirF.isDirectory()) {
                     if (!dirF.mkdirs()) {
                         act.runOnUiThread(new Runnable() {
@@ -161,10 +190,6 @@ public class BitmapUtils {
                         });
                         return;
                     }
-                }
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
-                    //android10+
-                    dirF = act.getCacheDir();
                 }
                 try {
                     final File writeFile = File.createTempFile(namePrefix, ".png", dirF);
@@ -198,6 +223,74 @@ public class BitmapUtils {
 
     }
 
+    private static void saveBitmapToDirQ(final Activity act, final String dirPath,
+                                         final String namePrefix, final Bitmap bitmap,
+                                         final boolean notifyMedia,
+                                         final SaveBitmapCallBack callBack) {
+        long dataTake = System.currentTimeMillis();
+        String jpegName = namePrefix + dataTake + ".jpg";
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, jpegName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        int dirIndex = dirPath.lastIndexOf("/");
+        if (dirIndex == dirPath.length()) {
+            String dirPath2 = dirPath.substring(0, dirIndex - 1);
+            dirIndex = dirPath2.lastIndexOf("/");
+        }
+        String dirName = dirPath.substring(dirIndex + 1);
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/" + dirName);
+
+        Uri external;
+        ContentResolver resolver = act.getContentResolver();
+        String status = Environment.getExternalStorageState();
+        // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+            external = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        } else {
+            external = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+        }
+
+        final Uri insertUri = resolver.insert(external, values);
+        if (insertUri == null) {
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onCreateDirFailed();
+                }
+            });
+            return;
+        }
+        OutputStream os;
+        try {
+            os = resolver.openOutputStream(insertUri);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            if (os != null) {
+                os.flush();
+                os.close();
+            }
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String uriPath = UriUtils.getPathByUri(act, insertUri);
+                    if (null == uriPath) {
+                        callBack.onCreateDirFailed();
+                    }else {
+                        callBack.onSuccess(new File(uriPath));
+                    }
+                }
+            });
+        } catch (final IOException e) {
+            e.printStackTrace();
+            act.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callBack.onIOFailed(e);
+                }
+            });
+        }
+    }
+
 
     /**
      * 把View画成Bitmap
@@ -206,7 +299,8 @@ public class BitmapUtils {
      * @return Bitmap
      */
     public static Bitmap createBitmapFromView(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
+                Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
 
