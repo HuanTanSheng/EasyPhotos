@@ -228,11 +228,11 @@ public class BitmapUtils {
                                          final boolean notifyMedia,
                                          final SaveBitmapCallBack callBack) {
         long dataTake = System.currentTimeMillis();
-        String jpegName = namePrefix + dataTake + ".jpg";
+        String jpegName = namePrefix + dataTake + ".png";
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DISPLAY_NAME, jpegName);
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
         int dirIndex = dirPath.lastIndexOf("/");
         if (dirIndex == dirPath.length()) {
             String dirPath2 = dirPath.substring(0, dirIndex - 1);
