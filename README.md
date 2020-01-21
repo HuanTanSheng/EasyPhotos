@@ -64,7 +64,7 @@ minSdkVersion 15
 targetSdkVersion 28      
 buildToolsVersion '28.0.3'    
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
-[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
+
 
 
 ## 获取EasyPhotos（通过Gradle方式）
@@ -84,7 +84,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.3' //androidx版本，支持android 10，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.4' //androidx版本，支持android 10，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -154,6 +154,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志 
+**3.0.4：**
+- 优化：saveBitmapToDir方法兼容andorid10
+
 **3.0.3：**
 - 修复：修复华为nova 5i pro 在相机页面点击返回时产生的崩溃问题 #87
 
