@@ -55,6 +55,7 @@ import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.Color.ColorUtils;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
+import com.huantansheng.easyphotos.utils.bitmap.BitmapUtils;
 import com.huantansheng.easyphotos.utils.media.DurationUtils;
 import com.huantansheng.easyphotos.utils.media.MediaScannerConnectionUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
@@ -717,6 +718,21 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     private void done() {
+        for (Photo photo : Result.photos) {
+            try {
+                if (photo.width == 0 || photo.height == 0) {
+                    BitmapUtils.calculateLocalImageSizeThroughBitmapOptions(this, photo);
+                }
+                if (BitmapUtils.needChangeWidthAndHeight(this, photo)) {
+                    int h = photo.width;
+                    photo.width = photo.height;
+                    photo.height = h;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         Intent intent = new Intent();
         Result.processOriginal();
         resultList.addAll(Result.photos);
