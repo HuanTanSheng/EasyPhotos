@@ -36,7 +36,11 @@ public class AlbumBuilder {
      * ALBUM-相册专辑
      * ALBUM_CAMERA-带有相机按钮的相册专辑
      */
-    private enum StartupType {CAMERA, ALBUM, ALBUM_CAMERA}
+    private enum StartupType {
+        CAMERA,
+        ALBUM,
+        ALBUM_CAMERA
+    }
 
     private static final String TAG = "com.huantansheng.easyphotos";
     private static AlbumBuilder instance;
@@ -286,9 +290,10 @@ public class AlbumBuilder {
 
     /**
      * 设置默认选择图片地址集合
-     * @Deprecated android 10 不推荐使用直接使用Path方式，推荐使用Photo类
+     *
      * @param selectedPhotoPaths 默认选择图片地址集合
      * @return AlbumBuilder
+     * @Deprecated android 10 不推荐使用直接使用Path方式，推荐使用Photo类
      */
     @Deprecated
     public AlbumBuilder setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths) {
@@ -298,18 +303,18 @@ public class AlbumBuilder {
             File file = new File(path);
             Uri uri = null;
             if (null != mActivity && null != mActivity.get()) {
-               uri = UriUtils.getUri(mActivity.get(),file);
+                uri = UriUtils.getUri(mActivity.get(), file);
             }
             if (null != mFragment && null != mFragment.get()) {
-                uri = UriUtils.getUri(mFragment.get().getActivity(),file);
+                uri = UriUtils.getUri(mFragment.get().getActivity(), file);
             }
             if (null != mFragmentV && null != mFragmentV.get()) {
-                uri = UriUtils.getUri(mFragmentV.get().getActivity(),file);
+                uri = UriUtils.getUri(mFragmentV.get().getActivity(), file);
             }
             if (uri == null) {
                 uri = Uri.fromFile(file);
             }
-            Photo photo = new Photo(null,uri, path, 0, 0, 0, 0, 0, null);
+            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0, 0, null);
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);
@@ -451,6 +456,9 @@ public class AlbumBuilder {
         }
         if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
             Setting.count = Setting.pictureCount + Setting.videoCount;
+            if (Setting.pictureCount == -1 || Setting.videoCount == -1) {
+                Setting.count++;
+            }
         }
     }
 

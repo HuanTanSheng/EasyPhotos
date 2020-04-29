@@ -366,8 +366,17 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 toggleSelector();
                 return;
             }
-            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
-                    Setting.count), Toast.LENGTH_SHORT).show();
+            if (Setting.isOnlyVideo()) {
+                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
+                        , Setting.count), Toast.LENGTH_SHORT).show();
+
+            } else if (Setting.showVideo) {
+                Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
+                        Setting.count), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
+                        Setting.count), Toast.LENGTH_SHORT).show();
+            }
             return;
         }
         item.selected = !item.selected;

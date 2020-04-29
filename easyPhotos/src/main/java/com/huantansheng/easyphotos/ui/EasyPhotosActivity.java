@@ -209,38 +209,38 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         PermissionUtil.onPermissionResult(this, permissions, grantResults,
                 new PermissionUtil.PermissionCallBack() {
-            @Override
-            public void onSuccess() {
-                hasPermissions();
-            }
-
-            @Override
-            public void onShouldShow() {
-                tvPermission.setText(R.string.permissions_again_easy_photos);
-                permissionView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        if (PermissionUtil.checkAndRequestPermissionsInActivity(EasyPhotosActivity.this, getNeedPermissions())) {
-                            hasPermissions();
-                        }
+                    public void onSuccess() {
+                        hasPermissions();
+                    }
+
+                    @Override
+                    public void onShouldShow() {
+                        tvPermission.setText(R.string.permissions_again_easy_photos);
+                        permissionView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (PermissionUtil.checkAndRequestPermissionsInActivity(EasyPhotosActivity.this, getNeedPermissions())) {
+                                    hasPermissions();
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        tvPermission.setText(R.string.permissions_die_easy_photos);
+                        permissionView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this,
+                                        getPackageName());
+                            }
+                        });
+
                     }
                 });
-
-            }
-
-            @Override
-            public void onFailed() {
-                tvPermission.setText(R.string.permissions_die_easy_photos);
-                permissionView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SettingsUtils.startMyApplicationDetailsForResult(EasyPhotosActivity.this,
-                                getPackageName());
-                    }
-                });
-
-            }
-        });
     }
 
 
@@ -861,8 +861,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     @Override
     public void onSelectorOutOfMax(@Nullable Integer result) {
         if (result == null) {
-            Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
-                    Setting.count), Toast.LENGTH_SHORT).show();
+            if (Setting.isOnlyVideo()) {
+                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
+                        , Setting.count), Toast.LENGTH_SHORT).show();
+
+            } else if (Setting.showVideo) {
+                Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
+                        Setting.count), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
+                        Setting.count), Toast.LENGTH_SHORT).show();
+            }
             return;
         }
         switch (result) {
