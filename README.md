@@ -154,8 +154,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志 
+**3.0.5：**
+- 修复：fix #112
+- 感谢：该版本由[XuQK](https://github.com/XuQK)贡献 
+
 **3.0.4：**
-- 优化：saveBitmapToDir方法兼容andorid10
+- 优化：saveBitmapToDir方法兼容android10
 
 **3.0.3：**
 - 修复：修复华为nova 5i pro 在相机页面点击返回时产生的崩溃问题 #87
