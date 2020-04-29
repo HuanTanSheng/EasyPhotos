@@ -16,7 +16,6 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 
 import com.huantansheng.easyphotos.setting.Setting;
-import com.huantansheng.easyphotos.utils.system.SystemUtils;
 
 import java.io.File;
 import java.util.Locale;
