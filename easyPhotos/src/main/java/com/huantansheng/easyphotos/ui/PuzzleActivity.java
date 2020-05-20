@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -456,33 +455,33 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         stickerModel.save(this, mRootView, puzzleView, puzzleView.getWidth(),
                 puzzleView.getHeight(), saveDirPath, saveNamePrefix, true,
                 new SaveBitmapCallBack() {
-            @Override
-            public void onSuccess(File file) {
-                Intent intent = new Intent();
+                    @Override
+                    public void onSuccess(File file) {
+                        Intent intent = new Intent();
 
-                Photo photo = new Photo(file.getName(), UriUtils.getUri(PuzzleActivity.this,
-                        file), file.getAbsolutePath(), file.lastModified() / 1000,
-                        puzzleView.getWidth(), puzzleView.getHeight(), file.length(),
-                        DurationUtils.getDuration(file.getAbsolutePath()), "image/png");
-                intent.putExtra(EasyPhotos.RESULT_PHOTOS, photo);
-                setResult(RESULT_OK, intent);
-                PuzzleActivity.this.finish();
-            }
+                        Photo photo = new Photo(file.getName(), UriUtils.getUri(PuzzleActivity.this,
+                                file), file.getAbsolutePath(), file.lastModified() / 1000,
+                                puzzleView.getWidth(), puzzleView.getHeight(), file.length(),
+                                DurationUtils.getDuration(file.getAbsolutePath()), "image/png");
+                        intent.putExtra(EasyPhotos.RESULT_PHOTOS, photo);
+                        setResult(RESULT_OK, intent);
+                        PuzzleActivity.this.finish();
+                    }
 
-            @Override
-            public void onIOFailed(IOException exception) {
-                exception.printStackTrace();
-                setResult(RESULT_OK);
-                PuzzleActivity.this.finish();
-            }
+                    @Override
+                    public void onIOFailed(IOException exception) {
+                        exception.printStackTrace();
+                        setResult(RESULT_OK);
+                        PuzzleActivity.this.finish();
+                    }
 
-            @Override
-            public void onCreateDirFailed() {
-                setResult(RESULT_OK);
-                PuzzleActivity.this.finish();
-            }
+                    @Override
+                    public void onCreateDirFailed() {
+                        setResult(RESULT_OK);
+                        PuzzleActivity.this.finish();
+                    }
 
-        });
+                });
     }
 
     private void toggleIvMenu(@IdRes int resId) {
@@ -505,9 +504,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void resetDegress() {
-        degreeIndex = -1;
         llMenu.setVisibility(View.GONE);
         degreeSeekBar.setVisibility(View.GONE);
+        degreeIndex = -1;
 
         for (int i = 0; i < degrees.size(); i++) {
             degrees.remove(i);
@@ -535,9 +534,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         }
         switch (resultCode) {
             case RESULT_OK:
-
-                degrees.remove(degreeIndex);
-                degrees.add(degreeIndex, 0);
+                if (degreeIndex != -1) {
+                    degrees.remove(degreeIndex);
+                    degrees.add(degreeIndex, 0);
+                }
 
                 String tempPath = "";
                 Uri tempUri = null;
@@ -587,36 +587,38 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionUtil.onPermissionResult(this, permissions, grantResults,
                 new PermissionUtil.PermissionCallBack() {
-            @Override
-            public void onSuccess() {
-                savePhoto();
-            }
-
-            @Override
-            public void onShouldShow() {
-                Snackbar.make(rvPuzzleTemplet, R.string.permissions_again_easy_photos,
-                        Snackbar.LENGTH_INDEFINITE).setAction("go", new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        if (PermissionUtil.checkAndRequestPermissionsInActivity(PuzzleActivity.this, getNeedPermissions())) {
-                            savePhoto();
-                        }
+                    public void onSuccess() {
+                        savePhoto();
                     }
-                }).show();
-            }
 
-            @Override
-            public void onFailed() {
-                Snackbar.make(rvPuzzleTemplet, R.string.permissions_die_easy_photos,
-                        Snackbar.LENGTH_INDEFINITE).setAction("go", new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        SettingsUtils.startMyApplicationDetailsForResult(PuzzleActivity.this,
-                                getPackageName());
+                    public void onShouldShow() {
+                        Snackbar.make(rvPuzzleTemplet, R.string.permissions_again_easy_photos,
+                                Snackbar.LENGTH_INDEFINITE).setAction("go",
+                                new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (PermissionUtil.checkAndRequestPermissionsInActivity(PuzzleActivity.this, getNeedPermissions())) {
+                                    savePhoto();
+                                }
+                            }
+                        }).show();
                     }
-                }).show();
-            }
-        });
+
+                    @Override
+                    public void onFailed() {
+                        Snackbar.make(rvPuzzleTemplet, R.string.permissions_die_easy_photos,
+                                Snackbar.LENGTH_INDEFINITE).setAction("go",
+                                new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SettingsUtils.startMyApplicationDetailsForResult(PuzzleActivity.this,
+                                        getPackageName());
+                            }
+                        }).show();
+                    }
+                });
     }
 
     @Override
