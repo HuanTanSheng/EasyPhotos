@@ -57,6 +57,7 @@ minSdkVersion 15
 targetSdkVersion 29      
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 [demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
+[demo无法下载解决方案](https://blog.csdn.net/Mirt_/article/details/106011435){:target="_blank"}
 
 ## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
