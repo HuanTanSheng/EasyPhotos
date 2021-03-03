@@ -9,27 +9,27 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 | 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
 |:-----------:|:--------:|:---------:|
-|![](https://i.loli.net/2021/03/03/5WH96lA4L8nKxo2.png) | ![](images/02.png) | ![](images/03.png)|
+|![](https://i.loli.net/2021/03/03/5WH96lA4L8nKxo2.png) | ![](https://i.loli.net/2021/03/03/svxeoD6ycPu1OqN.png) | ![](https://i.loli.net/2021/03/03/Pw1ZJ5l7YgmzctD.png)|
 
 | 专辑列表（默认UI色调） | 相册带广告（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)） | 专辑列表带广告 |
 |:-------:|:---------:|:---------:|
-|![](images/05.png) | ![](images/04.png) | ![](images/06.png)|  
+|![](https://i.loli.net/2021/03/03/wIQWPyV7XBs9hRo.png) | ![](https://i.loli.net/2021/03/03/bUY2CoMAG6ljZ8v.png) | ![](https://i.loli.net/2021/03/03/NvrCz3EJTOFLtwn.png)|  
 
 | 预览页   |  预览页单击图片转全屏模式 | 预览页缩放图片 | 
 |:-------:|:---------:|:---------:|
-|![](images/07.png) | ![](images/08.png) | ![](images/09.png)|   
+|![](https://i.loli.net/2021/03/03/dFoPMGl9KUne5Oa.png) | ![](https://i.loli.net/2021/03/03/VftUlwEO61PuGeY.png) | ![](https://i.loli.net/2021/03/03/E9zBil6WFAq4Xwc.png)|
 
 |预览页单击缩放图片显示操作栏 | 拼图选择页| 拼图选择页 |
 |:-------:|:---------:|:---------:|
-|![](images/10.png) | ![](images/11.png) | ![](images/12.png)|     
+|![](https://i.loli.net/2021/03/03/as87EV531gCevLP.png) | ![](https://i.loli.net/2021/03/03/jo8T3CcPZbGkDUi.png) | ![](https://i.loli.net/2021/03/03/4YnsqWKDZEIFoBa.png)|    
 
 |拼图页 | 拼图页拼图功能| 拼图页文字贴纸功能 |
 |:-------:|:---------:|:---------:|
-|![](images/13.png) | ![](images/14.png) | ![](images/15.png)|     
+|![](https://i.loli.net/2021/03/03/U65yWR4FBkbDPC9.png) | ![](https://i.loli.net/2021/03/03/OrZEWdwFh4K1Pyk.png) | ![](https://i.loli.net/2021/03/03/cnZyOAbF176vlzD.png)|
 
 |文字贴纸编辑页 | 示例功能列表 | 示例功能列表 |
 |:-------:|:---------:|:---------:|
-|![](images/16.png) | ![](images/17.png) | ![](images/18.png)|    
+|![](https://i.loli.net/2021/03/03/4zBbLmpnxiHd5Jy.png) | ![](https://i.loli.net/2021/03/03/PUk2rTl5CRsxNJb.png) | ![](https://i.loli.net/2021/03/03/123Jtx7AlmDc9Lw.png)|    
     
     
 ## 产品特色    
