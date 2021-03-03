@@ -2,9 +2,8 @@
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
-[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)    
-[demo无法下载解决方案](https://blog.csdn.net/Mirt_/article/details/106011435){:target="_blank"}
-  
+[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)
+若无法下载demo，可以在QQ交流群的群文件下载。
 
 
 | 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
@@ -55,18 +54,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 compileSdkVersion 29  
 minSdkVersion 15  
 targetSdkVersion 29      
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
-[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
-[demo无法下载解决方案](https://blog.csdn.net/Mirt_/article/details/106011435){:target="_blank"}
 
 ## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
 minSdkVersion 15  
 targetSdkVersion 28      
-buildToolsVersion '28.0.3'    
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
-
-
+buildToolsVersion '28.0.3'
 
 ## 获取EasyPhotos（通过Gradle方式）
 首先，在项目的 `build.gradle（project）` 文件里面添加:
