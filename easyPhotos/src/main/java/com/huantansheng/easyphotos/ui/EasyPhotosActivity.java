@@ -5,10 +5,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -52,6 +54,7 @@ import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.ui.adapter.AlbumItemsAdapter;
 import com.huantansheng.easyphotos.ui.adapter.PhotosAdapter;
+import com.huantansheng.easyphotos.ui.dialog.LoadingDialog;
 import com.huantansheng.easyphotos.ui.widget.PressedTextView;
 import com.huantansheng.easyphotos.utils.Color.ColorUtils;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
@@ -119,12 +122,15 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         fragment.startActivityForResult(intent, requestCode);
     }
 
+    LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_photos);
         hideActionBar();
         adaptationStatusBar();
+        loadingDialog = LoadingDialog.get(this);
         if (!Setting.onlyStartCamera && null == Setting.imageEngine) {
             finish();
             return;
@@ -174,11 +180,13 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        loadingDialog.dismiss();
                         onAlbumWorkedDo();
                     }
                 });
             }
         };
+        loadingDialog.show();
         albumModel = AlbumModel.getInstance();
         albumModel.query(this, albumModelCallBack);
     }
@@ -276,7 +284,9 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     private void toAndroidCamera(int requestCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+
+        if (cameraIntent.resolveActivity(getPackageManager()) != null ||
+                this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 photoUri = createImageUri();
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -326,7 +336,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             dir = new File(Environment.getExternalStorageDirectory(),
                     File.separator + "DCIM" + File.separator + "Camera" + File.separator);
         }
-        if (!dir.exists() || !dir.isDirectory()) {
+        if (!dir.isDirectory()) {
             if (!dir.mkdirs()) {
                 dir = getExternalFilesDir(null);
                 if (null == dir || !dir.exists()) {
@@ -353,6 +363,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -718,29 +729,60 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     private void done() {
-        for (Photo photo : Result.photos) {
-            try {
-                if (photo.width == 0 || photo.height == 0) {
-                    BitmapUtils.calculateLocalImageSizeThroughBitmapOptions(this, photo);
+        loadingDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int size = Result.photos.size();
+                for (int i = 0; i < size; i++) {
+                    Photo photo = Result.photos.get(i);
+                    try {
+                        if (photo.width == 0 || photo.height == 0) {
+                            BitmapUtils.calculateLocalImageSizeThroughBitmapOptions(EasyPhotosActivity.this, photo);
+                        }
+                        if (BitmapUtils.needChangeWidthAndHeight(EasyPhotosActivity.this, photo)) {
+                            int h = photo.width;
+                            photo.width = photo.height;
+                            photo.height = h;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingDialog.dismiss();
+
+                                Intent intent = new Intent();
+                                Result.processOriginal();
+                                resultList.addAll(Result.photos);
+                                intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS,
+                                        resultList);
+                                intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL,
+                                        Setting.selectedOriginal);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                    }
                 }
-                if (BitmapUtils.needChangeWidthAndHeight(this, photo)) {
-                    int h = photo.width;
-                    photo.width = photo.height;
-                    photo.height = h;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingDialog.dismiss();
+
+                        Intent intent = new Intent();
+                        Result.processOriginal();
+                        resultList.addAll(Result.photos);
+                        intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
+                        intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL,
+                                Setting.selectedOriginal);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
             }
-        }
-
-        Intent intent = new Intent();
-        Result.processOriginal();
-        resultList.addAll(Result.photos);
-        intent.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
-
-        intent.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
-        setResult(RESULT_OK, intent);
-        finish();
+        }).start();
     }
 
     private void processOriginalMenu() {

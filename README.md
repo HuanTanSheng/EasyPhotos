@@ -3,7 +3,7 @@
 
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
 [demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)
-若无法下载demo，可以在QQ交流群的群文件下载。
+若无法下载demo，可以在QQ交流群的群文件下载，文件名为demo-release，下载最新的即可。
 
 
 | 无选中状态（默认UI色调）   | 选中状态（ [自定义UI色调](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)）  | 其他功能（各功能可自选） |
@@ -143,11 +143,21 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
     
 ## 编者语    
 
-EasyPhotos将在高颜值、高兼容、高性能、强功能的道路上持续更新，欢迎各种Issues，我将及时反馈，谢谢！    
+EasyPhotos目前还在更新，欢迎各种Issues以及加群讨论，只是目前本人精力以及本职工作原因，更新不会频繁，只能保证不定期查看反馈统一修改，希望各位理解，感谢！  
 QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
 
 
-## 更新日志 
+## 更新日志
+**3.1.0：**（正在编写中，预计三月中旬左右正式打版）
+- 优化：优化图片读取速度
+- 修复：无法调用一加8t相机问题，由群友[蜗牛](https://github.com/15010487565)贡献
+- 修复：偶现的ANR情况
+- 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改
+- 更新：subsampling-scale-image-view-androidx:3.10.0
+- 更新：androidx.appcompat:appcompat:1.2.0
+- 更新：androidx.constraintlayout:constraintlayout:2.0.4
+
+
 **3.0.6：**
 - 优化：优化超出选择最大数的提示信息
 

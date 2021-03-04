@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
@@ -179,7 +180,7 @@ public class AlbumModel {
                 }
 
                 File file = new File(path);
-                if (!file.exists() || !file.isFile()) {
+                if (!file.isFile()) {
                     continue;
                 }
 

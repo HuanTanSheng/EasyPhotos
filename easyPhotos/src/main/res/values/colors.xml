@@ -5,12 +5,13 @@
     <color name="white_easy_photos">#FFFFFF</color>
     <color name="menu_text_easy_photos">#FFFFFF</color>//按钮上的文字颜色，选择器上的文字颜色，选择器的边框颜色
 
-
     <!--专辑项目列表-->
     <color name="album_items_background_easy_photos">#FFFFFF</color>//专辑项目列表的背景颜色
     <color name="album_item_name_easy_photos">#3e4145</color>//专辑项目列表中专辑名称的字体颜色
     <color name="album_item_count_easy_photos">#4f5555</color>//专辑项目列表中包含图片张数的字体颜色
 
+    <!--加载框-->
+    <color name="easy_photos_bg_dialog_loading">#4DFFFFFF</color>加载框背景颜色
 
     <!--文字贴纸-->
     <color name="text_sticker_red_easy_photos">#d0021b</color>//编辑字体颜色为红色
@@ -26,7 +27,6 @@
     <color name="text_sticker_editor_fragment_bg_easy_photos">#2c2e30</color>//编辑界面背景色
     <color name="text_sticker_editor_fragment_bar_easy_photos">#393a3f</color>//编辑界面操作栏颜色
 
-
     <!--前景色-->
     <color name="easy_photos_fg_primary">#ffffff</color>//3e4145 前景主色，如字体颜色、icon颜色
     <color name="easy_photos_fg_primary_dark">#9b9b9b</color>//前景偏暗色，如不可用状态的字体颜色
@@ -38,8 +38,7 @@
     <!--操作栏颜色-->
     <color name="easy_photos_bar_primary">#393a3f</color>//ffffff 操作栏主色，如相册页顶部和底部操作栏
     <color name="easy_photos_bar_primary_dark">#303135</color>//f9f9f9 操作栏偏暗色，操作栏间隔线颜色，如相册页返回按钮右边的竖线
-    <color name="easy_photos_bar_primary_translation">#eb212123</color>//b4ffffff
-    操作栏带透明的色值，如预览页的底部操作栏颜色，相册页的相机按钮背景颜色。
+    <color name="easy_photos_bar_primary_translation">#eb212123</color>//b4ffffff 操作栏带透明的色值，如预览页的底部操作栏颜色，相册页的相机按钮背景颜色。
 
     <!--状态栏-->
     <color name="easy_photos_status_bar">#393a3f</color>
