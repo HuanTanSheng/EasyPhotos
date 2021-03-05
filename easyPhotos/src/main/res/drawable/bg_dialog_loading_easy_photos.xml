@@ -3,6 +3,6 @@
 
     <solid android:color="@color/easy_photos_bg_dialog_loading" />
 
-    <corners android:radius="4dp" />
+    <corners android:radius="100dp" />
 
 </shape>

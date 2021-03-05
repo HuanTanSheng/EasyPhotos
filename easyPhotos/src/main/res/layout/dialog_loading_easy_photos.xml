@@ -6,13 +6,14 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_dialog_loading_easy_photos"
-        android:gravity="center"
-        android:padding="20dp">
+        android:padding="12dp"
+        android:background="@drawable/bg_dialog_loading_easy_photos">
 
         <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:indeterminateDrawable="@drawable/progress_bar_easy_photos"
             android:indeterminate="true" />
     </FrameLayout>
 </FrameLayout>

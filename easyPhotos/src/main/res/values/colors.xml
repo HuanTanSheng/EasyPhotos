@@ -11,7 +11,7 @@
     <color name="album_item_count_easy_photos">#4f5555</color>//专辑项目列表中包含图片张数的字体颜色
 
     <!--加载框-->
-    <color name="easy_photos_bg_dialog_loading">#4DFFFFFF</color>加载框背景颜色
+    <color name="easy_photos_bg_dialog_loading">#33FFFFFF</color>加载框背景颜色
 
     <!--文字贴纸-->
     <color name="text_sticker_red_easy_photos">#d0021b</color>//编辑字体颜色为红色
