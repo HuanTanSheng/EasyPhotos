@@ -148,12 +148,12 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志
+
 **3.1.0：**（正在编写中，预计三月中旬左右正式打版）
 - 重要：createAlbum方法新增useWidth参数
        意义：是否需要使用图片的宽高数据，并要求其准确无误。
        true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
        false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
-
 - 重要：start的链式回调模式，增加onCancel状态回调
 - 优化：优化图片读取速度
 - 优化：防止选择图片时多次点击完成按钮
@@ -165,7 +165,6 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 更新：subsampling-scale-image-view-androidx:3.10.0
 - 更新：androidx.appcompat:appcompat:1.2.0
 - 更新：androidx.constraintlayout:constraintlayout:2.0.4
-
 
 **3.0.6：**
 - 优化：优化超出选择最大数的提示信息
