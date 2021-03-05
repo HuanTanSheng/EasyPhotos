@@ -207,6 +207,19 @@ public class AlbumBuilder {
     }
 
     /**
+     * 设置选择数
+     *
+     * @param useWidth     是否使用宽高数据，需要使用写true，不用写false，但两种都会返回宽高数据，只是false时可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
+     *                     true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
+     *                     false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setUseWidth(boolean useWidth) {
+        Setting.useWidth = useWidth;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 设置选择图片数(设置此参数后setCount失效)
      *
      * @param selectorMaxCount 最大选择数

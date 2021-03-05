@@ -80,7 +80,8 @@ public abstract class SlantPuzzleLayout implements PuzzleLayout {
   public abstract void layout();
 
   private void updateLineLimit() {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line line = lines.get(i);
       updateUpperLine(line);
       updateLowerLine(line);
@@ -88,7 +89,8 @@ public abstract class SlantPuzzleLayout implements PuzzleLayout {
   }
 
   private void updateLowerLine(final Line line) {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line l = lines.get(i);
       if (l.direction() != line.direction()) {
         continue;
@@ -112,7 +114,8 @@ public abstract class SlantPuzzleLayout implements PuzzleLayout {
   }
 
   private void updateUpperLine(final Line line) {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line l = lines.get(i);
       if (l.direction() != line.direction()) {
         continue;
@@ -150,11 +153,12 @@ public abstract class SlantPuzzleLayout implements PuzzleLayout {
 
   @Override
   public void update() {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       lines.get(i).update(width(), height());
     }
-
-    for (int i = 0; i < areas.size(); i++) {
+    int areasSize = areas.size();
+    for (int i = 0; i < areasSize; i++) {
       areas.get(i).updateCornerPoints();
     }
   }

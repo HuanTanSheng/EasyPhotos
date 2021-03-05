@@ -29,6 +29,13 @@
                     android:title="@string/album_camera_multi" />
 
                 <item
+                    android:id="@+id/album_camera_multi_use_width"
+
+                    android:title="@string/album_camera_multi_use_width" />
+
+
+
+                <item
                     android:id="@+id/album_ad"
 
                     android:title="@string/album_ad" />

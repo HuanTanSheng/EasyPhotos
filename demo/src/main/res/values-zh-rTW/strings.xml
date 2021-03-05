@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">相册（有相机单选）</string>
     <string name="album_camera_multi">相册（有相机多选）</string>
+    <string name="album_camera_multi_use_width">相册（正確的寬高數據、鏈式調用寫法）</string>
     <string name="album_selected">相册（带默认勾选，不顯示拼圖按鈕）</string>
     <string name="album_size">相册（尺寸和大小限制）</string>
     <string name="album_original_usable">相册（显示原图按钮，默认选中并可用）</string>

@@ -366,7 +366,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
-                EasyPhotos.createAlbum(this, true, Setting.imageEngine).setCount(1).start(91);
+                EasyPhotos.createAlbum(this, true, false,Setting.imageEngine).setCount(1).start(91);
             } else {
                 Intent intent = new Intent(this, toClass.get());
                 startActivityForResult(intent, 91);
@@ -485,7 +485,9 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void toggleIvMenu(@IdRes int resId) {
-        for (ImageView ivMenu : ivMenus) {
+        int size = ivMenus.size();
+        for (int i = 0; i < size; i++) {
+            ImageView ivMenu = ivMenus.get(i);
             if (ivMenu.getId() == resId) {
                 ivMenu.setColorFilter(ContextCompat.getColor(this, R.color.easy_photos_fg_accent));
             } else {
@@ -507,8 +509,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         llMenu.setVisibility(View.GONE);
         degreeSeekBar.setVisibility(View.GONE);
         degreeIndex = -1;
-
-        for (int i = 0; i < degrees.size(); i++) {
+        int size =  degrees.size();
+        for (int i = 0; i < size; i++) {
             degrees.remove(i);
             degrees.add(i, 0);
         }
@@ -597,13 +599,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                         Snackbar.make(rvPuzzleTemplet, R.string.permissions_again_easy_photos,
                                 Snackbar.LENGTH_INDEFINITE).setAction("go",
                                 new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (PermissionUtil.checkAndRequestPermissionsInActivity(PuzzleActivity.this, getNeedPermissions())) {
-                                    savePhoto();
-                                }
-                            }
-                        }).show();
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (PermissionUtil.checkAndRequestPermissionsInActivity(PuzzleActivity.this, getNeedPermissions())) {
+                                            savePhoto();
+                                        }
+                                    }
+                                }).show();
                     }
 
                     @Override
@@ -611,12 +613,12 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
                         Snackbar.make(rvPuzzleTemplet, R.string.permissions_die_easy_photos,
                                 Snackbar.LENGTH_INDEFINITE).setAction("go",
                                 new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                SettingsUtils.startMyApplicationDetailsForResult(PuzzleActivity.this,
-                                        getPackageName());
-                            }
-                        }).show();
+                                    @Override
+                                    public void onClick(View view) {
+                                        SettingsUtils.startMyApplicationDetailsForResult(PuzzleActivity.this,
+                                                getPackageName());
+                                    }
+                                }).show();
                     }
                 });
     }
@@ -626,7 +628,8 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         if (stickerValue.equals("-1")) {
 
             PuzzleLayout puzzleLayout = puzzleView.getPuzzleLayout();
-            for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
+            int size = puzzleLayout.getAreaCount();
+            for (int i = 0; i < size; i++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String date = format.format(photos.get(i).time);
                 stickerModel.addTextSticker(this, getSupportFragmentManager(), date, mRootView);

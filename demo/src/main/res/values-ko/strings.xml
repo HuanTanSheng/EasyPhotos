@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">앨범 (카메라 또한 라디오 있다)</string>
     <string name="album_camera_multi">앨범 (카메라 또한 얼마나 있다)</string>
+    <string name="album_camera_multi_use_width">앨범 (정확 한 너비 와 높이 데이터, 연쇄 호출 기록)</string>
     <string name="album_selected">앨범 (데리고 기본 공모하여 선택，안 퍼즐 단추 보이기)</string>
     <string name="album_size">앨범 (사이즈 크기 제한)</string>
     <string name="album_original_usable">앨범 (그림 단추 표시 및 사용 가능)</string>

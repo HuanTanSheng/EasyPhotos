@@ -257,7 +257,8 @@ public abstract class StraightPuzzleLayout implements PuzzleLayout {
   }
 
   private void updateLineLimit() {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line line = lines.get(i);
       updateUpperLine(line);
       updateLowerLine(line);
@@ -265,7 +266,8 @@ public abstract class StraightPuzzleLayout implements PuzzleLayout {
   }
 
   private void updateLowerLine(final Line line) {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line l = lines.get(i);
       if (l == line) {
         continue;
@@ -290,7 +292,8 @@ public abstract class StraightPuzzleLayout implements PuzzleLayout {
   }
 
   private void updateUpperLine(final Line line) {
-    for (int i = 0; i < lines.size(); i++) {
+    int size = lines.size();
+    for (int i = 0; i < size; i++) {
       Line l = lines.get(i);
       if (l == line) {
         continue;

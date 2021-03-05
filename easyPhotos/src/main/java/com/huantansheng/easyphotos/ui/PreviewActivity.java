@@ -336,7 +336,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
         if (photos.get(lastPosition).selected) {
             ivSelector.setImageResource(R.drawable.ic_selector_true_easy_photos);
             if (!Result.isEmpty()) {
-                for (int i = 0; i < Result.count(); i++) {
+                int count = Result.count();
+                for (int i = 0; i < count; i++) {
                     if (photos.get(lastPosition).path.equals(Result.getPhotoPath(i))) {
                         previewFragment.setSelectedPosition(i);
                         break;
@@ -452,7 +453,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
     @Override
     public void onPreviewPhotoClick(int position) {
         String path = Result.getPhotoPath(position);
-        for (int i = 0; i < photos.size(); i++) {
+        int size = photos.size();
+        for (int i = 0; i < size; i++) {
             if (TextUtils.equals(path, photos.get(i).path)) {
                 rvPhotos.scrollToPosition(i);
                 lastPosition = i;

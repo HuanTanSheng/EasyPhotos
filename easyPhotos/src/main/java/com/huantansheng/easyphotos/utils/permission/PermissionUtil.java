@@ -2,6 +2,7 @@ package com.huantansheng.easyphotos.utils.permission;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
@@ -27,11 +28,14 @@ public class PermissionUtil {
         void onFailed();
     }
 
-    public static boolean checkAndRequestPermissionsInActivity(Activity cxt, String... checkPermissions) {
+    public static boolean checkAndRequestPermissionsInActivity(Activity cxt,
+                                                               String... checkPermissions) {
         boolean isHas = true;
         List<String> permissions = new ArrayList<>();
-        for (String checkPermission : checkPermissions) {
-            if (PermissionChecker.checkSelfPermission(cxt, checkPermission) != PackageManager.PERMISSION_GRANTED) {
+        int size = checkPermissions.length;
+        for (int i = 0; i < size; i++) {
+            String checkPermission = checkPermissions[i];
+            if (PermissionChecker.checkSelfPermission(cxt, checkPermission) != PermissionChecker.PERMISSION_GRANTED) {
                 isHas = false;
                 permissions.add(checkPermission);
             }
@@ -43,11 +47,14 @@ public class PermissionUtil {
         return isHas;
     }
 
-    private static void requestPermissionsInActivity(Activity cxt, int requestCode, String... permissions) {
+    private static void requestPermissionsInActivity(Activity cxt, int requestCode,
+                                                     String... permissions) {
         ActivityCompat.requestPermissions(cxt, permissions, requestCode);
     }
 
-    public static void onPermissionResult(Activity cxt, @NonNull String[] permissions, @NonNull int[] grantResults, PermissionCallBack listener) {
+    public static void onPermissionResult(Activity cxt, @NonNull String[] permissions,
+                                          @NonNull int[] grantResults,
+                                          PermissionCallBack listener) {
         int length = grantResults.length;
         List<Integer> positions = new ArrayList<>();
         if (length > 0) {
@@ -65,7 +72,8 @@ public class PermissionUtil {
 
     }
 
-    private static void progressNoPermission(Activity cxt, PermissionCallBack listener, String[] permissions, List<Integer> positions, int i) {
+    private static void progressNoPermission(Activity cxt, PermissionCallBack listener,
+                                             String[] permissions, List<Integer> positions, int i) {
         int index = positions.get(i);
         if (ActivityCompat.shouldShowRequestPermissionRationale(cxt, permissions[index])) {
             listener.onShouldShow();

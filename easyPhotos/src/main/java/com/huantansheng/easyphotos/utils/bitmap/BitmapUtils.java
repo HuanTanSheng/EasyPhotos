@@ -281,7 +281,7 @@ public class BitmapUtils {
                     String uriPath = UriUtils.getPathByUri(act, insertUri);
                     if (null == uriPath) {
                         callBack.onCreateDirFailed();
-                    }else {
+                    } else {
                         callBack.onSuccess(new File(uriPath));
                     }
                 }
@@ -315,55 +315,34 @@ public class BitmapUtils {
 
     /**
      * 计算获取的照片的宽高是否需要交换，如果图片是旋转了90度或270度的，那么就需要交换
-     * @param context 用来读取图片的context
-     * @param photo 需要计算的图片
+     *
+     * @param photo   需要计算的图片
      * @return 宽高是否需要交换
-     * @throws IOException
      */
-    public static Boolean needChangeWidthAndHeight(Context context, Photo photo) throws IOException {
-        InputStream in = null;
-        try {
-            in = context.getContentResolver().openInputStream(photo.uri);
-            if (in == null) {
-                return false;
-            }
-            ExifInterface exifInterface = new ExifInterface(in);
-            int exifOrientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+    public static Boolean needChangeWidthAndHeight(Photo photo) throws IOException {
+
+            ExifInterface exifInterface = new ExifInterface(photo.path);
+            int exifOrientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
 
             // 如果拿到的照片是旋转了90度或270度的，意味着通过MediaStore获取的宽高需要交换
             return exifOrientation == ExifInterface.ORIENTATION_ROTATE_90 || exifOrientation == ExifInterface.ORIENTATION_ROTATE_270;
-        } catch (FileNotFoundException e) {
-            return false;
-        } catch (IOException e) {
-            return false;
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
+
     }
 
     /**
      * 通过BitmapFactory.Options重设图片的宽高，在通过MediaStore获取的图片宽高为0时使用
-     * @param context 用来读取图片的context
-     * @param photo 需要计算的图片
-     * @throws IOException
+     *
+     * @param photo   需要计算的图片
      */
-    public static void calculateLocalImageSizeThroughBitmapOptions(Context context, Photo photo) throws IOException {
-        InputStream in = null;
-        try {
-            in = context.getContentResolver().openInputStream(photo.uri);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, options);
+    public static void calculateLocalImageSizeThroughBitmapOptions(Photo photo) throws IOException {
 
-            photo.width = options.outWidth;
-            photo.height = options.outHeight;
-        } catch (FileNotFoundException ignored) {
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photo.path, options);
+
+        photo.width = options.outWidth;
+        photo.height = options.outHeight;
     }
+
 }

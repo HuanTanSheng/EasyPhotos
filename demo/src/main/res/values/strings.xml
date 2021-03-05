@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">Photo album (with camera, single)</string>
     <string name="album_camera_multi">Photo album (with camera, multi)</string>
+    <string name="album_camera_multi_use_width">Photo album（correct width and height data, chain call writing）</string>
     <string name="album_selected">Photo album (with default check，do not display the puzzle button)</string>
     <string name="album_size">Photo album (Size and size limit)</string>
     <string name="album_original_usable">Photo album (display original button, available)</string>

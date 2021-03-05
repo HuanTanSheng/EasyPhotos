@@ -29,6 +29,7 @@ public class Setting {
     public static WeakReference<View> albumItemsAdView = null;
     public static boolean photoAdIsOk = false;
     public static boolean albumItemsAdIsOk = false;
+    public static boolean useWidth = false;
     public static ArrayList<Photo> selectedPhotos = new ArrayList<>();
     public static boolean showOriginalMenu = false;
     public static boolean originalMenuUsable = false;

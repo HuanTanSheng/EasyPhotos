@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">El álbum de fotos con la Cámara y radio)</string>
     <string name="album_camera_multi">El álbum de fotos con cámaras y selección múltiple)</string>
+    <string name="album_camera_multi_use_width">Álbum (datos de anchura y altura correctos, escritura de llamadas entrelazadas)</string>
     <string name="album_selected">álbum (con marcada por defecto,no mostrar el botón de rompecabezas)</string>
     <string name="album_size">Álbum de fotos (Limitar el tamaño de)</string>
     <string name="album_original_usable">(Mostrar imagen del botón y disponible)</string>

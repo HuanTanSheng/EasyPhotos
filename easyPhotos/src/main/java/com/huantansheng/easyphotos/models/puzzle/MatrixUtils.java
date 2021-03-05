@@ -113,7 +113,8 @@ public class MatrixUtils {
   public static RectF trapToRect(float[] array) {
     RectF r = new RectF(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY,
         Float.NEGATIVE_INFINITY);
-    for (int i = 1; i < array.length; i += 2) {
+    int length = array.length;
+    for (int i = 1; i < length; i += 2) {
       float x = round(array[i - 1] * 10) / 10.f;
       float y = round(array[i] * 10) / 10.f;
       r.left = (x < r.left) ? x : r.left;

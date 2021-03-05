@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="album_camera_single">アルバム（カメラそしてラジオ）</string>
     <string name="album_camera_multi">写真集（カメラがあります</string>
+    <string name="album_camera_multi_use_width">フォトアルバム（正しい幅と高さデータ、チェーン呼び出しの書き込み）</string>
     <string name="album_selected">アルバム（デフォルト勾选，パズルのボタンが表示されない）</string>
     <string name="album_size">アルバム（サイズと大きさは制限が制限されて）</string>
     <string name="album_original_usable">アルバム（原図のボタン、可用）を表示</string>

@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import android.view.View;
 
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
@@ -63,23 +64,31 @@ public class EasyPhotos {
      *
      * @param activity     上下文
      * @param isShowCamera 是否显示相机按钮
+     * @param useWidth     是否使用宽高数据。
+     *                     true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
+     *                     false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
      * @param imageEngine  图片加载引擎的具体实现
-     * @return
+     * @return AlbumBuilder 建造者模式配置其他选项
      */
-    public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
+    public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera,
+                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(activity, isShowCamera,imageEngine).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine);
+    public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera,
+                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine);
+    public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera,
+                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createAlbum(androidx.fragment.app.Fragment fragmentV, boolean isShowCamera, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine);
+    public static AlbumBuilder createAlbum(androidx.fragment.app.Fragment fragmentV,
+                                           boolean isShowCamera, boolean useWidth,
+                                           @NonNull ImageEngine imageEngine) {
+        return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine).setUseWidth(useWidth);
     }
 
 
@@ -150,7 +159,8 @@ public class EasyPhotos {
      * @param offsetY       添加水印的Y轴偏移量
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
      */
-    public static void addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth, int offsetX, int offsetY, boolean addInLeft) {
+    public static void addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth,
+                                    int offsetX, int offsetY, boolean addInLeft) {
         BitmapUtils.addWatermark(watermark, image, srcImageWidth, offsetX, offsetY, addInLeft);
     }
 
@@ -166,8 +176,11 @@ public class EasyPhotos {
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
      * @return 是否成功
      */
-    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth, @NonNull String text, int offsetX, int offsetY, boolean addInLeft) {
-        BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY, addInLeft);
+    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth,
+                                            @NonNull String text, int offsetX, int offsetY,
+                                            boolean addInLeft) {
+        BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY,
+                addInLeft);
     }
 
     /**
@@ -180,7 +193,9 @@ public class EasyPhotos {
      * @param notifyMedia 是否更新到媒体库
      * @param callBack    保存图片后的回调，回调已经处于UI线程
      */
-    public static void saveBitmapToDir(Activity act, String dirPath, String namePrefix, Bitmap bitmap, boolean notifyMedia, SaveBitmapCallBack callBack) {
+    public static void saveBitmapToDir(Activity act, String dirPath, String namePrefix,
+                                       Bitmap bitmap, boolean notifyMedia,
+                                       SaveBitmapCallBack callBack) {
         BitmapUtils.saveBitmapToDir(act, dirPath, namePrefix, bitmap, notifyMedia, callBack);
     }
 
@@ -203,21 +218,34 @@ public class EasyPhotos {
      * @param puzzleSaveDirPath    拼图完成保存的文件夹全路径
      * @param puzzleSaveNamePrefix 拼图完成保存的文件名前缀，最终格式：前缀+默认生成唯一数字标识+.png
      * @param requestCode          请求code
-     * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。 true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
+     * @param replaceCustom        单击替换拼图中的某张图片时，是否以startForResult的方式启动你的自定义界面，该界面与传进来的act
+     *                             为同一界面。false则在EasyPhotos内部完成，正常需求直接写false即可。
+     *                             true的情况适用于：用于拼图的图片集合中包含网络图片，是在你的act界面中获取并下载的（也可以直接用网络地址，不用下载后的本地地址，也就是可以不下载下来），而非单纯本地相册。举例：你的act中有两个按钮，一个指向本地相册，一个指向网络相册，用户在该界面任意选择，选择好图片后跳转到拼图界面，用户在拼图界面点击替换按钮，将会启动一个新的act界面，这时，act只让用户在网络相册和本地相册选择一张图片，选择好执行
      *                             Intent intent = new Intent();
-     *                             intent.putParcelableArrayListExtra(AlbumBuilder.RESULT_PHOTOS , photos);
+     *                             intent.putParcelableArrayListExtra(AlbumBuilder.RESULT_PHOTOS
+     *                             , photos);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
      * @param imageEngine          图片加载引擎的具体实现
      */
 
-    public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, int requestCode, boolean replaceCustom, @NonNull ImageEngine imageEngine) {
+    public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos,
+                                             String puzzleSaveDirPath,
+                                             String puzzleSaveNamePrefix, int requestCode,
+                                             boolean replaceCustom,
+                                             @NonNull ImageEngine imageEngine) {
         act.setResult(Activity.RESULT_OK);
-        PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, requestCode, replaceCustom, imageEngine);
+        PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix,
+                requestCode, replaceCustom, imageEngine);
     }
 
-    public static void startPuzzleWithPhotos(FragmentActivity act, ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, @NonNull ImageEngine imageEngine, PuzzleCallback callback) {
+    public static void startPuzzleWithPhotos(FragmentActivity act, ArrayList<Photo> photos,
+                                             String puzzleSaveDirPath,
+                                             String puzzleSaveNamePrefix, boolean replaceCustom,
+                                             @NonNull ImageEngine imageEngine,
+                                             PuzzleCallback callback) {
         act.setResult(Activity.RESULT_OK);
-        EasyResult.get(act).startPuzzleWithPhotos(photos, puzzleSaveDirPath, puzzleSaveNamePrefix, replaceCustom, imageEngine, callback);
+        EasyResult.get(act).startPuzzleWithPhotos(photos, puzzleSaveDirPath, puzzleSaveNamePrefix
+                , replaceCustom, imageEngine, callback);
     }
 
 

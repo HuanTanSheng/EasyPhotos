@@ -85,8 +85,9 @@ public class AlbumModel {
                 {String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
                         String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
 
-        if (Setting.isOnlyVideo()){
-            selectionAllArgs = new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
+        if (Setting.isOnlyVideo()) {
+            selectionAllArgs =
+                    new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
         }
 
         ContentResolver contentResolver = context.getContentResolver();
@@ -142,7 +143,9 @@ public class AlbumModel {
                 }
 
                 boolean isVideo = type.contains(Type.VIDEO);// 是否是视频
-                Uri uri = Uri.withAppendedPath(isVideo?MediaStore.Video.Media.EXTERNAL_CONTENT_URI:MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                Uri uri = Uri.withAppendedPath(isVideo ?
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI :
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
                 if (Setting.isOnlyVideo() && !isVideo) {
                     continue;
@@ -171,7 +174,7 @@ public class AlbumModel {
                 if (!isVideo && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
-                    if (width>0 && height>0){
+                    if (width > 0 && height > 0) {
                         if (width < Setting.minWidth || height < Setting.minHeight) {
                             continue;
                         }
@@ -184,10 +187,13 @@ public class AlbumModel {
                     continue;
                 }
 
-                Photo imageItem = new Photo(name,uri, path, dateTime, width, height, size, duration,
+                Photo imageItem = new Photo(name, uri, path, dateTime, width, height, size,
+                        duration,
                         type);
                 if (!Setting.selectedPhotos.isEmpty()) {
-                    for (Photo selectedPhoto : Setting.selectedPhotos) {
+                    int selectSize = Setting.selectedPhotos.size();
+                    for (int i = 0; i < selectSize; i++) {
+                        Photo selectedPhoto = Setting.selectedPhotos.get(i);
                         if (path.equals(selectedPhoto.path)) {
                             imageItem.selectedOriginal = Setting.selectedOriginal;
                             Result.addPhoto(imageItem);
@@ -198,13 +204,13 @@ public class AlbumModel {
                 // 初始化“全部”专辑
                 if (album.isEmpty()) {
                     // 用第一个图片作为专辑的封面
-                    album.addAlbumItem(albumItem_all_name, "", path,uri);
+                    album.addAlbumItem(albumItem_all_name, "", path, uri);
                 }
                 // 把图片全部放进“全部”专辑
                 album.getAlbumItem(albumItem_all_name).addImageItem(imageItem);
 
                 if (Setting.showVideo && isVideo && !albumItem_video_name.equals(albumItem_all_name)) {
-                    album.addAlbumItem(albumItem_video_name, "", path,uri);
+                    album.addAlbumItem(albumItem_video_name, "", path, uri);
                     album.getAlbumItem(albumItem_video_name).addImageItem(imageItem);
                 }
 
@@ -215,7 +221,7 @@ public class AlbumModel {
                 }
                 String folderPath = parentFile.getAbsolutePath();
                 String albumName = StringUtils.getLastPathSegment(folderPath);
-                album.addAlbumItem(albumName, folderPath, path,uri);
+                album.addAlbumItem(albumName, folderPath, path, uri);
                 album.getAlbumItem(albumName).addImageItem(imageItem);
             } while (cursor.moveToNext() && canRun);
             cursor.close();

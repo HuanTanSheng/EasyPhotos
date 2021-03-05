@@ -116,11 +116,12 @@ class SlantUtils {
       spiltArea.leftTop = verticalLine.start;
       spiltArea.leftBottom = verticalLine.end;
 
-      for (int j = 0; j <= horizontalLines.size(); j++) {
+      int size = horizontalLines.size();
+      for (int j = 0; j <= size; j++) {
         SlantArea blockArea = new SlantArea(spiltArea);
         if (j == 0) {
           blockArea.lineTop = horizontalLines.get(j);
-        } else if (j == horizontalLines.size()) {
+        } else if (j == size) {
           blockArea.lineBottom = horizontalLines.get(j - 1);
 
           CrossoverPointF leftBottom =
@@ -147,12 +148,12 @@ class SlantUtils {
       restArea.rightTop = verticalLine.start;
       restArea.rightBottom = verticalLine.end;
     }
-
-    for (int j = 0; j <= horizontalLines.size(); j++) {
+    int size = horizontalLines.size();
+    for (int j = 0; j <= size; j++) {
       SlantArea blockArea = new SlantArea(restArea);
       if (j == 0) {
         blockArea.lineTop = horizontalLines.get(j);
-      } else if (j == horizontalLines.size()) {
+      } else if (j == size) {
         blockArea.lineBottom = horizontalLines.get(j - 1);
         CrossoverPointF leftBottom = new CrossoverPointF(blockArea.lineBottom, blockArea.lineLeft);
         intersectionOfLines(leftBottom, blockArea.lineBottom, blockArea.lineLeft);

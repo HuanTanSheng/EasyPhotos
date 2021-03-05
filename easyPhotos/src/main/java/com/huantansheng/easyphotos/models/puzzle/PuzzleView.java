@@ -11,7 +11,9 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
 import androidx.core.content.ContextCompat;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,7 +31,11 @@ public class PuzzleView extends View {
     private static final String TAG = "SlantPuzzleView";
 
     private enum ActionMode {
-        NONE, DRAG, ZOOM, MOVE, SWAP
+        NONE,
+        DRAG,
+        ZOOM,
+        MOVE,
+        SWAP
     }
 
     private ActionMode currentMode = ActionMode.NONE;
@@ -96,11 +102,14 @@ public class PuzzleView extends View {
     private void init(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PuzzleView);
         lineSize = ta.getInt(R.styleable.PuzzleView_line_size, 4);
-        lineColor = ta.getColor(R.styleable.PuzzleView_line_color, ContextCompat.getColor(getContext(), R.color.easy_photos_fg_primary));
+        lineColor = ta.getColor(R.styleable.PuzzleView_line_color,
+                ContextCompat.getColor(getContext(), R.color.easy_photos_fg_primary));
         selectedLineColor =
-                ta.getColor(R.styleable.PuzzleView_selected_line_color, ContextCompat.getColor(getContext(), R.color.easy_photos_fg_accent));
+                ta.getColor(R.styleable.PuzzleView_selected_line_color,
+                        ContextCompat.getColor(getContext(), R.color.easy_photos_fg_accent));
         handleBarColor =
-                ta.getColor(R.styleable.PuzzleView_handle_bar_color, ContextCompat.getColor(getContext(), R.color.easy_photos_fg_accent));
+                ta.getColor(R.styleable.PuzzleView_handle_bar_color,
+                        ContextCompat.getColor(getContext(), R.color.easy_photos_fg_accent));
         piecePadding = ta.getDimensionPixelSize(R.styleable.PuzzleView_piece_padding, 0);
         needDrawLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_line, false);
         needDrawOuterLine = ta.getBoolean(R.styleable.PuzzleView_need_draw_outer_line, false);
@@ -142,7 +151,8 @@ public class PuzzleView extends View {
         resetPuzzleBounds();
 
         if (puzzlePieces.size() != 0) {
-            for (int i = 0; i < puzzlePieces.size(); i++) {
+            int size = puzzlePieces.size();
+            for (int i = 0; i < size; i++) {
                 PuzzlePiece piece = puzzlePieces.get(i);
                 piece.setArea(puzzleLayout.getArea(i));
                 if (needResetPieceMatrix) {
@@ -183,7 +193,8 @@ public class PuzzleView extends View {
         handleBarPaint.setStrokeWidth(lineSize * 3);
 
         // draw pieces
-        for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
+        int count = puzzleLayout.getAreaCount();
+        for (int i = 0; i < count; i++) {
             if (i >= puzzlePieces.size()) {
                 break;
             }
@@ -247,7 +258,8 @@ public class PuzzleView extends View {
     }
 
     private void drawLine(Canvas canvas, Line line) {
-        canvas.drawLine(line.startPoint().x, line.startPoint().y, line.endPoint().x, line.endPoint().y,
+        canvas.drawLine(line.startPoint().x, line.startPoint().y, line.endPoint().x,
+                line.endPoint().y,
                 linePaint);
     }
 
@@ -467,7 +479,8 @@ public class PuzzleView extends View {
     }
 
     private void updatePiecesInArea(Line line, MotionEvent event) {
-        for (int i = 0; i < needChangePieces.size(); i++) {
+        int size = needChangePieces.size();
+        for (int i = 0; i < size; i++) {
             needChangePieces.get(i).updateWith(event, line);
         }
     }
