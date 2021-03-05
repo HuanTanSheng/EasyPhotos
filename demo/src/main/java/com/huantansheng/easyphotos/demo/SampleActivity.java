@@ -133,14 +133,14 @@ public class SampleActivity extends AppCompatActivity
 
                 EasyPhotos.createCamera(this)
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
-                        .start(101);
+                        .start(101);//也可以选择链式调用写法
 
                 break;
 
             case R.id.album_single://相册单选，无相机功能
 
                 EasyPhotos.createAlbum(this, false, false,GlideEngine.getInstance())
-                        .start(101);
+                        .start(101);//也可以选择链式调用写法
 
                 break;
 
@@ -148,14 +148,14 @@ public class SampleActivity extends AppCompatActivity
 
                 EasyPhotos.createAlbum(this, false,false, GlideEngine.getInstance())
                         .setCount(9)
-                        .start(101);
+                        .start(101);//也可以选择链式调用写法
                 break;
 
             case R.id.album_camera_single://相册单选，有相机功能
 
                 EasyPhotos.createAlbum(this, true, false,GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
-                        .start(101);
+                        .start(101);//也可以选择链式调用写法
                 break;
 
             case R.id.album_camera_multi://相册多选，有相机功能

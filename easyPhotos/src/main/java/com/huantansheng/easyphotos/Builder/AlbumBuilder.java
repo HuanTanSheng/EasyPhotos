@@ -476,7 +476,7 @@ public class AlbumBuilder {
     }
 
     /**
-     * 设置启动属性
+     * 启动，onActivityResult方式
      *
      * @param requestCode startActivityForResult的请求码
      */
@@ -485,7 +485,23 @@ public class AlbumBuilder {
         setSettingParams();
         launchEasyPhotosActivity(requestCode);
     }
-
+    /**
+     * 启动，链式调用
+     *
+     */
+    public void start(SelectCallback callback) {
+        setSettingParams();
+        if (null != mActivity && null != mActivity.get() && mActivity.get() instanceof FragmentActivity) {
+            EasyResult.get((FragmentActivity) mActivity.get()).startEasyPhoto(callback);
+            return;
+        }
+        if (null != mFragmentV && null != mFragmentV.get()) {
+            EasyResult.get(mFragmentV.get()).startEasyPhoto(callback);
+            return;
+        }
+        throw new RuntimeException("mActivity or mFragmentV maybe null, you can not use this " +
+                "method... ");
+    }
     /**
      * 正式启动
      *
@@ -503,20 +519,6 @@ public class AlbumBuilder {
         if (null != mFragmentV && null != mFragmentV.get()) {
             EasyPhotosActivity.start(mFragmentV.get(), requestCode);
         }
-    }
-
-    public void start(SelectCallback callback) {
-        setSettingParams();
-        if (null != mActivity && null != mActivity.get() && mActivity.get() instanceof FragmentActivity) {
-            EasyResult.get((FragmentActivity) mActivity.get()).startEasyPhoto(callback);
-            return;
-        }
-        if (null != mFragmentV && null != mFragmentV.get()) {
-            EasyResult.get(mFragmentV.get()).startEasyPhoto(callback);
-            return;
-        }
-        throw new RuntimeException("mActivity or mFragmentV maybe null, you can not use this " +
-                "method... ");
     }
 
     /**
