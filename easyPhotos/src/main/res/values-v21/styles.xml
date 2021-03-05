@@ -6,7 +6,6 @@
         <item name="android:windowBackground">@null</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowDisablePreview">true</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="android:statusBarColor">@color/easy_photos_status_bar</item>
@@ -16,7 +15,6 @@
     <style name="EasyPhotosTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/easy_photos_status_bar</item>
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowDisablePreview">true</item>
     </style>
 
 </resources>
