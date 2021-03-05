@@ -66,6 +66,21 @@ public class HolderFragment extends Fragment {
                     }
                     break;
             }
+            return;
+        }
+        if (Activity.RESULT_CANCELED == resultCode) {
+            switch (requestCode) {
+                case HOLDER_SELECT_REQUEST_CODE:
+                    if (mSelectCallback != null) {
+                        mSelectCallback.onCancel();
+                    }
+                    break;
+                case HOLDER_PUZZLE_REQUEST_CODE:
+                    if (mPuzzleCallback != null) {
+                        mPuzzleCallback.onCancel();
+                    }
+                    break;
+            }
         }
     }
 }

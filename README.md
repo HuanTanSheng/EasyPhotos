@@ -154,7 +154,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
        true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
        false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
 
+- 重要：start的链式回调模式，增加onCancel状态回调
 - 优化：优化图片读取速度
+- 优化：防止选择图片时多次点击完成按钮
+- 优化：只选择视频时，若视频为空时的提示
+- 修复：android8的Only fullscreen opaque activities can request orientation 问题
 - 修复：无法调用一加8t相机问题，由群友[蜗牛](https://github.com/15010487565)贡献
 - 修复：偶现的ANR情况
 - 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改

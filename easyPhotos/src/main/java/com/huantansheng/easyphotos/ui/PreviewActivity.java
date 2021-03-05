@@ -5,16 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +16,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
@@ -289,6 +288,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 photos.size()));
     }
 
+    private boolean clickDone = false;
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -306,6 +307,8 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             Setting.selectedOriginal = !Setting.selectedOriginal;
             processOriginalMenu();
         } else if (R.id.tv_done == id) {
+            if (clickDone) return;
+            clickDone = true;
             Intent intent = new Intent();
             intent.putExtra(Key.PREVIEW_CLICK_DONE, true);
             setResult(RESULT_OK, intent);

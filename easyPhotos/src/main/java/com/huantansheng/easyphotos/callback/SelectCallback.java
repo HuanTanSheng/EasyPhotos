@@ -18,4 +18,9 @@ public abstract class SelectCallback {
      * @param isOriginal 返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
      */
     public abstract void onResult(ArrayList<Photo> photos,  boolean isOriginal);
+
+    /**
+     * 什么都没选，取消选择回调
+     */
+    public abstract void onCancel();
 }

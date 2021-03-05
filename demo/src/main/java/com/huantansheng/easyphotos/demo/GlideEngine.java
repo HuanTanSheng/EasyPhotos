@@ -81,7 +81,7 @@ public class GlideEngine implements ImageEngine {
 
 
     /**
-     * 获取图片加载框架中的缓存Bitmap
+     * 获取图片加载框架中的缓存Bitmap，不用拼图功能可以直接返回null
      *
      * @param context 上下文
      * @param uri    图片路径

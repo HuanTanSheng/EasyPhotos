@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -285,31 +284,26 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void toAndroidCamera(int requestCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        if (cameraIntent.resolveActivity(getPackageManager()) != null ||
-                this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                photoUri = createImageUri();
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                startActivityForResult(cameraIntent, requestCode);
-                return;
-            }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            photoUri = createImageUri();
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            startActivityForResult(cameraIntent, requestCode);
+            return;
+        }
 
-            createCameraTempImageFile();
-            if (mTempImageFile != null && mTempImageFile.exists()) {
+        createCameraTempImageFile();
+        if (mTempImageFile != null && mTempImageFile.exists()) {
 
-                Uri imageUri = UriUtils.getUri(this, mTempImageFile);
+            Uri imageUri = UriUtils.getUri(this, mTempImageFile);
 
-                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
+            cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //对目标应用临时授权该Uri所代表的文件
 
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
-                startActivityForResult(cameraIntent, requestCode);
-            } else {
-                Toast.makeText(this, R.string.camera_temp_file_error_easy_photos,
-                        Toast.LENGTH_SHORT).show();
-            }
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+            startActivityForResult(cameraIntent, requestCode);
         } else {
-            Toast.makeText(this, R.string.msg_no_camera_easy_photos, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.camera_temp_file_error_easy_photos,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -579,6 +573,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void initView() {
 
         if (albumModel.getAlbumItems().isEmpty()) {
+            if (Setting.isOnlyVideo()) {
+                Toast.makeText(this, R.string.no_videos_easy_photos, Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
             Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
             if (Setting.isShowCamera) launchCamera(Code.REQUEST_CAMERA);
             else finish();
@@ -728,13 +727,16 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
     }
 
+    private boolean clickDone = false;
+
     private void done() {
-        loadingDialog.show();
-//        if (Setting.useWidth) {
-//            resultUseWidth();
-//            return;
-//        }
-//        resultFast();
+        if (clickDone) return;
+        clickDone = true;
+        if (Setting.useWidth) {
+            resultUseWidth();
+            return;
+        }
+        resultFast();
     }
 
     private void resultUseWidth() {

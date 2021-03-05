@@ -3,10 +3,15 @@
     <style name="EasyPhotosFullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">true</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="EasyPhotosTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="EasyPhotosTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
 
 </resources>

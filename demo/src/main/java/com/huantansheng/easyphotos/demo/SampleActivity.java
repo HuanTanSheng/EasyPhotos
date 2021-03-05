@@ -80,7 +80,8 @@ public class SampleActivity extends AppCompatActivity
         drawer.setAnimation(null);
         drawer.setLayoutAnimation(null);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -99,7 +100,8 @@ public class SampleActivity extends AppCompatActivity
 
 
         rvImage = (RecyclerView) findViewById(R.id.rv_image);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
         adapter = new MainAdapter(this, selectedPhotoList);
         rvImage.setLayoutManager(linearLayoutManager);
         rvImage.setAdapter(adapter);
@@ -139,28 +141,28 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_single://相册单选，无相机功能
 
-                EasyPhotos.createAlbum(this, false, false,GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, false, false, GlideEngine.getInstance())
                         .start(101);//也可以选择链式调用写法
 
                 break;
 
             case R.id.album_multi://相册多选，无相机功能
 
-                EasyPhotos.createAlbum(this, false,false, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, false, false, GlideEngine.getInstance())
                         .setCount(9)
                         .start(101);//也可以选择链式调用写法
                 break;
 
             case R.id.album_camera_single://相册单选，有相机功能
 
-                EasyPhotos.createAlbum(this, true, false,GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .start(101);//也可以选择链式调用写法
                 break;
 
             case R.id.album_camera_multi://相册多选，有相机功能
 
-                EasyPhotos.createAlbum(this, true,false, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(22)
                         .start(new SelectCallback() {
@@ -171,11 +173,16 @@ public class SampleActivity extends AppCompatActivity
                                 adapter.notifyDataSetChanged();
                                 rvImage.smoothScrollToPosition(0);
                             }
+
+                            @Override
+                            public void onCancel() {
+                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                            }
                         });
                 break;
             case R.id.album_camera_multi_use_width:// 正确的宽高数据，链式调用写法
 
-                EasyPhotos.createAlbum(this, true,true, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, true, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(22)
                         .start(new SelectCallback() {
@@ -185,6 +192,11 @@ public class SampleActivity extends AppCompatActivity
                                 selectedPhotoList.addAll(photos);
                                 adapter.notifyDataSetChanged();
                                 rvImage.smoothScrollToPosition(0);
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
                             }
                         });
                 break;
@@ -197,18 +209,19 @@ public class SampleActivity extends AppCompatActivity
                 initAdViews();
 
                 //启动方法，装载广告view
-                EasyPhotos.createAlbum(this, true,false, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setCameraLocation(Setting.LIST_FIRST)
-                        .setAdView(photosAdView, photosAdLoaded, albumItemsAdView, albumItemsAdLoaded)
+                        .setAdView(photosAdView, photosAdLoaded, albumItemsAdView,
+                                albumItemsAdLoaded)
                         .start(101);
 
                 break;
 
             case R.id.album_size://只显示限制尺寸或限制文件大小以上的图片
 
-                EasyPhotos.createAlbum(this, true,false, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setMinWidth(500)
@@ -220,7 +233,7 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.album_original_usable://显示原图按钮，并且默认选中，按钮可用
 
-                EasyPhotos.createAlbum(this, true,false, GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setOriginalMenu(true, true, null)
@@ -241,7 +254,7 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.album_has_video_gif://相册中显示视频和gif图
-                EasyPhotos.createAlbum(this, true,false,  GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setVideo(true)
@@ -250,7 +263,7 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.album_only_video://相册中只选择视频(相册只有视频 会禁用相机和拼图)
-                EasyPhotos.createAlbum(this, true,false,  GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .filter(Type.VIDEO)
@@ -258,7 +271,7 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.album_no_menu://相册中不显示底部的编辑图标按钮
-                EasyPhotos.createAlbum(this, true,false,  GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setCount(9)
                         .setPuzzleMenu(false)
@@ -285,10 +298,13 @@ public class SampleActivity extends AppCompatActivity
                     return true;
                 }
 
-                //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy出来的bitmap那就不要回收了，否则Glide会报错。
-                Bitmap watermark = BitmapFactory.decodeResource(getResources(), R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
+                //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy
+                // 出来的bitmap那就不要回收了，否则Glide会报错。
+                Bitmap watermark = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
                 try {
-                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedPhotoList.get(0).uri)).copy(Bitmap.Config.ARGB_8888, true);
+                    bitmap =
+                            BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedPhotoList.get(0).uri)).copy(Bitmap.Config.ARGB_8888, true);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -302,14 +318,15 @@ public class SampleActivity extends AppCompatActivity
                 break;
 
             case R.id.puzzle:
-                EasyPhotos.createAlbum(this, false,false,  GlideEngine.getInstance())
+                EasyPhotos.createAlbum(this, false, false, GlideEngine.getInstance())
                         .setCount(9)
                         .setPuzzleMenu(false)
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .start(new SelectCallback() {
                             @Override
                             public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
-                                EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
+                                EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos,
+                                        Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
                                     @Override
                                     public void onResult(Photo photo) {
                                         selectedPhotoList.clear();
@@ -317,7 +334,18 @@ public class SampleActivity extends AppCompatActivity
                                         adapter.notifyDataSetChanged();
                                         rvImage.smoothScrollToPosition(0);
                                     }
+
+                                    @Override
+                                    public void onCancel() {
+                                        Toast.makeText(SampleActivity.this, "Cancel",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 });
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -353,9 +381,11 @@ public class SampleActivity extends AppCompatActivity
      * 模拟启动EasyPhotos前广告已经装载完毕
      */
     private void initPhotosAd() {
-        photosAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_photos, null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
+        photosAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_photos, null,
+                false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
         ((TextView) photosAdView.findViewById(R.id.tv_title)).setText("photosAd广告");
-        ((TextView) photosAdView.findViewById(R.id.tv_content)).setText("github上star一下了解EasyPhotos的最新动态,这个布局和数据都是由你定制的");
+        ((TextView) photosAdView.findViewById(R.id.tv_content)).setText("github上star" +
+                "一下了解EasyPhotos的最新动态,这个布局和数据都是由你定制的");
         photosAdLoaded = true;
     }
 
@@ -364,7 +394,8 @@ public class SampleActivity extends AppCompatActivity
      * 模拟5秒后网络回调
      */
     private void initAlbumItemsAd() {
-        albumItemsAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_album_items, null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
+        albumItemsAdView = (RelativeLayout) getLayoutInflater().inflate(R.layout.ad_album_items,
+                null, false);//不可以有父布局，所以inflate第二个参数必须为null，并且布局文件必须独立
 
         //模拟5秒后网络回调
         rvImage.postDelayed(new Runnable() {
@@ -372,7 +403,8 @@ public class SampleActivity extends AppCompatActivity
             public void run() {
                 ((ImageView) albumItemsAdView.findViewById(R.id.iv_image)).setImageResource(R.mipmap.ad);
                 ((TextView) albumItemsAdView.findViewById(R.id.tv_title)).setText("albumItemsAd广告");
-                photosAdLoaded = true;//正常情况可能不知道是先启动EasyPhotos还是数据先回来，所以这里加个标识，如果是后启动EasyPhotos，那么EasyPhotos会直接加载广告
+                photosAdLoaded = true;//正常情况可能不知道是先启动EasyPhotos还是数据先回来，所以这里加个标识，如果是后启动EasyPhotos
+                // ，那么EasyPhotos会直接加载广告
                 EasyPhotos.notifyAlbumItemsAdLoaded();
             }
         }, 5000);
@@ -395,10 +427,12 @@ public class SampleActivity extends AppCompatActivity
             //相机或相册回调
             if (requestCode == 101) {
                 //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
-                ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                ArrayList<Photo> resultPhotos =
+                        data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
 
                 //返回图片地址集合时如果你需要知道用户选择图片时是否选择了原图选项，用如下方法获取
-                boolean selectedOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
+                boolean selectedOriginal =
+                        data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
 
 
                 selectedPhotoList.clear();
@@ -420,7 +454,9 @@ public class SampleActivity extends AppCompatActivity
                 selectedPhotoList.clear();
                 selectedPhotoList.addAll(resultPhotos);
 
-                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList, Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", 103, false, GlideEngine.getInstance());
+                EasyPhotos.startPuzzleWithPhotos(this, selectedPhotoList,
+                        Environment.getExternalStorageDirectory().getAbsolutePath(),
+                        "AlbumBuilder", 103, false, GlideEngine.getInstance());
                 return;
             }
 
