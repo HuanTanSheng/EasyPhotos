@@ -3,6 +3,7 @@ package com.huantansheng.easyphotos.models.album;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -76,7 +77,7 @@ public class AlbumModel {
         if (Setting.selectedPhotos.size() > Setting.count) {
             throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
-        boolean shouldReadWidth =
+        boolean canReadWidth =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
 
@@ -110,12 +111,15 @@ public class AlbumModel {
         projectionList.add(MediaStore.MediaColumns.MIME_TYPE);
         projectionList.add(MediaStore.MediaColumns.SIZE);
 
-        if (shouldReadWidth) {
-            if (Setting.minWidth != 1 && Setting.minHeight != 1) {
+        if (!Setting.useWidth) {
+            if (Setting.minWidth != 1 && Setting.minHeight != 1)
+                Setting.useWidth = true;
+        }
+        if (canReadWidth) {
+            if (Setting.useWidth) {
                 projectionList.add(MediaStore.MediaColumns.WIDTH);
                 projectionList.add(MediaStore.MediaColumns.HEIGHT);
-            } else {
-                shouldReadWidth = false;
+                projectionList.add(MediaStore.MediaColumns.ORIENTATION);
             }
         }
 
@@ -143,9 +147,11 @@ public class AlbumModel {
             int durationCol = cursor.getColumnIndex(MediaStore.MediaColumns.DURATION);
             int WidthCol = 0;
             int HeightCol = 0;
-            if (shouldReadWidth) {
+            int orientationCol = -1;
+            if (canReadWidth && Setting.useWidth) {
                 WidthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH);
                 HeightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT);
+                orientationCol = cursor.getColumnIndex(MediaStore.MediaColumns.ORIENTATION);
             }
             if (durationCol == -1) {
                 durationCol = sizeCol;
@@ -158,9 +164,7 @@ public class AlbumModel {
                 long dateTime = cursor.getLong(DateCol);
                 String type = cursor.getString(mimeType);
                 long size = cursor.getLong(sizeCol);
-                long duration = cursor.getLong(durationCol);
-                int width = 0;
-                int height = 0;
+                long duration = 0;
 
 
                 if (TextUtils.isEmpty(path) || TextUtils.isEmpty(type)) {
@@ -172,28 +176,53 @@ public class AlbumModel {
                 }
 
                 boolean isVideo = type.contains(Type.VIDEO);// 是否是视频
-                Uri uri = Uri.withAppendedPath(isVideo ?
-                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI :
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
-                if (!Setting.showGif) {
-                    if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
+                int width = 0;
+                int height = 0;
+                int orientation = 0;
+                if (isVideo) {
+                    duration = cursor.getLong(durationCol);
+                    if (duration <= Setting.videoMinSecond || duration >= Setting.videoMaxSecond) {
                         continue;
                     }
-                }
-
-                if (isVideo && (duration <= Setting.videoMinSecond || duration >= Setting.videoMaxSecond)) {
-                    continue;
-                }
-                if (shouldReadWidth && !isVideo) {
-                    width = cursor.getInt(WidthCol);
-                    height = cursor.getInt(HeightCol);
-                    if (width > 0 && height > 0) {
-                        if (width < Setting.minWidth || height < Setting.minHeight) {
+                } else {
+                    if (orientationCol != -1) {
+                        orientation = cursor.getInt(orientationCol);
+                    }
+                    if (!Setting.showGif) {
+                        if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                             continue;
                         }
                     }
+                    if (Setting.useWidth) {
+                        if (canReadWidth) {
+                            width = cursor.getInt(WidthCol);
+                            height = cursor.getInt(HeightCol);
+                        }
+                        if (width == 0 || height == 0) {
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inJustDecodeBounds = true;
+                            BitmapFactory.decodeFile(path, options);
+                            width = options.outWidth;
+                            height = options.outHeight;
+                        }
+
+                        if (orientation == 90 || orientation == 270) {
+                            int temp = width;
+                            width = height;
+                            height = temp;
+                        }
+
+                        if (width < Setting.minWidth || height < Setting.minHeight) {
+                            continue;
+                        }
+
+                    }
                 }
+
+                Uri uri = Uri.withAppendedPath(isVideo ?
+                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI :
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
                 File file = new File(path);
                 if (!file.isFile()) {
@@ -201,8 +230,7 @@ public class AlbumModel {
                 }
 
                 Photo imageItem = new Photo(name, uri, path, dateTime, width, height, size,
-                        duration,
-                        type);
+                        duration, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     int selectSize = Setting.selectedPhotos.size();
                     for (int i = 0; i < selectSize; i++) {

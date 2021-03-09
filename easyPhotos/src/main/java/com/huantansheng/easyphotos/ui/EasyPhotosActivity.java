@@ -732,10 +732,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private void done() {
         if (clickDone) return;
         clickDone = true;
-        if (Setting.useWidth) {
-            resultUseWidth();
-            return;
-        }
+//        if (Setting.useWidth) {
+//            resultUseWidth();
+//            return;
+//        }
         resultFast();
     }
 
