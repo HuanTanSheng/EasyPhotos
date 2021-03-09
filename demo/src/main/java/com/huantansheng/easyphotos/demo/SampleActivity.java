@@ -30,8 +30,10 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.constant.Type;
+import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.dialog.LoadingDialog;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -63,12 +65,26 @@ public class SampleActivity extends AppCompatActivity
     private ImageView bitmapView = null;
     private DrawerLayout drawer;
 
-
+    LoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
         initView();
+        EasyPhotos.preLoad(this);
+//        loadingDialog = LoadingDialog.get(this);
+//        loadingDialog.show();
+//        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
+//            @Override
+//            public void onAlbumWorkedCallBack() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadingDialog.dismiss();
+//                    }
+//                });
+//            }
+//        });
     }
 
     private void initView() {

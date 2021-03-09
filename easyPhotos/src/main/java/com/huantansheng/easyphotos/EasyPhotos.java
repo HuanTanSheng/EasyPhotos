@@ -13,6 +13,7 @@ import com.huantansheng.easyphotos.Builder.AlbumBuilder;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
+import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.sticker.StickerModel;
 import com.huantansheng.easyphotos.models.sticker.entity.TextStickerData;
@@ -36,6 +37,26 @@ public class EasyPhotos {
     //easyPhotos的返回数据Key
     public static final String RESULT_PHOTOS = "keyOfEasyPhotosResult";
     public static final String RESULT_SELECTED_ORIGINAL = "keyOfEasyPhotosResultSelectedOriginal";
+
+    /**
+     * 预加载
+     * 第一次扫描可能会慢，建议在启动app时做一次预加载
+     * @param cxt 上下文
+     */
+    public static void preLoad(Context cxt) {
+        AlbumModel.getInstance().query(cxt,null);
+    }
+
+    /**
+     * 预加载
+     * 第一次扫描可能会慢，建议在启动app时做一次预加载
+     * @param cxt 上下文
+     * @param callBack 预加载完成的回调，若进行UI操作，需自行切回主线程。
+     */
+    public static void preLoad(Context cxt,AlbumModel.CallBack callBack) {
+        AlbumModel.getInstance().query(cxt,callBack);
+    }
+
 
     /**
      * 创建相机

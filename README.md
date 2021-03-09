@@ -155,14 +155,16 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
        true：会保证宽高数据的正确性，耗时，扫描图片慢。
        false:不需要，宽高数据返回为0。
        特别声明：如果使用到宽高限制，则useWidth会强制为true。
+- 重要：新增API：preLoad(Context cxt)，预加载，第一次扫描可能会慢，建议在app主页面或调用EasyPhotos的上一页做一次预加载
+- 重要：新增API：preLoad(Context cxt,AlbumModel.CallBack callBack)，同上，带加载完成的回调，若在callBack中进行UI操作，需自行切回主线程。
 - 重要：start的链式回调模式，增加onCancel状态回调
+- 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改
 - 优化：优化图片读取速度
 - 优化：防止选择图片时多次点击完成按钮
-- 优化：只选择视频时，若视频为空时的提示
+- 修复：只选择视频时，若视频为空时的提示语
 - 修复：android8的Only fullscreen opaque activities can request orientation 问题
 - 修复：无法调用一加8t相机问题，由群友[蜗牛](https://github.com/15010487565)贡献
 - 修复：偶现的ANR情况
-- 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改
 - 更新：subsampling-scale-image-view-androidx:3.10.0
 - 更新：androidx.appcompat:appcompat:1.2.0
 - 更新：androidx.constraintlayout:constraintlayout:2.0.4

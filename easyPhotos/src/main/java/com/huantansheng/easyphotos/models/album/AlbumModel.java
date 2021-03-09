@@ -153,9 +153,7 @@ public class AlbumModel {
                 HeightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT);
                 orientationCol = cursor.getColumnIndex(MediaStore.MediaColumns.ORIENTATION);
             }
-            if (durationCol == -1) {
-                durationCol = sizeCol;
-            }
+            boolean hasTime = durationCol > 0;
 
             do {
                 String id = cursor.getString(idCol);
@@ -181,7 +179,8 @@ public class AlbumModel {
                 int height = 0;
                 int orientation = 0;
                 if (isVideo) {
-                    duration = cursor.getLong(durationCol);
+                    if (hasTime)
+                        duration = cursor.getLong(durationCol);
                     if (duration <= Setting.videoMinSecond || duration >= Setting.videoMaxSecond) {
                         continue;
                     }
