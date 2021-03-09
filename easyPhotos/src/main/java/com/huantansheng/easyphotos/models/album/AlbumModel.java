@@ -4,10 +4,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
-import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
@@ -20,6 +19,7 @@ import com.huantansheng.easyphotos.utils.String.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 专辑模型
@@ -76,35 +76,55 @@ public class AlbumModel {
         if (Setting.selectedPhotos.size() > Setting.count) {
             throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
-
-        final Uri contentUri = MediaStore.Files.getContentUri("external");
+        boolean shouldReadWidth =
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
-        final String selection =
-                "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?" + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)" + " AND " + MediaStore.MediaColumns.SIZE + ">0";
-        String[] selectionAllArgs =
-                {String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
-                        String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
+
+        Uri contentUri;
+        String selection = null;
+        String[] selectionAllArgs = null;
 
         if (Setting.isOnlyVideo()) {
+            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        } else if (!Setting.showVideo) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        } else {
+            contentUri = MediaStore.Files.getContentUri("external");
+            selection =
+                    "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?" + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)";
             selectionAllArgs =
-                    new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
+                    new String[]{String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
+                            String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)};
         }
 
         ContentResolver contentResolver = context.getContentResolver();
-        String[] projections;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            projections = new String[]{MediaStore.Files.FileColumns._ID,
-                    MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME,
-                    MediaStore.MediaColumns.DATE_MODIFIED, MediaStore.MediaColumns.MIME_TYPE,
-                    MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT,
-                    MediaStore.MediaColumns.SIZE, MediaStore.Video.Media.DURATION};
 
-        } else {
-            projections = new String[]{MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA,
-                    MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED,
-                    MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE,
-                    MediaStore.Video.Media.DURATION};
+        long now = System.currentTimeMillis();
+
+        List<String> projectionList = new ArrayList<String>();
+        projectionList.add(MediaStore.Files.FileColumns._ID);
+        projectionList.add(MediaStore.MediaColumns.DATA);
+        projectionList.add(MediaStore.MediaColumns.DISPLAY_NAME);
+        projectionList.add(MediaStore.MediaColumns.DATE_MODIFIED);
+        projectionList.add(MediaStore.MediaColumns.MIME_TYPE);
+        projectionList.add(MediaStore.MediaColumns.SIZE);
+
+        if (shouldReadWidth) {
+            if (Setting.minWidth != 1 && Setting.minHeight != 1) {
+                projectionList.add(MediaStore.MediaColumns.WIDTH);
+                projectionList.add(MediaStore.MediaColumns.HEIGHT);
+            } else {
+                shouldReadWidth = false;
+            }
         }
+
+        if (Setting.showVideo) {
+            projectionList.add(MediaStore.MediaColumns.DURATION);
+        }
+
+        String[] projections = projectionList.toArray(new String[0]);
+
         Cursor cursor = contentResolver.query(contentUri, projections, selection,
                 selectionAllArgs, sortOrder);
         if (cursor == null) {
@@ -119,12 +139,16 @@ public class AlbumModel {
             int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
             int mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
             int sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
-            int durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION);
+
+            int durationCol = cursor.getColumnIndex(MediaStore.MediaColumns.DURATION);
             int WidthCol = 0;
             int HeightCol = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            if (shouldReadWidth) {
                 WidthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH);
                 HeightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT);
+            }
+            if (durationCol == -1) {
+                durationCol = sizeCol;
             }
 
             do {
@@ -138,7 +162,12 @@ public class AlbumModel {
                 int width = 0;
                 int height = 0;
 
+
                 if (TextUtils.isEmpty(path) || TextUtils.isEmpty(type)) {
+                    continue;
+                }
+
+                if (size < Setting.minSize) {
                     continue;
                 }
 
@@ -147,31 +176,16 @@ public class AlbumModel {
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI :
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
 
-                if (Setting.isOnlyVideo() && !isVideo) {
-                    continue;
-                }
-                if (!Setting.filterTypes.isEmpty() && !Setting.isFilter(type)) {
-                    continue;
-                }
-
                 if (!Setting.showGif) {
                     if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
                         continue;
                     }
                 }
-                if (!Setting.showVideo) {
-                    if (isVideo) {
-                        continue;
-                    }
-                }
 
-                if (size < Setting.minSize) {
-                    continue;
-                }
                 if (isVideo && (duration <= Setting.videoMinSecond || duration >= Setting.videoMaxSecond)) {
                     continue;
                 }
-                if (!isVideo && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                if (shouldReadWidth && !isVideo) {
                     width = cursor.getInt(WidthCol);
                     height = cursor.getInt(HeightCol);
                     if (width > 0 && height > 0) {
@@ -179,12 +193,11 @@ public class AlbumModel {
                             continue;
                         }
                     }
-
                 }
 
                 File file = new File(path);
                 if (!file.isFile()) {
-                    continue;
+                    continue;//有一些三方软件删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
                 }
 
                 Photo imageItem = new Photo(name, uri, path, dateTime, width, height, size,
@@ -226,6 +239,7 @@ public class AlbumModel {
             } while (cursor.moveToNext() && canRun);
             cursor.close();
         }
+        Log.d(TAG, "initAlbum: " + (System.currentTimeMillis() - now));
     }
 
     /**

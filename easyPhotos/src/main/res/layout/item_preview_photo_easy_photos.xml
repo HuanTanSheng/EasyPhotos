@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/iv_play"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_centerInParent="true"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_play_easy_photos" />

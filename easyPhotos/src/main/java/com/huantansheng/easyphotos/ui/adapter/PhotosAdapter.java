@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huantansheng.easyphotos.R;
@@ -84,13 +85,17 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                 Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
+                ((PhotoViewHolder) holder).ivVideo.setVisibility(View.GONE);
             } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
                 Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
+                ((PhotoViewHolder) holder).ivVideo.setVisibility(View.VISIBLE);
+
             } else {
                 Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
+                ((PhotoViewHolder) holder).ivVideo.setVisibility(View.GONE);
             }
 
             ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
@@ -289,6 +294,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         final TextView tvSelector;
         final View vSelector;
         final TextView tvType;
+        final ImageView ivVideo;
 
         PhotoViewHolder(View itemView) {
             super(itemView);
@@ -296,6 +302,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             this.tvSelector = itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
             this.tvType = itemView.findViewById(R.id.tv_type);
+            this.ivVideo = itemView.findViewById(R.id.iv_play);
         }
     }
 }
