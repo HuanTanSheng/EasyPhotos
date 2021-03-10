@@ -73,29 +73,19 @@ public class SampleActivity extends AppCompatActivity
         setContentView(R.layout.activity_sample);
         initView();
         EasyPhotos.preLoad(this);
-        loadingDialog = LoadingDialog.get(this);
-        loadingDialog.show();
-        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
-            @Override
-            public void onAlbumWorkedCallBack() {
-                EasyPhotos.preLoad(SampleActivity.this, new AlbumModel.CallBack() {
-                    @Override
-                    public void onAlbumWorkedCallBack() {
-                        EasyPhotos.preLoad(SampleActivity.this, new AlbumModel.CallBack() {
-                            @Override
-                            public void onAlbumWorkedCallBack() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loadingDialog.dismiss();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
+//        loadingDialog = LoadingDialog.get(this);
+//        loadingDialog.show();
+//        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
+//            @Override
+//            public void onAlbumWorkedCallBack() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadingDialog.dismiss();
+//                    }
+//                });
+//            }
+//        });
     }
 
     private void initView() {
