@@ -119,6 +119,7 @@ public class AlbumModel {
             if (Setting.useWidth) {
                 projectionList.add(MediaStore.MediaColumns.WIDTH);
                 projectionList.add(MediaStore.MediaColumns.HEIGHT);
+                if(!Setting.isOnlyVideo())
                 projectionList.add(MediaStore.MediaColumns.ORIENTATION);
             }
         }

@@ -66,25 +66,36 @@ public class SampleActivity extends AppCompatActivity
     private DrawerLayout drawer;
 
     LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
         initView();
         EasyPhotos.preLoad(this);
-//        loadingDialog = LoadingDialog.get(this);
-//        loadingDialog.show();
-//        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
-//            @Override
-//            public void onAlbumWorkedCallBack() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadingDialog.dismiss();
-//                    }
-//                });
-//            }
-//        });
+        loadingDialog = LoadingDialog.get(this);
+        loadingDialog.show();
+        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
+            @Override
+            public void onAlbumWorkedCallBack() {
+                EasyPhotos.preLoad(SampleActivity.this, new AlbumModel.CallBack() {
+                    @Override
+                    public void onAlbumWorkedCallBack() {
+                        EasyPhotos.preLoad(SampleActivity.this, new AlbumModel.CallBack() {
+                            @Override
+                            public void onAlbumWorkedCallBack() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadingDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     private void initView() {
@@ -343,20 +354,20 @@ public class SampleActivity extends AppCompatActivity
                             public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
                                 EasyPhotos.startPuzzleWithPhotos(SampleActivity.this, photos,
                                         Environment.getExternalStorageDirectory().getAbsolutePath(), "AlbumBuilder", false, GlideEngine.getInstance(), new PuzzleCallback() {
-                                    @Override
-                                    public void onResult(Photo photo) {
-                                        selectedPhotoList.clear();
-                                        selectedPhotoList.add(photo);
-                                        adapter.notifyDataSetChanged();
-                                        rvImage.smoothScrollToPosition(0);
-                                    }
+                                            @Override
+                                            public void onResult(Photo photo) {
+                                                selectedPhotoList.clear();
+                                                selectedPhotoList.add(photo);
+                                                adapter.notifyDataSetChanged();
+                                                rvImage.smoothScrollToPosition(0);
+                                            }
 
-                                    @Override
-                                    public void onCancel() {
-                                        Toast.makeText(SampleActivity.this, "Cancel",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                            @Override
+                                            public void onCancel() {
+                                                Toast.makeText(SampleActivity.this, "Cancel",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
 
                             @Override
