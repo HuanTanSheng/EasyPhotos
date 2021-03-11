@@ -1,5 +1,6 @@
 package com.huantansheng.easyphotos.demo;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,9 +31,13 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.constant.Type;
+import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.setting.Setting;
+import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.ui.dialog.LoadingDialog;
+import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
+import com.huantansheng.easyphotos.utils.settings.SettingsUtils;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -64,27 +69,44 @@ public class SampleActivity extends AppCompatActivity
     private ImageView bitmapView = null;
     private DrawerLayout drawer;
 
-    LoadingDialog loadingDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
         initView();
+        if (PermissionUtil.checkAndRequestPermissionsInActivity(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            preLoadAlbums();
+        }
+    }
+
+    /**
+     * 预加载相册扫描，可以增加点速度，写不写都行
+     * 该方法如果没有授权读取权限的话，是无效的，所以外部加不加权限控制都可以，加的话保证执行，不加也不影响程序正常使用。
+     */
+    private void preLoadAlbums() {
         EasyPhotos.preLoad(this);
-//        loadingDialog = LoadingDialog.get(this);
-//        loadingDialog.show();
-//        EasyPhotos.preLoad(this, new AlbumModel.CallBack() {
-//            @Override
-//            public void onAlbumWorkedCallBack() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadingDialog.dismiss();
-//                    }
-//                });
-//            }
-//        });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        PermissionUtil.onPermissionResult(this, permissions, grantResults,
+                new PermissionUtil.PermissionCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        preLoadAlbums();
+                    }
+
+                    @Override
+                    public void onShouldShow() {
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                });
     }
 
     private void initView() {

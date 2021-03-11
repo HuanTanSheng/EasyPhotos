@@ -1,5 +1,6 @@
 package com.huantansheng.easyphotos.models.album;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +10,8 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.core.content.PermissionChecker;
+
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Album;
@@ -17,6 +20,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
+import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,6 +62,10 @@ public class AlbumModel {
     public boolean canRun = true;
 
     public void query(final Context context, final CallBack callBack) {
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+            if (null != callBack) callBack.onAlbumWorkedCallBack();
+            return;
+        }
         canRun = true;
         new Thread(new Runnable() {
             @Override
@@ -86,9 +94,10 @@ public class AlbumModel {
         String[] selectionAllArgs = null;
 
         if (Setting.isOnlyVideo()) {
-            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            contentUri = MediaStore.Video.Media.getContentUri("external");
+
         } else if (!Setting.showVideo) {
-            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            contentUri = MediaStore.Images.Media.getContentUri("external");
 
         } else {
             contentUri = MediaStore.Files.getContentUri("external");
@@ -221,8 +230,8 @@ public class AlbumModel {
                 }
 
                 Uri uri = Uri.withAppendedPath(isVideo ?
-                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI :
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                        MediaStore.Video.Media.getContentUri("external"):
+                        MediaStore.Images.Media.getContentUri("external"), id);
 
                 File file = new File(path);
                 if (!file.isFile()) {
