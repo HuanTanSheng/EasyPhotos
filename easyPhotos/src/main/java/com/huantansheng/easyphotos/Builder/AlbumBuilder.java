@@ -327,7 +327,7 @@ public class AlbumBuilder {
             if (uri == null) {
                 uri = Uri.fromFile(file);
             }
-            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0, 0, null);
+            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0,0, 0, null);
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);

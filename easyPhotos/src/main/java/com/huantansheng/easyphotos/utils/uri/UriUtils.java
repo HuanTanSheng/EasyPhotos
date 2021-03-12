@@ -67,11 +67,11 @@ public class UriUtils {
 
                 Uri contentUri = null;
                 if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    contentUri = MediaStore.Images.Media.getContentUri("external");
                 } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    contentUri = MediaStore.Video.Media.getContentUri("external");
                 } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    contentUri = MediaStore.Audio.Media.getContentUri("external");
                 }
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[]{split[1]};

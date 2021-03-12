@@ -331,27 +331,39 @@ public class SampleActivity extends AppCompatActivity
 
             case R.id.addWatermark: //给图片添加水印
 
-                if (selectedPhotoList.isEmpty()) {
-                    Toast.makeText(this, "没选图片", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
+                EasyPhotos.createAlbum(this,false,true,GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
+                        .setPuzzleMenu(false)
+                        .start(new SelectCallback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
+                                selectedPhotoList.clear();
+                                adapter.notifyDataSetChanged();
 
-                //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy
-                // 出来的bitmap那就不要回收了，否则Glide会报错。
-                Bitmap watermark = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
-                try {
-                    bitmap =
-                            BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedPhotoList.get(0).uri)).copy(Bitmap.Config.ARGB_8888, true);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                //给图片添加水印的api
-                EasyPhotos.addWatermark(watermark, bitmap, 1080, 20, 20, true);
+                                //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy
+                                // 出来的bitmap那就不要回收了，否则Glide会报错。
+                                Bitmap watermark = BitmapFactory.decodeResource(getResources(),
+                                        R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
+                                try {
+                                    bitmap =
+                                            BitmapFactory.decodeStream(getContentResolver().openInputStream(photos.get(0).uri)).copy(Bitmap.Config.ARGB_8888, true);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                //给图片添加水印的api
+                                bitmap = EasyPhotos.addWatermark(watermark, bitmap, 1080, 20, 20, true,photos.get(0).orientation);
 
-                bitmapView.setVisibility(View.VISIBLE);
-                bitmapView.setImageBitmap(bitmap);
-                Toast.makeText(SampleActivity.this, "水印在左下角", Toast.LENGTH_SHORT).show();
+                                bitmapView.setVisibility(View.VISIBLE);
+                                bitmapView.setImageBitmap(bitmap);
+                                Toast.makeText(SampleActivity.this, "水印在左下角", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
 
                 break;
 

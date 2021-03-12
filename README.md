@@ -157,9 +157,11 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
        特别声明：如果使用到宽高限制，则useWidth会强制为true。
 - 重要：新增API：preLoad(Context cxt)，预加载，第一次扫描可能会慢，建议在app主页面或调用EasyPhotos的上一页做一次预加载,若未授权读取权限该功能失效但不影响程序使用。
 - 重要：start的链式回调模式，增加onCancel状态回调
+- 重要：EasyPhotos.addWatermark方法，新增返回Bitmap（既加水印后的Bitmap),新增orientation参数，int类型，Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap不是用户手机内图片，填0即可。
 - 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改
 - 优化：优化图片读取速度
 - 优化：防止选择图片时多次点击完成按钮
+- 修复：三星机型添加水印后的图片旋转问题
 - 修复：部分机型取回uri为null的情况
 - 修复：只选择视频时，若视频为空时的提示语
 - 修复：android8的Only fullscreen opaque activities can request orientation 问题

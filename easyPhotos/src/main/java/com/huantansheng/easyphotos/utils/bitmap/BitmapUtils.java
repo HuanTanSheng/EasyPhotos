@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -72,13 +73,29 @@ public class BitmapUtils {
      * @param offsetY                添加水印的Y轴偏移量
      * @param srcWaterMarkImageWidth 水印对应的原图片宽度,即ui制作水印时候参考的图片画布宽度,应该是已知的图片最大宽度
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
+     * @param orientation            Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap
+     *                               不是用户手机内图片，填0即可。
+     * @return                       添加水印后的bitmap
      */
-    public static void addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth,
-                                    int offsetX, int offsetY, boolean addInLeft) {
+    public static Bitmap addWatermark(Bitmap watermark, Bitmap image, int srcWaterMarkImageWidth,
+                                    int offsetX, int offsetY, boolean addInLeft, int orientation) {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
             throw new RuntimeException("AlbumBuilder: 加水印的原图宽或高不能为0！");
+        }
+        switch (orientation) {
+            case 90:
+            case 270:
+                image = adjustBitmapRotation(image, orientation);
+                int temp = imageHeight;
+                imageHeight = imageWidth;
+                imageWidth = temp;
+                break;
+            case 180:
+                image = adjustBitmapRotation(image, orientation);
+                break;
+
         }
         int watermarkWidth = watermark.getWidth();
         int watermarkHeight = watermark.getHeight();
@@ -100,6 +117,7 @@ public class BitmapUtils {
                     imageHeight - scaleWatermarkHeight - offsetY, paint);
         }
         recycle(scaleWatermark);
+        return image;
     }
 
     /**
@@ -112,14 +130,31 @@ public class BitmapUtils {
      * @param offsetX                添加水印的X轴偏移量
      * @param offsetY                添加水印的Y轴偏移量
      * @param addInLeft              true 在左下角添加水印，false 在右下角添加水印
+     * @param orientation            Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap
+     *                               不是用户手机内图片，填0即可。
+     * @return                       添加水印后的bitmap
      */
-    public static void addWatermarkWithText(@NonNull Bitmap watermark, Bitmap image,
+    public static Bitmap addWatermarkWithText(@NonNull Bitmap watermark, Bitmap image,
                                             int srcWaterMarkImageWidth, @NonNull String text,
-                                            int offsetX, int offsetY, boolean addInLeft) {
+                                            int offsetX, int offsetY, boolean addInLeft,
+                                            int orientation) {
         float imageWidth = image.getWidth();
         float imageHeight = image.getHeight();
         if (0 == imageWidth || 0 == imageHeight) {
             throw new RuntimeException("AlbumBuilder: 加水印的原图宽或高不能为0！");
+        }
+        switch (orientation) {
+            case 90:
+            case 270:
+                image = adjustBitmapRotation(image, orientation);
+                float temp = imageHeight;
+                imageHeight = imageWidth;
+                imageWidth = temp;
+                break;
+            case 180:
+                image = adjustBitmapRotation(image, orientation);
+                break;
+
         }
         float watermarkWidth = watermark.getWidth();
         float watermarkHeight = watermark.getHeight();
@@ -131,6 +166,7 @@ public class BitmapUtils {
         Bitmap scaleWatermark = Bitmap.createScaledBitmap(watermark, (int) scaleWatermarkWidth,
                 (int) scaleWatermarkHeight, true);
         Canvas canvas = new Canvas(image);
+
         Paint textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.WHITE);
@@ -159,6 +195,7 @@ public class BitmapUtils {
                     sacleWatermarkPaint);
         }
         recycle(scaleWatermark);
+        return image;
     }
 
 
@@ -252,7 +289,7 @@ public class BitmapUtils {
         String status = Environment.getExternalStorageState();
         // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
         if (status.equals(Environment.MEDIA_MOUNTED)) {
-            external = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            external = MediaStore.Images.Media.getContentUri("external");
         } else {
             external = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
         }
@@ -316,24 +353,24 @@ public class BitmapUtils {
     /**
      * 计算获取的照片的宽高是否需要交换，如果图片是旋转了90度或270度的，那么就需要交换
      *
-     * @param photo   需要计算的图片
+     * @param photo 需要计算的图片
      * @return 宽高是否需要交换
      */
     public static Boolean needChangeWidthAndHeight(Photo photo) throws IOException {
 
-            ExifInterface exifInterface = new ExifInterface(photo.path);
-            int exifOrientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
+        ExifInterface exifInterface = new ExifInterface(photo.path);
+        int exifOrientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL);
 
-            // 如果拿到的照片是旋转了90度或270度的，意味着通过MediaStore获取的宽高需要交换
-            return exifOrientation == ExifInterface.ORIENTATION_ROTATE_90 || exifOrientation == ExifInterface.ORIENTATION_ROTATE_270;
+        // 如果拿到的照片是旋转了90度或270度的，意味着通过MediaStore获取的宽高需要交换
+        return exifOrientation == ExifInterface.ORIENTATION_ROTATE_90 || exifOrientation == ExifInterface.ORIENTATION_ROTATE_270;
 
     }
 
     /**
      * 通过BitmapFactory.Options重设图片的宽高，在通过MediaStore获取的图片宽高为0时使用
      *
-     * @param photo   需要计算的图片
+     * @param photo 需要计算的图片
      */
     public static void calculateLocalImageSizeThroughBitmapOptions(Photo photo) throws IOException {
 
@@ -345,4 +382,34 @@ public class BitmapUtils {
         photo.height = options.outHeight;
     }
 
+    public static Bitmap adjustBitmapRotation(Bitmap bm, final int orientationDegree) {
+
+        Matrix m = new Matrix();
+        m.setRotate(orientationDegree, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        float targetX, targetY;
+        if (orientationDegree == 90) {
+            targetX = bm.getHeight();
+            targetY = 0;
+        } else {
+            targetX = bm.getHeight();
+            targetY = bm.getWidth();
+        }
+
+        final float[] values = new float[9];
+        m.getValues(values);
+
+        float x1 = values[Matrix.MTRANS_X];
+        float y1 = values[Matrix.MTRANS_Y];
+
+        m.postTranslate(targetX - x1, targetY - y1);
+
+        Bitmap bm1 = Bitmap.createBitmap(bm.getHeight(), bm.getWidth(), Bitmap.Config.ARGB_8888);
+
+        Paint paint = new Paint();
+        Canvas canvas = new Canvas(bm1);
+        canvas.drawBitmap(bm, m, paint);
+
+
+        return bm1;
+    }
 }

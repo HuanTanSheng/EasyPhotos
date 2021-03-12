@@ -2,10 +2,12 @@ package com.huantansheng.easyphotos.models.album;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,6 +39,7 @@ public class AlbumModel {
     private static final String TAG = "AlbumModel";
     public static AlbumModel instance;
     public Album album;
+    private String[] projections;
 
     private AlbumModel() {
         album = new Album();
@@ -87,6 +90,7 @@ public class AlbumModel {
         }
         boolean canReadWidth =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
+        boolean isQ = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
 
         Uri contentUri;
@@ -114,7 +118,11 @@ public class AlbumModel {
 
         List<String> projectionList = new ArrayList<String>();
         projectionList.add(MediaStore.Files.FileColumns._ID);
-        projectionList.add(MediaStore.MediaColumns.DATA);
+//        if (isQ) {
+//            projectionList.add(MediaStore.MediaColumns.RELATIVE_PATH);
+//        }else {
+            projectionList.add(MediaStore.MediaColumns.DATA);
+//        }
         projectionList.add(MediaStore.MediaColumns.DISPLAY_NAME);
         projectionList.add(MediaStore.MediaColumns.DATE_MODIFIED);
         projectionList.add(MediaStore.MediaColumns.MIME_TYPE);
@@ -137,7 +145,7 @@ public class AlbumModel {
             projectionList.add(MediaStore.MediaColumns.DURATION);
         }
 
-        String[] projections = projectionList.toArray(new String[0]);
+        projections = projectionList.toArray(new String[0]);
 
         Cursor cursor = contentResolver.query(contentUri, projections, selection,
                 selectionAllArgs, sortOrder);
@@ -147,12 +155,6 @@ public class AlbumModel {
             String albumItem_all_name = getAllAlbumName(context);
             String albumItem_video_name =
                     context.getString(R.string.selector_folder_video_easy_photos);
-            int idCol = cursor.getColumnIndex(MediaStore.MediaColumns._ID);
-            int pathCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
-            int nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
-            int DateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
-            int mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE);
-            int sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE);
 
             int durationCol = cursor.getColumnIndex(MediaStore.MediaColumns.DURATION);
             int WidthCol = 0;
@@ -166,12 +168,12 @@ public class AlbumModel {
             boolean hasTime = durationCol > 0;
 
             do {
-                String id = cursor.getString(idCol);
-                String path = cursor.getString(pathCol);
-                String name = cursor.getString(nameCol);
-                long dateTime = cursor.getLong(DateCol);
-                String type = cursor.getString(mimeType);
-                long size = cursor.getLong(sizeCol);
+                long id = cursor.getLong(0);
+                String path = cursor.getString(1);
+                String name = cursor.getString(2);
+                long dateTime = cursor.getLong(3);
+                String type = cursor.getString(4);
+                long size = cursor.getLong(5);
                 long duration = 0;
 
 
@@ -229,7 +231,7 @@ public class AlbumModel {
                     }
                 }
 
-                Uri uri = Uri.withAppendedPath(isVideo ?
+                Uri uri = ContentUris.withAppendedId(isVideo ?
                         MediaStore.Video.Media.getContentUri("external"):
                         MediaStore.Images.Media.getContentUri("external"), id);
 
@@ -238,7 +240,7 @@ public class AlbumModel {
                     continue;//有一些三方软件删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
                 }
 
-                Photo imageItem = new Photo(name, uri, path, dateTime, width, height, size,
+                Photo imageItem = new Photo(name, uri, path, dateTime, width, height,orientation, size,
                         duration, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     int selectSize = Setting.selectedPhotos.size();
@@ -318,4 +320,11 @@ public class AlbumModel {
         void onAlbumWorkedCallBack();
     }
 
+
+    /**
+     * 获取projections
+     */
+    public String[] getProjections() {
+        return this.projections;
+    }
 }

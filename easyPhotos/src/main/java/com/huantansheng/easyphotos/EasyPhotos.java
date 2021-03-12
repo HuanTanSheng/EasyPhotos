@@ -41,20 +41,22 @@ public class EasyPhotos {
     /**
      * 预加载
      * 第一次扫描可能会慢，建议在启动app时做一次预加载
+     *
      * @param cxt 上下文
      */
     public static void preLoad(Context cxt) {
-        AlbumModel.getInstance().query(cxt,null);
+        AlbumModel.getInstance().query(cxt, null);
     }
 
     /**
      * 预加载
      * 第一次扫描可能会慢，建议在启动app时做一次预加载
-     * @param cxt 上下文
+     *
+     * @param cxt      上下文
      * @param callBack 预加载完成的回调，若进行UI操作，需自行切回主线程。
      */
-    public static void preLoad(Context cxt,AlbumModel.CallBack callBack) {
-        AlbumModel.getInstance().query(cxt,callBack);
+    public static void preLoad(Context cxt, AlbumModel.CallBack callBack) {
+        AlbumModel.getInstance().query(cxt, callBack);
     }
 
 
@@ -93,7 +95,7 @@ public class EasyPhotos {
      */
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera,
                                            boolean useWidth, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(activity, isShowCamera,imageEngine).setUseWidth(useWidth);
+        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine).setUseWidth(useWidth);
     }
 
     public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera,
@@ -179,10 +181,15 @@ public class EasyPhotos {
      * @param offsetX       添加水印的X轴偏移量
      * @param offsetY       添加水印的Y轴偏移量
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
+     * @param orientation   Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap
+     *                      不是用户手机内图片，填0即可。
+     * @return 添加水印后的bitmap
      */
-    public static void addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth,
-                                    int offsetX, int offsetY, boolean addInLeft) {
-        BitmapUtils.addWatermark(watermark, image, srcImageWidth, offsetX, offsetY, addInLeft);
+    public static Bitmap addWatermark(Bitmap watermark, Bitmap image, int srcImageWidth,
+                                      int offsetX, int offsetY, boolean addInLeft,
+                                      int orientation) {
+        return BitmapUtils.addWatermark(watermark, image, srcImageWidth, offsetX, offsetY,
+                addInLeft, orientation);
     }
 
     /**
@@ -195,13 +202,16 @@ public class EasyPhotos {
      * @param offsetX       添加水印的X轴偏移量
      * @param offsetY       添加水印的Y轴偏移量
      * @param addInLeft     true 在左下角添加水印，false 在右下角添加水印
-     * @return 是否成功
+     * @param orientation   Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap
+     *                      不是用户手机内图片，填0即可。
+     * @return 添加水印后的bitmap
      */
-    public static void addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth,
-                                            @NonNull String text, int offsetX, int offsetY,
-                                            boolean addInLeft) {
-        BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX, offsetY,
-                addInLeft);
+    public static Bitmap addWatermarkWithText(Bitmap watermark, Bitmap image, int srcImageWidth,
+                                              @NonNull String text, int offsetX, int offsetY,
+                                              boolean addInLeft, int orientation) {
+        return BitmapUtils.addWatermarkWithText(watermark, image, srcImageWidth, text, offsetX,
+                offsetY,
+                addInLeft, orientation);
     }
 
     /**
