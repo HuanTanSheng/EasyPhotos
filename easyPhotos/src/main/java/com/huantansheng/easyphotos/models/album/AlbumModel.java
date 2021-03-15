@@ -90,7 +90,7 @@ public class AlbumModel {
 
     private void initAlbum(Context context) {
         if (Setting.selectedPhotos.size() > Setting.count) {
-            throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
+            throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选图片张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
         boolean canReadWidth =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
