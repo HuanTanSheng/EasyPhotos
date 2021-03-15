@@ -107,6 +107,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     private TextView tvPermission;
     private View mBottomBar;
 
+    private boolean isQ = false;
+
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
         activity.startActivityForResult(intent, requestCode);
@@ -131,6 +133,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         hideActionBar();
         adaptationStatusBar();
         loadingDialog = LoadingDialog.get(this);
+        isQ = Build.VERSION.SDK_INT > Build.VERSION_CODES.P;
         if (!Setting.onlyStartCamera && null == Setting.imageEngine) {
             finish();
             return;
@@ -288,7 +291,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (cameraIntent.resolveActivity(getPackageManager()) != null ||
                 this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            if (isQ) {
                 photoUri = createImageUri();
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -393,7 +396,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         switch (resultCode) {
             case RESULT_OK:
                 if (Code.REQUEST_CAMERA == requestCode) {
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                    if (isQ) {
                         onCameraResultForQ();
                         return;
                     }
@@ -445,15 +448,20 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 break;
         }
     }
-
+    String folderPath;
+    String albumName;
     private void addNewPhoto(Photo photo) {
-        MediaScannerConnectionUtils.refresh(this, photo.path);
         photo.selectedOriginal = Setting.selectedOriginal;
+
+        if (!isQ) {
+            MediaScannerConnectionUtils.refresh(this, photo.path);
+            folderPath = new File(photo.path).getParentFile().getAbsolutePath();
+            albumName = StringUtils.getLastPathSegment(folderPath);
+        }
 
         String albumItem_all_name = albumModel.getAllAlbumName(this);
         albumModel.album.getAlbumItem(albumItem_all_name).addImageItem(0, photo);
-        String folderPath = new File(photo.path).getParentFile().getAbsolutePath();
-        String albumName = StringUtils.getLastPathSegment(folderPath);
+
         albumModel.album.addAlbumItem(albumName, folderPath, photo.path, photo.uri);
         albumModel.album.getAlbumItem(albumName).addImageItem(0, photo);
 
@@ -501,6 +509,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (cursor == null) {
             return null;
         }
+        int albumNameCol = cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME);
+
         if (cursor.moveToFirst()) {
             path = cursor.getString(1);
             name = cursor.getString(2);
@@ -518,7 +528,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                     height = temp;
                 }
             }
-            p = new Photo(name, uri, path, dateTime, width, height,orientation, size, 0, type);
+            if (albumNameCol > 0) {
+                albumName = cursor.getString(albumNameCol);
+                folderPath = albumName;
+            }
+            p = new Photo(name, uri, path, dateTime, width, height, orientation, size, 0, type);
         }
         cursor.close();
 
@@ -536,8 +550,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                     return;
                 }
 
-                MediaScannerConnectionUtils.refresh(EasyPhotosActivity.this,
-                        new File(photo.path));// 更新媒体库
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -583,7 +595,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             Uri uri = UriUtils.getUri(this, mTempImageFile);
             Photo photo = new Photo(mTempImageFile.getName(), uri,
                     mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000,
-                    options.outWidth, options.outHeight,0, mTempImageFile.length(),
+                    options.outWidth, options.outHeight, 0, mTempImageFile.length(),
                     DurationUtils.getDuration(mTempImageFile.getAbsolutePath()),
                     options.outMimeType);
             photo.selectedOriginal = Setting.selectedOriginal;
@@ -602,7 +614,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         Uri uri = UriUtils.getUri(this, mTempImageFile);
 
         Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
-                mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight,0,
+                mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, 0,
                 mTempImageFile.length(),
                 DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
         addNewPhoto(photo);

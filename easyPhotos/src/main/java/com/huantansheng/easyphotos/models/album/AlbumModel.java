@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -25,6 +26,8 @@ import com.huantansheng.easyphotos.utils.String.StringUtils;
 import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +68,8 @@ public class AlbumModel {
     public boolean canRun = true;
 
     public void query(final Context context, final CallBack callBack) {
-        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+        if (PermissionChecker.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
             if (null != callBack) callBack.onAlbumWorkedCallBack();
             return;
         }
@@ -90,7 +94,7 @@ public class AlbumModel {
         }
         boolean canReadWidth =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
-        boolean isQ = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        boolean isQ = android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q;
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
 
         Uri contentUri;
@@ -121,12 +125,13 @@ public class AlbumModel {
 //        if (isQ) {
 //            projectionList.add(MediaStore.MediaColumns.RELATIVE_PATH);
 //        }else {
-            projectionList.add(MediaStore.MediaColumns.DATA);
+        projectionList.add(MediaStore.MediaColumns.DATA);
 //        }
         projectionList.add(MediaStore.MediaColumns.DISPLAY_NAME);
         projectionList.add(MediaStore.MediaColumns.DATE_MODIFIED);
         projectionList.add(MediaStore.MediaColumns.MIME_TYPE);
         projectionList.add(MediaStore.MediaColumns.SIZE);
+        projectionList.add(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME);
 
         if (!Setting.useWidth) {
             if (Setting.minWidth != 1 && Setting.minHeight != 1)
@@ -136,8 +141,8 @@ public class AlbumModel {
             if (Setting.useWidth) {
                 projectionList.add(MediaStore.MediaColumns.WIDTH);
                 projectionList.add(MediaStore.MediaColumns.HEIGHT);
-                if(!Setting.isOnlyVideo())
-                projectionList.add(MediaStore.MediaColumns.ORIENTATION);
+                if (!Setting.isOnlyVideo())
+                    projectionList.add(MediaStore.MediaColumns.ORIENTATION);
             }
         }
 
@@ -156,6 +161,7 @@ public class AlbumModel {
             String albumItem_video_name =
                     context.getString(R.string.selector_folder_video_easy_photos);
 
+            int albumNameCol = cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME);
             int durationCol = cursor.getColumnIndex(MediaStore.MediaColumns.DURATION);
             int WidthCol = 0;
             int HeightCol = 0;
@@ -232,15 +238,16 @@ public class AlbumModel {
                 }
 
                 Uri uri = ContentUris.withAppendedId(isVideo ?
-                        MediaStore.Video.Media.getContentUri("external"):
+                        MediaStore.Video.Media.getContentUri("external") :
                         MediaStore.Images.Media.getContentUri("external"), id);
 
-                File file = new File(path);
-                if (!file.isFile()) {
-                    continue;//有一些三方软件删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
+//某些机型，特定情况下三方应用或用户操作删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
+                if (!fileIsExists(isQ, uri, path, contentResolver)) {
+                    continue;
                 }
 
-                Photo imageItem = new Photo(name, uri, path, dateTime, width, height,orientation, size,
+                Photo imageItem = new Photo(name, uri, path, dateTime, width, height, orientation
+                        , size,
                         duration, type);
                 if (!Setting.selectedPhotos.isEmpty()) {
                     int selectSize = Setting.selectedPhotos.size();
@@ -267,12 +274,20 @@ public class AlbumModel {
                 }
 
                 // 添加当前图片的专辑到专辑模型实体中
-                File parentFile = new File(path).getParentFile();
-                if (null == parentFile) {
-                    continue;
+                String albumName;
+                String folderPath;
+                if (albumNameCol > 0) {
+                    albumName = cursor.getString(albumNameCol);
+                    folderPath = albumName;
+                }else {
+                    File parentFile = new File(path).getParentFile();
+                    if (null == parentFile) {
+                        continue;
+                    }
+                    folderPath = parentFile.getAbsolutePath();
+                    albumName = StringUtils.getLastPathSegment(folderPath);
                 }
-                String folderPath = parentFile.getAbsolutePath();
-                String albumName = StringUtils.getLastPathSegment(folderPath);
+
                 album.addAlbumItem(albumName, folderPath, path, uri);
                 album.getAlbumItem(albumName).addImageItem(imageItem);
             } while (cursor.moveToNext() && canRun);
@@ -327,4 +342,28 @@ public class AlbumModel {
     public String[] getProjections() {
         return this.projections;
     }
+
+    private boolean fileIsExists(boolean isQ, Uri uri, String path,
+                                 ContentResolver contentResolver) {
+        if (isQ) {
+            AssetFileDescriptor afd;
+            try {
+                afd = contentResolver.openAssetFileDescriptor(uri, "r");
+                if (afd == null) {
+                    return false;
+                } else {
+                    afd.close();
+                    return true;
+                }
+            } catch (FileNotFoundException e) {
+                return false;
+            } catch (IOException e) {
+                return true;
+            }
+        }
+
+        File file = new File(path);
+        return file.isFile();
+    }
+
 }

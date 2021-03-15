@@ -32,6 +32,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
     
     
 ## 产品特色    
+- 兼容android 11
 - 兼容android 10
 - 支持绑定Glide、Picasso、Imageloader等所有图片加载库（fresco暂不支持），EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
 - 状态栏字体颜色智能适配，当状态栏颜色趋近于白色时，字体颜色智能处理为深色     
@@ -51,9 +52,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
 ## 关于EasyPhotos的SDK及相关版本公示（androidx版本） 
-compileSdkVersion 29  
+compileSdkVersion 30  
 minSdkVersion 15  
-targetSdkVersion 29      
+targetSdkVersion 30  
 
 ## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
@@ -150,6 +151,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 更新日志
 
 **3.1.0：**（正在编写中，预计三月下旬左右正式打版）
+- 适配：android 11
 - 重要：createAlbum方法新增useWidth参数
        意义：是否需要使用图片的宽高数据。
        true：会保证宽高数据的正确性，耗时，扫描图片慢。
