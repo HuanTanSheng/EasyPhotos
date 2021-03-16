@@ -241,7 +241,7 @@ public class AlbumModel {
                         MediaStore.Video.Media.getContentUri("external") :
                         MediaStore.Images.Media.getContentUri("external"), id);
 
-//某些机型，特定情况下三方应用或用户操作删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
+//某些机型，特定情况下三方应用或用户操作删除媒体文件时，没有通知媒体库，导致媒体库表中还有其数据，但真实文件已经不存在
                 File file = new File(path);
                 if (!file.isFile()) {
                     continue;
