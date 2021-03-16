@@ -242,7 +242,8 @@ public class AlbumModel {
                         MediaStore.Images.Media.getContentUri("external"), id);
 
 //某些机型，特定情况下三方应用或用户操作删除媒体文件时，没有通知媒体，导致媒体库表中还有其数据，但真实文件已经不存在
-                if (!fileIsExists(isQ, uri, path, contentResolver)) {
+                File file = new File(path);
+                if (!file.isFile()) {
                     continue;
                 }
 
@@ -279,7 +280,7 @@ public class AlbumModel {
                 if (albumNameCol > 0) {
                     albumName = cursor.getString(albumNameCol);
                     folderPath = albumName;
-                }else {
+                } else {
                     File parentFile = new File(path).getParentFile();
                     if (null == parentFile) {
                         continue;
@@ -341,29 +342,6 @@ public class AlbumModel {
      */
     public String[] getProjections() {
         return this.projections;
-    }
-
-    private boolean fileIsExists(boolean isQ, Uri uri, String path,
-                                 ContentResolver contentResolver) {
-        if (isQ) {
-            AssetFileDescriptor afd;
-            try {
-                afd = contentResolver.openAssetFileDescriptor(uri, "r");
-                if (afd == null) {
-                    return false;
-                } else {
-                    afd.close();
-                    return true;
-                }
-            } catch (FileNotFoundException e) {
-                return false;
-            } catch (IOException e) {
-                return true;
-            }
-        }
-
-        File file = new File(path);
-        return file.isFile();
     }
 
 }
