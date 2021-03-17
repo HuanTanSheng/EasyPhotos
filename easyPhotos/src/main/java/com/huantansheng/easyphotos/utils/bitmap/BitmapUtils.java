@@ -234,6 +234,7 @@ public class BitmapUtils {
                         return;
                     }
                 }
+
                 try {
                     final File writeFile = File.createTempFile(namePrefix, ".png", dirF);
 
