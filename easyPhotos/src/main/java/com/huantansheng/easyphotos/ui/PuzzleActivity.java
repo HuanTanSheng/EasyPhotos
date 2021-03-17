@@ -221,7 +221,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         degreeSeekBar.setScrollingListener(new DegreeSeekBar.ScrollingListener() {
             @Override
             public void onScrollStart() {
-
             }
 
             @Override
