@@ -335,18 +335,22 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     private Bitmap getScaleBitmap(String path, Uri uri) {
         Bitmap bitmap = null;
+
         try {
             bitmap = Setting.imageEngine.getCacheBitmap(this, uri, deviceWidth / 2,
                     deviceHeight / 2);
-            if (bitmap == null) {
-                bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),
-                        deviceWidth / 2, deviceHeight / 2, true);
-            }
         } catch (Exception e) {
-            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path), deviceWidth / 2,
-                    deviceHeight / 2, true);
+            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),
+                    deviceWidth / 2, deviceHeight / 2, true);
+            return bitmap;
+        }
+
+        if (bitmap == null) {
+            bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),
+                    deviceWidth / 2, deviceHeight / 2, true);
         }
         return bitmap;
+
     }
 
     @Override
@@ -366,7 +370,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
-                EasyPhotos.createAlbum(this, true, false,Setting.imageEngine).setCount(1).start(91);
+                EasyPhotos.createAlbum(this, true, false, Setting.imageEngine).setCount(1).start(91);
             } else {
                 Intent intent = new Intent(this, toClass.get());
                 startActivityForResult(intent, 91);
@@ -461,7 +465,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
                         Photo photo = new Photo(file.getName(), UriUtils.getUri(PuzzleActivity.this,
                                 file), file.getAbsolutePath(), file.lastModified() / 1000,
-                                puzzleView.getWidth(), puzzleView.getHeight(), 0,file.length(),
+                                puzzleView.getWidth(), puzzleView.getHeight(), 0, file.length(),
                                 DurationUtils.getDuration(file.getAbsolutePath()), "image/png");
                         intent.putExtra(EasyPhotos.RESULT_PHOTOS, photo);
                         setResult(RESULT_OK, intent);
@@ -509,7 +513,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         llMenu.setVisibility(View.GONE);
         degreeSeekBar.setVisibility(View.GONE);
         degreeIndex = -1;
-        int size =  degrees.size();
+        int size = degrees.size();
         for (int i = 0; i < size; i++) {
             degrees.remove(i);
             degrees.add(i, 0);
