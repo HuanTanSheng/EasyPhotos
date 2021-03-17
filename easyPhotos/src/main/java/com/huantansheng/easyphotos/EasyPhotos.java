@@ -64,22 +64,27 @@ public class EasyPhotos {
      * 创建相机
      *
      * @param activity 上下文
+     * @param useWidth 是否使用宽高数据
      * @return AlbumBuilder
      */
-    public static AlbumBuilder createCamera(Activity activity) {
-        return AlbumBuilder.createCamera(activity);
+    public static AlbumBuilder createCamera(Activity activity,
+                                            boolean useWidth) {
+        return AlbumBuilder.createCamera(activity).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createCamera(Fragment fragment) {
-        return AlbumBuilder.createCamera(fragment);
+    public static AlbumBuilder createCamera(Fragment fragment,
+                                            boolean useWidth) {
+        return AlbumBuilder.createCamera(fragment).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createCamera(FragmentActivity activity) {
-        return AlbumBuilder.createCamera(activity);
+    public static AlbumBuilder createCamera(FragmentActivity activity,
+                                            boolean useWidth) {
+        return AlbumBuilder.createCamera(activity).setUseWidth(useWidth);
     }
 
-    public static AlbumBuilder createCamera(androidx.fragment.app.Fragment fragmentV) {
-        return AlbumBuilder.createCamera(fragmentV);
+    public static AlbumBuilder createCamera(androidx.fragment.app.Fragment fragmentV,
+                                            boolean useWidth) {
+        return AlbumBuilder.createCamera(fragmentV).setUseWidth(useWidth);
     }
 
     /**
