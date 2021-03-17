@@ -340,7 +340,7 @@ public class SampleActivity extends AppCompatActivity
                                 selectedPhotoList.clear();
                                 adapter.notifyDataSetChanged();
 
-                                //这一步如果图大的话会耗时，但耗时不长，你可以在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy
+                                //这一步如果图大的话会耗时，但耗时不长，建议在异步操作。另外copy出来的bitmap在确定不用的时候记得回收，如果你用Glide操作过copy
                                 // 出来的bitmap那就不要回收了，否则Glide会报错。
                                 Bitmap watermark = BitmapFactory.decodeResource(getResources(),
                                         R.drawable.watermark).copy(Bitmap.Config.RGB_565, true);
