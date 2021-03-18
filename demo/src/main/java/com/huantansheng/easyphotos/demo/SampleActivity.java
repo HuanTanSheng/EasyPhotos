@@ -238,10 +238,10 @@ public class SampleActivity extends AppCompatActivity
                             }
                         });
                 break;
-            case R.id.album_complex_selector1:
+            case R.id.album_complex_selector1:// 复杂选择器，最多选择2个视频3张图片
                 EasyPhotos.createAlbum(this,false,false,GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
-                        .complexSelector(false,2,3)
+                        .complexSelector(false,2,3)//参数说明：是否只能选择单类型，视频数，图片数。
                         .start(new SelectCallback() {
                             @Override
                             public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
@@ -258,10 +258,10 @@ public class SampleActivity extends AppCompatActivity
                             }
                         });
                 break;
-            case R.id.album_complex_selector2:
+            case R.id.album_complex_selector2:// 复杂选择器，根据用户选择的第一个文件类型，确定用户只能选择的文件类型，视频只能选择2个，图片只能选择3个
                 EasyPhotos.createAlbum(this,false,false,GlideEngine.getInstance())
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
-                        .complexSelector(true,2,3)
+                        .complexSelector(true,2,3)//参数说明：是否只能选择单类型，视频数，图片数。
                         .start(new SelectCallback() {
                             @Override
                             public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
