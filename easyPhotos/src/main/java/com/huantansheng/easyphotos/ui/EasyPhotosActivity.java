@@ -38,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -448,8 +449,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 break;
         }
     }
+
     String folderPath;
     String albumName;
+
     private void addNewPhoto(Photo photo) {
         photo.selectedOriginal = Setting.selectedOriginal;
 
@@ -576,48 +579,76 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
     private void onCameraResult() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss",
-                Locale.getDefault());
-        String imageName = "IMG_%s.jpg";
-        String filename = String.format(imageName, dateFormat.format(new Date()));
-        File reNameFile = new File(mTempImageFile.getParentFile(), filename);
-        if (!reNameFile.exists()) {
-            if (mTempImageFile.renameTo(reNameFile)) {
-                mTempImageFile = reNameFile;
+        LoadingDialog loading = LoadingDialog.get(this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss",
+                        Locale.getDefault());
+                String imageName = "IMG_%s.jpg";
+                String filename = String.format(imageName, dateFormat.format(new Date()));
+                File reNameFile = new File(mTempImageFile.getParentFile(), filename);
+                if (!reNameFile.exists()) {
+                    if (mTempImageFile.renameTo(reNameFile)) {
+                        mTempImageFile = reNameFile;
+                    }
+                }
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
+                MediaScannerConnectionUtils.refresh(EasyPhotosActivity.this, mTempImageFile);// 更新媒体库
+
+                Uri uri = UriUtils.getUri(EasyPhotosActivity.this, mTempImageFile);
+                int width = 0;
+                int height = 0;
+                int orientation = 0;
+                if (Setting.useWidth) {
+                    width = options.outWidth;
+                    height = options.outHeight;
+
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(mTempImageFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != exif) {
+                        orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+                        if (orientation == ExifInterface.ORIENTATION_ROTATE_90 || orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                            width = options.outHeight;
+                            height = options.outWidth;
+                        }
+                    }
+                }
+
+                final Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
+                        mTempImageFile.lastModified() / 1000, width, height, orientation,
+                        mTempImageFile.length(),
+                        DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
+                            Intent data = new Intent();
+
+                            photo.selectedOriginal = Setting.selectedOriginal;
+                            resultList.add(photo);
+
+                            data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
+
+                            data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
+
+                            setResult(RESULT_OK, data);
+                            finish();
+                            return;
+                        }
+
+                        addNewPhoto(photo);
+                    }
+                });
             }
-        }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
-        MediaScannerConnectionUtils.refresh(this, mTempImageFile);// 更新媒体库
-        if (Setting.onlyStartCamera || albumModel.getAlbumItems().isEmpty()) {
-            Intent data = new Intent();
-            Uri uri = UriUtils.getUri(this, mTempImageFile);
-            Photo photo = new Photo(mTempImageFile.getName(), uri,
-                    mTempImageFile.getAbsolutePath(), mTempImageFile.lastModified() / 1000,
-                    options.outWidth, options.outHeight, 0, mTempImageFile.length(),
-                    DurationUtils.getDuration(mTempImageFile.getAbsolutePath()),
-                    options.outMimeType);
-            photo.selectedOriginal = Setting.selectedOriginal;
-            resultList.add(photo);
-
-            data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
-
-            data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
-
-
-            setResult(RESULT_OK, data);
-            finish();
-            return;
-        }
-
-        Uri uri = UriUtils.getUri(this, mTempImageFile);
-
-        Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
-                mTempImageFile.lastModified() / 1000, options.outWidth, options.outHeight, 0,
-                mTempImageFile.length(),
-                DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
-        addNewPhoto(photo);
+        }).start();
 
     }
 
@@ -986,7 +1017,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                         , Setting.complexVideoCount), Toast.LENGTH_SHORT).show();
                 break;
             case Result.SINGLE_TYPE:
-                Toast.makeText(this, getString(R.string.selector_single_type_hint_easy_photos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.selector_single_type_hint_easy_photos),
+                        Toast.LENGTH_SHORT).show();
                 break;
 
         }

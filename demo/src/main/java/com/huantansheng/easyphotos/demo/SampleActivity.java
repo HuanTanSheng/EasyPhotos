@@ -171,7 +171,7 @@ public class SampleActivity extends AppCompatActivity
         switch (id) {
             case R.id.camera://单独使用相机
 
-                EasyPhotos.createCamera(this,false)
+                EasyPhotos.createCamera(this,true)
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .start(101);//也可以选择链式调用写法
 
