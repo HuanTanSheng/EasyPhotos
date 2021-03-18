@@ -53,9 +53,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
 ## 关于EasyPhotos的SDK及相关版本公示（androidx版本） 
-compileSdkVersion 30  
+compileSdkVersion 29  
 minSdkVersion 15  
-targetSdkVersion 30  
+targetSdkVersion 29  
 
 ## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
@@ -80,7 +80,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.6' //androidx版本，支持android 10，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.6' //androidx版本，支持android 10、11，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    

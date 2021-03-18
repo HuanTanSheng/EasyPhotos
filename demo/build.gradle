@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.huantansheng.easyphotos.demo"
         minSdkVersion 15
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 2
         versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
