@@ -94,7 +94,7 @@ public class AlbumModel {
         }
         boolean canReadWidth =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
-        boolean isQ = android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q;
+//        boolean isQ = android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q;
         final String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
 
         Uri contentUri;
