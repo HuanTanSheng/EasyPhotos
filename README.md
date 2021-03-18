@@ -53,9 +53,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 - 自带媒体库相关方法（如媒体文件更新到媒体库）    
 
 ## 关于EasyPhotos的SDK及相关版本公示（androidx版本） 
-compileSdkVersion 29  
+compileSdkVersion 30  
 minSdkVersion 15  
-targetSdkVersion 29  
+targetSdkVersion 30  
 
 ## 关于EasyPhotos的SDK及相关版本公示（support版本） 
 compileSdkVersion 28  
