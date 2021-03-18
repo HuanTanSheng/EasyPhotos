@@ -214,7 +214,7 @@ public class SampleActivity extends AppCompatActivity
 
                             @Override
                             public void onCancel() {
-                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
                             }
                         });
                 break;
@@ -234,7 +234,47 @@ public class SampleActivity extends AppCompatActivity
 
                             @Override
                             public void onCancel() {
-                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                break;
+            case R.id.album_complex_selector1:
+                EasyPhotos.createAlbum(this,false,false,GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
+                        .complexSelector(false,2,3)
+                        .start(new SelectCallback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
+                                selectedPhotoList.clear();
+                                selectedPhotoList.addAll(photos);
+                                adapter.notifyDataSetChanged();
+                                rvImage.smoothScrollToPosition(0);
+                            }
+
+                            @Override
+                            public void onCancel() {
+//                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                break;
+            case R.id.album_complex_selector2:
+                EasyPhotos.createAlbum(this,false,false,GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
+                        .complexSelector(true,2,3)
+                        .start(new SelectCallback() {
+                            @Override
+                            public void onResult(ArrayList<Photo> photos, boolean isOriginal) {
+                                selectedPhotoList.clear();
+                                selectedPhotoList.addAll(photos);
+                                adapter.notifyDataSetChanged();
+                                rvImage.smoothScrollToPosition(0);
+                            }
+
+                            @Override
+                            public void onCancel() {
+//                                Toast.makeText(SampleActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+
                             }
                         });
                 break;

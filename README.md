@@ -34,6 +34,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 产品特色    
 - 兼容android 11
 - 兼容android 10
+- 支持复杂选择情况，如当用户可选视频和图片多类型时，可以设定选择视频后不可以选择图片，反之亦然。也可以设定视频和图片各自类型的选择数。
 - 支持绑定Glide、Picasso、Imageloader等所有图片加载库（fresco暂不支持），EasyPhotos并没有对他们进行依赖，不必担心冲突和体积问题。     
 - 状态栏字体颜色智能适配，当状态栏颜色趋近于白色时，字体颜色智能处理为深色     
 - 内部处理运行时权限，使用者无需考虑权限问题    
@@ -127,7 +128,7 @@ dependencies {
 * [08-更新媒体文件到媒体库](https://github.com/HuanTanSheng/EasyPhotos/wiki/08-%E6%9B%B4%E6%96%B0%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E5%88%B0%E5%AA%92%E4%BD%93%E5%BA%93)
 * [09-屏幕方向设置](https://github.com/HuanTanSheng/EasyPhotos/wiki/09-%E5%B1%8F%E5%B9%95%E6%96%B9%E5%90%91%E8%AE%BE%E7%BD%AE)
 * [10-自定义UI样式](https://github.com/HuanTanSheng/EasyPhotos/wiki/10-%E8%87%AA%E5%AE%9A%E4%B9%89UI%E6%A0%B7%E5%BC%8F)
-* [11-多语言](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)      
+* [11-多语言及修改文字信息](https://github.com/HuanTanSheng/EasyPhotos/wiki/11-%E5%A4%9A%E8%AF%AD%E8%A8%80)
 * [12-配置ImageEngine，支持所有图片加载库](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)
 
     
@@ -157,9 +158,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
        true：会保证宽高数据的正确性，耗时，扫描图片慢。
        false:不需要，宽高数据返回为0。
        特别声明：如果使用到宽高限制，则useWidth会强制为true。
-- 重要：新增API：preLoad(Context cxt)，预加载，第一次扫描可能会慢，建议在app主页面或调用EasyPhotos的上一页做一次预加载,若未授权读取权限该功能失效但不影响程序使用。
+- 重要：新增API：preLoad(Context cxt)，预加载，不调用该方法也不影响程序使用。单类型选择建议不调用该方法，某些机型第一次扫描多类型文件可能会慢，可以在app主页面或调用EasyPhotos的上一页做一次预加载,若未授权读取权限该功能失效但不影响程序使用。
 - 重要：start的链式回调模式，增加onCancel状态回调
 - 重要：EasyPhotos.addWatermark方法，新增返回Bitmap（既加水印后的Bitmap),新增orientation参数，int类型，Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap不是用户手机内图片，填0即可。
+- 重要：新增.complexSelector(boolean singleType,int videoCount,int pictureCount)，支持复杂选择情况，singleType为是否只能选择一种文件类型，如用户选择视频后不可以选择图片，若false则可以同时选择。后面两个参数为视频和图片各自类型的最大选择数。
 - 新增：内部新增加载框，可覆盖dialog_loading_easy_photos.xml文件进行自定义样式修改
 - 优化：优化图片读取速度
 - 优化：防止选择图片时多次点击完成按钮

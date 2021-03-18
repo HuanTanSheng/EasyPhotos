@@ -14,11 +14,13 @@
 
     <string name="selector_preview_easy_photos">预览</string>
 
-    <string name="selector_reach_max_hint_easy_photos">最多只能选择%d张图片或视频</string>
+    <string name="selector_reach_max_hint_easy_photos">超出最大选择数</string>
 
     <string name="selector_reach_max_image_hint_easy_photos">最多只能选择%d张图片</string>
 
     <string name="selector_reach_max_video_hint_easy_photos">最多只能选择%d个视频</string>
+
+    <string name="selector_single_type_hint_easy_photos">需要选择同种类型的文件</string>
 
     <string name="msg_no_camera_easy_photos">无法启动相机！</string>
 

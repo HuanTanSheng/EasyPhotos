@@ -202,16 +202,17 @@ public class AlbumBuilder {
      * @return AlbumBuilder
      */
     public AlbumBuilder setCount(int selectorMaxCount) {
+        if (Setting.complexSelector) return AlbumBuilder.this;
         Setting.count = selectorMaxCount;
         return AlbumBuilder.this;
     }
 
     /**
-     * 设置选择数
+     * 设置是否使用宽高数据
      *
-     * @param useWidth     是否使用宽高数据，需要使用写true，不用写false，但两种都会返回宽高数据，只是false时可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
-     *                     true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
-     *                     false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
+     * @param useWidth 是否使用宽高数据，需要使用写true，不用写false。
+     *                 true：会保证宽高数据的正确性，返回速度慢，耗时。
+     *                 false:宽高数据为0。
      * @return AlbumBuilder
      */
     public AlbumBuilder setUseWidth(boolean useWidth) {
@@ -220,24 +221,20 @@ public class AlbumBuilder {
     }
 
     /**
-     * 设置选择图片数(设置此参数后setCount失效)
+     * 支持复杂选择情况
      *
-     * @param selectorMaxCount 最大选择数
-     * @return AlbumBuilder
+     * @param singleType   是否只能选择一种文件类型，如用户选择视频后不可以选择图片，若false则可以同时选择
+     * @param videoCount   可选择视频类型文件的最大数
+     * @param pictureCount 可选择图片类型文件的最大数
+     * @return
      */
-    public AlbumBuilder setPictureCount(int selectorMaxCount) {
-        Setting.pictureCount = selectorMaxCount;
-        return AlbumBuilder.this;
-    }
-
-    /**
-     * 设置选择视频数(设置此参数后setCount失效)
-     *
-     * @param selectorMaxCount 最大选择数
-     * @return AlbumBuilder
-     */
-    public AlbumBuilder setVideoCount(int selectorMaxCount) {
-        Setting.videoCount = selectorMaxCount;
+    public AlbumBuilder complexSelector(boolean singleType, int videoCount, int pictureCount) {
+        Setting.complexSelector = true;
+        Setting.complexSingleType = singleType;
+        Setting.complexVideoCount = videoCount;
+        Setting.complexPictureCount = pictureCount;
+        Setting.count = videoCount + pictureCount;
+        Setting.showVideo = true;
         return AlbumBuilder.this;
     }
 
@@ -327,7 +324,7 @@ public class AlbumBuilder {
             if (uri == null) {
                 uri = Uri.fromFile(file);
             }
-            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0,0, 0, null);
+            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0, 0, 0, null);
             selectedPhotos.add(photo);
         }
         Setting.selectedPhotos.addAll(selectedPhotos);
@@ -467,12 +464,6 @@ public class AlbumBuilder {
             Setting.showGif = false;
             Setting.showVideo = true;
         }
-        if (Setting.pictureCount != -1 || Setting.videoCount != -1) {
-            Setting.count = Setting.pictureCount + Setting.videoCount;
-            if (Setting.pictureCount == -1 || Setting.videoCount == -1) {
-                Setting.count++;
-            }
-        }
     }
 
     /**
@@ -485,9 +476,9 @@ public class AlbumBuilder {
         setSettingParams();
         launchEasyPhotosActivity(requestCode);
     }
+
     /**
      * 启动，链式调用
-     *
      */
     public void start(SelectCallback callback) {
         setSettingParams();
@@ -502,6 +493,7 @@ public class AlbumBuilder {
         throw new RuntimeException("mActivity or mFragmentV maybe null, you can not use this " +
                 "method... ");
     }
+
     /**
      * 正式启动
      *

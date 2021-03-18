@@ -17,6 +17,8 @@
     <string name="album_single">相册(无相机单选）</string>
     <string name="album_multi">相册(无相机多选）</string>
     <string name="album_ad">相册（带广告）</string>
+    <string name="album_complex_selector1">相册 (复杂选择情况,2个视频3张图片)</string>
+    <string name="album_complex_selector2">相册 (复杂选择情况,动态单一类型)</string>
     <string name="camera">相机</string>
     <string name="addWatermark">图片添加水印</string>
     <string name="face_detection">人脸检测</string>
@@ -27,13 +29,24 @@
 
     <string name="selector_folder_all_easy_photos">所有图片</string>
 
+    <string name="selector_folder_all_video_photo_easy_photos">图片和视频</string>
+
+    <string name="selector_folder_video_easy_photos">所有视频</string>
+
     <string name="selector_easy_photos">选择</string>
 
+    <!--http://stackoverflow.com/questions/17502824/whats-wrong-with-this-format-string-->
     <string name="selector_action_done_easy_photos">完成(%1$d/%2$d)</string>
 
     <string name="selector_preview_easy_photos">预览</string>
 
+    <string name="selector_reach_max_hint_easy_photos">超出最大选择数</string>
+
     <string name="selector_reach_max_image_hint_easy_photos">最多只能选择%d张图片</string>
+
+    <string name="selector_reach_max_video_hint_easy_photos">最多只能选择%d个视频</string>
+
+    <string name="selector_single_type_hint_easy_photos">需要选择同种类型的文件</string>
 
     <string name="msg_no_camera_easy_photos">无法启动相机！</string>
 
@@ -50,6 +63,8 @@
     <string name="empty_easy_photos">清空</string>
 
     <string name="no_photos_easy_photos">没有符合要求的图片，拍一张吧</string>
+
+    <string name="no_videos_easy_photos">没有符合要求的视频</string>
 
     <string name="permissions_again_easy_photos">请点击并允许相关权限</string>
 
@@ -75,6 +90,8 @@
 
     <string name="picture_selection_easy_photos">图片选择</string>
 
+    <string name="video_selection_easy_photos">视频选择</string>
+
     <string name="puzzle_easy_photos">拼一张</string>
 
     <string name="select_puzzle_photos">请选择2 \- 9张照片</string>
@@ -82,5 +99,4 @@
     <string name="gif_easy_photos">动图</string>
 
     <string name="video_easy_photos">视频</string>
-    <string name="video_selection_easy_photos">视频选择</string>
 </resources>

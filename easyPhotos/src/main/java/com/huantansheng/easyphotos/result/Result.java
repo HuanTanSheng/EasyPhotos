@@ -17,24 +17,46 @@ import java.util.ArrayList;
 
 public class Result {
     public static ArrayList<Photo> photos = new ArrayList<>();
+    public static final int ADD_SUCCESS = 0;
+    public static final int PICTURE_OUT = -1;
+    public static final int VIDEO_OUT = -2;
+    public static final int SINGLE_TYPE = -3;
 
     /**
      * @return 0：添加成功 -2：超过视频选择数 -1：超过图片选择数
      */
     public static int addPhoto(Photo photo) {
-        if (Setting.videoCount != -1 || Setting.pictureCount != -1) {
+        if (photos.isEmpty()) {
+            photo.selected = true;
+            photos.add(photo);
+            return ADD_SUCCESS;
+        }
+        if (Setting.complexSelector) {
+            if (Setting.complexSingleType) {
+                if (photos.get(0).type.contains(Type.VIDEO)) {
+                    if (!photo.type.contains(Type.VIDEO)) {
+                        return SINGLE_TYPE;
+                    }
+                }
+                if (!photos.get(0).type.contains(Type.VIDEO)) {
+                    if (photo.type.contains(Type.VIDEO)) {
+                        return SINGLE_TYPE;
+                    }
+                }
+
+            }
             int number = getVideoNumber();
-            if (photo.type.contains(Type.VIDEO) && number >= Setting.videoCount) {
-                return -2;
+            if (photo.type.contains(Type.VIDEO) && number >= Setting.complexVideoCount) {
+                return VIDEO_OUT;
             }
             number = photos.size() - number;
-            if ((!photo.type.contains(Type.VIDEO)) && number >= Setting.pictureCount) {
-                return -1;
+            if ((!photo.type.contains(Type.VIDEO)) && number >= Setting.complexPictureCount) {
+                return PICTURE_OUT;
             }
         }
         photo.selected = true;
         photos.add(photo);
-        return 0;
+        return ADD_SUCCESS;
     }
 
     public static void removePhoto(Photo photo) {

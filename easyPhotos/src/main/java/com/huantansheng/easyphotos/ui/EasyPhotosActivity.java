@@ -977,14 +977,18 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             return;
         }
         switch (result) {
-            case -1:
+            case Result.PICTURE_OUT:
                 Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos
-                        , Setting.pictureCount), Toast.LENGTH_SHORT).show();
+                        , Setting.complexPictureCount), Toast.LENGTH_SHORT).show();
                 break;
-            case -2:
+            case Result.VIDEO_OUT:
                 Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
-                        , Setting.videoCount), Toast.LENGTH_SHORT).show();
+                        , Setting.complexVideoCount), Toast.LENGTH_SHORT).show();
                 break;
+            case Result.SINGLE_TYPE:
+                Toast.makeText(this, getString(R.string.selector_single_type_hint_easy_photos), Toast.LENGTH_SHORT).show();
+                break;
+
         }
     }
 

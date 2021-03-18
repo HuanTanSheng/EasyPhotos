@@ -209,17 +209,15 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         if (!Result.isEmpty()) {
             if (Result.getPhotoPath(0).equals(photo.path)) {
                 Result.removePhoto(photo);
-                notifyItemChanged(position);
             } else {
                 Result.removePhoto(0);
                 Result.addPhoto(photo);
                 notifyItemChanged(singlePosition);
-                notifyItemChanged(position);
             }
         } else {
             Result.addPhoto(photo);
-            notifyItemChanged(position);
         }
+        notifyItemChanged(position);
         listener.onSelectorChanged();
     }
 

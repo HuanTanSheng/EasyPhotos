@@ -23,8 +23,7 @@ public class Setting {
     public static int minHeight = 1;
     public static long minSize = 1;
     public static int count = 1;
-    public static int pictureCount = -1;
-    public static int videoCount = -1;
+
     public static WeakReference<View> photosAdView = null;
     public static WeakReference<View> albumItemsAdView = null;
     public static boolean photoAdIsOk = false;
@@ -51,6 +50,11 @@ public class Setting {
     public static final int LIST_FIRST = 0;
     public static final int BOTTOM_RIGHT = 1;
 
+    public static boolean complexSelector = false;
+    public static boolean complexSingleType = false;
+    public static int complexVideoCount = 0;
+    public static int complexPictureCount = 0;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(value = {LIST_FIRST, BOTTOM_RIGHT})
     public @interface Location {
@@ -62,8 +66,7 @@ public class Setting {
         minHeight = 1;
         minSize = 1;
         count = 1;
-        pictureCount = -1;
-        videoCount = -1;
+
         photosAdView = null;
         albumItemsAdView = null;
         photoAdIsOk = false;
@@ -83,6 +86,10 @@ public class Setting {
         showCleanMenu = true;
         videoMinSecond = 0L;
         videoMaxSecond = Long.MAX_VALUE;
+        complexSelector = false;
+        complexSingleType = false;
+        complexVideoCount = 0;
+        complexPictureCount = 0;
     }
 
     public static boolean isFilter(String type) {
