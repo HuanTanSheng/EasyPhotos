@@ -134,7 +134,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         hideActionBar();
         adaptationStatusBar();
         loadingDialog = LoadingDialog.get(this);
-        isQ = Build.VERSION.SDK_INT > Build.VERSION_CODES.P;
+        isQ = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q;
         if (!Setting.onlyStartCamera && null == Setting.imageEngine) {
             finish();
             return;
