@@ -80,7 +80,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.6' //androidx版本，支持android 10、11，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.0' //androidx版本，支持android 10、11，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -151,7 +151,7 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志
 
-**3.1.0：**（正在编写中，预计三月下旬左右正式打版）
+**3.1.0：**
 - 适配：android 11
 - 重要：createAlbum方法新增useWidth参数
        意义：是否需要使用图片的宽高数据。
