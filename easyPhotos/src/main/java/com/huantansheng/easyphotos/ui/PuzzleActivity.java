@@ -340,7 +340,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         } catch (Exception e) {
             bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),
                     deviceWidth / 2, deviceHeight / 2, true);
-            return bitmap;
         }
 
         if (bitmap == null) {

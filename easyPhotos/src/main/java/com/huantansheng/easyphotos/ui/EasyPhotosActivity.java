@@ -846,13 +846,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadingDialog.dismiss();
-                            resultFast();
-                        }
-                    });
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1111,7 +1104,6 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 mCamera.release();
             } catch (Exception e) {
                 e.printStackTrace();
-                return isCanUse;
             }
         }
         return isCanUse;
