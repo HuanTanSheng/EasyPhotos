@@ -80,7 +80,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.0' //androidx版本，支持android 10、11，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.1' //androidx版本，支持android 10、11，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -150,6 +150,9 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 
 ## 更新日志
+
+**3.1.1：**
+- 修复：在Q平台直接调用相机时的空指针问题。
 
 **3.1.0：**
 - 适配：android 11
