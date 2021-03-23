@@ -4,11 +4,9 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,11 +21,8 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
-import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -341,7 +336,26 @@ public class AlbumModel {
      * 获取projections
      */
     public String[] getProjections() {
-        return this.projections;
+        if (null == projections || projections.length == 0) {
+            if (Setting.useWidth) {
+                projections = new String[]{MediaStore.Files.FileColumns._ID,
+                        MediaStore.MediaColumns.DATA
+                        , MediaStore.MediaColumns.DISPLAY_NAME,
+                        MediaStore.MediaColumns.DATE_MODIFIED,
+                        MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE,
+                        MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
+                        MediaStore.MediaColumns.WIDTH, MediaStore.MediaColumns.HEIGHT,
+                        MediaStore.MediaColumns.ORIENTATION};
+            } else {
+                projections = new String[]{MediaStore.Files.FileColumns._ID,
+                        MediaStore.MediaColumns.DATA
+                        , MediaStore.MediaColumns.DISPLAY_NAME,
+                        MediaStore.MediaColumns.DATE_MODIFIED,
+                        MediaStore.MediaColumns.MIME_TYPE, MediaStore.MediaColumns.SIZE,
+                        MediaStore.MediaColumns.BUCKET_DISPLAY_NAME};
+            }
+        }
+        return projections;
     }
 
 }
