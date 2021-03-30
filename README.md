@@ -80,7 +80,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.1' //androidx版本，支持android 10、11，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.2' //androidx版本，支持android 10、11，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -151,16 +151,20 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 
 ## 更新日志
 
+**3.1.2：**
+- 优化：线程安全
+- 优化：防止用户在外部多次点击重复打开相册页
+
 **3.1.1：**
-- 修复：在Q平台直接调用相机时的空指针问题。
+- 修复：在Q平台直接调用相机时的空指针问题
 
 **3.1.0：**
 - 适配：android 11
 - 重要：createAlbum方法新增useWidth参数
-       意义：是否需要使用图片的宽高数据。
-       true：会保证宽高数据的正确性，耗时，扫描图片慢。
-       false:不需要，宽高数据返回为0。
-       特别声明：如果使用到宽高限制，则useWidth会强制为true。
+       意义：是否需要使用图片的宽高数据
+       true：会保证宽高数据的正确性，耗时，扫描图片慢
+       false:不需要，宽高数据返回为0
+       特别声明：如果使用到宽高限制，则useWidth会强制为true
 - 重要：新增API：preLoad(Context cxt)，预加载，不调用该方法也不影响程序使用。单类型选择建议不调用该方法，某些机型第一次扫描多类型文件可能会慢，可以在app主页面或调用EasyPhotos的上一页做一次预加载,若未授权读取权限该功能失效但不影响程序使用。
 - 重要：start的链式回调模式，增加onCancel状态回调
 - 重要：EasyPhotos.addWatermark方法，新增返回Bitmap（既加水印后的Bitmap),新增orientation参数，int类型，Bitmap的旋转角度。当useWidth为true时，Photo实体类中会有orientation，若bitmap不是用户手机内图片，填0即可。

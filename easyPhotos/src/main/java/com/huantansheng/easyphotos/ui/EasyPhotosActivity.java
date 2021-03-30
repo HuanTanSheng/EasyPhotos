@@ -110,17 +110,31 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     private boolean isQ = false;
 
+    public static long startTime = 0;
+
+    public static boolean doubleClick() {
+        long now = System.currentTimeMillis();
+        if (now - startTime < 600) {
+            return true;
+        }
+        startTime = now;
+        return false;
+    }
+
     public static void start(Activity activity, int requestCode) {
+        if (doubleClick()) return;
         Intent intent = new Intent(activity, EasyPhotosActivity.class);
         activity.startActivityForResult(intent, requestCode);
     }
 
     public static void start(Fragment fragment, int requestCode) {
+        if (doubleClick()) return;
         Intent intent = new Intent(fragment.getActivity(), EasyPhotosActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void start(androidx.fragment.app.Fragment fragment, int requestCode) {
+        if (doubleClick()) return;
         Intent intent = new Intent(fragment.getContext(), EasyPhotosActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
@@ -596,7 +610,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(mTempImageFile.getAbsolutePath(), options);
-                MediaScannerConnectionUtils.refresh(EasyPhotosActivity.this, mTempImageFile);// 更新媒体库
+                MediaScannerConnectionUtils.refresh(EasyPhotosActivity.this, mTempImageFile);//
+                // 更新媒体库
 
                 Uri uri = UriUtils.getUri(EasyPhotosActivity.this, mTempImageFile);
                 int width = 0;
@@ -621,10 +636,12 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                     }
                 }
 
-                final Photo photo = new Photo(mTempImageFile.getName(), uri, mTempImageFile.getAbsolutePath(),
+                final Photo photo = new Photo(mTempImageFile.getName(), uri,
+                        mTempImageFile.getAbsolutePath(),
                         mTempImageFile.lastModified() / 1000, width, height, orientation,
                         mTempImageFile.length(),
-                        DurationUtils.getDuration(mTempImageFile.getAbsolutePath()), options.outMimeType);
+                        DurationUtils.getDuration(mTempImageFile.getAbsolutePath()),
+                        options.outMimeType);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -637,7 +654,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
                             data.putParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS, resultList);
 
-                            data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, Setting.selectedOriginal);
+                            data.putExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL,
+                                    Setting.selectedOriginal);
 
                             setResult(RESULT_OK, data);
                             finish();

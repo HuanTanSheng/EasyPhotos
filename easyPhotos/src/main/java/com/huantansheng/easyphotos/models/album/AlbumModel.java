@@ -60,7 +60,7 @@ public class AlbumModel {
      * @param context  调用查询方法的context
      * @param callBack 查询完成后的回调
      */
-    public boolean canRun = true;
+    public volatile boolean canRun = true;
 
     public void query(final Context context, final CallBack callBack) {
         if (PermissionChecker.checkSelfPermission(context,
@@ -72,7 +72,6 @@ public class AlbumModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                album.clear();
                 initAlbum(context);
                 if (null != callBack) callBack.onAlbumWorkedCallBack();
             }
@@ -83,7 +82,9 @@ public class AlbumModel {
         canRun = false;
     }
 
-    private void initAlbum(Context context) {
+    private synchronized void initAlbum(Context context) {
+        album.clear();
+//        long now = System.currentTimeMillis();
         if (Setting.selectedPhotos.size() > Setting.count) {
             throw new RuntimeException("AlbumBuilder: 默认勾选的图片张数不能大于设置的选择数！" + "|默认勾选图片张数：" + Setting.selectedPhotos.size() + "|设置的选择数：" + Setting.count);
         }
@@ -113,7 +114,6 @@ public class AlbumModel {
 
         ContentResolver contentResolver = context.getContentResolver();
 
-        long now = System.currentTimeMillis();
 
         List<String> projectionList = new ArrayList<String>();
         projectionList.add(MediaStore.Files.FileColumns._ID);
@@ -289,7 +289,7 @@ public class AlbumModel {
             } while (cursor.moveToNext() && canRun);
             cursor.close();
         }
-        Log.d(TAG, "initAlbum: " + (System.currentTimeMillis() - now));
+//        Log.d(TAG, "initAlbum: " + (System.currentTimeMillis() - now));
     }
 
     /**
