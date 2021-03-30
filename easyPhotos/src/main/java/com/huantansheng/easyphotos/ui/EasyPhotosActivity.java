@@ -326,11 +326,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
                 startActivityForResult(cameraIntent, requestCode);
             } else {
-                Toast.makeText(this, R.string.camera_temp_file_error_easy_photos,
+                Toast.makeText(getApplicationContext(), R.string.camera_temp_file_error_easy_photos,
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, R.string.msg_no_camera_easy_photos, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.msg_no_camera_easy_photos, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -679,11 +679,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
         if (albumModel.getAlbumItems().isEmpty()) {
             if (Setting.isOnlyVideo()) {
-                Toast.makeText(this, R.string.no_videos_easy_photos, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.no_videos_easy_photos, Toast.LENGTH_LONG).show();
                 finish();
                 return;
             }
-            Toast.makeText(this, R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.no_photos_easy_photos, Toast.LENGTH_LONG).show();
             if (Setting.isShowCamera) launchCamera(Code.REQUEST_CAMERA);
             else finish();
             return;
@@ -797,7 +797,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             processSecondMenu();
         } else if (R.id.tv_original == id) {
             if (!Setting.originalMenuUsable) {
-                Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
                 return;
             }
             Setting.selectedOriginal = !Setting.selectedOriginal;
@@ -1006,29 +1006,29 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     public void onSelectorOutOfMax(@Nullable Integer result) {
         if (result == null) {
             if (Setting.isOnlyVideo()) {
-                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_video_hint_easy_photos
                         , Setting.count), Toast.LENGTH_SHORT).show();
 
             } else if (Setting.showVideo) {
-                Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_hint_easy_photos,
                         Setting.count), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_image_hint_easy_photos,
                         Setting.count), Toast.LENGTH_SHORT).show();
             }
             return;
         }
         switch (result) {
             case Result.PICTURE_OUT:
-                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_image_hint_easy_photos
                         , Setting.complexPictureCount), Toast.LENGTH_SHORT).show();
                 break;
             case Result.VIDEO_OUT:
-                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_video_hint_easy_photos
                         , Setting.complexVideoCount), Toast.LENGTH_SHORT).show();
                 break;
             case Result.SINGLE_TYPE:
-                Toast.makeText(this, getString(R.string.selector_single_type_hint_easy_photos),
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_single_type_hint_easy_photos),
                         Toast.LENGTH_SHORT).show();
                 break;
 

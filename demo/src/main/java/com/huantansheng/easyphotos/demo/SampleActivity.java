@@ -561,7 +561,7 @@ public class SampleActivity extends AppCompatActivity
 
 
         } else if (RESULT_CANCELED == resultCode) {
-            Toast.makeText(this, "cancel", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "cancel", Toast.LENGTH_SHORT).show();
         }
     }
 

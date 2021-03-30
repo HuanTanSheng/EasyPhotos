@@ -301,7 +301,7 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
             updateSelector();
         } else if (R.id.tv_original == id) {
             if (!Setting.originalMenuUsable) {
-                Toast.makeText(this, Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), Setting.originalMenuUnusableHint, Toast.LENGTH_SHORT).show();
                 return;
             }
             Setting.selectedOriginal = !Setting.selectedOriginal;
@@ -371,14 +371,14 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 return;
             }
             if (Setting.isOnlyVideo()) {
-                Toast.makeText(this, getString(R.string.selector_reach_max_video_hint_easy_photos
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_video_hint_easy_photos
                         , Setting.count), Toast.LENGTH_SHORT).show();
 
             } else if (Setting.showVideo) {
-                Toast.makeText(this, getString(R.string.selector_reach_max_hint_easy_photos,
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_hint_easy_photos,
                         Setting.count), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos,
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_image_hint_easy_photos,
                         Setting.count), Toast.LENGTH_SHORT).show();
             }
             return;
@@ -390,17 +390,17 @@ public class PreviewActivity extends AppCompatActivity implements PreviewPhotosA
                 item.selected = false;
                 switch (res) {
                     case Result.PICTURE_OUT:
-                        Toast.makeText(this,
+                        Toast.makeText(getApplicationContext(),
                                 getString(R.string.selector_reach_max_image_hint_easy_photos,
                                         Setting.complexPictureCount), Toast.LENGTH_SHORT).show();
                         break;
                     case Result.VIDEO_OUT:
-                        Toast.makeText(this,
+                        Toast.makeText(getApplicationContext(),
                                 getString(R.string.selector_reach_max_video_hint_easy_photos,
                                         Setting.complexVideoCount), Toast.LENGTH_SHORT).show();
                         break;
                     case Result.SINGLE_TYPE:
-                        Toast.makeText(this, getString(R.string.selector_single_type_hint_easy_photos), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.selector_single_type_hint_easy_photos), Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return;

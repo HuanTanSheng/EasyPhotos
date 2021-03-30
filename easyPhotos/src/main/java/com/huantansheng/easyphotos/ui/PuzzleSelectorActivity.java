@@ -226,7 +226,7 @@ public class PuzzleSelectorActivity extends AppCompatActivity implements View.On
     @Override
     public void onPhotoClick(int position) {
         if (selectedPhotos.size() > 8) {
-            Toast.makeText(this, getString(R.string.selector_reach_max_image_hint_easy_photos, 9), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_image_hint_easy_photos, 9), Toast.LENGTH_SHORT).show();
             return;
         }
 
