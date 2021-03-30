@@ -62,7 +62,8 @@ public class AlbumModel {
      */
     public volatile boolean canRun = true;
 
-    public void query(final Context context, final CallBack callBack) {
+    public void query(Context context, final CallBack callBack) {
+        final Context appCxt = context.getApplicationContext();
         if (PermissionChecker.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
             if (null != callBack) callBack.onAlbumWorkedCallBack();
@@ -72,7 +73,7 @@ public class AlbumModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                initAlbum(context);
+                initAlbum(appCxt);
                 if (null != callBack) callBack.onAlbumWorkedCallBack();
             }
         }).start();
