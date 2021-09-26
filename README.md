@@ -1,9 +1,12 @@
 # EasyPhotos    
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
-QQ交流群：[EasyPhotos开发交流群：288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    (已满)
-QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
-[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)
+QQ交流群：[EasyPhotos开发交流群：288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    (已满)     
+
+QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)       
+
+[demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)     
+
 若无法下载demo，可以在QQ交流群的群文件下载，文件名为demo-release，下载最新的即可。
 
 
