@@ -1,7 +1,8 @@
 # EasyPhotos    
 [![](https://jitpack.io/v/HuanTanSheng/EasyPhotos.svg)](https://jitpack.io/#HuanTanSheng/EasyPhotos)    
 
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
+QQ交流群：[EasyPhotos开发交流群：288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    (已满)
+QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
 [demo下载](https://raw.githubusercontent.com/HuanTanSheng/EasyPhotos/master/demo/release/demo-release.apk)
 若无法下载demo，可以在QQ交流群的群文件下载，文件名为demo-release，下载最新的即可。
 
@@ -132,7 +133,8 @@ dependencies {
 * [12-配置ImageEngine，支持所有图片加载库](https://github.com/HuanTanSheng/EasyPhotos/wiki/12-%E9%85%8D%E7%BD%AEImageEngine%EF%BC%8C%E6%94%AF%E6%8C%81%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%BA%93)
 
     
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    (已满)
+QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
     
        
            
@@ -146,7 +148,8 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)
 ## 编者语    
 
 EasyPhotos目前还在更新，欢迎各种Issues以及加群讨论，只是目前本人精力以及本职工作原因，更新不会频繁，只能保证不定期查看反馈统一修改，希望各位理解，感谢！  
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)      
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    （已满）
+QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
 
 
 ## 更新日志
