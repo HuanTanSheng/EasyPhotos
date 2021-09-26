@@ -148,7 +148,7 @@ QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_
 ## 编者语    
 
 EasyPhotos目前还在更新，欢迎各种Issues以及加群讨论，只是目前本人精力以及本职工作原因，更新不会频繁，只能保证不定期查看反馈统一修改，希望各位理解，感谢！  
-QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe)    （已满）
+QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe) （已满）
 QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
 
 
