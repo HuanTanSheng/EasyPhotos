@@ -84,7 +84,7 @@ allprojects {
 ```gradle
 dependencies {  
 
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.3' //androidx版本，支持android 10、11，永久维护
+        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.4' //androidx版本，支持android 10、11，永久维护
       
         //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
    
@@ -155,7 +155,10 @@ QQ交流群：[288600953](https://jq.qq.com/?_wv=1027&k=5QGgCDe) （已满）
 QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_wv=1027&k=t5JZYhwa)
 
 
-## 更新日志
+## 更新日志    
+
+**3.1.4：**    
+- 优化：多类型互斥选择时，最大选择数按照已选类型动态匹配 
 
 **3.1.3：**
 - 优化：线程安全

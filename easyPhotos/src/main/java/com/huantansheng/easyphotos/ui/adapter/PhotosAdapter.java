@@ -278,7 +278,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         void onSelectorChanged();
     }
 
-    private class CameraViewHolder extends RecyclerView.ViewHolder {
+    private static class CameraViewHolder extends RecyclerView.ViewHolder {
         final FrameLayout flCamera;
 
         CameraViewHolder(View itemView) {
@@ -287,7 +287,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class PhotoViewHolder extends RecyclerView.ViewHolder {
+    public static class PhotoViewHolder extends RecyclerView.ViewHolder {
         final PressedImageView ivPhoto;
         final TextView tvSelector;
         final View vSelector;

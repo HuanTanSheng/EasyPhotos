@@ -48,6 +48,7 @@ import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
+import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -988,8 +989,27 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             tvDone.setVisibility(View.VISIBLE);
             tvPreview.setVisibility(View.VISIBLE);
         }
+
+        if (Result.isEmpty()) {
+            return;
+        }
+
+        if (Setting.complexSelector) {
+            if (Setting.complexSingleType) {
+                if (Result.getPhotoType(0).contains(Type.VIDEO)) {
+                    tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(),
+                            Setting.complexVideoCount));
+                    return;
+                }
+                tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(),
+                        Setting.complexPictureCount));
+                return;
+            }
+        }
+
         tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(),
                 Setting.count));
+
     }
 
     @Override
@@ -1010,8 +1030,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                         , Setting.count), Toast.LENGTH_SHORT).show();
 
             } else if (Setting.showVideo) {
-                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_hint_easy_photos,
-                        Setting.count), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_hint_easy_photos), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.selector_reach_max_image_hint_easy_photos,
                         Setting.count), Toast.LENGTH_SHORT).show();
