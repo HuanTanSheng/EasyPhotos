@@ -83,10 +83,9 @@ allprojects {
 最后，在你需要用到EasyPhotos的module中的 `build.gradle（module）` 文件里面添加：
 ```gradle
 dependencies {  
-
-        implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.4' //androidx版本，支持android 10、11，永久维护
-      
-        //implementation 'com.github.HuanTanSheng:EasyPhotos:2.4.5' //还没有升级到androidx的同学可以用这个版本，但不支持android 10，暂停维护
+        //fresco 版本
+        implementation 'com.github.JamesGZM:EasyPhotos:v1.0.1' //androidx版本，支持android 10、11，永久维护
+        
    
 }
 ```    
