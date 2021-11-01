@@ -4,7 +4,6 @@ import androidx.annotation.IntDef;
 import android.view.View;
 
 import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.lang.annotation.Retention;
@@ -45,7 +44,6 @@ public class Setting {
     public static boolean showCleanMenu = true;
     public static long videoMinSecond = 0L;
     public static long videoMaxSecond = Long.MAX_VALUE;
-    public static ImageEngine imageEngine = null;
 
     public static final int LIST_FIRST = 0;
     public static final int BOTTOM_RIGHT = 1;

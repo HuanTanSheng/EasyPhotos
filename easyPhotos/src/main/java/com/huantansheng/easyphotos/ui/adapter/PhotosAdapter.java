@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
@@ -82,21 +84,19 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             long duration = item.duration;
             final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
             if (Setting.showGif && isGif) {
-                Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).ivVideo.setVisibility(View.GONE);
             } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
-                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
                 ((PhotoViewHolder) holder).ivVideo.setVisibility(View.VISIBLE);
-
             } else {
-                Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
                 ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
                 ((PhotoViewHolder) holder).ivVideo.setVisibility(View.GONE);
             }
+
+            ((PhotoViewHolder) holder).ivPhoto.setImageURI(uri);
 
             ((PhotoViewHolder) holder).vSelector.setVisibility(View.VISIBLE);
             ((PhotoViewHolder) holder).tvSelector.setVisibility(View.VISIBLE);
@@ -288,7 +288,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     }
 
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
-        final PressedImageView ivPhoto;
+        final SimpleDraweeView ivPhoto;
         final TextView tvSelector;
         final View vSelector;
         final TextView tvType;

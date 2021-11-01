@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.huantansheng.easyphotos.Builder.AlbumBuilder;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
-import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.AlbumModel;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -101,28 +100,26 @@ public class EasyPhotos {
      * @param useWidth     是否使用宽高数据。
      *                     true：会保证宽高数据的正确性，返回速度慢，耗时，尤其在华为mate30上，可能点击完成后会加载三四秒才能返回。
      *                     false:有宽高数据但不保证正确性，点击完成后秒回，但可能有因旋转问题导致的宽高相反的情况，以及极少数的宽高为0情况。
-     * @param imageEngine  图片加载引擎的具体实现
      * @return AlbumBuilder 建造者模式配置其他选项
      */
     public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera,
-                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine).setUseWidth(useWidth);
+                                           boolean useWidth) {
+        return AlbumBuilder.createAlbum(activity, isShowCamera).setUseWidth(useWidth);
     }
 
     public static AlbumBuilder createAlbum(Fragment fragment, boolean isShowCamera,
-                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(fragment, isShowCamera, imageEngine).setUseWidth(useWidth);
+                                           boolean useWidth) {
+        return AlbumBuilder.createAlbum(fragment, isShowCamera).setUseWidth(useWidth);
     }
 
     public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera,
-                                           boolean useWidth, @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(activity, isShowCamera, imageEngine).setUseWidth(useWidth);
+                                           boolean useWidth) {
+        return AlbumBuilder.createAlbum(activity, isShowCamera).setUseWidth(useWidth);
     }
 
     public static AlbumBuilder createAlbum(androidx.fragment.app.Fragment fragmentV,
-                                           boolean isShowCamera, boolean useWidth,
-                                           @NonNull ImageEngine imageEngine) {
-        return AlbumBuilder.createAlbum(fragmentV, isShowCamera, imageEngine).setUseWidth(useWidth);
+                                           boolean isShowCamera, boolean useWidth) {
+        return AlbumBuilder.createAlbum(fragmentV, isShowCamera).setUseWidth(useWidth);
     }
 
 
@@ -267,27 +264,24 @@ public class EasyPhotos {
      *                             intent.putParcelableArrayListExtra(AlbumBuilder.RESULT_PHOTOS
      *                             , photos);
      *                             act.setResult(RESULT_OK,intent); 并关闭act，回到拼图界面，完成替换。
-     * @param imageEngine          图片加载引擎的具体实现
      */
 
     public static void startPuzzleWithPhotos(Activity act, ArrayList<Photo> photos,
                                              String puzzleSaveDirPath,
                                              String puzzleSaveNamePrefix, int requestCode,
-                                             boolean replaceCustom,
-                                             @NonNull ImageEngine imageEngine) {
+                                             boolean replaceCustom) {
         act.setResult(Activity.RESULT_OK);
         PuzzleActivity.startWithPhotos(act, photos, puzzleSaveDirPath, puzzleSaveNamePrefix,
-                requestCode, replaceCustom, imageEngine);
+                requestCode, replaceCustom);
     }
 
     public static void startPuzzleWithPhotos(FragmentActivity act, ArrayList<Photo> photos,
                                              String puzzleSaveDirPath,
                                              String puzzleSaveNamePrefix, boolean replaceCustom,
-                                             @NonNull ImageEngine imageEngine,
                                              PuzzleCallback callback) {
         act.setResult(Activity.RESULT_OK);
         EasyResult.get(act).startPuzzleWithPhotos(photos, puzzleSaveDirPath, puzzleSaveNamePrefix
-                , replaceCustom, imageEngine, callback);
+                , replaceCustom, callback);
     }
 
 

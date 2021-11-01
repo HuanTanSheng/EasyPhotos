@@ -4,18 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1.2dp"
-        android:scaleType="centerCrop"
         android:background="@color/easy_photos_bar_primary"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/tv_type"
@@ -23,12 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="1.6dp"
         android:gravity="center"
-        android:paddingBottom="3dp"
-        android:paddingEnd="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:paddingStart="8dp"
+        android:paddingLeft="8dp"
         android:paddingTop="3dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="3dp"
         android:shadowColor="@color/easy_photos_bar_primary"
         android:shadowDx="0"
         android:shadowDy="0"

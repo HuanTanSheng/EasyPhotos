@@ -102,8 +102,7 @@ public class SampleFragments extends AppCompatActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    EasyPhotos.createAlbum(PlaceholderFragment.this, true,false,
-                            GlideEngine.getInstance()).setFileProviderAuthority("com.huantansheng" +
+                    EasyPhotos.createAlbum(PlaceholderFragment.this, true,false).setFileProviderAuthority("com.huantansheng" +
                             ".easyphotos.demo.fileprovider").start(0);
                 }
             });

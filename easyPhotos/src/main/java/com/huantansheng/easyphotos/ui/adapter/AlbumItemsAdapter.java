@@ -1,8 +1,10 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.models.ad.AdViewHolder;
 import com.huantansheng.easyphotos.models.album.entity.AlbumItem;
@@ -71,7 +74,9 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
                 ((AlbumItemsViewHolder) holder).mRoot.setPadding(padding, padding, padding, 0);
             }
             AlbumItem item = (AlbumItem) dataList.get(p);
-            Setting.imageEngine.loadPhoto(((AlbumItemsViewHolder) holder).ivAlbumCover.getContext(), item.coverImageUri, ((AlbumItemsViewHolder) holder).ivAlbumCover);
+
+            ((AlbumItemsViewHolder) holder).ivAlbumCover.setImageURI(item.coverImageUri);
+
             ((AlbumItemsViewHolder) holder).tvAlbumName.setText(item.name);
             ((AlbumItemsViewHolder) holder).tvAlbumPhotosCount.setText(String.valueOf(item.photos.size()));
             if (selectedPosition == p) {
@@ -164,7 +169,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
     }
 
     public class AlbumItemsViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivAlbumCover;
+        SimpleDraweeView ivAlbumCover;
         TextView tvAlbumName;
         TextView tvAlbumPhotosCount;
         ImageView ivSelected;
@@ -172,7 +177,7 @@ public class AlbumItemsAdapter extends RecyclerView.Adapter {
 
         AlbumItemsViewHolder(View itemView) {
             super(itemView);
-            this.ivAlbumCover = (ImageView) itemView.findViewById(R.id.iv_album_cover);
+            this.ivAlbumCover = (SimpleDraweeView) itemView.findViewById(R.id.iv_album_cover);
             this.tvAlbumName = (TextView) itemView.findViewById(R.id.tv_album_name);
             this.tvAlbumPhotosCount = (TextView) itemView.findViewById(R.id.tv_album_photos_count);
             this.ivSelected = (ImageView) itemView.findViewById(R.id.iv_selected);

@@ -1,6 +1,7 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -55,18 +57,15 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
         long duration = photo.duration;
         final boolean isGif = path.endsWith(Type.GIF) || type.endsWith(Type.GIF);
         if (Setting.showGif && isGif) {
-            Setting.imageEngine.loadGifAsBitmap(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setText(R.string.gif_easy_photos);
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else if (Setting.showVideo && type.contains(Type.VIDEO)) {
-            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setText(DurationUtils.format(duration));
             ((PhotoViewHolder) holder).tvType.setVisibility(View.VISIBLE);
         } else {
-            Setting.imageEngine.loadPhoto(((PhotoViewHolder) holder).ivPhoto.getContext(), uri, ((PhotoViewHolder) holder).ivPhoto);
             ((PhotoViewHolder) holder).tvType.setVisibility(View.GONE);
         }
-
+        ((PhotoViewHolder) holder).ivPhoto.setImageURI(uri);
         ((PhotoViewHolder) holder).ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,13 +86,13 @@ public class PuzzleSelectorPreviewAdapter extends RecyclerView.Adapter {
     }
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivPhoto;
+        SimpleDraweeView ivPhoto;
         ImageView ivDelete;
         TextView tvType;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
-            this.ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
+            this.ivPhoto = (SimpleDraweeView) itemView.findViewById(R.id.iv_photo);
             this.ivDelete = (ImageView) itemView.findViewById(R.id.iv_delete);
             this.tvType = (TextView) itemView.findViewById(R.id.tv_type);
         }

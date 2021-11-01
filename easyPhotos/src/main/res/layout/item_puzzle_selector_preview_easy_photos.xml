@@ -4,7 +4,8 @@
     android:layout_width="110dp"
     android:layout_height="110dp">
 
-    <ImageView
+
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -14,6 +15,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/iv_delete"

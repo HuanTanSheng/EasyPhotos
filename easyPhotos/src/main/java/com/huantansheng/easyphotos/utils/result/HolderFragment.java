@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.callback.PuzzleCallback;
 import com.huantansheng.easyphotos.callback.SelectCallback;
-import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.ui.EasyPhotosActivity;
 import com.huantansheng.easyphotos.ui.PuzzleActivity;
@@ -41,9 +40,9 @@ public class HolderFragment extends Fragment {
         EasyPhotosActivity.start(this, HOLDER_SELECT_REQUEST_CODE);
     }
 
-    public void startPuzzleWithPhotos(ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, @NonNull ImageEngine imageEngine, PuzzleCallback callback) {
+    public void startPuzzleWithPhotos(ArrayList<Photo> photos, String puzzleSaveDirPath, String puzzleSaveNamePrefix, boolean replaceCustom, PuzzleCallback callback) {
         mPuzzleCallback = callback;
-        PuzzleActivity.startWithPhotos(this, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, HOLDER_PUZZLE_REQUEST_CODE, replaceCustom, imageEngine);
+        PuzzleActivity.startWithPhotos(this, photos, puzzleSaveDirPath, puzzleSaveNamePrefix, HOLDER_PUZZLE_REQUEST_CODE, replaceCustom);
     }
 
 

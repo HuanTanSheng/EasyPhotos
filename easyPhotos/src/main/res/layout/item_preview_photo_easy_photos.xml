@@ -4,13 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-        android:id="@+id/iv_long_photo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/iv_photo_view"
+    <me.relex.photodraweeview.PhotoDraweeView
+        android:id="@+id/iv_zoom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

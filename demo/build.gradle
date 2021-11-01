@@ -40,4 +40,10 @@ dependencies {
     //检测内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation 'com.facebook.fresco:animated-gif:2.4.0'
+    implementation 'com.facebook.fresco:animated-webp:2.4.0'
+    implementation 'com.facebook.fresco:webpsupport:2.4.0'
+    implementation 'com.facebook.fresco:imagepipeline-okhttp3:2.4.0'
 }

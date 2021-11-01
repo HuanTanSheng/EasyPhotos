@@ -150,10 +150,10 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         adaptationStatusBar();
         loadingDialog = LoadingDialog.get(this);
         isQ = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q;
-        if (!Setting.onlyStartCamera && null == Setting.imageEngine) {
-            finish();
-            return;
-        }
+//        if (!Setting.onlyStartCamera) {
+//            finish();
+//            return;
+//        }
         initSomeViews();
         if (PermissionUtil.checkAndRequestPermissionsInActivity(this, getNeedPermissions())) {
             hasPermissions();

@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.constant.Type;
-import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.ad.AdListener;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
@@ -133,14 +132,9 @@ public class AlbumBuilder {
      *
      * @param activity     上下文
      * @param isShowCamera 是否显示相机按钮
-     * @param imageEngine  图片加载引擎的具体实现
      * @return
      */
-    public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera,
-                                           @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
+    public static AlbumBuilder createAlbum(Activity activity, boolean isShowCamera) {
         if (isShowCamera) {
             return AlbumBuilder.with(activity, StartupType.ALBUM_CAMERA);
         } else {
@@ -148,11 +142,7 @@ public class AlbumBuilder {
         }
     }
 
-    public static AlbumBuilder createAlbum(android.app.Fragment fragment, boolean isShowCamera,
-                                           @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
+    public static AlbumBuilder createAlbum(android.app.Fragment fragment, boolean isShowCamera) {
         if (isShowCamera) {
             return AlbumBuilder.with(fragment, StartupType.ALBUM_CAMERA);
         } else {
@@ -160,11 +150,7 @@ public class AlbumBuilder {
         }
     }
 
-    public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera,
-                                           @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
+    public static AlbumBuilder createAlbum(FragmentActivity activity, boolean isShowCamera) {
         if (isShowCamera) {
             return AlbumBuilder.with(activity, StartupType.ALBUM_CAMERA);
         } else {
@@ -172,11 +158,7 @@ public class AlbumBuilder {
         }
     }
 
-    public static AlbumBuilder createAlbum(Fragment fragmentV, boolean isShowCamera,
-                                           @NonNull ImageEngine imageEngine) {
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
-        }
+    public static AlbumBuilder createAlbum(Fragment fragmentV, boolean isShowCamera) {
         if (isShowCamera) {
             return AlbumBuilder.with(fragmentV, StartupType.ALBUM_CAMERA);
         } else {

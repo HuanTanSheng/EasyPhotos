@@ -4,13 +4,13 @@
     android:id="@+id/m_root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="16dp">
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_album_cover"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -30,8 +30,8 @@
         android:id="@+id/tv_album_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:textColor="@color/album_item_name_easy_photos"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -42,8 +42,8 @@
         android:id="@+id/tv_album_photos_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/album_item_count_easy_photos"
         android:textSize="12sp"

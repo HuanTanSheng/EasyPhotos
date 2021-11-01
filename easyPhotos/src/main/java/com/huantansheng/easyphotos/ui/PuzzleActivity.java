@@ -25,13 +25,19 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.binaryresource.FileBinaryResource;
+import com.facebook.cache.common.CacheKey;
+import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Code;
 import com.huantansheng.easyphotos.constant.Key;
-import com.huantansheng.easyphotos.engine.ImageEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.models.puzzle.Area;
 import com.huantansheng.easyphotos.models.puzzle.DegreeSeekBar;
@@ -69,14 +75,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     public static void startWithPhotos(Activity act, ArrayList<Photo> photos,
                                        String puzzleSaveDirPath, String puzzleSaveNamePrefix,
-                                       int requestCode, boolean replaceCustom,
-                                       @NonNull ImageEngine imageEngine) {
+                                       int requestCode, boolean replaceCustom) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
-        }
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
         }
         Intent intent = new Intent(act, PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, true);
@@ -91,14 +93,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
 
     public static void startWithPhotos(Fragment fragment, ArrayList<Photo> photos,
                                        String puzzleSaveDirPath, String puzzleSaveNamePrefix,
-                                       int requestCode, boolean replaceCustom,
-                                       @NonNull ImageEngine imageEngine) {
+                                       int requestCode, boolean replaceCustom) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
-        }
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
         }
         Intent intent = new Intent(fragment.getActivity(), PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, true);
@@ -115,13 +113,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
     public static void startWithPhotos(androidx.fragment.app.Fragment fragmentV,
                                        ArrayList<Photo> photos, String puzzleSaveDirPath,
                                        String puzzleSaveNamePrefix, int requestCode,
-                                       boolean replaceCustom, @NonNull ImageEngine imageEngine) {
+                                       boolean replaceCustom) {
         if (null != toClass) {
             toClass.clear();
             toClass = null;
-        }
-        if (Setting.imageEngine != imageEngine) {
-            Setting.imageEngine = imageEngine;
         }
         Intent intent = new Intent(fragmentV.getActivity(), PuzzleActivity.class);
         intent.putExtra(Key.PUZZLE_FILE_IS_PHOTO, true);
@@ -180,10 +175,6 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
-        }
-        if (null == Setting.imageEngine) {
-            finish();
-            return;
         }
         initData();
         initView();
@@ -335,8 +326,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
         Bitmap bitmap = null;
 
         try {
-            bitmap = Setting.imageEngine.getCacheBitmap(this, uri, deviceWidth / 2,
-                    deviceHeight / 2);
+            ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).build();
+
+            CacheKey cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(imageRequest, this);
+            FileBinaryResource resource = (FileBinaryResource) Fresco.getImagePipelineFactory().getMainFileCache().getResource(cacheKey);
+            if (resource != null && resource.getFile() != null) {
+                bitmap = BitmapFactory.decodeFile(resource.getFile().getAbsolutePath());
+            }
         } catch (Exception e) {
             bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),
                     deviceWidth / 2, deviceHeight / 2, true);
@@ -367,7 +363,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnClickLis
             degreeSeekBar.setVisibility(View.GONE);
             toggleIvMenu(R.id.iv_replace);
             if (null == toClass) {
-                EasyPhotos.createAlbum(this, true, false, Setting.imageEngine).setCount(1).start(91);
+                EasyPhotos.createAlbum(this, true, false).setCount(1).start(91);
             } else {
                 Intent intent = new Intent(this, toClass.get());
                 startActivityForResult(intent, 91);

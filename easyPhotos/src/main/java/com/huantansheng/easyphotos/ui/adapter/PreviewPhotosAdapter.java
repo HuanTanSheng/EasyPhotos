@@ -14,10 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.github.chrisbanes.photoview.OnScaleChangedListener;
-import com.github.chrisbanes.photoview.PhotoView;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.huantansheng.easyphotos.R;
 import com.huantansheng.easyphotos.constant.Type;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
@@ -25,6 +26,10 @@ import com.huantansheng.easyphotos.setting.Setting;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import me.relex.photodraweeview.OnPhotoTapListener;
+import me.relex.photodraweeview.OnScaleChangeListener;
+import me.relex.photodraweeview.PhotoDraweeView;
 
 /**
  * 大图预览界面图片集合的适配器
@@ -62,12 +67,8 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
                 (double) photos.get(position).height / (double) photos.get(position).width;
 
         holder.ivPlay.setVisibility(View.GONE);
-        holder.ivPhotoView.setVisibility(View.GONE);
-        holder.ivLongPhoto.setVisibility(View.GONE);
 
         if (type.contains(Type.VIDEO)) {
-            holder.ivPhotoView.setVisibility(View.VISIBLE);
-            Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
             holder.ivPlay.setVisibility(View.VISIBLE);
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,47 +76,17 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
                     toPlayVideo(v, uri, type);
                 }
             });
-        } else if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
-            holder.ivPhotoView.setVisibility(View.VISIBLE);
-            Setting.imageEngine.loadGif(holder.ivPhotoView.getContext(), uri, holder.ivPhotoView);
-        } else {
-            if (ratio > 2.3) {
-                holder.ivLongPhoto.setVisibility(View.VISIBLE);
-                holder.ivLongPhoto.setImage(ImageSource.uri(path));
-            } else {
-                holder.ivPhotoView.setVisibility(View.VISIBLE);
-                Setting.imageEngine.loadPhoto(holder.ivPhotoView.getContext(), uri,
-                        holder.ivPhotoView);
-            }
         }
+        holder.ivZoomView.setPhotoUri(uri);
 
-        holder.ivLongPhoto.setOnClickListener(new View.OnClickListener() {
+        holder.ivZoomView.setScale(1.0f);
+        holder.ivZoomView.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onPhotoTap(View view, float x, float y) {
                 listener.onPhotoClick();
             }
         });
-        holder.ivPhotoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onPhotoClick();
-            }
-        });
-        holder.ivLongPhoto.setOnStateChangedListener(new SubsamplingScaleImageView.OnStateChangedListener() {
-            @Override
-            public void onScaleChanged(float newScale, int origin) {
-                listener.onPhotoScaleChanged();
-            }
-
-            @Override
-            public void onCenterChanged(PointF newCenter, int origin) {
-
-            }
-        });
-
-        holder.ivPhotoView.setScale(1f);
-
-        holder.ivPhotoView.setOnScaleChangeListener(new OnScaleChangedListener() {
+        holder.ivZoomView.setOnScaleChangeListener(new OnScaleChangeListener() {
             @Override
             public void onScaleChange(float scaleFactor, float focusX, float focusY) {
                 listener.onPhotoScaleChanged();
@@ -151,14 +122,12 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
     }
 
     public class PreviewPhotosViewHolder extends RecyclerView.ViewHolder {
-        public SubsamplingScaleImageView ivLongPhoto;
+        public PhotoDraweeView ivZoomView;
         ImageView ivPlay;
-        PhotoView ivPhotoView;
 
         PreviewPhotosViewHolder(View itemView) {
             super(itemView);
-            ivLongPhoto = itemView.findViewById(R.id.iv_long_photo);
-            ivPhotoView = itemView.findViewById(R.id.iv_photo_view);
+            ivZoomView = itemView.findViewById(R.id.iv_zoom_view);
             ivPlay = itemView.findViewById(R.id.iv_play);
         }
     }

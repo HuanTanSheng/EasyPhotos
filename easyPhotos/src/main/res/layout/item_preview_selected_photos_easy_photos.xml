@@ -5,7 +5,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginRight="8dp">
 
-    <com.huantansheng.easyphotos.ui.widget.PressedImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_photo"
         android:layout_width="56dp"
         android:layout_height="56dp"

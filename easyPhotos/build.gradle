@@ -20,8 +20,17 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation "androidx.exifinterface:exifinterface:1.1.0"
+    //implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+    //implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation 'me.relex:photodraweeview:2.1.0'
+
+    compileOnly 'com.facebook.fresco:fresco:2.4.0'
+    compileOnly 'com.facebook.fresco:animated-gif:2.4.0'
+    compileOnly 'com.facebook.fresco:animated-webp:2.4.0'
+    compileOnly 'com.facebook.fresco:webpsupport:2.4.0'
+    compileOnly 'com.facebook.fresco:imagepipeline-okhttp3:2.4.0'
 }
 
 //// 指定编码
