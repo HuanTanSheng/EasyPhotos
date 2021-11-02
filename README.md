@@ -157,6 +157,10 @@ QQ交流群：[EasyPhotos开发交流群二群：212324053](https://jq.qq.com/?_
 
 ## 更新日志    
 
+**3.1.5：**
+- 新增：public AlbumBuilder setSelectedPhotos(ArrayList<Photo> selectedPhotos,boolean isSequentialSelectedPhotos)    
+       可自定义当传入已选中图片时，是否按照之前选中的顺序排序
+  
 **3.1.4：**    
 - 优化：多类型互斥选择时，最大选择数按照已选类型动态匹配 
 

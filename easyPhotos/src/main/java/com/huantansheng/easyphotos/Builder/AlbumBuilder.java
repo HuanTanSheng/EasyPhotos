@@ -299,6 +299,24 @@ public class AlbumBuilder {
     }
 
     /**
+     * 设置默认选择图片集合
+     *
+     * @param selectedPhotos 默认选择图片集合
+     * @param isSequentialSelectedPhotos 当传入已选中图片时，是否按照之前选中的顺序排序
+     * @return AlbumBuilder
+     */
+    public AlbumBuilder setSelectedPhotos(ArrayList<Photo> selectedPhotos,boolean isSequentialSelectedPhotos) {
+        Setting.selectedPhotos.clear();
+        Setting.isSequentialSelectedPhotos = isSequentialSelectedPhotos;
+        if (selectedPhotos.isEmpty()) {
+            return AlbumBuilder.this;
+        }
+        Setting.selectedPhotos.addAll(selectedPhotos);
+        Setting.selectedOriginal = selectedPhotos.get(0).selectedOriginal;
+        return AlbumBuilder.this;
+    }
+
+    /**
      * 设置默认选择图片地址集合
      *
      * @param selectedPhotoPaths 默认选择图片地址集合
@@ -308,6 +326,41 @@ public class AlbumBuilder {
     @Deprecated
     public AlbumBuilder setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths) {
         Setting.selectedPhotos.clear();
+        ArrayList<Photo> selectedPhotos = new ArrayList<>();
+        for (String path : selectedPhotoPaths) {
+            File file = new File(path);
+            Uri uri = null;
+            if (null != mActivity && null != mActivity.get()) {
+                uri = UriUtils.getUri(mActivity.get(), file);
+            }
+            if (null != mFragment && null != mFragment.get()) {
+                uri = UriUtils.getUri(mFragment.get().getActivity(), file);
+            }
+            if (null != mFragmentV && null != mFragmentV.get()) {
+                uri = UriUtils.getUri(mFragmentV.get().getActivity(), file);
+            }
+            if (uri == null) {
+                uri = Uri.fromFile(file);
+            }
+            Photo photo = new Photo(null, uri, path, 0, 0, 0, 0, 0, 0, null);
+            selectedPhotos.add(photo);
+        }
+        Setting.selectedPhotos.addAll(selectedPhotos);
+        return AlbumBuilder.this;
+    }
+
+    /**
+     * 设置默认选择图片地址集合
+     *
+     * @param selectedPhotoPaths 默认选择图片地址集合
+     * @param isSequentialSelectedPhotos 当传入已选中图片时，是否按照之前选中的顺序排序
+     * @return AlbumBuilder
+     * @Deprecated android 10 不推荐使用直接使用Path方式，推荐使用Photo类
+     */
+    @Deprecated
+    public AlbumBuilder setSelectedPhotoPaths(ArrayList<String> selectedPhotoPaths,boolean isSequentialSelectedPhotos) {
+        Setting.selectedPhotos.clear();
+        Setting.isSequentialSelectedPhotos = isSequentialSelectedPhotos;
         ArrayList<Photo> selectedPhotos = new ArrayList<>();
         for (String path : selectedPhotoPaths) {
             File file = new File(path);

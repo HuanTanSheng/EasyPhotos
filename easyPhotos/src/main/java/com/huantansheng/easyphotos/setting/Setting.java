@@ -54,6 +54,8 @@ public class Setting {
     public static boolean complexSingleType = false;
     public static int complexVideoCount = 0;
     public static int complexPictureCount = 0;
+    //当传入已选中图片时，是否按照之前选中的顺序排序
+    public static boolean isSequentialSelectedPhotos = true;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(value = {LIST_FIRST, BOTTOM_RIGHT})
@@ -90,6 +92,7 @@ public class Setting {
         complexSingleType = false;
         complexVideoCount = 0;
         complexPictureCount = 0;
+        isSequentialSelectedPhotos = true;
     }
 
     public static boolean isFilter(String type) {

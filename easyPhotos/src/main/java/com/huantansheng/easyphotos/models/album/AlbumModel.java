@@ -289,6 +289,19 @@ public class AlbumModel {
                 album.getAlbumItem(albumName).addImageItem(imageItem);
             } while (cursor.moveToNext() && canRun);
             cursor.close();
+            if (!Setting.selectedPhotos.isEmpty() && Setting.isSequentialSelectedPhotos) {
+                int selectSize = Setting.selectedPhotos.size();
+                int photoSize = Result.photos.size();
+                ArrayList<Photo> tempList = new ArrayList<>(photoSize);
+                for (int i = 0; i < selectSize; i++) {
+                    for (int j = 0; j < photoSize; j++) {
+                        if (Result.photos.get(j).path.equals(Setting.selectedPhotos.get(i).path)){
+                            tempList.add(i,Result.photos.get(j));
+                        }
+                    }
+                }
+                Result.photos = tempList;
+            }
         }
 //        Log.d(TAG, "initAlbum: " + (System.currentTimeMillis() - now));
     }

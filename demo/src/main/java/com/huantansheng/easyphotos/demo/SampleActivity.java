@@ -363,8 +363,9 @@ public class SampleActivity extends AppCompatActivity
                         .setFileProviderAuthority("com.huantansheng.easyphotos.demo.fileprovider")
                         .setPuzzleMenu(false)
                         .setCount(9)
-                        .setSelectedPhotos(selectedPhotoList)
-//                        .setSelectedPhotoPaths(selectedPhotoPathList)两种方式参数类型不同，根据情况任选
+                        .setSelectedPhotos(selectedPhotoList)//当传入已选中图片时，按照之前选中的顺序排序
+//                        .setSelectedPhotos(selectedPhotoList,false)//当传入已选中图片时，不按照之前选中的顺序排序
+//                        .setSelectedPhotoPaths(selectedPhotoPathList)//两种方式参数类型不同，根据情况任选
                         .start(101);
 
                 break;
