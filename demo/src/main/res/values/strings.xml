@@ -21,6 +21,7 @@
     <string name="album_complex_selector2">相册 (复杂选择情况,动态单一类型)</string>
     <string name="camera">相机（有宽高）</string>
     <string name="addWatermark">图片添加水印</string>
+    <string name="addWatermarkWithText">图片添加带文字和图片的水印</string>
     <string name="face_detection">人脸检测</string>
     <string name="puzzle">拼图(作为单独功能使用）</string>
 
