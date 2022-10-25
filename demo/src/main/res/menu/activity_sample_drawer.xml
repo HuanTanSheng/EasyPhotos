@@ -92,6 +92,10 @@
                     android:title="@string/addWatermark" />
 
                 <item
+                        android:id="@+id/addWatermarkWithText"
+                        android:title="@string/addWatermarkWithText" />
+
+                <item
                     android:id="@+id/puzzle"
                     android:title="@string/puzzle" />
 
