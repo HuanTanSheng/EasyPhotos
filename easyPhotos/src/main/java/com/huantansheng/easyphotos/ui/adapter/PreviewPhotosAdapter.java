@@ -1,7 +1,10 @@
 package com.huantansheng.easyphotos.ui.adapter;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Build;
@@ -72,7 +75,8 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
             holder.ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toPlayVideo(v, uri, type);
+                    // toPlayVideo(v, uri, type);
+                    toPlayVideo(v, path, type);
                 }
             });
         } else if (path.endsWith(Type.GIF) || type.endsWith(Type.GIF)) {
@@ -132,6 +136,50 @@ public class PreviewPhotosAdapter extends RecyclerView.Adapter<PreviewPhotosAdap
         }
         intent.setDataAndType(uri, type);
         context.startActivity(intent);
+    }
+
+    /**
+     * play video by file path
+     *
+     * @param v
+     * @param path
+     * @param type
+     */
+    private void toPlayVideo(View v, String path, String type) {
+        Uri uri = getUri(v.getContext(), path);
+        toPlayVideo(v, uri, type);
+    }
+
+    private Uri getUri(Context context, String path) {
+        try {
+            // get authority str when runtime
+            String authority = getAuthority(context);
+            File file = new File(path);
+            Uri uri = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(context, authority, new File(path));
+            } else {
+                uri = Uri.fromFile(file);
+            }
+            return uri;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * get authority string when runtime
+     * ref from https://stackoverflow.com/questions/73508329/referencing-main-app-resources-in-library-modules-in-android-project-inquiry
+     *
+     * @param appContext
+     * @return
+     * @throws PackageManager.NameNotFoundException
+     */
+    private static String getAuthority(final Context appContext) throws PackageManager.NameNotFoundException {
+        final ComponentName componentName = new ComponentName(appContext, FileProvider.class.getName());
+        final ProviderInfo providerInfo = appContext.getPackageManager().getProviderInfo(componentName, 0);
+        return providerInfo.authority;
     }
 
     private Uri getUri(Context context, String path, Intent intent) {
